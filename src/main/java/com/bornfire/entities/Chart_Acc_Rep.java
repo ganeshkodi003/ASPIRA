@@ -23,10 +23,10 @@ public interface Chart_Acc_Rep extends JpaRepository<Chart_Acc_Entity, String>{
 			+ "WHERE TRY_CAST(total_balance AS NUMERIC) > 0;", nativeQuery = true)
     String getacctbalcredit();
 	
-	@Query(value = "SELECT SUM(ACCT_BAL) FROM COA WHERE ACCT_BAL <0", nativeQuery = true)
+	@Query(value = "SELECT SUM(ACCT_BAL) FROM BGLS_CHART_OF_ACCOUNTS WHERE ACCT_BAL <0", nativeQuery = true)
     String getGLbaldebit();
 	
-	@Query(value = "SELECT SUM(ACCT_BAL) FROM COA WHERE ACCT_BAL >0", nativeQuery = true)
+	@Query(value = "SELECT SUM(ACCT_BAL) FROM BGLS_CHART_OF_ACCOUNTS WHERE ACCT_BAL >0", nativeQuery = true)
     String getGLbalcredit();
 	
 	@Query(value = "SELECT COUNT(ACCT_BAL) AS ACCT_BAL,SUM(ACCT_BAL) AS SUM_BAL FROM BGLS_CHART_OF_ACCOUNTS WHERE ACCT_CLS_FLG='N';", nativeQuery = true)
