@@ -1,0 +1,131 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- BAJ VERSION 1.0.1  -->
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+
+
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<style>
+/* common styles */
+.container-manager {
+	width: 83.5%;
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: 17.3%;
+	margin-top: 80px;
+	margin-top: 80px;
+}
+
+.btn {
+	line-height: 0.5rem;
+}
+
+/* for retail style */
+.radio-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 8vh;
+	/* Keeps the radio buttons centered vertically */
+}
+
+</style>
+
+<script th:inline="javascript">
+<!--common script  -->
+function Home() {
+
+	location.href = 'Dashboard';
+}
+function back() {
+    window.history.back();
+}
+
+/* CLICK TO CHANGE LIST SCREEN */
+function clkRetail() {
+	location.href = 'CustMaint?formmode=list';
+}
+
+</script>
+
+</head>
+<body>
+	<div th:insert="BGLSHeaderMenu :: header"></div>
+	 
+	<div class="container-manager">
+		<div class="row" >
+			<div class="col-sm-11 ml-5 mt-2" style="font-size: 1rem;">
+				<!-- ------------------------------------RETAIL---------------------------------- -->
+				<div th:if="${formmode}=='retail'">
+				<div class="card w-100 border panel panel-primary filterable">
+							<div class="card-header"
+								style="background-color: #e9ecef; height: 50px">
+								<div class="float-left">
+									<h6 style="font-size: 1.2rem;">CUSTOMER MAINTENANCE</h6>
+								</div>
+							</div>
+							<div class="card-body">
+								<div class="radio-container">
+									<label> <input type="radio" name="accountType"
+										value="retail" onclick="clkRetail()"> RETAIL
+									</label>   
+								</div>
+
+							</div>
+							<div class="card-footer text-center"
+								style="background-color: #e9ecef">
+
+
+								<button class="btn btn-primary p-2" onclick="Home();">Home</button>
+								<button class="btn btn-primary p-2" onclick="back()">Back</button>
+
+							</div>
+						</div>
+
+				 
+
+
+				</div> 
+			</div>
+		</div>
+	</div>
+
+ 
+</body>
+</html>

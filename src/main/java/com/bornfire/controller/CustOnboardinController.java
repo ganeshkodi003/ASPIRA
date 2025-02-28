@@ -5894,4 +5894,18 @@ public class CustOnboardinController {
 				return "Error constructing URL";
 			}
 		}
+	
+	
+	@RequestMapping(value = "CustMaint", method = { RequestMethod.GET, RequestMethod.POST })
+	public String CustMaint(@RequestParam(required = false) String formmode, Model md,HttpServletRequest req) {
+		String userid = (String) req.getSession().getAttribute("USERID");
+		if (formmode == null || formmode.equals("retail")) {
+			md.addAttribute("formmode", "retail");
+		} else if (formmode.equals("list")){
+		  
+		}
+		return "ASP_CUSTMAINT.html";
+	}
+	
+	
 }
