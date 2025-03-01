@@ -3434,13 +3434,14 @@ public class BGLSNavigationController {
 	/* Aishu */
 	@RequestMapping(value = "aspiraLoanMaintanace", method = { RequestMethod.GET, RequestMethod.POST })
 	public String aspiraLoanMaintanace(@RequestParam(required = false) String formmode, Model md,
-			HttpServletRequest req, @RequestParam(required = false) String loan_accountno) {
+			HttpServletRequest req,@RequestParam(required = false) String id) {
 
 		if (formmode == null || formmode.equals("list")) {
 			md.addAttribute("formmode", "list");
-		} else if (formmode.equals("add")) {
-			md.addAttribute("formmode", "add");
 			md.addAttribute("list", LOAN_ACT_MST_REPO.getLoanActDet());
+		} else if (formmode.equals("view")) {
+			md.addAttribute("formmode", "view");
+			md.addAttribute("view", LOAN_ACT_MST_REPO.getLoanView(id));
 		} 
 		return "Aspira_Loan_Maintanace";
 	}
