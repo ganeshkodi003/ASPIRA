@@ -27,7 +27,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
-import javax.swing.JOptionPane;
 import javax.transaction.Transactional;
 
 import org.hibernate.SessionFactory;
@@ -39,7 +38,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping; 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,7 +49,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bornfire.entities.Access_Role_Repo;
-       
 import com.bornfire.entities.Account_Ledger_Entity;
 import com.bornfire.entities.Account_Ledger_Rep;
 import com.bornfire.entities.Assosiate_Profile_Entity;
@@ -95,6 +93,8 @@ import com.bornfire.entities.GeneralLedgerWork_Entity;
 import com.bornfire.entities.GeneralLedgerWork_Rep;
 import com.bornfire.entities.HolidayMaster_Entity;
 import com.bornfire.entities.HolidayMaster_Rep;
+import com.bornfire.entities.LOAN_ACT_MST_ENTITY;
+import com.bornfire.entities.LOAN_ACT_MST_REPO;
 import com.bornfire.entities.Lease_Loan_Master_Entity;
 import com.bornfire.entities.Lease_Loan_Master_Repo;
 import com.bornfire.entities.Lease_Loan_Work_Repo;
@@ -290,6 +290,10 @@ public class BGLSNavigationController {
 	@Autowired
 	HolidayMaster_Rep holidayMaster_Rep;
 
+	@Autowired
+	LOAN_ACT_MST_REPO LOAN_ACT_MST_REPO;
+	
+	
 	public String getPagesize() {
 		return pagesize;
 	}
@@ -3436,6 +3440,7 @@ public class BGLSNavigationController {
 			md.addAttribute("formmode", "list");
 		} else if (formmode.equals("add")) {
 			md.addAttribute("formmode", "add");
+			md.addAttribute("list", LOAN_ACT_MST_REPO.getLoanActDet());
 		} 
 		return "Aspira_Loan_Maintanace";
 	}
