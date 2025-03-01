@@ -234,15 +234,14 @@ input:hover+.password-info {
 }
 </style>
 <script>
-function home() {
+function Home() {
 	location.href = 'Dashboard';
-}	
+}
 function back() {
 	window.history.back();
 }
-function addscreen() {
-	location.href = 'aspiraLoanMaintanace?formmode=add';
-}
+</script>
+<script>
 function openTab(evt, tabName) {
     evt.preventDefault(); // Prevent default action
     hideAllTabs(); // Hide all tabs
@@ -261,6 +260,13 @@ function hideAllTabs() {
     }
 }
 </script>
+<script>
+	/* for click to  id */
+function ClickId(a) {
+	var id = a.getAttribute("data-id");
+	location.href = 'aspiraLoanMaintanace?formmode=view&id=' + id;
+}
+</script>
 </head>
 <title>ASPIRA</title>
 <body>
@@ -277,10 +283,10 @@ function hideAllTabs() {
 						<div class="float-left">
 							<h6 style="font-size: 1.2rem;">ASPIRA LOAN - LIST</h6>
 						</div>
-						<div class="btn-group nav-buttons float-right">
+						<!--<div class="btn-group nav-buttons float-right">
 							<button type="button" class="btn btn-primary p-2" id="btnAdd"
 								onclick="addscreen();">ADD</button>
-						</div>
+						</div>-->
 					</div>
 					<div class="card-body" style="overflow-y: auto; border: 1px solid #ddd;">
 						<div class="table-responsive" id="cardBody">
@@ -289,32 +295,40 @@ function hideAllTabs() {
 								<thead class="thead-light"
 									style="position: sticky; top: 0;background-color: #f8f9fa; z-index: 1;">
 									<tr class="filters">
-										<th class="pl-3">CUSTOMER ID</th>
-										<th>LOAN ACCT NO</th>
-										<th>BORROWER NAME</th>
-										<th>BRANCH ID</th>
-										<th>Status</th>
-										<th><b>Action</b></th>
+										<th>S.NO</th>
+										<th>LOAN ID</th>
+										<th>LOAN NAME</th>
+										<th>RETAILER NAME</th>
+										<th>RETAILER BRANCH ID</th>
+										<th>STATUS</th>
 									</tr>
 								</thead>
-								<tbody id="placelist">
-
+								<tbody >
+								<tr th:each="list, iterator : ${list}" class="userlist">
+									<td style="font-size: 14px" th:text="${iterator.index +1}"></td>
+									<td style="font-size: 14px" class="text-primary" th:attr="data-id = ${list?.id}" th:text="${list?.id}"
+										onclick="ClickId(this);"></td>
+									<td style="font-size: 14px" th:text="${list?.loan_name}"></td>
+									<td style="font-size: 14px" th:text="${list?.retailer_name}">TEST</td>
+									<td style="font-size: 14px" th:text="${list?.retailer_branch}">TEST</td>
+									<td style="font-size: 14px" th:text="${list?.account_state}">TEST</td>
+								</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
 					<div class="card-footer text-center">
-						<button class="btn btn-primary p-2" id="btnHome" onclick=" home();">Home</button>
-						<button class="btn btn-primary p-2" id="btnBack" onclick="back();">Back</button>
+						<button class="btn btn-primary p-2" onclick="Home();">Home</button>
+						<button class="btn btn-primary p-2" onclick="back()">Back</button>
 					</div>
 				</div>
 			</div>
 <!--------------------------------------------------------------User Add starts---------------------------------------------------------->
-<div th:if="${formmode}=='add'" class="mt-5">
+<div th:if="${formmode}=='view'" class="mt-5">
 	<div class="card">
 		<div class="card-header" style="background-color: #e9ecef; height: 50px">
 			<div class="float-left">
-				<h6 style="font-size: 1.2rem;" class="ml-3">ASPIRA LOAN - ADD</h6>
+				<h6 style="font-size: 1.2rem;" class="ml-3">ASPIRA LOAN - VIEW</h6>
 			</div>
 		</div>
 		<div class="card-body">
@@ -335,238 +349,378 @@ function hideAllTabs() {
 							onclick="openTab(event, 'tab2')">Agent Details</button>
 					</div>
 				</div>
-				<div>
 <!--------------------------------------------------------------Tab 1---------------------------------------------------------->
+<div>
 <div id="tab1" class="tabcontent" style="display: block;">
-	<div class="row formline mt-2  ml-2">
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
 		<div class="col-sm-2">
-			<label>Customer Id</label>
+			<label for="">Loan Id</label>
 		</div>
 		<div class="col-sm-2">
-			<select id="customer_id" name="customer_id" onchange="custid()" required>
-				<option value="">Select</option>
-
-				<th:block th:each="code : ${deposit}">
-					<!-- Only render option if code[0] is not null -->
-					<option th:if="${code[0] != null}" th:value="${code[0]}" th:text="${code[0]}"></option>
-
-					<!-- Only render option if code[1] is not null -->
-					<option th:if="${code[1] != null}" th:value="${code[1]}" th:text="${code[1]}"></option>
-				</th:block>
-			</select>
-			<!--<input type="text" name="customer_id" id="customer_id" />
-												<a role="button" style="margin-left: -12px;"
-													class="btn btn-filters  fa fa-search"></a>-->
+			<input type="text" id="id" name="id" th:value="${view?.id}" readonly />
 		</div>
 		<div class="col-sm-2">
-			<label>Customer Name</label>
+			<label for="tranche_amt">Loan Name</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="customer_name" id="customer_name" readonly />
-		</div>
-
-		<div class="col-sm-2">
-			<label>Loan Type</label>
+			<input type="text" id="loan_name" name="loan_name" th:value="${view?.loan_name}" readonly />
 		</div>
 		<div class="col-sm-2">
-			<select name="loan_type" id="loan_type">
-				<option value="LL">Lease Loan</option>
-			</select>
+			<label for="tranche_amt">Loan Amount</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="loan_amount" name="loan_amount" th:value="${view?.loan_amount}" readonly />
 		</div>
 	</div>
-	<div class="row formline  ml-2 mt-1">
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
 		<div class="col-sm-2">
-			<label>GL code</label>
+			<label for="">Account Holder Type</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="gl_code" id="gl_code" readonly />
+			<input type="text" id="account_holdertype" name="account_holdertype" th:value="${view?.account_holdertype}" readonly />
 		</div>
 		<div class="col-sm-2">
-			<label>GL Des</label>
+			<label for="tranche_amt">Closed Date</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="gl_desc" id="gl_desc" readonly />
+			<input type="text" id="closed_date" name="closed_date" th:value="${view?.closed_date}" readonly />
 		</div>
 		<div class="col-sm-2">
-			<label> GLSH Code</label>
+			<label for="tranche_amt">Account State</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="glsh_code" id="glsh_code" readonly />
+			<input type="text" id="account_state" name="account_state" th:value="${view?.account_state}" readonly />
 		</div>
 	</div>
-	<div class="row formline  ml-2 mt-1">
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
 		<div class="col-sm-2">
-			<label>GLSH Des</label>
+			<label for="">Account Sub State</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="glsh_desc" id="glsh_desc" readonly />
+			<input type="text" id="account_substate" name="account_substate" th:value="${view?.account_substate}" readonly />
 		</div>
 		<div class="col-sm-2">
-			<label>Scheme Code</label>
+			<label for="tranche_amt">Payment Method</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="scheme_code" id="scheme_code" readonly />
+			<input type="text" id="payment_method" name="payment_method" th:value="${view?.payment_method}" readonly />
 		</div>
 		<div class="col-sm-2">
-			<label> Scheme Type</label>
+			<label for="tranche_amt">Interest Rate</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="scheme_type" id="scheme_type" readonly />
+			<input type="text" id="interest_rate" name="interest_rate" th:value="${view?.interest_rate}" readonly />
 		</div>
 	</div>
-	<div class="row formline  ml-2 mt-1">
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
 		<div class="col-sm-2">
-			<label>Branch Id</label>
+			<label for="">Penalty Rate</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="branch_id" id="branch_id" />
+			<input type="text" id="penalty_rate" name="penalty_rate" th:value="${view?.penalty_rate}" readonly />
 		</div>
 		<div class="col-sm-2">
-			<label>Barnch Name</label>
+			<label for="tranche_amt">Accrued Interest</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="branch_name" id="branch_name" />
-		</div>
-
-		<div class="col-sm-2">
-			<label> Date Of loan</label>
+			<input type="text" id="accrued_interest" name="accrued_interest" th:value="${view?.accrued_interest}" readonly />
 		</div>
 		<div class="col-sm-2">
-			<input type="date" name="date_of_loan" id="date_of_loan" th:value="${ConDate}" />
+			<label for="tranche_amt">Accrued Penalty</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="accrued_penalty" name="accrued_penalty" th:value="${view?.accrued_penalty}" readonly />
 		</div>
 	</div>
-	<div class="row formline  ml-2  mt-1">
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
 		<div class="col-sm-2">
-			<label>Loan Acct No</label>
+			<label for="">Principal Due</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="loan_accountno" id="loan_accountno" />
+			<input type="text" id="principal_due" name="principal_due" th:value="${view?.principal_due}" readonly />
 		</div>
 		<div class="col-sm-2">
-			<label>Loan Currency</label>
+			<label for="tranche_amt">Principal Paid</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="loan_currency" id="loan_currency" value="SCR" />
+			<input type="text" id="principal_paid" name="principal_paid" th:value="${view?.principal_paid}" readonly />
 		</div>
 		<div class="col-sm-2">
-			<label>Interset Rate</label>
+			<label for="tranche_amt">Principal Balance</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="effective_interest_rate" id="effective_interest_rate"
-				oninput="numberOnly(this);" />
+			<input type="text" id="principal_balance" name="principal_balance" th:value="${view?.principal_balance}" readonly />
 		</div>
 	</div>
-	<div class="row formline ml-2  mt-1">
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
 		<div class="col-sm-2">
-			<label>Loan Santioned</label>
+			<label for="">Interest Due</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="loan_sanctioned" id="loan_sanctioned"
-				oninput="numberOnly(this);setOutstanding(this);" />
-		</div>
-		<div class="col-sm-2 ">
-			<label>Margin limit (%)</label>
+			<input type="text" id="interest_due" name="interest_due" th:value="${view?.interest_due}" readonly />
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="margin_limit" name="margin_limit"
-				oninput="numberOnly(this);calculateDrawingLimit();" />
+			<label for="tranche_amt">Interest Paid</label>
 		</div>
 		<div class="col-sm-2">
-			<label>Drawing Limit</label>
+			<input type="text" id="interest_paid" name="interest_paid" th:value="${view?.interest_paid}" readonly />
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="drawing_limit" id="drawing_limit" oninput="numberOnly(this);" readonly />
+			<label for="tranche_amt">Interest Balance</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="interest_balance" name="interest_balance" th:value="${view?.interest_balance}" readonly />
 		</div>
 	</div>
-	<div class="row formline ml-2  mt-1">
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
 		<div class="col-sm-2">
-			<label>Disbursement</label>
+			<label for="">Interest From Arrears Balance</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="disbursement" id="disbursement" oninput="numberOnly(this);" />
-		</div>
-		<div class="col-sm-2 ">
-			<label>Loan Outstanding</label>
+			<input type="text" id="interest_fromarrearsbalance" name="interest_fromarrearsbalance" th:value="${view?.interest_fromarrearsbalance}" readonly />
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="loan_outstanding" name="loan_outstanding" readonly />
+			<label for="tranche_amt">Interest From Arrears Due</label>
 		</div>
 		<div class="col-sm-2">
-			<label>Loan Period</label>
+			<input type="text" id="interest_fromarrearsdue" name="interest_fromarrearsdue" th:value="${view?.interest_fromarrearsdue}" readonly />
 		</div>
 		<div class="col-sm-2">
-			<!--<input type="text" name="loan_period" id="loan_period"
-													oninput="calculatePercentage(this)" />-->
-			<div class="row" style="gap: 0;">
-				<div class="col-sm-3 ml-2" style="padding-left: 7px; padding-right: 8px;">
-					<input type="text" name="loan_period1" id="loan_period1" value="00" style="margin: 0;"
-						placeholder="yy" readonly />
-				</div>
-				<div class="col-sm-3" style="padding-left: 10px; padding-right: 8px;">
-					<input type="text" name="loan_period" id="loan_period"
-						oninput="calculatePercentage(this);numberOnly(this);" style="margin: 0;" placeholder="mm" />
-				</div>
-				<div class="col-sm-3" style="padding-left: 10px; padding-right: 7px;">
-					<input type="text" name="loan_period3" id="loan_period3" value="00" style="margin: 0;"
-						placeholder="dd" readonly />
-				</div>
-			</div>
+			<label for="tranche_amt">Interest From Arrears Paid</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="interest_fromarrearspaid" name="interest_fromarrearspaid" th:value="${view?.interest_fromarrearspaid}" readonly />
 		</div>
 	</div>
-	<div class="row formline ml-2  mt-1">
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
 		<div class="col-sm-2">
-			<label>Expiry Date</label>
+			<label for="">Fees Due</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="expiry_date" id="expiry_date" readonly />
-		</div>
-		<div class="col-sm-2 ">
-			<label>Repayment terms</label>
+			<input type="text" id="fees_due" name="fees_due" th:value="${view?.fees_due}" readonly />
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="repayment_terms" name="repayment_terms" />
+			<label for="tranche_amt">Fees Paid</label>
 		</div>
 		<div class="col-sm-2">
-			<label>Recovery Method</label>
+			<input type="text" id="fees_paid" name="fees_paid" th:value="${view?.sale_referredby}" readonly />
 		</div>
 		<div class="col-sm-2">
-			<select name="recovery_method" id="recovery_method">
-				<option value="Cash">Cash</option>
-				<option value="Office Routing Account">Office
-					Routing Account</option>
-				<option value="Standing Instructions">Standing
-					Instructions</option>
-
-			</select> <input type="text" id="ca_acct_type" hidden /> <input type="text" id="appl_ref_no" hidden />
-			<input type="text" hidden id="rec_no" />
+			<label for="tranche_amt">Fees Balance</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="fees_balance" name="fees_balance" th:value="${view?.fees_balance}" readonly />
+		</div>
+	</div>
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
+		<div class="col-sm-2">
+			<label for="">Penalty Due</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="penalty_due" name="penalty_due" th:value="${view?.penalty_due}" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Penalty Paid</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="penalty_paid" name="penalty_paid" th:value="${view?.penalty_paid}" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Penalty Balance</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="penalty_balance" name="penalty_balance" th:value="${view?.penalty_balance}" readonly />
+		</div>
+	</div>
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
+		<div class="col-sm-2">
+			<label for="">Expected Disbursement Date</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="expected_disbursementdate" name="expected_disbursementdate" th:value="${view?.expected_disbursementdate}" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Disbursement Date</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="disbursement_date" name="disbursement_date" th:value="${view?.disbursement_date}" readonly/>
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Grace Period</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="grace_period" name="grace_period" th:value="${view?.grace_period}" readonly />
+		</div>
+	</div>
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
+		<div class="col-sm-2">
+			<label for="">First Repayment Date</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="first_repaymentdate" name="first_repaymentdate" th:value="${view?.first_repaymentdate}" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Repayment Installments</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="repayment_installments" name="repayment_installments" th:value="${view?.repayment_installments}" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Repayment Period Count</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="repayment_periodcount" name="repayment_periodcount" th:value="${view?.repayment_periodcount}" readonly />
+		</div>
+	</div>
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
+		<div class="col-sm-2">
+			<label for="">Repayment Schedule Method</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="repayment_schedule_method" name="repayment_schedule_method" th:value="${view?.repayment_schedule_method}" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Days Late</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="days_late" name="days_late" th:value="${view?.days_late}" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Days in Arrears</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="days_inarrears" name="days_inarrears" th:value="${view?.days_inarrears}" readonly />
+		</div>
+	</div>
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
+		<div class="col-sm-2">
+			<label for="">Currency Code</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="currency_code" name="currency_code" th:value="${view?.currency_code}" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Last Account Appraisal Date</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="last_account_appraisaldate" name="last_account_appraisaldate" th:value="${view?.last_account_appraisaldate}" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Disposable Income</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="disposable_income" name="disposable_income" th:value="${view?.disposable_income}" readonly />
+		</div>
+	</div>
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
+		<div class="col-sm-2">
+			<label for="">Manual Over Ride Amount</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="manualoverride_amount" name="manualoverride_amount" th:value="${view?.manualoverride_amount}" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Manual Over Ride Expiry Date</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="manualoverride_expiry_date" name="manualoverride_expiry_date" th:value="${view?.manualoverride_expiry_date}" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Cp Fees</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="cpfees" name="cpfees" th:value="${view?.cpfees}" readonly />
+		</div>
+	</div>
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
+		<div class="col-sm-2">
+			<label for="">Deposit Amount</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="deposit_amount" name="deposit_amount" th:value="${view?.deposit_amount}" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Total Product Price</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="total_product_price" name="total_product_price" th:value="${view?.total_product_price}" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Retailer Name</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="retailer_name" name="retailer_name" th:value="${view?.retailer_name}" readonly />
+		</div>
+	</div>
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
+		<div class="col-sm-2">
+			<label for="">Retailer Branch</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="retailer_branch" name="retailer_branch" th:value="${view?.retailer_branch}" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">VG Application Id</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="vg_application_id" name="vg_application_id" th:value="${view?.vg_application_id}" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Contract Signed</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="contract_signed" name="contract_signed" th:value="${view?.contract_signed}" readonly />
+		</div>
+	</div>
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
+		<div class="col-sm-2">
+			<label for="">Date Of First Call</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="date_of_first_call" name="date_of_first_call" th:value="${view?.date_of_first_call}" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Last Call Outcome</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="last_call_outcome" name="last_call_outcome" th:value="${view?.last_call_outcome}" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Ason Date</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="asondate" name="asondate" th:value="${view?.asondate}" readonly />
 		</div>
 	</div>
 	<div class="card-footer text-center mt-2">
-		<button class="btn btn-primary p-2" onclick="home();">Home</button>
-		<button class="btn btn-primary p-2" onclick="back();">Back</button>
+		<button class="btn btn-primary p-2" onclick="Home();">Home</button>
+		<button class="btn btn-primary p-2" onclick="back()">Back</button>
 	</div>
 </div>
 <!--------------------------------------------------------------Tab 2---------------------------------------------------------->
 <div id="tab2" class="tabcontent" style="display: none;">
 	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
 		<div class="col-sm-2">
-			<label for="">Sale Processed By Vgid</label>
+			<label for="">Sale Processed By VG Id</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="inst_id" name="inst_id" readonly />
+			<input type="text" id="sale_processedbyvgid" th:value="${view?.sale_processedbyvgid}"
+				name="sale_processedbyvgid" readonly />
 		</div>
 		<div class="col-sm-2">
 			<label for="">Sale Processed For</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="inst_id" name="inst_id" readonly />
+			<input type="text" id="sale_processedfor" th:value="${view?.sale_processedfor}" name="sale_processedfor"
+				readonly />
 		</div>
 
 		<div class="col-sm-2">
 			<label for="">Sale Referred By</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="inst_id" name="inst_id" readonly />
+			<input type="text" th:value="${view?.sale_referredby}" id="sale_referredby" name="sale_referredby"
+				readonly />
 		</div>
 
 	</div>
@@ -575,19 +729,20 @@ function hideAllTabs() {
 			<label for="">Employment Status</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="inst_id" name="inst_id" readonly />
+			<input type="text" id="employment_status" th:value="${view?.employment_status}" name="employment_status"
+				readonly />
 		</div>
 		<div class="col-sm-2">
 			<label for="tranche_amt">Job Title</label>
 		</div>
 		<div class="col-sm-2">
-		<input type="text" id="inst_id" name="inst_id" readonly />
+			<input type="text" id="job_title" th:value="${view?.job_title}" name="job_title" readonly />
 		</div>
 		<div class="col-sm-2">
 			<label for="tranche_amt">Employer Name</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="inst_id" name="inst_id" readonly />
+			<input type="text" id="employer_name" th:value="${view?.employer_name}" name="employer_name" readonly />
 		</div>
 	</div>
 	<div class="row formline mt-2" style="padding: 1px 0px 10px 35px;">
@@ -595,19 +750,19 @@ function hideAllTabs() {
 			<label for="inst_amount">Tuscore</label>
 		</div>
 		<div class="col-sm-2">
-		<input type="text" id="inst_id" name="inst_id" readonly />
+			<input type="text" id="tuscore" th:value="${view?.tuscore}" name="tuscore" readonly />
 		</div>
 		<div class="col-sm-2">
 			<label for="">Tuprob Ability</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="inst_id" name="inst_id" readonly />
+			<input type="text" id="tuprobability" th:value="${view?.tuprobability}" name="tuprobability" readonly />
 		</div>
 		<div class="col-sm-2">
 			<label for="tranche_amt">Tufull Name</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="inst_id" name="inst_id" readonly />
+			<input type="text" id="tufullname" th:value="${view?.tufullname}" name="tufullname" readonly />
 		</div>
 	</div>
 	<div class="row formline" style="padding: 1px 0px 10px 35px;">
@@ -615,24 +770,24 @@ function hideAllTabs() {
 			<label for="inst_amount">Tureason1</label>
 		</div>
 		<div class="col-sm-2">
-		<input type="text" id="inst_id" name="inst_id" readonly />
+			<input type="text" id="tureason1" th:value="${view?.tureason1}" name="tureason1" readonly />
 		</div>
 		<div class="col-sm-2">
 			<label for="">Tureason2</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="inst_id" name="inst_id" readonly />
+			<input type="text" id="tureason2" th:value="${view?.tureason2}" name="tureason2" readonly />
 		</div>
 		<div class="col-sm-2">
 			<label for="tranche_amt">Tureason3</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="inst_id" name="inst_id" readonly />
+			<input type="text" id="tureason3" th:value="${view?.tureason3}" name="tureason3" readonly />
 		</div>
 	</div>
 	<div class="card-footer text-center">
-		<button class="btn btn-primary" id="btnHome" onclick="window.location.href='/.Dashboard';">Home</button>
-		<button class="btn btn-primary" id="btnBack" onclick="generalback()">Back</button>
+		<button class="btn btn-primary p-2" onclick="Home();">Home</button>
+		<button class="btn btn-primary p-2" onclick="back()">Back</button>
 	</div>
 </div>
 </div>
@@ -688,3 +843,5 @@ function hideAllTabs() {
 </div>
 </div>
 </div>
+</body>
+</html>
