@@ -72,6 +72,7 @@ import com.bornfire.entities.Bacp_Signature_master;
 import com.bornfire.entities.Bacp_Signature_masterRepo;
 import com.bornfire.entities.Bacp_WorkFLow_Entity;
 import com.bornfire.entities.Bacp_WorkFLow_Repo;
+import com.bornfire.entities.CLIENT_MASTER_REPO;
 import com.bornfire.entities.Chart_Acc_Entity;
 import com.bornfire.entities.Chart_Acc_Rep;
 import com.bornfire.entities.CustomerRequest;
@@ -176,6 +177,9 @@ public class CustOnboardinController {
 
 	@Autowired
 	BGLSBusinessTable_Rep bglsBusinessTable_Rep;
+	
+	@Autowired
+	CLIENT_MASTER_REPO client_master_repo;
 
 	// Start API
 	/// for get session
@@ -5897,12 +5901,17 @@ public class CustOnboardinController {
 	
 	
 	@RequestMapping(value = "CustMaint", method = { RequestMethod.GET, RequestMethod.POST })
-	public String CustMaint(@RequestParam(required = false) String formmode, Model md,HttpServletRequest req) {
+	public String CustMaint(@RequestParam(required = false) String formmode, Model md,HttpServletRequest req,
+			@RequestParam(required = false) String cust_id) {
 		String userid = (String) req.getSession().getAttribute("USERID");
 		if (formmode == null || formmode.equals("retail")) {
 			md.addAttribute("formmode", "retail");
 		} else if (formmode.equals("list")){
-		  
+			md.addAttribute("formmode", "list");
+			md.addAttribute("client_list",	client_master_repo.getClientDet());
+		}else if (formmode.equals("viewCust")){
+			md.addAttribute("formmode", "viewCust");
+			md.addAttribute("view",	client_master_repo.getClientView(cust_id));
 		}
 		return "ASP_CUSTMAINT.html";
 	}
