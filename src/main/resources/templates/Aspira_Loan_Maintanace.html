@@ -1,0 +1,690 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!--
+	CREATED BY : AISHWARYA
+	DATE : 01-03-2025
+    VERSION    : 01
+-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css" href="/webjars/font-awesome/5.9.0/css/all.min.css" th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css" href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css" th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css" href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css" th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js" th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js" th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js" th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+<!-- jQuery UI -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="js/ResponisiveHeight.js"></script>
+<script src="js/bootstrap411.js"></script>
+<style>
+.modal {
+	display: none;
+	/* Hidden by default */
+	position: absolute;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+.modal-header {
+	padding: 2px 16px;
+	background-color: #BBC3CB;
+	color: balck;
+}
+.modal-body {
+	padding: 2px 16px;
+}
+.modal-footer {
+	padding: 2px 16px;
+	background-color: #BBC3CB;
+	color: black;
+}
+/* Modal Content */
+.modal-content {
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+	height: 0%;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
+		rgba(0, 0, 0, 0.19);
+	-webkit-animation-name: animatetop;
+	-webkit-animation-duration: 0.4s;
+	animation-name: animatetop;
+	animation-duration: 0.4s
+}
+body {
+	font-size: 0.8rem;
+}
+.btn {
+	line-height: 0.5rem;
+}
+.table-bordered td, .table-bordered th {
+	font-size: smaller;
+}
+.container-manager {
+	width: 83.5%;
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: 17.3%;
+	margin-top: 80px;
+	margin-top: 80px;
+}
+.table .thead-light th {
+	color: #495057;
+	background-color: #e9ecef;
+	border-color: #dee2e6;
+	width: 23px;
+}
+.tablinks {
+	background-color: #f2f2f2;
+	color: #000;
+}
+.tablinks.active {
+	background-color: #007bff;
+	color: #fff;
+}
+.tab {
+	overflow: hidden;
+	border: 1px solid #ccc;
+	background-color: #f1f1f1;
+}
+.scroll {
+	max-height: 60vh;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+.tab button {
+	background-color: inherit;
+	float: left;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	padding: 14px 16px;
+	transition: 0.3s;
+	font-size: 17px;
+}
+.tab button:hover {
+	background-color: #ddd;
+}
+.tabcontent {
+	display: none;
+	padding: 6px 12px;
+	border: 0px solid #ccc;
+	border-top: none;
+}
+#myPieChart {
+	width: 100px;
+	height: 100px;
+}
+.input-group-text {
+	cursor: pointer;
+}
+#eyeIcon {
+	font-size: 1.2rem;
+}
+input, select {
+	width: 75% !important;
+	padding: 2px;
+}
+.mmdd {
+	height: 25px;
+	width: 35% !important;
+}
+.ml-2 {
+	margin-left: 1px;
+}
+button:focus {
+	outline: unset !important;
+	border: unset !important;
+}
+.borderRemove {
+	border: none;
+}
+</style>
+<style>
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4);
+	margin-left: 350px;
+}
+.modal-content {
+	background-color: #fefefe;
+	margin: 15% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 70%;
+	height: 20%;
+	margin-left: 200px;
+}
+.modal-pass {
+	background-color: #fefefe;
+	margin: 15% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 40%;
+	height: 25%;
+	margin-left: 400PX;
+	margin-right: auto;
+	border-radius: 10px;
+	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+	font-family: Arial, sans-serif;
+}
+.close {
+	color: red;
+	font-size: 28px;
+	font-weight: bold;
+}
+.close:hover, .close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+</style>
+<style>
+.password-info {
+	visibility: hidden;
+	width: 320px;
+	background-color: #333;
+	color: #fff;
+	text-align: left;
+	border-radius: 10px;
+	padding: 10px;
+	position: absolute;
+	z-index: 1;
+	top: calc(100% + 10px);
+	left: 50%;
+	transform: translateX(-50%);
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+input:hover+.password-info {
+	visibility: visible;
+	opacity: 0.8;
+}
+</style>
+<script>
+function home() {
+	location.href = 'Dashboard';
+}	
+function back() {
+	window.history.back();
+}
+function addscreen() {
+	location.href = 'aspiraLoanMaintanace?formmode=add';
+}
+function openTab(evt, tabName) {
+    evt.preventDefault(); // Prevent default action
+    hideAllTabs(); // Hide all tabs
+    document.getElementById(tabName).style.display = 'block'; // Show the selected tab
+    const tablinks = document.getElementsByClassName("tablinks");
+    for (let i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active"); // Remove the active class from all tabs
+    }
+    evt.currentTarget.classList.add("active"); // Add active class to the clicked tab
+    currentTab = tabName; // Update the currentTab variable
+}
+function hideAllTabs() {
+    const tabContents = document.getElementsByClassName('tabcontent');
+    for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].style.display = 'none'; // Hide all tab content
+    }
+}
+</script>
+</head>
+<title>ASPIRA</title>
+<body>
+<div class="col-sm-2">
+	<div th:insert="BGLSHeaderMenu :: header"></div>
+</div>
+<!--------------------------------------------------------------User list starts---------------------------------------------------------->
+<div class="container-manager">
+	<div class="row">
+		<div class="col-sm-11 ml-5 mt-2" style="font-size: 0.8rem;">
+			<div th:if="${formmode}=='list'">
+				<div class="card">
+					<div class="card-header" style="background-color: #e9ecef; height: 50px">
+						<div class="float-left">
+							<h6 style="font-size: 1.2rem;">ASPIRA LOAN - LIST</h6>
+						</div>
+						<div class="btn-group nav-buttons float-right">
+							<button type="button" class="btn btn-primary p-2" id="btnAdd"
+								onclick="addscreen();">ADD</button>
+						</div>
+					</div>
+					<div class="card-body" style="overflow-y: auto; border: 1px solid #ddd;">
+						<div class="table-responsive" id="cardBody">
+							<table class="table  table-bordered  table-hover table-sm"
+								style="margin-bottom: 0px; font-size: initial;" id="usertable">
+								<thead class="thead-light"
+									style="position: sticky; top: 0;background-color: #f8f9fa; z-index: 1;">
+									<tr class="filters">
+										<th class="pl-3">CUSTOMER ID</th>
+										<th>LOAN ACCT NO</th>
+										<th>BORROWER NAME</th>
+										<th>BRANCH ID</th>
+										<th>Status</th>
+										<th><b>Action</b></th>
+									</tr>
+								</thead>
+								<tbody id="placelist">
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="card-footer text-center">
+						<button class="btn btn-primary p-2" id="btnHome" onclick=" home();">Home</button>
+						<button class="btn btn-primary p-2" id="btnBack" onclick="back();">Back</button>
+					</div>
+				</div>
+			</div>
+<!--------------------------------------------------------------User Add starts---------------------------------------------------------->
+<div th:if="${formmode}=='add'" class="mt-5">
+	<div class="card">
+		<div class="card-header" style="background-color: #e9ecef; height: 50px">
+			<div class="float-left">
+				<h6 style="font-size: 1.2rem;" class="ml-3">ASPIRA LOAN - ADD</h6>
+			</div>
+		</div>
+		<div class="card-body">
+			<form action="#" th:object="${drawDownDetails}" method="post" id="drawDownDetailsAdd" autocomplete="off"
+				name="drawDownDetailsData" th:fragment="finuserapply">
+
+				<div class="tab row formline ml-3"
+					style="padding: 4px 4px; position: relative; font-size: 13px; width: 98%;">
+					<!-- Tab buttons -->
+					<div class="col-sm-2"></div>
+					<div class="col-sm-3">
+						<button class="tablinks active " id="smooth1" style="width: 200px;"
+							onclick="openTab(event, 'tab1')">Loan Details</button>
+					</div>
+					<div class="col-sm-3"></div>
+					<div class="col-sm-3">
+						<button class="tablinks" id="smooth2" style="width: 200px;"
+							onclick="openTab(event, 'tab2')">Agent Details</button>
+					</div>
+				</div>
+				<div>
+<!--------------------------------------------------------------Tab 1---------------------------------------------------------->
+<div id="tab1" class="tabcontent" style="display: block;">
+	<div class="row formline mt-2  ml-2">
+		<div class="col-sm-2">
+			<label>Customer Id</label>
+		</div>
+		<div class="col-sm-2">
+			<select id="customer_id" name="customer_id" onchange="custid()" required>
+				<option value="">Select</option>
+
+				<th:block th:each="code : ${deposit}">
+					<!-- Only render option if code[0] is not null -->
+					<option th:if="${code[0] != null}" th:value="${code[0]}" th:text="${code[0]}"></option>
+
+					<!-- Only render option if code[1] is not null -->
+					<option th:if="${code[1] != null}" th:value="${code[1]}" th:text="${code[1]}"></option>
+				</th:block>
+			</select>
+			<!--<input type="text" name="customer_id" id="customer_id" />
+												<a role="button" style="margin-left: -12px;"
+													class="btn btn-filters  fa fa-search"></a>-->
+		</div>
+		<div class="col-sm-2">
+			<label>Customer Name</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" name="customer_name" id="customer_name" readonly />
+		</div>
+
+		<div class="col-sm-2">
+			<label>Loan Type</label>
+		</div>
+		<div class="col-sm-2">
+			<select name="loan_type" id="loan_type">
+				<option value="LL">Lease Loan</option>
+			</select>
+		</div>
+	</div>
+	<div class="row formline  ml-2 mt-1">
+		<div class="col-sm-2">
+			<label>GL code</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" name="gl_code" id="gl_code" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label>GL Des</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" name="gl_desc" id="gl_desc" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label> GLSH Code</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" name="glsh_code" id="glsh_code" readonly />
+		</div>
+	</div>
+	<div class="row formline  ml-2 mt-1">
+		<div class="col-sm-2">
+			<label>GLSH Des</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" name="glsh_desc" id="glsh_desc" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label>Scheme Code</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" name="scheme_code" id="scheme_code" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label> Scheme Type</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" name="scheme_type" id="scheme_type" readonly />
+		</div>
+	</div>
+	<div class="row formline  ml-2 mt-1">
+		<div class="col-sm-2">
+			<label>Branch Id</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" name="branch_id" id="branch_id" />
+		</div>
+		<div class="col-sm-2">
+			<label>Barnch Name</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" name="branch_name" id="branch_name" />
+		</div>
+
+		<div class="col-sm-2">
+			<label> Date Of loan</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="date" name="date_of_loan" id="date_of_loan" th:value="${ConDate}" />
+		</div>
+	</div>
+	<div class="row formline  ml-2  mt-1">
+		<div class="col-sm-2">
+			<label>Loan Acct No</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" name="loan_accountno" id="loan_accountno" />
+		</div>
+		<div class="col-sm-2">
+			<label>Loan Currency</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" name="loan_currency" id="loan_currency" value="SCR" />
+		</div>
+		<div class="col-sm-2">
+			<label>Interset Rate</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" name="effective_interest_rate" id="effective_interest_rate"
+				oninput="numberOnly(this);" />
+		</div>
+	</div>
+	<div class="row formline ml-2  mt-1">
+		<div class="col-sm-2">
+			<label>Loan Santioned</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" name="loan_sanctioned" id="loan_sanctioned"
+				oninput="numberOnly(this);setOutstanding(this);" />
+		</div>
+		<div class="col-sm-2 ">
+			<label>Margin limit (%)</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="margin_limit" name="margin_limit"
+				oninput="numberOnly(this);calculateDrawingLimit();" />
+		</div>
+		<div class="col-sm-2">
+			<label>Drawing Limit</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" name="drawing_limit" id="drawing_limit" oninput="numberOnly(this);" readonly />
+		</div>
+	</div>
+	<div class="row formline ml-2  mt-1">
+		<div class="col-sm-2">
+			<label>Disbursement</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" name="disbursement" id="disbursement" oninput="numberOnly(this);" />
+		</div>
+		<div class="col-sm-2 ">
+			<label>Loan Outstanding</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="loan_outstanding" name="loan_outstanding" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label>Loan Period</label>
+		</div>
+		<div class="col-sm-2">
+			<!--<input type="text" name="loan_period" id="loan_period"
+													oninput="calculatePercentage(this)" />-->
+			<div class="row" style="gap: 0;">
+				<div class="col-sm-3 ml-2" style="padding-left: 7px; padding-right: 8px;">
+					<input type="text" name="loan_period1" id="loan_period1" value="00" style="margin: 0;"
+						placeholder="yy" readonly />
+				</div>
+				<div class="col-sm-3" style="padding-left: 10px; padding-right: 8px;">
+					<input type="text" name="loan_period" id="loan_period"
+						oninput="calculatePercentage(this);numberOnly(this);" style="margin: 0;" placeholder="mm" />
+				</div>
+				<div class="col-sm-3" style="padding-left: 10px; padding-right: 7px;">
+					<input type="text" name="loan_period3" id="loan_period3" value="00" style="margin: 0;"
+						placeholder="dd" readonly />
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row formline ml-2  mt-1">
+		<div class="col-sm-2">
+			<label>Expiry Date</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" name="expiry_date" id="expiry_date" readonly />
+		</div>
+		<div class="col-sm-2 ">
+			<label>Repayment terms</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="repayment_terms" name="repayment_terms" />
+		</div>
+		<div class="col-sm-2">
+			<label>Recovery Method</label>
+		</div>
+		<div class="col-sm-2">
+			<select name="recovery_method" id="recovery_method">
+				<option value="Cash">Cash</option>
+				<option value="Office Routing Account">Office
+					Routing Account</option>
+				<option value="Standing Instructions">Standing
+					Instructions</option>
+
+			</select> <input type="text" id="ca_acct_type" hidden /> <input type="text" id="appl_ref_no" hidden />
+			<input type="text" hidden id="rec_no" />
+		</div>
+	</div>
+	<div class="card-footer text-center mt-2">
+		<button class="btn btn-primary p-2" onclick="home();">Home</button>
+		<button class="btn btn-primary p-2" onclick="back();">Back</button>
+	</div>
+</div>
+<!--------------------------------------------------------------Tab 2---------------------------------------------------------->
+<div id="tab2" class="tabcontent" style="display: none;">
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
+		<div class="col-sm-2">
+			<label for="">Sale Processed By Vgid</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="inst_id" name="inst_id" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="">Sale Processed For</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="inst_id" name="inst_id" readonly />
+		</div>
+
+		<div class="col-sm-2">
+			<label for="">Sale Referred By</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="inst_id" name="inst_id" readonly />
+		</div>
+
+	</div>
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
+		<div class="col-sm-2">
+			<label for="">Employment Status</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="inst_id" name="inst_id" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Job Title</label>
+		</div>
+		<div class="col-sm-2">
+		<input type="text" id="inst_id" name="inst_id" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Employer Name</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="inst_id" name="inst_id" readonly />
+		</div>
+	</div>
+	<div class="row formline mt-2" style="padding: 1px 0px 10px 35px;">
+		<div class="col-sm-2">
+			<label for="inst_amount">Tuscore</label>
+		</div>
+		<div class="col-sm-2">
+		<input type="text" id="inst_id" name="inst_id" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="">Tuprob Ability</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="inst_id" name="inst_id" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Tufull Name</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="inst_id" name="inst_id" readonly />
+		</div>
+	</div>
+	<div class="row formline" style="padding: 1px 0px 10px 35px;">
+		<div class="col-sm-2">
+			<label for="inst_amount">Tureason1</label>
+		</div>
+		<div class="col-sm-2">
+		<input type="text" id="inst_id" name="inst_id" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="">Tureason2</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="inst_id" name="inst_id" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="tranche_amt">Tureason3</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="inst_id" name="inst_id" readonly />
+		</div>
+	</div>
+	<div class="card-footer text-center">
+		<button class="btn btn-primary" id="btnHome" onclick="window.location.href='/.Dashboard';">Home</button>
+		<button class="btn btn-primary" id="btnBack" onclick="generalback()">Back</button>
+	</div>
+</div>
+</div>
+<!--------------------------------------------------------------user footer---------------------------------------------------------------------->
+<table Style="border: 1px solid #ccc; width: 100%; max-width: 100%; margin: 0 auto; box-sizing: border-box;">
+	<tr>
+		<td class="col-sm-2" style="text-align: center;">
+			<font size="2"><B>Entry User :</B></font>
+		</td>
+		<td class="col-sm-2" style="width: 112px; margin-right: 20px;"><input type="text" id="entryuser"
+				th:value="${user}" name="ub.entryuser"
+				style="border: none; outline: none; background-color: transparent; font-size: 12px;" readonly></td>
+		<td class="col-sm-2" style="text-align: center;">
+			<font size="2"><B>Modify User :</B></font>
+		</td>
+		<td class="col-sm-2" style="width: 112px;"><input type="text" id="modifyuser" th:value="${user}"
+				name="ub.modifyuser" value="MMR"
+				style="border: none; outline: none; background-color: transparent; font-size: 12px;" readonly></td>
+		<td class="col-sm-2" style="text-align: center;">
+			<font size="2"><B>Verify User :</B></font>
+		</td>
+		<td class="col-sm-2" style="width: 112px;"><input type="text" id="verifyuser" name="ub.verifyuser"
+				style="border: none; outline: none; background-color: transparent; font-size: 12px;" readonly></td>
+	</tr>
+	<tr>
+		<td style="text-align: center;">
+			<font size="2"><B>Entry Time :</B></font>
+		</td>
+		<td style="width: 112px"><input type="text" id="entrytime" name="ub.entrytime"
+				th:value="${#dates.format(currentDate, 'dd-MM-yyyy HH:mm:ss')}" readonly
+				style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;">
+		</td>
+		<td style="text-align: center;">
+			<font size="2"><B>Modify Time :</B></font>
+		</td>
+		<td style="width: 112px"><input type="text" id="modifytime" name="ub.modifytime"
+				th:value="${#dates.format(currentDate, 'dd-MM-yyyy HH:mm:ss')}"
+				style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
+				readonly></td>
+		<td style="text-align: center; font-size: 15px;">
+			<font size="2"><B>Verify Time :</B></font>
+		</td>
+		<td style="width: 112px"><input type="text" id="verifytime" name="ub.verifytime"
+				style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
+				readonly></td>
+	</tr>
+</table>
+</form>
+</div>
+</div>
+</div>
+<!--------------------------------------------------------------end---------------------------------------------------------------------->
+</div>
+</div>
+</div>

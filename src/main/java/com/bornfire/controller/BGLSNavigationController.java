@@ -3427,7 +3427,18 @@ public class BGLSNavigationController {
 	    return "Interest_Summary";
 	}
 
-	
+	/* Aishu */
+	@RequestMapping(value = "aspiraLoanMaintanace", method = { RequestMethod.GET, RequestMethod.POST })
+	public String aspiraLoanMaintanace(@RequestParam(required = false) String formmode, Model md,
+			HttpServletRequest req, @RequestParam(required = false) String loan_accountno) {
+
+		if (formmode == null || formmode.equals("list")) {
+			md.addAttribute("formmode", "list");
+		} else if (formmode.equals("add")) {
+			md.addAttribute("formmode", "add");
+		} 
+		return "Aspira_Loan_Maintanace";
+	}
 
 
 }
