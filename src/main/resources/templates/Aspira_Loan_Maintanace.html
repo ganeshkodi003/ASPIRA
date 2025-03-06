@@ -263,7 +263,8 @@ function hideAllTabs() {
 <script>
 function ClickId(a) {
 	var id = a.getAttribute("data-id");
-	location.href = 'aspiraLoanMaintanace?formmode=view&id=' + id;
+	var holder_key = a.getAttribute("data-account_holderkey");
+	location.href = 'aspiraLoanMaintanace?formmode=view&id=' + id  +'&holder_key=' +holder_key;
 }
 function getRepaymentDetails(a) {
 		event.preventDefault();
@@ -361,7 +362,7 @@ function getRepaymentDetails(a) {
 								<tbody >
 								<tr th:each="list, iterator : ${list}" class="userlist">
 									<td style="font-size: 14px" th:text="${iterator.index +1}"></td>
-									<td style="font-size: 14px" class="text-primary" th:attr="data-id = ${list?.id}" th:text="${list?.id}"
+									<td style="font-size: 14px" class="text-primary" th:attr="data-id=${list?.id}, data-account_holderkey=${list?.account_holderkey}" th:text="${list?.id}"
 										onclick="ClickId(this);"></td>
 									<td style="font-size: 14px" th:text="${list?.loan_name}"></td>
 									<td style="font-size: 14px" th:text="${list?.retailer_name}">TEST</td>
@@ -857,19 +858,19 @@ function getRepaymentDetails(a) {
 			<label for="">Customer Id</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="sale_processedbyvgid"  name="sale_processedbyvgid" readonly />
+			<input type="text" id="sale_processedbyvgid" th:value="${loan[0][0]}" name="sale_processedbyvgid" readonly />
 		</div>
 		<div class="col-sm-2">
 			<label for="">Customer Name</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="sale_processedfor"  name="sale_processedfor" readonly />
+			<input type="text" id="sale_processedfor" th:value="${loan[0][1]}" name="sale_processedfor" readonly />
 		</div>
 		<div class="col-sm-2">
 			<label for="">Date Of loan</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text"  id="sale_referredby" name="sale_referredby" readonly />
+			<input type="text"  id="sale_referredby" th:value="${#dates.format(loan[0][2], 'dd-MM-yyyy')}" name="sale_referredby" readonly />
 		</div>
 	</div>
 	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
@@ -877,77 +878,73 @@ function getRepaymentDetails(a) {
 			<label for="">Loan Acct No</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="sale_processedbyvgid"  name="sale_processedbyvgid" readonly />
+			<input type="text" id="sale_processedbyvgid" th:value="${loan[0][3]}" name="sale_processedbyvgid" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="">Loan Santioned</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="sale_processedfor" th:value="${loan[0][7]}" name="sale_processedfor" readonly />
 		</div>
 		<div class="col-sm-2">
 			<label for="">Loan Currency</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="sale_processedfor"  name="sale_processedfor" readonly />
-		</div>
-		<div class="col-sm-2">
-			<label for="">Interset Rate</label>
-		</div>
-		<div class="col-sm-2">
-			<input type="text"  id="sale_referredby" name="sale_referredby" readonly />
+			<input type="text" id="sale_referredby" name="sale_referredby" readonly />
 		</div>
 	</div>
 	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
 		<div class="col-sm-2">
+			<label for="">Interset Rate</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="sale_processedbyvgid" th:value="${loan[0][4]}" name="sale_processedbyvgid" readonly />
+		</div>
+		<div class="col-sm-2">
 			<label for="">Installment ID</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="sale_processedbyvgid"  name="sale_processedbyvgid" readonly />
+			<input type="text" id="sale_processedfor" name="sale_processedfor" readonly />
 		</div>
 		<div class="col-sm-2">
 			<label for="">Installment Start Date</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="sale_processedfor"  name="sale_processedfor" readonly />
+			<input type="text" id="sale_referredby" th:value="${#dates.format(loan[0][5], 'dd-MM-yyyy')}" name="sale_referredby" readonly />
+		</div>
+	</div>
+	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
+		<div class="col-sm-2">
+			<label for="">Installment Amount</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="sale_processedfor" name="sale_processedfor" readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="">Installment (%)</label>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" id="sale_processedfor" name="sale_processedfor" readonly />
 		</div>
 		<div class="col-sm-2">
 			<label for="">No of Installment</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text"  id="sale_referredby" name="sale_referredby" readonly />
-		</div>
-	</div>
-	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
-		<div class="col-sm-2">
-			<label for="">Installment (%)</label>
-		</div>
-		<div class="col-sm-2">
-			<input type="text" id="sale_processedfor"  name="sale_processedfor" readonly />
-		</div>
-		<div class="col-sm-2">
-			<label for="">Principal Installment Freq</label>
-		</div>
-		<div class="col-sm-2">
-			<input type="text" id="sale_processedfor"  name="sale_processedfor" readonly />
-		</div>
-		<div class="col-sm-2">
-			<label for="">Interest Installment Freq</label>
-		</div>
-		<div class="col-sm-2">
-			<input type="text"  id="sale_referredby" name="sale_referredby" readonly />
+			<input type="text"  id="sale_referredby" th:value="${loan[0][6]}" name="sale_referredby" readonly />
 		</div>
 	</div>
 	<div class="row formline mt-2" style="padding: 1px 0px 10px 35px;">
 		<div class="col-sm-2">
-			<label for="">Installment Amount</label>
+			<label for="">Principal Installment Freq</label>
 		</div>
 		<div class="col-sm-2">
 			<input type="text" id="sale_processedbyvgid" name="sale_processedbyvgid" readonly />
 		</div>
 		<div class="col-sm-2">
-			<label for="">Cap At Maturity ?</label>
+			<label for="">Interest Installment Freq</label>
 		</div>
 		<div class="col-sm-2">
-			<label> <input type="radio" value="Y" id="maturity_flg1" name="maturity_flg" style="width: unset !important"
-					onclick="updateInterestFreq();"> Yes
-			</label> <label> <input type="radio" value="N" id="maturity_flg" name="maturity_flg" style="width: unset !important"
-					onclick="updateInterestFreq();"> No
-			</label>
+			<input type="text" id="sale_processedbyvgid" name="sale_processedbyvgid" readonly />
 		</div>
 		<div class="col-sm-2">
 			<label for="">Record</label>
