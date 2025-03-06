@@ -266,61 +266,53 @@ function ClickId(a) {
 	var holder_key = a.getAttribute("data-account_holderkey");
 	location.href = 'aspiraLoanMaintanace?formmode=view&id=' + id  +'&holder_key=' +holder_key;
 }
-function getRepaymentDetails(a) {
-		event.preventDefault();
-		var principleAmount = document.getElementById("loan_sanctioned").value.replace(/,/g, '');
-		var santionedDate = changeDateFormat(document.getElementById("date_of_loan").value);
-		var interestRate = document.getElementById("effective_interest_rate").value.replace(/,/g, '');
-		var installID = $("#inst_id").val();
-		var installStartDate = changeDateFormat(document.getElementById("inst_start_dt").value);
-		var pricipleFreq = document.getElementById("inst_freq").value;
-		var noOfInstallment = document.getElementById("no_of_inst").value;
-		var installAmount = document.getElementById("inst_amount").value.replace(/,/g, '');
-		var interestFreq = document.getElementById("interest_frequency").value;
+function getRepaymentDetails() {
+	 if (event) event.preventDefault();
+	 let principal = document.getElementById("Principal").value.trim();
+	 let interestRate = document.getElementById("intrest_rate").value.trim();
+	 let months = document.getElementById("No_of_frequency").value.trim();
+	  let remainingPrincipal = principal; 
+	
+    $.ajax({
+        url: "./getInterestDetails",
+        type: "GET",
+        data: {
+            principal: principal,
+            annualInterestRate: interestRate,
+            months: months
+        },
+        
+        success: function (data) {
+            let trHTML = "";
+             // Start with the initial principal amount
 
-		console.log(principleAmount + " " + santionedDate + " " + interestRate + " " + installID + " " + installStartDate + " "
-			+ pricipleFreq + " " + noOfInstallment + " " + installAmount + " " + interestFreq);
-		$.ajax({
-				type: "GET",
-				url: "./getInterestDetails?creation_Date=" + santionedDate
-					+ "&start_date=" + installStartDate + "&Product_value=" + principleAmount
-					+ "&principle_frequency=" + pricipleFreq + "&int_rate=" + interestRate
-					+ "&no_of_inst=" + noOfInstallment + "&int_amt="
-					+ installAmount + "&interestFrequency=" + interestFreq,
-				success: function (data) {
-					console.log(data);
-					var trHTML = '';
-					$.each(data,function (index, entity) {
+            $.each(data, function (index, entity) {
+                let principal_expense = entity[0].toFixed(2); // Principal Expense
+                let interest_expense = entity[1].toFixed(2);  // Interest Expense
+                remainingPrincipal -= parseFloat(principal_expense); // Reduce principal balance
+                let installmentamt = (parseFloat(principal_expense) + parseFloat(interest_expense)).toFixed(2); // Correct (Numeric Addition)
+                let charges_amt = entity[2] ? parseFloat(entity[2]).toFixed(2) : "0.00";
+                trHTML += '<tr id="scheduleRow">'
+                    + '<td>' + (index + 1) + '</td>'  // Installment No
+                    + '<td>' + (index + 1) + '</td>'
+                    + '<td>' + 'Installment ' + (index + 1) + '</td>' // Description
+                    + '<td>' + installmentamt + '</td>'
+                    + '<td class="text-right">' + principal_expense + '</td>' // Principal Expense
+                    + '<td class="text-right">' + interest_expense + '</td>' // Interest Expense
+                    + '<td class="text-right">' + charges_amt + '</td>'
+                    + '<td class="text-right">' + remainingPrincipal.toFixed(2) + '</td>' // Remaining Principal
+                    + '</tr>';
+            });
 
-								var no_of_instalment = entity.no_of_instalment;
-								var from_date = formatDate(entity.from_date);
-								var installment_date = formatDate(entity.installment_date);
-								var installment_description = entity.installment_description;
-								var installment_amt = formatNumber(entity.installment_amt);
-								var principal_amt = formatNumber(entity.principal_amt);
-								var interest_amt = formatNumber(entity.interest_amt);
-								var charges_amt = formatNumber(entity.charges_amt);
-								var principal_outstanding = formatNumber(entity.principal_outstanding);
-
-								trHTML += '<tr id="sechduleRow">'
-									+ '<td>' + no_of_instalment + '</td>'
-									+ '<td>' + installment_date + '</td>'
-									+ '<td>' + installment_description + '</td>'
-									+ '<td class="text-right">' + installment_amt + '</td>'
-									+ '<td class="text-right">' + principal_amt + '</td>'
-									+ '<td class="text-right">' + interest_amt + '</td>'
-									+ '<td class="text-right">' + charges_amt + '</td>'
-									+ '<td class="text-right">' + principal_outstanding + '</td>'
-									+ '</tr>';
-							});
-					$('#repaymentDet').empty().append(trHTML);
-					$('#demandtable').removeClass('d-none');
-					$('#demandtable1').addClass('d-none');
-				},
-				error: function (error) {
-				console.error(error);
-			}
-		});
+            // Update the table body
+            $('#repaymentDet').empty().append(trHTML);
+            $('#demandtable').removeClass('d-none');
+            $('#demandtable1').addClass('d-none');
+        },
+        error: function () {
+            console.log("Error fetching repayment details");
+        }
+    });
 }
 </script>
 </head>
@@ -884,7 +876,7 @@ function getRepaymentDetails(a) {
 			<label for="">Loan Santioned</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="sale_processedfor" th:value="${loan[0][7]}" name="sale_processedfor" readonly />
+			<input type="text" id="Principal" th:value="${loan[0][7]}" name="sale_processedfor" readonly />
 		</div>
 		<div class="col-sm-2">
 			<label for="">Loan Currency</label>
@@ -898,7 +890,7 @@ function getRepaymentDetails(a) {
 			<label for="">Interset Rate</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="sale_processedbyvgid" th:value="${loan[0][4]}" name="sale_processedbyvgid" readonly />
+			<input type="text" id="intrest_rate" th:value="${loan[0][4]}" name="sale_processedbyvgid" readonly />
 		</div>
 		<div class="col-sm-2">
 			<label for="">Installment ID</label>
@@ -910,7 +902,7 @@ function getRepaymentDetails(a) {
 			<label for="">Installment Start Date</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="sale_referredby" th:value="${#dates.format(loan[0][5], 'dd-MM-yyyy')}" name="sale_referredby" readonly />
+			<input type="text" id="Start_date" th:value="${#dates.format(loan[0][5], 'dd-MM-yyyy')}" name="sale_referredby" readonly />
 		</div>
 	</div>
 	<div class="row formline mt-2" style="padding: 1px 0px 0px 35px;">
@@ -930,7 +922,7 @@ function getRepaymentDetails(a) {
 			<label for="">No of Installment</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text"  id="sale_referredby" th:value="${loan[0][6]}" name="sale_referredby" readonly />
+			<input type="text"  id="No_of_frequency" th:value="${loan[0][6]}" name="sale_referredby" readonly />
 		</div>
 	</div>
 	<div class="row formline mt-2" style="padding: 1px 0px 10px 35px;">

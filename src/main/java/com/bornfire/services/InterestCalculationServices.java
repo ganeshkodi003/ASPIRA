@@ -1228,4 +1228,41 @@ public class InterestCalculationServices {
 		System.out.println("Interest Amount: " + interestAmount);
 	}
 
+	
+    public  List<double[]> calculateLoanPayments(double principal, double annualInterestRate, int months) {
+        List<double[]> payments = new ArrayList<>();
+        double finalPrincipal;
+        double finalInterest;
+        // Convert annual interest rate to monthly interest rate
+        double fixedMonthlyInterest = (principal * annualInterestRate) / 100.0;
+
+        // Calculate exact monthly principal payment
+        double monthlyPrincipal = principal / months;
+        double correctedPrincipal = 0;
+        double correctedInterest = 0;
+        double remainingprincipal = principal;
+        for (int i = 1; i <= months; i++) {
+
+            double roundedPrincipal = Math.round(monthlyPrincipal);
+            double roundedInterest = Math.round(fixedMonthlyInterest);
+
+            correctedPrincipal += (monthlyPrincipal - roundedPrincipal);
+            correctedInterest += (fixedMonthlyInterest - roundedInterest);
+
+            if (i < months) {
+                remainingprincipal -= roundedPrincipal;
+                finalPrincipal = roundedPrincipal;
+                finalInterest = roundedInterest;
+            } else {
+                remainingprincipal -= roundedPrincipal + Math.round(correctedPrincipal);
+                finalPrincipal = roundedPrincipal + Math.round(correctedPrincipal);
+                finalInterest =roundedInterest + Math.round(correctedInterest);
+            }
+            payments.add(new double[]{finalPrincipal, finalInterest});
+        }
+       
+        return payments;
+    }
+	
+	
 }
