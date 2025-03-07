@@ -2784,32 +2784,7 @@ document.addEventListener("DOMContentLoaded", function() {
 						</div>
 					</div>
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false"
-		tabindex="-1" role="dialog" aria-hidden="true"
-		style="padding-left: 10%" id="mypopup">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-			style="height: 20%">
-			<div class="modal-content">
-				<div class="modal-body" style="text-align: center">
-					<p id="mypopup_body"></p>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
-						onclick="Back();">Close</button>
-					<!-- Show this button if ca_schemetype is 'TD' -->
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
-						th:if="${customerRequest?.ca_schemetype == 'TD'}"
-						onclick="tranactionscreens(this);" data-tranid="">Accept
-						Deposit</button>
-
-					<!-- Show this button if ca_schemetype is 'LA' -->
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
-						th:if="${customerRequest?.ca_schemetype == 'LA'}"
-						onclick="tranactionscreens(this);"  >Loan
-						Disbursement</button>
-				</div>
-			</div>
-		</div>
-	</div>
+	
 		<div class="modal" id="myaccModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" data-backdrop="false"
 		aria-hidden="true">
@@ -2950,6 +2925,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		}
 	</script> -->
+	
 	<script>
 	  
 	  function showConfirmationModalreject() {
@@ -3100,6 +3076,9 @@ function RejectAcc() {
             + "&ApprefNO=" + ApprefNO + "&schmtypes=" + schmtypes 
             + "&AccountNO=" + account_number + "&schmcodes=" + schm_codes,
         success: function(response) {
+        	
+        alert(response.tranId);
+        alert(response.message);
             var tranId = response.tranId;
             var message = response.message;
 
@@ -3107,8 +3086,9 @@ function RejectAcc() {
             console.log("Message:", message); 
 
             // Show message in the modal body and tranId as text
+              $('#mypopup').modal('show');
             $("#mypopup_body").html(message);
-            $('#mypopup').modal('show');
+          
 
             $("button[data-dismiss='modal']").attr("data-tranid", tranId);
         },
@@ -3529,7 +3509,32 @@ function changeDateFormat(dateString) {
 		</div>
 	</div>
 </div> -->
+<div class="modal fade" data-backdrop="false" data-keyboard="false"
+		tabindex="-1" role="dialog" aria-hidden="true"
+		style="padding-left: 10%" id="mypopup">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+			style="height: 20%">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="mypopup_body"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						onclick="Back();">Close</button>
+					<!-- Show this button if ca_schemetype is 'TD' -->
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						th:if="${customerRequest?.ca_schemetype == 'TD'}"
+						onclick="tranactionscreens(this);" data-tranid="">Accept
+						Deposit</button>
 
+					<!-- Show this button if ca_schemetype is 'LA' -->
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						th:if="${customerRequest?.ca_schemetype == 'LA'}"
+						onclick="tranactionscreens(this);"  >Loan
+						Disbursement</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 <div class="modal fade" data-backdrop="false" data-keyboard="false"
 	tabindex="-1" role="dialog" aria-hidden="true"
