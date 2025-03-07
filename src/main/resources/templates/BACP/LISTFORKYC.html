@@ -380,7 +380,7 @@ input:hover+.password-info {
 			    var appl_ref_no = document.getElementById("gooom").value; 
 			    $.ajax({
 			        type: 'get',
-			        url: '/BGLS/getimages?appl_ref_no=' + appl_ref_no,
+			        url: '/ASPIRA/getimages?appl_ref_no=' + appl_ref_no,
 			        success: function (response) {
 					
 			          // alert(response)
@@ -414,7 +414,7 @@ input:hover+.password-info {
 						$
 							.ajax({
 								type : 'get',
-								url : '/BGLS/getimagesone?appl_ref_no=' + appl_ref_no,
+								url : '/ASPIRA/getimagesone?appl_ref_no=' + appl_ref_no,
 
 								success :  function(response) {
 									            //    alert(response); 
@@ -2633,7 +2633,7 @@ function calculateDTI() {
 		console.log(value1);
 		$.ajax({
 				type: 'get',
-				url: '/BGLS/getproof1?appl_ref_no=' + values +'&doc_type=' +value1,
+				url: '/ASPIRA/getproof1?appl_ref_no=' + values +'&doc_type=' +value1,
 				success: function (response) {
 					const base64String =response;
 					const uint8Array = base64ToUint8Array(base64String);
@@ -2717,7 +2717,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var ApprefNO = document.getElementById("gooom").value;  
     $.ajax({
       type: 'POST',
-      url: '/BGLS/listkyc?formmode=Holdfin&rec_no=' + rec_no + "&ApprefNO=" + ApprefNO,
+      url: '/ASPIRA/listkyc?formmode=Holdfin&rec_no=' + rec_no + "&ApprefNO=" + ApprefNO,
       success: function(response) { 
     	    $('#mypopup22').modal('show'); 
             $("#popupmsg_body").html(response); 
@@ -2768,7 +2768,7 @@ document.addEventListener("DOMContentLoaded", function() {
             var params = new URLSearchParams(data).toString();
 			$.ajax({
 				type: 'POST', 
-				url: '/BGLS/listkyc?' + params,
+				url: '/ASPIRA/listkyc?' + params,
                 contentType: 'application/json',
 				success: function (response) { 
 					console.log(response)
@@ -2920,7 +2920,7 @@ function imagecor() {
 
 	$.ajax({
 		type : 'get',
-		url : '/BGLS/getimagesonecor?appl_ref_no=' + appl_ref_no,
+		url : '/ASPIRA/getimagesonecor?appl_ref_no=' + appl_ref_no,
 		success : function(response) {
 			//alert(response);
 
@@ -2962,7 +2962,7 @@ function onimagecorsign() {
 
 	$.ajax({
 		type : 'get',
-		url : '/BGLS/getimagescor?appl_ref_no='
+		url : '/ASPIRA/getimagescor?appl_ref_no='
 				+ encodeURIComponent(appl_ref_no),
 		success : function(response) {
 			console.log("AJAX Response:", response);

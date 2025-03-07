@@ -305,7 +305,7 @@ function imagecor() {
 
 	$.ajax({
 		type : 'get',
-		url : '/BGLS/getimagesonecor?appl_ref_no=' + appl_ref_no,
+		url : '/ASPIRA/getimagesonecor?appl_ref_no=' + appl_ref_no,
 		success : function(response) {
 			//alert(response);
 
@@ -347,7 +347,7 @@ function onimagecorsign() {
 
 	$.ajax({
 		type : 'get',
-		url : '/BGLS/getimagescor?appl_ref_no='
+		url : '/ASPIRA/getimagescor?appl_ref_no='
 				+ encodeURIComponent(appl_ref_no),
 		success : function(response) {
 			console.log("AJAX Response:", response);
@@ -818,7 +818,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		    var appl_ref_no = document.getElementById("gooom").value; 
 		    $.ajax({
 		        type: 'get',
-		        url: '/BGLS/getimages?appl_ref_no=' + appl_ref_no,
+		        url: '/ASPIRA/getimages?appl_ref_no=' + appl_ref_no,
 		        success: function (response) {
 				
 		          // alert(response)
@@ -1039,7 +1039,7 @@ function show1(a) {
 	console.log(value1);
 	$.ajax({
 			type: 'get',
-			url: '/BGLS/getproof1?appl_ref_no=' + values +'&doc_type=' +value1,
+			url: '/ASPIRA/getproof1?appl_ref_no=' + values +'&doc_type=' +value1,
 			success: function (response) {
 				const base64String =response;
 				const uint8Array = base64ToUint8Array(base64String);
@@ -1204,7 +1204,7 @@ function calculateDTI() {
 </script>
 
 </head>
-<title>BGLS</title>
+<title>ASPIRA</title>
 
 <body onload="calculateMonthlyRepayment();">
 

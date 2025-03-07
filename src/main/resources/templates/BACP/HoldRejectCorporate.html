@@ -399,7 +399,7 @@ input:hover+.password-info {
 		//alert(appl_ref_no); 
 		$.ajax({
 			type : 'get',
-			url : '/BGLS/getimagesone?appl_ref_no=' + appl_ref_no,
+			url : '/ASPIRA/getimagesone?appl_ref_no=' + appl_ref_no,
 
 			success : function(response) {
 				//    alert(response); 
@@ -505,7 +505,7 @@ input:hover+.password-info {
 		console.log(value1);
 		$.ajax({
 			type : 'get',
-			url : '/BGLS/getproof1?appl_ref_no=' + values + '&doc_type='
+			url : '/ASPIRA/getproof1?appl_ref_no=' + values + '&doc_type='
 					+ value1,
 			success : function(response) {
 				const base64String = response;
@@ -549,7 +549,7 @@ input:hover+.password-info {
 		var appl_ref_no = document.getElementById("gooom").value;
 		$.ajax({
 			type : 'get',
-			url : '/BGLS/getimages?appl_ref_no=' + appl_ref_no,
+			url : '/ASPIRA/getimages?appl_ref_no=' + appl_ref_no,
 			success : function(response) {
 
 				// alert(response)
@@ -854,7 +854,7 @@ input:hover+.password-info {
 	    
 	    $.ajax({
 	        type: 'POST',
-	        url: '/BGLS/approvefuncs',
+	        url: '/ASPIRA/approvefuncs',
 	        data: {
 	            formmode: 'approveAcc',
 	            rec_no: rec_no,
@@ -6339,7 +6339,7 @@ input:hover+.password-info {
 
 			$.ajax({
 				type : 'get',
-				url : '/BGLS/getimagesonecor?appl_ref_no=' + appl_ref_no,
+				url : '/ASPIRA/getimagesonecor?appl_ref_no=' + appl_ref_no,
 				success : function(response) {
 					//alert(response);
 
@@ -6381,7 +6381,7 @@ input:hover+.password-info {
 
 			$.ajax({
 				type : 'get',
-				url : '/BGLS/getimagescor?appl_ref_no='
+				url : '/ASPIRA/getimagescor?appl_ref_no='
 						+ encodeURIComponent(appl_ref_no),
 				success : function(response) {
 					console.log("AJAX Response:", response);
