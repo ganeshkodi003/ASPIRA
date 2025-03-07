@@ -699,7 +699,7 @@ function base64ToUint8Array(base64) {
 		//alert(appl_ref_no); 
 		$.ajax({
 			type : 'get',
-			url : '/BGLS/getimagesone?appl_ref_no=' + appl_ref_no,
+			url : '/ASPIRA/getimagesone?appl_ref_no=' + appl_ref_no,
 
 			success : function(response) {
 				//    alert(response); 
@@ -729,7 +729,7 @@ function show1(a) {
 	console.log(value1);
 	$.ajax({
 			type: 'get',
-			url: '/BGLS/getproof1?appl_ref_no=' + values +'&doc_type=' +value1,
+			url: '/ASPIRA/getproof1?appl_ref_no=' + values +'&doc_type=' +value1,
 			success: function (response) {
 				const base64String =response;
 				const uint8Array = base64ToUint8Array(base64String);
@@ -778,7 +778,7 @@ function onimageon() {
     var appl_ref_no = document.getElementById("gooom").value; 
     $.ajax({
         type: 'get',
-        url: '/BGLS/getimages?appl_ref_no=' + appl_ref_no,
+        url: '/ASPIRA/getimages?appl_ref_no=' + appl_ref_no,
         success: function (response) {
 		
           // alert(response)
@@ -1003,7 +1003,7 @@ function formatNumber(number) {
     var ApprefNO = document.getElementById("gooom").value;  
     $.ajax({
       type: 'POST',
-      url: '/BGLS/approvefuncs?formmode=Holdfin&rec_no=' + rec_no + "&ApprefNO=" + ApprefNO + "&hold_remarks=" + encodeURIComponent(hold_remarks),
+      url: '/ASPIRA/approvefuncs?formmode=Holdfin&rec_no=' + rec_no + "&ApprefNO=" + ApprefNO + "&hold_remarks=" + encodeURIComponent(hold_remarks),
       success: function(response) {
     	  var formattedResponse = response.message;
     	   $('#mypopup22').modal('show'); 
@@ -1040,7 +1040,7 @@ function showConfirmationModalreject() {
 			var ApprefNO = document.getElementById("gooom").value; 
 			$.ajax({
 				type : 'POST',
-	            url: '/BGLS/approvefuncs?formmode=Reject_acc&rec_no=' + rec_no + "&ApprefNO=" + ApprefNO + "&reject_remarks=" + encodeURIComponent(reject_remarks),
+	            url: '/ASPIRA/approvefuncs?formmode=Reject_acc&rec_no=' + rec_no + "&ApprefNO=" + ApprefNO + "&reject_remarks=" + encodeURIComponent(reject_remarks),
 
 				success : function(response) {
 					 var formattedResponse = response.message;
@@ -1088,7 +1088,7 @@ function approveclick() {
     
     $.ajax({
         type: 'POST',
-        url: '/BGLS/approvefuncs',
+        url: '/ASPIRA/approvefuncs',
         data: {
             formmode: 'approveAcc',
             rec_no: rec_no,
@@ -1354,7 +1354,7 @@ function imagecor() {
 
 	$.ajax({
 		type : 'get',
-		url : '/BGLS/getimagesonecor?appl_ref_no=' + appl_ref_no,
+		url : '/ASPIRA/getimagesonecor?appl_ref_no=' + appl_ref_no,
 		success : function(response) {
 			//alert(response);
 
@@ -1396,7 +1396,7 @@ function onimagecorsign() {
 
 	$.ajax({
 		type : 'get',
-		url : '/BGLS/getimagescor?appl_ref_no='
+		url : '/ASPIRA/getimagescor?appl_ref_no='
 				+ encodeURIComponent(appl_ref_no),
 		success : function(response) {
 			console.log("AJAX Response:", response);
