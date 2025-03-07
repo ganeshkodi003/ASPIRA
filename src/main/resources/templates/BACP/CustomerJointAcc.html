@@ -351,8 +351,7 @@ body {
 }
 
 /* Add Animation */
-@
--webkit-keyframes animatetop {from { top:-300px;
+@-webkit-keyframes animatetop {from { top:-300px;
 	opacity: 0
 }
 
@@ -362,8 +361,7 @@ to {
 }
 
 }
-@
-keyframes animatetop {from { top:-300px;
+@keyframes animatetop {from { top:-300px;
 	opacity: 0
 }
 
@@ -721,7 +719,7 @@ else{
 		    // Duplicate list check
 		    $.ajax({
 		        type: 'GET',
-		        url: "/BGLS/CheckDuplicate?id=" + natid,
+		        url: "/ASPIRA/CheckDuplicate?id=" + natid,
 		        success: function (response) {
 		            if (response !== "clear") {
 		                duplicate_Yes.style.display = 'block';
@@ -734,7 +732,7 @@ else{
 		    // Blacklist check
 		    $.ajax({
 		        type: 'GET',
-		        url: "/BGLS/CheckBlackList?id=" + natid,
+		        url: "/ASPIRA/CheckBlackList?id=" + natid,
 		        success: function (response) {
 		            if (response !== "clear") {
 		                Blacklist_Yes.style.display = 'block';
@@ -747,7 +745,7 @@ else{
 		    // Negative list check
 		    $.ajax({
 		        type: 'GET',
-		        url: "/BGLS/CheckNegativeList?id=" + natid,
+		        url: "/ASPIRA/CheckNegativeList?id=" + natid,
 		        success: function (response) {
 		            if (response !== "clear") {
 		                Negativelist_Yes.style.display = 'block';
@@ -1236,7 +1234,7 @@ function proceedclick() {
 		
 
 		 $.ajax({
-			url: '/BGLS/multiline?appl_ref_no=' + appl_ref_no + "&rec_no=" + rec_no,
+			url: '/ASPIRA/multiline?appl_ref_no=' + appl_ref_no + "&rec_no=" + rec_no,
 			data: JSON.stringify(dynamicvalues),
 			type: 'POST',
 			contentType: 'application/json',
@@ -1289,7 +1287,7 @@ function submitfile(value) {
 
 	    // AJAX request to submit data
 	  $.ajax({
-	        url: '/BGLS/multiline?appl_ref_no=' + appl_ref_no + "&rec_no=" + rec_no +  "&cif_id=" + cif_id,
+	        url: '/ASPIRA/multiline?appl_ref_no=' + appl_ref_no + "&rec_no=" + rec_no +  "&cif_id=" + cif_id,
 	        data: JSON.stringify(dynamicValues),
 	        type: 'POST',
 	        contentType: 'application/json',
@@ -1361,7 +1359,7 @@ function imageuploadFunction(Responcedata, dynamicvalues, appl_ref_no) {
 
         // Make a single AJAX call
         $.ajax({
-            url: '/BGLS/imageupload11',
+            url: '/ASPIRA/imageupload11',
             type: 'POST',
             data: formData,
             processData: false,
@@ -2072,7 +2070,7 @@ var Deposit = {
 
         // Send the data via AJAX
         $.ajax({
-            url: '/BGLS/multiline?appl_ref_no=' + appl_ref_no + "&rec_no=" + rec_no,
+            url: '/ASPIRA/multiline?appl_ref_no=' + appl_ref_no + "&rec_no=" + rec_no,
             data: JSON.stringify(dynamicvalues),
             type: 'POST',
             contentType: 'application/json',

@@ -702,7 +702,7 @@ else{
 		        // Duplicate list check
 			    $.ajax({
 			        type: 'GET',
-			        url: "/BGLS/CheckDuplicateIndiv?id=" + natid + '&Mobile_num='+ Mobile_num+
+			        url: "/ASPIRA/CheckDuplicateIndiv?id=" + natid + '&Mobile_num='+ Mobile_num+
 			        		'&Passport_num='+ Passport_num   + '&fullname='+ fullname,
 			        success: function (response) {
 			        	
@@ -721,7 +721,7 @@ else{
 			    // Blacklist check
 			    $.ajax({
 			    	 type: 'GET',
-				     url: "/BGLS/CheckBlackListIndiv?id=" + natid + '&Mobile_num='+ Mobile_num+
+				     url: "/ASPIRA/CheckBlackListIndiv?id=" + natid + '&Mobile_num='+ Mobile_num+
 		        		'&Passport_num='+ Passport_num   + '&fullname='+ fullname,
 			        success: function (response) {
 			          
@@ -743,7 +743,7 @@ else{
 			    // Negative list check
 			    $.ajax({
 			        type: 'GET',
-			        url: "/BGLS/CheckNegativeListIndiv?id=" + natid + '&Mobile_num='+ Mobile_num+
+			        url: "/ASPIRA/CheckNegativeListIndiv?id=" + natid + '&Mobile_num='+ Mobile_num+
 	        		'&Passport_num='+ Passport_num   + '&fullname='+ fullname,
 	        		  success: function (response) {
 	  		          
@@ -786,7 +786,7 @@ else{
 					    document.getElementById("customerCheck").style.display="block";
 				    $.ajax({
 				        type: 'GET',
-				        url: "/BGLS/CheckDuplicateJoint?id=" + national_id + '&Mobile_num='+ mbl_num+
+				        url: "/ASPIRA/CheckDuplicateJoint?id=" + national_id + '&Mobile_num='+ mbl_num+
 				        		'&Passport_num='+ passno   + '&fullname='+ full_name,
 				        success: function (response) {
 				        	
@@ -805,7 +805,7 @@ else{
 				    // Blacklist check
 				    $.ajax({
 				    	 type: 'GET',
-					     url: "/BGLS/CheckBlackListJoint?id=" + national_id + '&Mobile_num='+ mbl_num+
+					     url: "/ASPIRA/CheckBlackListJoint?id=" + national_id + '&Mobile_num='+ mbl_num+
 			        		'&Passport_num='+ passno   + '&fullname='+ full_name,
 				        success: function (response) {
 				          
@@ -827,7 +827,7 @@ else{
 				    // Negative list check
 				    $.ajax({
 				        type: 'GET',
-				        url: "/BGLS/CheckNegativeListJoint?id=" + national_id + '&Mobile_num='+ mbl_num+
+				        url: "/ASPIRA/CheckNegativeListJoint?id=" + national_id + '&Mobile_num='+ mbl_num+
 		        		'&Passport_num='+ passno   + '&fullname='+ full_name,
 		        		  success: function (response) {
 		  		            
@@ -873,7 +873,7 @@ else{
 					    document.getElementById("customerCheck").style.display="block";
 				    $.ajax({
 				        type: 'GET',
-				        url: "/BGLS/CheckDuplicateCor?cor_name=" + cor_name+ '&cer_od_incop=' +cer_od_incop+
+				        url: "/ASPIRA/CheckDuplicateCor?cor_name=" + cor_name+ '&cer_od_incop=' +cer_od_incop+
 				        		'&buss_ref_no='+ buss_ref_no   + '&lno='+ lno,
 				        success: function (response) {
 				        	
@@ -893,7 +893,7 @@ else{
 				    // Blacklist check
 				    $.ajax({
 				    	 type: 'GET',
-					     url: "/BGLS/CheckBlackListCor?cor_name=" + cor_name+ '&cer_od_incop=' +cer_od_incop+
+					     url: "/ASPIRA/CheckBlackListCor?cor_name=" + cor_name+ '&cer_od_incop=' +cer_od_incop+
 					        		'&buss_ref_no='+ buss_ref_no   + '&lno='+ lno,
 				        success: function (response) {
 				          
@@ -915,7 +915,7 @@ else{
 				    // Negative list check
 				    $.ajax({
 				        type: 'GET',
-				        url: "/BGLS/CheckNegativeListCor?cor_name=" + cor_name+ '&cer_od_incop=' +cer_od_incop+
+				        url: "/ASPIRA/CheckNegativeListCor?cor_name=" + cor_name+ '&cer_od_incop=' +cer_od_incop+
 		        		'&buss_ref_no='+ buss_ref_no   + '&lno='+ lno,
 		        		  success: function (response) {
 		  		        
@@ -1447,7 +1447,7 @@ function submitfile(value) {
 
 	    // AJAX request to submit data
 	  $.ajax({
-	        url: '/BGLS/multiline?appl_ref_no=' + appl_ref_no + "&rec_no=" + rec_no + "&cif_id=" + cif_id,
+	        url: '/ASPIRA/multiline?appl_ref_no=' + appl_ref_no + "&rec_no=" + rec_no + "&cif_id=" + cif_id,
 	        data: JSON.stringify(dynamicValues),
 	        type: 'POST',
 	        contentType: 'application/json',
@@ -1609,7 +1609,7 @@ function last_change_re(rowCount) {
 console.log(formData);
             // Perform the AJAX request
          $.ajax({
-                url: '/BGLS/imageupload11',
+                url: '/ASPIRA/imageupload11',
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -1684,7 +1684,7 @@ function imageuploadFunction(Responcedata, dynamicvalues, appl_ref_no) {
 
         // Make a single AJAX call
         $.ajax({
-            url: '/BGLS/imageupload11',
+            url: '/ASPIRA/imageupload11',
             type: 'POST',
             data: formData,
             processData: false,
