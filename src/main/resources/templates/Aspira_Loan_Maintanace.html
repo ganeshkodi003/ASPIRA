@@ -292,7 +292,7 @@ function getRepaymentDetails() {
                 remainingPrincipal -= parseFloat(principal_expense); // Reduce principal balance
                 let installmentamt = (parseFloat(principal_expense) + parseFloat(interest_expense)).toFixed(2); // Correct (Numeric Addition)
                 let charges_amt = entity[2] ? parseFloat(entity[2]).toFixed(2) : "0.00";
-                trHTML += '<tr id="scheduleRow">'
+                trHTML += '<tr id="scheduleRow" style="font-size: larger;">'
                     + '<td>' + (index + 1) + '</td>'  // Installment No
                     + '<td>' + (index + 1) + '</td>'
                     + '<td>' + 'Installment ' + (index + 1) + '</td>' // Description
@@ -953,7 +953,7 @@ function getRepaymentDetails() {
 	<div class="table-responsive d-none" id="demandtable">
 		<table class="table table-bordered">
 			<thead>
-				<tr>
+				<tr style="font-size: larger;">
 					<th style="text-align: left; width: 60px !important;">Srl.No.</th>
 					<th style="text-align: left; width: 60px !important;">Installment Date</th>
 					<th style="text-align: right; width: 60px !important;">Installment Description</th>
@@ -964,7 +964,7 @@ function getRepaymentDetails() {
 					<th style="text-align: right; width: 60px !important;">Principal Outstanding</th>
 				</tr>
 			</thead>
-			<tbody id="repaymentDet">
+			<tbody id="repaymentDet" >
 				<!-- More rows can be added similarly -->
 			</tbody>
 		</table>

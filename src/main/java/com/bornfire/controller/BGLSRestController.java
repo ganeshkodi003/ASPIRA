@@ -1851,15 +1851,7 @@ public class BGLSRestController {
 	}
 
 
-	@GetMapping("/getInterestDetails")
-    public List<double[]> getPaymentSchedule(
-        @RequestParam double principal,
-        @RequestParam double annualInterestRate,
-        @RequestParam int months
-    ) {
-    	System.out.println(interestCalculationServices.calculateLoanPayments(principal, annualInterestRate, months));
-        return interestCalculationServices.calculateLoanPayments(principal, annualInterestRate, months);
-    }
+
 	
 	
 	/* THANVEER */
@@ -4225,5 +4217,15 @@ public class BGLSRestController {
 
 		return tranRefRecords;
 	}
+	
+	@GetMapping("/getInterestDetails")
+    public List<double[]> getPaymentSchedule(
+        @RequestParam double principal,
+        @RequestParam double annualInterestRate,
+        @RequestParam int months
+    ) {
+    
+        return interestCalculationServices.calculateLoanPayments(principal, annualInterestRate, months);
+    }
 
 }
