@@ -404,32 +404,7 @@ input:hover+.password-info {
 	}
 
 	function onimages() {
-		var appl_ref_no = document.getElementById("appl_ref_no").value;
-
-		$.ajax({
-			type : 'get',
-			url : '.getimages?appl_ref_no=' + appl_ref_no,
-
-			success : function(response) {
-				//   alert(response); 
-				const base64String = response;
-				const uint8Array = base64ToUint8Array(base64String);
-
-				const blob = new Blob([ uint8Array ]);
-
-				const imageUrl = URL.createObjectURL(blob);
-				const img = document.createElement("img");
-				img.src = imageUrl;
-				img.style.width = "200px";
-				img.style.height = "100px";
-				var element = document.getElementById("imgCapture1");
-				element.appendChild(img);
-				console.log(img);
-
-			}
-		});
-	};
-
+	 
 	function onimagesone() {
 	    var appl_ref_no = document.getElementById("gooom").value;
 		//alert(appl_ref_no); 

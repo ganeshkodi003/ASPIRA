@@ -690,7 +690,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		    console.log(cif_id);
 		    // AJAX request to submit data
 		  $.ajax({
-		        url: '/BGLS/multiline?appl_ref_no=' + appl_ref_no + "&rec_no=" + rec_no + "&cif_id="+ cif_id,
+		        url: '/ASPIRA/multiline?appl_ref_no=' + appl_ref_no + "&rec_no=" + rec_no + "&cif_id="+ cif_id,
 		        data: JSON.stringify(dynamicValues),
 		        type: 'POST',
 		        contentType: 'application/json',
@@ -879,7 +879,7 @@ function rowadddcorporate() {
 
 		        // Make a single AJAX call
 		        $.ajax({
-		            url: '/BGLS/imageupload11',
+		            url: '/ASPIRA/imageupload11',
 		            type: 'POST',
 		            data: formData,
 		            processData: false,
@@ -1864,7 +1864,7 @@ function rowadddcorporate() {
 	</script>
 
 </head>
-<title>BGLS</title>
+<title>ASPIRA</title>
 
 <body>
 	<div class="col-sm-2">
@@ -1873,7 +1873,7 @@ function rowadddcorporate() {
 	<div class="container-manager">
 		<div class="row">
 
-			<div class="col-sm-11 ml-5 mt-2" style="font-size: 0.8rem;">
+			<div class="col-sm-11 ml-5" style="font-size: 0.8rem;">
 				<div th:if="${formmode}=='list'" class="">
 					<div class="card">
 
