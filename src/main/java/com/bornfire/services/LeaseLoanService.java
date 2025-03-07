@@ -170,9 +170,9 @@ public class LeaseLoanService {
 
 	public String principalAndInterestDemand(Lease_Loan_Master_Entity master,
 			Loan_Repayment_Master_Entity paymentMaster,String user) {
-
+		 System.out.println(paymentMaster.getNo_of_inst() +"huytvyuybu");
 		int no_of_inst = Integer.valueOf(paymentMaster.getNo_of_inst());
-
+       
 		Date start_date = paymentMaster.getInst_start_dt();
 
 		LocalDate startDate = start_date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
