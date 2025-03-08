@@ -3473,15 +3473,15 @@ public class CustOnboardinController {
 					String AccountNO2 = CifId.getLa_loan_accountno();
 					String AccountNO1 = CifId.getTd_deposit_accountno();
 					String AccountNo = null;
-					Lease_Loan_Work_Entity LeaseAccount = lease_Loan_Work_Repo.getLeaseAccount(AccountNO2);
-					DepositEntity DepositAccount = depositRep.getCustdataact(AccountNO1);
+					Lease_Loan_Work_Entity LeaseAccount = lease_Loan_Work_Repo.getLeaseAccount(AccountNO);
+					DepositEntity DepositAccount = depositRep.getCustdataact(AccountNO);
 					if (CifId.getCa_schemetype().equals("LA")) {
 						AccountNo = LeaseAccount.getLoan_accountno();
 					} else {
 						AccountNo = DepositAccount.getDepo_actno();
 					}
 
-					msg = "Account Approved Successfully " + AccountNo + "<br>";
+					msg = "Account Approved Successfully " + AccountNO + "<br>";
 					msg += "Reference No: " + ApprefNO + "<br>";
 					msg += "Approved Name: " + username + " <br>";
 					msg += "Approved Date: " + ComplianceDate + " ";

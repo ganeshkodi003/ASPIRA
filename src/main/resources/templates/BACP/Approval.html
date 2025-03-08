@@ -3077,8 +3077,6 @@ function RejectAcc() {
             + "&AccountNO=" + account_number + "&schmcodes=" + schm_codes,
         success: function(response) {
         	
-        alert(response.tranId);
-        alert(response.message);
             var tranId = response.tranId;
             var message = response.message;
 
