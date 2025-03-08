@@ -3446,9 +3446,11 @@ public class CustOnboardinController {
 					String AccountNO2 = CifId.getLa_loan_accountno();
 					String AccountNO1 = CifId.getTd_deposit_accountno();
 					String AccountNo = null;
-					Lease_Loan_Work_Entity LeaseAccount = lease_Loan_Work_Repo.getLeaseAccount(AccountNO2);
-					DepositEntity DepositAccount = depositRep.getCustdataact(AccountNO1);
+					System.out.println(AccountNO2 +"jhghg");
+					Lease_Loan_Work_Entity LeaseAccount = lease_Loan_Work_Repo.getLeaseAccount(AccountNO);
+					DepositEntity DepositAccount = depositRep.getCustdataact(AccountNO);
 					if (CifId.getCa_schemetype().equals("LA")) {
+						System.out.println(LeaseAccount.getLoan_accountno());
 						AccountNo = LeaseAccount.getLoan_accountno();
 					} else {
 						AccountNo = DepositAccount.getDepo_actno();

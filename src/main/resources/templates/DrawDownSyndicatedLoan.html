@@ -492,7 +492,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		    // AJAX request to submit data
 		  $.ajax({
-		        url: '/BGLS/multiline?appl_ref_no=' +  appl_ref_no + "&rec_no=" + rec_no + "&cif_id=" + cif_id,
+		        url: '/ASPIRA/multiline?appl_ref_no=' +  appl_ref_no + "&rec_no=" + rec_no + "&cif_id=" + cif_id,
 		        data: JSON.stringify(dynamicValues),
 		        type: 'POST',
 		        contentType: 'application/json',
