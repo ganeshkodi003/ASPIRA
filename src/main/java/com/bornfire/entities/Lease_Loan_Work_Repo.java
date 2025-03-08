@@ -35,7 +35,7 @@ public interface Lease_Loan_Work_Repo  extends JpaRepository<Lease_Loan_Work_Ent
 	@Query(value = "DELETE from Loan_AccountMaster_Work where loan_accountno=?1 ", nativeQuery = true)
 	public void deleteRecord(String accountNo);
 	
-	@Query(value = "select loan_accountno from Loan_AccountMaster_Work where del_flg = 'N' AND entity_flg = 'Y' union all select loan_accountno from Loan_AccountMaster where del_flg = 'N' AND entity_flg = 'Y' order by LOAN_ACCOUNTNO", nativeQuery = true)
+	@Query(value = "select loan_accountno,customer_name from Loan_AccountMaster_Work where del_flg = 'N' AND entity_flg = 'Y' union all select loan_accountno,customer_name from Loan_AccountMaster where del_flg = 'N' AND entity_flg = 'Y' order by LOAN_ACCOUNTNO", nativeQuery = true)
 	List<String> getActNo();
 
 }
