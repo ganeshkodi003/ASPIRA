@@ -2427,7 +2427,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 			var principleAmount = document.getElementById("loan_sanctioned").value.replace(/,/g, '');
 			var santionedDate = document.getElementById("date_of_loan").value;
 			var interestRate = document.getElementById("effective_interest_rate").value.replace(/,/g, '');
-
+	console.log(installStartDate);
 			var installID = $("#inst_id").val();
 			var installStartDate = changeDateFormat(document.getElementById("inst_start_dt").value);
 			var pricipleFreq = document.getElementById("inst_freq").value;
@@ -3994,12 +3994,11 @@ function SmsFunction() {
 														style="color: red; font-size: 20px;"> *</span></label>
 												</div>
 												<div class="col-sm-2">
-													<input type="text"
-														th:value="${#dates.format(tran_date, 'dd-MM-yyyy')}"
-														onkeyup="this.value = this.value.toUpperCase();handleIn(this)"
+													<input type="date"
+													
 														class="form-control form-control-sm bg-white border border-dark"
 														maxlength="10" id="ca_acct_opendate"
-														name="ca_acct_opendate" autocomplete="off" readonly />
+														name="ca_acct_opendate" autocomplete="off"  />
 												</div>
 												<div class="col-sm-1"></div>
 												<div class="col-sm-2">

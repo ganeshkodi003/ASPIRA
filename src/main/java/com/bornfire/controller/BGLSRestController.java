@@ -4233,10 +4233,13 @@ public class BGLSRestController {
 			@RequestParam @DateTimeFormat(pattern = "dd-MM-yyyy") Date creation_Date,
 			@RequestParam @DateTimeFormat(pattern = "dd-MM-yyyy") Date start_date,
 			@RequestParam(defaultValue = "0") double Product_value, @RequestParam String principle_frequency,
-			@RequestParam(defaultValue = "0") int int_rate, @RequestParam(defaultValue = "0") int no_of_inst,
+			@RequestParam(defaultValue = "0") double int_rate, @RequestParam(defaultValue = "0") int no_of_inst,
 			@RequestParam(defaultValue = "0") double int_amt, @RequestParam String interestFrequency)
 			throws ParseException {
 
+		System.out.println(creation_Date);
+System.out.println(start_date);
+		System.out.println(int_rate + "intrest ratrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
 		LocalDate startDate = start_date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate endDate = startDate.plus(no_of_inst, ChronoUnit.MONTHS);
 		Date calculatedEndDate = Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant());

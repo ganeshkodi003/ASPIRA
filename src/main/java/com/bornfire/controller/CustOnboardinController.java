@@ -1387,6 +1387,7 @@ public class CustOnboardinController {
 
 			CustomerRequest CifId = bACP_CUS_PROFILE_REPO.findByref_no(ApprefNO);
 			String AccountNO = CifId.getLa_loan_accountno();
+			System.out.println(AccountNO);
 			md.addAttribute("loanDetails", lease_Loan_Work_Repo.getLeaseAccount(AccountNO));
 			md.addAttribute("paymentDetails", noticeDetailsPayment0Rep.getPaymentDetails(AccountNO));
 			String AccountNO1 = CifId.getTd_deposit_accountno();
