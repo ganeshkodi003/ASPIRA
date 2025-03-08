@@ -944,8 +944,8 @@ select {
 								<select name="acct_num" id="acct_num1"
 									onchange="getaccountName(this);" placeholder="select">
 									<option th:selected="${empty == ''}" value="">Select</option>
-									<option th:each="ref : ${booking}" th:value="${ref}"
-										th:text="${ref}"></option>
+									<option th:each="ref : ${booking}" th:value="${ref[0]}"
+										th:text="${ref[0]}"  th:attr="title=${ref[1]}" ></option>
 								</select>
 
 								<!--</select> <select class="d-none" name="acct_num" id="acct_num2"

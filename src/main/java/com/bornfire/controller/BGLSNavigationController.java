@@ -1824,7 +1824,7 @@ public class BGLSNavigationController {
 
 			for (CustomerRequest a : custid1) {
 				
-			    String[] values = {a.getCif_id(), a.getCa_cif_id_1()};
+			    String[] values = {a.getCif_id(), a.getCa_cif_id_1()  ,a.getCa_preferred_name(), a.getCa_full_name_1()};
 			    cif.add(values);
 			    System.out.println(Arrays.toString(values));
 			}

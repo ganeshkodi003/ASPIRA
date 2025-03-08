@@ -3521,14 +3521,14 @@ function changeDateFormat(dateString) {
 					<button type="button" class="btn btn-primary" data-dismiss="modal"
 						onclick="Back();">Close</button>
 					<!-- Show this button if ca_schemetype is 'TD' -->
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
+					<!-- <button type="button" class="btn btn-primary" data-dismiss="modal"
 						th:if="${customerRequest?.ca_schemetype == 'TD'}"
 						onclick="tranactionscreens(this);" data-tranid="">Accept
-						Deposit</button>
+						Deposit</button> -->
 
 					<!-- Show this button if ca_schemetype is 'LA' -->
 					<button type="button" class="btn btn-primary" data-dismiss="modal"
-						th:if="${customerRequest?.ca_schemetype == 'LA'}"
+					
 						onclick="tranactionscreens(this);"  >Loan
 						Disbursement</button>
 				</div>

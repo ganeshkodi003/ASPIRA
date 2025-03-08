@@ -4227,11 +4227,66 @@ public class BGLSRestController {
 		return tranRefRecords;
 	}
 
-	@GetMapping("/getInterestDetails")
-	public List<double[]> getPaymentSchedule(@RequestParam double principal, @RequestParam double annualInterestRate,
-			@RequestParam int months) {
 
-		return interestCalculationServices.calculateLoanPayments(principal, annualInterestRate, months);
+	@GetMapping("getInterestDetails")
+	public List<Principle_and_intrest_shedule_Entity> getInterestDetails(
+			@RequestParam @DateTimeFormat(pattern = "dd-MM-yyyy") Date creation_Date,
+			@RequestParam @DateTimeFormat(pattern = "dd-MM-yyyy") Date start_date,
+			@RequestParam(defaultValue = "0") double Product_value, @RequestParam String principle_frequency,
+			@RequestParam(defaultValue = "0") int int_rate, @RequestParam(defaultValue = "0") int no_of_inst,
+			@RequestParam(defaultValue = "0") double int_amt, @RequestParam String interestFrequency)
+			throws ParseException {
+
+		LocalDate startDate = start_date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate endDate = startDate.plus(no_of_inst, ChronoUnit.MONTHS);
+		Date calculatedEndDate = Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+		BigDecimal product = BigDecimal.valueOf(Product_value);
+		BigDecimal productAmt = BigDecimal.valueOf(Product_value);
+		BigDecimal intRate = BigDecimal.valueOf(int_rate);
+		BigDecimal instmentAmount = BigDecimal.valueOf(int_amt);
+
+		List<TestPrincipalCalculation> InterestAmount = interestCalculationServices.calculatePrincialPaymentNotice(
+				start_date, calculatedEndDate, product, productAmt, principle_frequency, intRate, no_of_inst,
+				instmentAmount, interestFrequency);
+
+		int toltalInstallment = InterestAmount.size();
+
+		List<Principle_and_intrest_shedule_Entity> principleEntity = new ArrayList<>();
+		int noOfInstallment = 1;
+
+		if (toltalInstallment > 0) {
+			for (TestPrincipalCalculation record : InterestAmount) {
+				Principle_and_intrest_shedule_Entity entity = new Principle_and_intrest_shedule_Entity();
+
+				entity.setLoan_amt(productAmt);
+				entity.setNo_of_instalment(BigDecimal.valueOf(noOfInstallment));
+				entity.setAccount_creation_date(creation_Date);
+				entity.setEffective_interest_rate(intRate);
+				entity.setTotal_installment(BigDecimal.valueOf(toltalInstallment));
+				entity.setFrom_date(record.getInstallmentFromDate());
+				entity.setInstallment_date(record.getInstallmentDate());
+				// entity.setInstallment_amt(record.getInterestAmount());
+				entity.setInterest_amt(record.getInterestAmount());
+				entity.setPrincipal_amt(record.getPrincipalAmount());
+				entity.setPrincipal_outstanding(record.getPrincipalAmountOutstanding());
+				entity.setInstallment_description(record.getInstallmentDescription());
+				entity.setCharges_amt(BigDecimal.ZERO);
+				if (record.getInstallmentDescription().equalsIgnoreCase("Regular Installment")) {
+					entity.setInstallment_amt(record.getInterestAmount().add(record.getPrincipalAmount()));
+				} else {
+					entity.setInstallment_amt(record.getInterestAmount());
+				}
+
+				noOfInstallment++;
+				principleEntity.add(entity);
+			}
+
+		} else {
+
+		}
+
+		return principleEntity;
 	}
 
 }

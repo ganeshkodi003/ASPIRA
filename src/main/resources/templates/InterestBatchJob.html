@@ -1402,7 +1402,7 @@
 								<select class="d-none" name="acct_num" id="acct_num1" onchange="callflowDetails()"
 									placeholder="select">
 									<option th:selected="${empty == ''}" value="">select</option>
-									<option th:each="ref : ${booking}" th:value="${ref}" th:text="${ref}"></option>
+									<option th:each="ref : ${booking}" th:value="${ref[0]}"  th:attr="title=${ref[1]}"  th:text="${ref[0]}"></option>
 
 								</select> <select class="d-none" name="acct_num" id="acct_num2"
 									onchange="callflowDetails()" placeholder="select">

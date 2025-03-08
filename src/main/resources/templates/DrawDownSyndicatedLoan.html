@@ -2056,11 +2056,11 @@ function rowadddcorporate() {
 													<th:block th:each="code : ${deposit}">
 														<!-- Only render option if code[0] is not null -->
 														<option th:if="${code[0] != null}" th:value="${code[0]}"
-															th:text="${code[0]}"></option>
+															th:text="${code[0]}"th:attr="title=${code[2]}"></option>
 
 														<!-- Only render option if code[1] is not null -->
 														<option th:if="${code[1] != null}" th:value="${code[1]}"
-															th:text="${code[1]}"></option>
+															th:text="${code[1]}" th:attr="title=${code[3]}"></option>
 													</th:block>
 
 
