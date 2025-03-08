@@ -26,7 +26,7 @@ public interface DMD_TABLE_REPO extends JpaRepository<DMD_TABLE, DMD_TABLE_IDcla
 	@Query(value = "SELECT * FROM DEMAND_TBL aa WHERE aa.loan_acct_no = ?1 AND aa.flow_frq <> 'DISBT'", nativeQuery = true)
 	List<DMD_TABLE> gettranpopvalues1(String acct_num);
 
-	@Query(value = "SELECT * FROM DEMAND_TBL aa WHERE  aa.flow_date BETWEEN ?1 AND ?2 AND aa.FLOW_CODE NOT IN ('DISBT', 'PRDEM') AND (aa.LOAN_ACCT_NO = ?3 OR ?3 IS NULL OR ?3 = '') ORDER BY aa.FLOW_DATE", nativeQuery = true)
+	@Query(value = "SELECT * FROM DEMAND_TBL aa WHERE  aa.flow_date BETWEEN ?1 AND ?2 AND aa.FLOW_CODE NOT IN ('DISBT', 'PRDEM') AND (aa.LOAN_ACCT_NO = ?3 ) ORDER BY aa.FLOW_DATE", nativeQuery = true)
 	List<DMD_TABLE> getloanflows(Date fromDate, Date todate, String accountNum);
 	
 	@Query(value = "SELECT * FROM DEMAND_TBL aa WHERE  aa.flow_date BETWEEN ?1 AND ?2 AND aa.FLOW_CODE NOT IN ('DISBT') AND (aa.LOAN_ACCT_NO = ?3 OR ?3 IS NULL OR ?3 = '') ORDER BY aa.FLOW_DATE", nativeQuery = true)

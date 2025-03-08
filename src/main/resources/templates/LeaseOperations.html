@@ -1,225 +1,231 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
-		th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
-	<link rel="stylesheet" type="text/css" href="/webjars/font-awesome/5.9.0/css/all.min.css"
-		th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
-	<link rel="stylesheet" type="text/css" href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
-		th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
-	<link rel="stylesheet" type="text/css" href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
-		th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
-	<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
-	<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
 
-	<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
-		th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-	<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
-		th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
-	<script src="/webjars/jquery/3.4.1/jquery.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
-	<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
-		th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
 
-	<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
-		th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
 
-	<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
-		th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
 
-	<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
-		th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
-	<script src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
-		th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
 
 
 
 
-	<style>
-		body {
-			font-size: 0.8rem;
-		}
+<style>
+body {
+	font-size: 0.8rem;
+}
 
-		.btn {
-			line-height: 0.5rem;
-		}
+.btn {
+	line-height: 0.5rem;
+}
 
-		.table-bordered td,
-		.table-bordered th {
-			font-size: smaller;
-		}
+.table-bordered td, .table-bordered th {
+	font-size: smaller;
+}
 
-		.container-manager {
-			width: 83.5%;
-			padding-right: 15px;
-			padding-left: 15px;
-			margin-right: auto;
-			margin-left: 17.3%;
-			margin-top: 80px;
-			margin-top: 80px;
-		}
+.container-manager {
+	width: 83.5%;
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: 17.3%;
+	margin-top: 80px;
+	margin-top: 80px;
+}
 
-		.table .thead-light th {
-			color: #495057;
-			background-color: #e9ecef;
-			border-color: #dee2e6;
-			width: 23px;
-		}
+.table .thead-light th {
+	color: #495057;
+	background-color: #e9ecef;
+	border-color: #dee2e6;
+	width: 23px;
+}
 
-		.scroll {
-			max-height: 60vh;
-			overflow-y: scroll;
-			overflow-x: hidden;
-		}
+.scroll {
+	max-height: 60vh;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
 
-		.tablinks {
-			background-color: #f1f1f1;
-			/* Default background color */
-			border: none;
-			color: black;
-			padding: 10px 20px;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-			font-size: 16px;
-			transition: background-color 0.3s;
-		}
+.tablinks {
+	background-color: #f1f1f1;
+	/* Default background color */
+	border: none;
+	color: black;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	transition: background-color 0.3s;
+}
 
-		.tablinks.active {
-			background-color: #2084a9;
-			color: white;
-		}
+.tablinks.active {
+	background-color: #2084a9;
+	color: white;
+}
 
-		.tab {
-			overflow: hidden;
-			border: 1px solid #ccc;
-			background-color: #f2f2f2;
-		}
+.tab {
+	overflow: hidden;
+	border: 1px solid #ccc;
+	background-color: #f2f2f2;
+}
 
-		.tab button {
-			background-color: inherit;
-			float: left;
-			border: none;
-			outline: none;
-			cursor: pointer;
-			padding: 14px 56px;
-			transition: 0.3s;
-			font-size: 17px;
-		}
+.tab button {
+	background-color: inherit;
+	float: left;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	padding: 14px 56px;
+	transition: 0.3s;
+	font-size: 17px;
+}
 
-		.tab button:hover {
-			background-color: #ddd;
-		}
+.tab button:hover {
+	background-color: #ddd;
+}
 
-		.tabcontent {
-			display: none;
-			padding: 0px;
-			border-top: 1px solid #ccc;
-		}
+.tabcontent {
+	display: none;
+	padding: 0px;
+	border-top: 1px solid #ccc;
+}
 
-		.active {
-			background-color: #2084a9;
-		}
+.active {
+	background-color: #2084a9;
+}
 
-		#myPieChart {
-			width: 100px;
-			height: 100px;
-		}
-	</style>
-	<style>
-		.modal {
-			display: none;
-			/* Hidden by default */
-			position: absolute;
-			/* Stay in place */
-			z-index: 1;
-			/* Location of the box */
-			left: 0;
-			top: 0;
-			width: 100%;
-			/* Full width */
-			height: 100%;
-			/* Full height */
-			overflow: auto;
-			/* Enable scroll if needed */
-			background-color: rgb(0, 0, 0);
-			/* Fallback color */
-			background-color: rgba(0, 0, 0, 0.4);
-			/* Black w/ opacity */
-		}
+#myPieChart {
+	width: 100px;
+	height: 100px;
+}
+</style>
+<style>
+.modal {
+	display: none;
+	/* Hidden by default */
+	position: absolute;
+	/* Stay in place */
+	z-index: 1;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
 
-		/* Modal Content */
-		.modal-content {
-			background-color: #fefefe;
-			margin: auto;
-			padding: 20px;
-			border: 1px solid #888;
-			width: 100%;
-			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-			-webkit-animation-name: animatetop;
-			-webkit-animation-duration: 0.4s;
-			animation-name: animatetop;
-			animation-duration: 0.4s
-		}
+/* Modal Content */
+.modal-content {
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 100%;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
+		rgba(0, 0, 0, 0.19);
+	-webkit-animation-name: animatetop;
+	-webkit-animation-duration: 0.4s;
+	animation-name: animatetop;
+	animation-duration: 0.4s
+}
 
-		.modal-pass {
-			background-color: #fefefe;
-			margin: 15% auto;
-			padding: 20px;
-			border: 1px solid #888;
-			width: 40%;
-			height: 25%;
-			margin-left: 400PX;
-			margin-right: auto;
-			border-radius: 10px;
-			box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
-			font-family: Arial, sans-serif;
-		}
+.modal-pass {
+	background-color: #fefefe;
+	margin: 15% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 40%;
+	height: 25%;
+	margin-left: 400PX;
+	margin-right: auto;
+	border-radius: 10px;
+	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+	font-family: Arial, sans-serif;
+}
 
-		.close {
-			color: red;
-			font-size: 28px;
-			font-weight: bold;
-		}
+.close {
+	color: red;
+	font-size: 28px;
+	font-weight: bold;
+}
 
-		.close:hover,
-		.close:focus {
-			color: black;
-			text-decoration: none;
-			cursor: pointer;
-		}
-	</style>
-	<style>
-		.password-info {
-			visibility: hidden;
-			width: 320px;
-			background-color: #333;
-			color: #fff;
-			text-align: left;
-			border-radius: 10px;
-			padding: 10px;
-			position: absolute;
-			z-index: 1;
-			top: calc(100% + 10px);
-			left: 50%;
-			transform: translateX(-50%);
-			opacity: 0;
-			transition: opacity 0.3s;
-		}
+.close:hover, .close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+</style>
+<style>
+.password-info {
+	visibility: hidden;
+	width: 320px;
+	background-color: #333;
+	color: #fff;
+	text-align: left;
+	border-radius: 10px;
+	padding: 10px;
+	position: absolute;
+	z-index: 1;
+	top: calc(100% + 10px);
+	left: 50%;
+	transform: translateX(-50%);
+	opacity: 0;
+	transition: opacity 0.3s;
+}
 
-		input:hover+.password-info {
-			visibility: visible;
-			opacity: 0.8;
-		}
+input:hover+.password-info {
+	visibility: visible;
+	opacity: 0.8;
+}
 
-		select {
-			width: 75% !important;
-		}
-	</style>
+select {
+	width: 75% !important;
+}
+</style>
 
-	<script>
+<script>
 
 		$(function () {
 			$("#fromdate").datepicker({
@@ -302,7 +308,7 @@
 			location.href = url;
 		}
 	</script>
-	<script>
+<script>
 
 		function callCollectionScreen(a) {
 			event.preventDefault();
@@ -327,9 +333,23 @@
 				},
 				success: function (data) {
 					console.log(data);
-					var acctName = data;
+					if (Array.isArray(data) && data.length > 0) {
+				        let firstRecord = data[0]; // Take the first record from the list
 
-					$('#acctName').val(acctName);
+				        var acctName = firstRecord.customer_name;
+				        var acctDisb = firstRecord.disbursement;
+
+				        console.log("Customer Name:", acctName);
+				        console.log("Disbursement Amount:", acctDisb);
+
+				        $('#acctName').val(acctName);
+				        $('#amount11').val(acctDisb);
+				    } else {
+				        console.error("No data received or empty list");
+				        alert("No account details found!");
+				    }
+					console.log(acctName);
+					console.log(acctDisb);
 
 					/*for loan position get*/
 					$.ajax({
@@ -401,15 +421,12 @@
 					$('#errorModal').modal('show');
 				}
 			});
-
-
-
 		}
 
 		function getaccountDetails(a) {
 			event.preventDefault();
 			var accountNum = document.getElementById('acct_num1').value;
-			var amount = document.getElementById('amount').value;
+			var amount = document.getElementById('amount11').value;
 			var operationType = '';
 
 			if ($('#cash').is(':checked')) {
@@ -828,7 +845,8 @@
 			<div class="col-sm-11 ml-5 mt-2">
 
 				<div th:if="${formmode}=='list'">
-					<div class="card-header " style="background-color: #e9ecef; HEIGHT: 50px; padding-left: 5px;">
+					<div class="card-header "
+						style="background-color: #e9ecef; HEIGHT: 50px; padding-left: 5px;">
 
 						<div class="float-left">
 							<h6 style="font-size: 1.2rem; color: black;" class="ml-4">LEASE
@@ -849,16 +867,16 @@
 									<!-- Transaction Type Options -->
 									<div class=" col-sm-5">
 										<div class="form-check">
-											<input class="form-check-input" type="radio" name="transactionOption"
-												id="disbursement"> <label class="form-check-label"
-												for="disbursement">Disbursement</label>
+											<input class="form-check-input" type="radio"
+												name="transactionOption" id="disbursement"> <label
+												class="form-check-label" for="disbursement">Disbursement</label>
 										</div>
 									</div>
 									<div class=" col-sm-6 ">
 										<div class="form-check">
-											<input class="form-check-input" type="radio" name="transactionOption"
-												id="collection"> <label class="form-check-label"
-												for="collection">Collection</label>
+											<input class="form-check-input" type="radio"
+												name="transactionOption" id="collection"> <label
+												class="form-check-label" for="collection">Collection</label>
 										</div>
 									</div>
 								</div>
@@ -870,14 +888,16 @@
 								<div class="row mt-1">
 									<div class="col-6 col-sm-6 col-md-3">
 										<div class="form-check">
-											<input class="form-check-input" type="radio" name="accountOption" id="cash">
-											<label class="form-check-label" for="cash">Cash</label>
+											<input class="form-check-input" type="radio"
+												name="accountOption" id="cash"> <label
+												class="form-check-label" for="cash">Cash</label>
 										</div>
 									</div>
 									<div class=" col-sm-6 ">
 										<div class="form-check">
-											<input class="form-check-input" type="radio" name="accountOption"
-												id="routing"> <label class="form-check-label" for="routing">Office
+											<input class="form-check-input" type="radio"
+												name="accountOption" id="routing"> <label
+												class="form-check-label" for="routing">Office
 												Routing Account</label>
 										</div>
 									</div>
@@ -890,15 +910,17 @@
 								<div class="row mt-1">
 									<div class="col-6 col-sm-6 col-md-3">
 										<div class="form-check">
-											<input class="form-check-input" type="radio" name="accountOption"
-												id="abstractionCash" onchange="getAbstractionrecords(this);"> <label
+											<input class="form-check-input" type="radio"
+												name="accountOption" id="abstractionCash"
+												onchange="getAbstractionrecords(this);"> <label
 												class="form-check-label" for="abstractionCash">Cash</label>
 										</div>
 									</div>
 									<div class=" col-sm-6 ">
 										<div class="form-check">
-											<input class="form-check-input" type="radio" name="accountOption"
-												id="abstractionRouting" onchange="getAbstractionrecords(this);"> <label
+											<input class="form-check-input" type="radio"
+												name="accountOption" id="abstractionRouting"
+												onchange="getAbstractionrecords(this);"> <label
 												class="form-check-label" for="abstractionRouting">Office
 												Routing Account</label>
 										</div>
@@ -919,10 +941,11 @@
 							<div class="col-sm-1">Account No</div>
 							<div class="col-sm-2">
 
-								<select name="acct_num" id="acct_num1" onchange="getaccountName(this);"
-									placeholder="select">
+								<select name="acct_num" id="acct_num1"
+									onchange="getaccountName(this);" placeholder="select">
 									<option th:selected="${empty == ''}" value="">Select</option>
-									<option th:each="ref : ${booking}" th:value="${ref}" th:text="${ref}"></option>
+									<option th:each="ref : ${booking}" th:value="${ref}"
+										th:text="${ref}"></option>
 								</select>
 
 								<!--</select> <select class="d-none" name="acct_num" id="acct_num2"
@@ -941,11 +964,12 @@
 
 							<div class="col-sm-1">Amount</div>
 							<div class="col-sm-2">
-								<input type="text" name="amount" id="amount" />
+								<input type="text" name="amount" id="amount11" readonly />
 
 							</div>
 							<div class="col-sm-2">
-								<button class="btn btn-primary P-2" onclick="getaccountDetails(this);">Enter</button>
+								<button class="btn btn-primary P-2"
+									onclick="getaccountDetails(this);">Enter</button>
 							</div>
 
 
@@ -997,7 +1021,8 @@
 
 
 
-					<div class="card-footer text-center" style="background-color: #e9ecef;">
+					<div class="card-footer text-center"
+						style="background-color: #e9ecef;">
 
 
 						<button class="btn btn-primary P-2" onclick="Home();">Home</button>
@@ -1022,11 +1047,12 @@
 	</div>
 
 	<div class="modal fade" id="alertERE">
-		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content" style="background-color: white;">
 				<div class="menu-title-header">
-					<div class="modal-title" id="exampleModalLabel" style="text-align: center; color: white;">ACCOUNT
-						DETAILS</div>
+					<div class="modal-title" id="exampleModalLabel"
+						style="text-align: center; color: white;">ACCOUNT DETAILS</div>
 				</div>
 				<div class="modal-body">
 					<table class="table table-bordered table-hover table-sm">
@@ -1041,9 +1067,9 @@
 							<tr th:each="accvals : ${solvalues}">
 								<td style="text-align: left;" th:text="${accvals[0]}"></td>
 								<td style="text-align: left;" th:text="${accvals[1]}"></td>
-								<td style="text-align: center;"><input type="radio" name="radioGroup"
-										th:data-value1="${accvals[0]}" th:data-value2="${accvals[1]}"
-										onclick="requestvalue(this);" />
+								<td style="text-align: center;"><input type="radio"
+									name="radioGroup" th:data-value1="${accvals[0]}"
+									th:data-value2="${accvals[1]}" onclick="requestvalue(this);" />
 								</td>
 
 							</tr>
@@ -1051,50 +1077,58 @@
 					</table>
 				</div>
 				<div class="card-footer text-center">
-					<button type="button" class="btn btn-primary p-2" id="selectedAccount" onclick="closemodal();"
-						style="color: white;">Close</button>
+					<button type="button" class="btn btn-primary p-2"
+						id="selectedAccount" onclick="closemodal();" style="color: white;">Close</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false" id="alertsvalNormal" tabindex="-1" role="dialog"
-		aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-			<div class="modal-content" style="width: 120%; height: 20%; margin-right: 480px;">
-			 
-				 
-					<!-- Body with Response -->
-					<div class="modal-body"
-						style="text-align: center; display: flex; justify-content: center; align-items: center; height: 100px; overflow-y: auto; font-weight: bold; font-size: 15px">
-					
-						<!-- Response will be displayed here -->
-						<div class="modal-body" style="text-align: center">
-					<h6 id="alertmsgNormal"></h6>
-					<button type="button" class="btn btn-primary mt-2" data-dismiss="modal"
-						onclick="refreshPage(this);">Close</button>
-				</div>
+	<div class="modal fade" data-backdrop="false" data-keyboard="false"
+		id="alertsvalNormal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content"
+				style="width: 120%; height: 20%; margin-right: 480px;">
+
+
+				<!-- Body with Response -->
+				<div class="modal-body"
+					style="text-align: center; display: flex; justify-content: center; align-items: center; height: 100px; overflow-y: auto; font-weight: bold; font-size: 15px">
+
+					<!-- Response will be displayed here -->
+					<div class="modal-body" style="text-align: center">
+						<h6 id="alertmsgNormal"></h6>
+						<button type="button" class="btn btn-primary mt-2"
+							data-dismiss="modal" onclick="transactionpage(this);">Go
+							To Transaction</button>
+						<button type="button" class="btn btn-primary mt-2"
+							data-dismiss="modal" onclick="refreshPage(this);">Close</button>
 					</div>
- 
-				 
+				</div>
+
 			</div>
 		</div>
 	</div>
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false" id="abstractModal" tabindex="-1" role="dialog"
-		aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-			<div class="modal-content" style="width: 170%; height: 80%; margin-right: 480px;">
+	<div class="modal fade" data-backdrop="false" data-keyboard="false"
+		id="abstractModal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content"
+				style="width: 170%; height: 80%; margin-right: 480px;">
 				<div class="card">
 					<!-- Header with Alert Message -->
-					<div class="modal-header" style="justify-content: center; width: 100%;">
+					<div class="modal-header"
+						style="justify-content: center; width: 100%;">
 						<h5 class="modal-title" id="popupAlert" style="font-size: 13px">ABSTRACT
 						</h5>
 						<!-- Alert message will appear here -->
 					</div>
 
 					<!-- Body with Response -->
-					<div class="modal-body" style="height: 500px; overflow-y: auto; font-size: 14px">
+					<div class="modal-body"
+						style="height: 500px; overflow-y: auto; font-size: 14px">
 						<div class="mt-1" id="transactionAbstractionDiv">
 
 							<div class="row formline mt-2" style="padding-left: 10px;">
@@ -1103,8 +1137,8 @@
 
 								<div class="col-sm-2">User Id</div>
 								<div class="col-sm-2">
-									<input type="text" name="userId" id="userId" th:value="${session.USERID}"
-										readonly />
+									<input type="text" name="userId" id="userId"
+										th:value="${session.USERID}" readonly />
 
 
 								</div>
@@ -1113,8 +1147,8 @@
 
 								<div class="col-sm-3">User Name</div>
 								<div class="col-sm-1">
-									<input type="text" name="acctName" id="acctName" th:value="${session.USERNAME}"
-										readonly />
+									<input type="text" name="acctName" id="acctName"
+										th:value="${session.USERNAME}" readonly />
 								</div>
 
 
@@ -1156,8 +1190,9 @@
 
 								<div class="col-sm-3">Opening Balance</div>
 								<div class="col-sm-1">
-									<input type="text" name="openingBal" id="openingBal" style="text-align: right;"
-										value="0.00" onchange="updateCreditTotal();formatfornumbers(this)" />
+									<input type="text" name="openingBal" id="openingBal"
+										style="text-align: right;" value="0.00"
+										onchange="updateCreditTotal();formatfornumbers(this)" />
 								</div>
 
 
@@ -1170,8 +1205,8 @@
 								<div class="col-sm-2"></div>
 								<div class="col-sm-3">Deposit</div>
 								<div class="col-sm-1">
-									<input type="text" name="creditTotal" id="creditTotal" style="text-align: right;"
-										readonly />
+									<input type="text" name="creditTotal" id="creditTotal"
+										style="text-align: right;" readonly />
 								</div>
 
 
@@ -1185,8 +1220,8 @@
 
 								<div class="col-sm-3">Withdrawl</div>
 								<div class="col-sm-1">
-									<input type="text" name="debitTotal" id="debitTotal" style="text-align: right;"
-										readonly />
+									<input type="text" name="debitTotal" id="debitTotal"
+										style="text-align: right;" readonly />
 
 
 								</div>
@@ -1208,8 +1243,8 @@
 
 								<div class="col-sm-3">Closing Balance</div>
 								<div class="col-sm-1">
-									<input type="text" name="closingBal" id="closingBal" style="text-align: right;"
-										readonly />
+									<input type="text" name="closingBal" id="closingBal"
+										style="text-align: right;" readonly />
 								</div>
 
 
@@ -1219,7 +1254,8 @@
 					</div>
 
 					<!-- Footer with Close Button -->
-					<div class="modal-footer" style="justify-content: center; width: 100%;">
+					<div class="modal-footer"
+						style="justify-content: center; width: 100%;">
 						<button type="button" class="btn btn-primary" data-dismiss="modal"
 							onclick="$('#abstractModal').modal('close');">Close</button>
 					</div>

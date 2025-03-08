@@ -21,6 +21,8 @@ public interface Lease_Loan_Master_Repo extends JpaRepository<Lease_Loan_Master_
 	@Query(value = "select customer_name from Loan_AccountMaster where loan_accountno= ?1", nativeQuery = true)
 	String accountName(String acid);
 	
+	@Query(value = "select * from Loan_AccountMaster where loan_accountno= ?1", nativeQuery = true)
+	List<Lease_Loan_Master_Entity> accountNames(String acid);
 
 	@Query(value = "select a.customer_id, a.loan_accountno,a.customer_name,a.date_of_loan,a.loan_sanctioned ,b.ACCT_BAL  from Loan_AccountMaster a , BGLS_CHART_OF_ACCOUNTS b where \r\n" + 
 			" b.ACCT_NUM =a.Loan_AccountNo order by a.loan_accountno", nativeQuery = true)
