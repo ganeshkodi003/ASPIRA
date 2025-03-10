@@ -29,14 +29,20 @@ public interface DMD_TABLE_REPO extends JpaRepository<DMD_TABLE, DMD_TABLE_IDcla
 	@Query(value = "SELECT * FROM DEMAND_TBL aa WHERE  aa.flow_date BETWEEN ?1 AND ?2 AND aa.FLOW_CODE NOT IN ('DISBT', 'PRDEM') AND (aa.LOAN_ACCT_NO = ?3 ) ORDER BY aa.FLOW_DATE", nativeQuery = true)
 	List<DMD_TABLE> getloanflows(Date fromDate, Date todate, String accountNum);
 	
-	@Query(value = "SELECT * FROM DEMAND_TBL aa WHERE  aa.flow_date BETWEEN ?1 AND ?2 AND aa.FLOW_CODE NOT IN ('DISBT') AND (aa.LOAN_ACCT_NO = ?3 OR ?3 IS NULL OR ?3 = '') ORDER BY aa.FLOW_DATE", nativeQuery = true)
+	@Query(value = "SELECT * FROM DEMAND_TBL aa WHERE  aa.flow_date BETWEEN ?1 AND ?2 AND aa.FLOW_CODE NOT IN ('DISBT') AND aa.FLOW_CODE NOT IN ('INDEM') AND (aa.LOAN_ACCT_NO = ?3 OR ?3 IS NULL OR ?3 = '') ORDER BY aa.FLOW_DATE", nativeQuery = true)
 	List<DMD_TABLE> getloanflows1(Date fromDate, Date todate, String accountNum);
 
 	@Query(value = "select * from DEMAND_TBL where loan_acct_no = ?1 and flow_code=?2 and flow_id=?3", nativeQuery = true)
 	DMD_TABLE getDemandData(String acct_num, String flowCode, String flowid);
 	
+	@Query(value = "SELECT * FROM DEMAND_TBL WHERE loan_acct_no = ?1 AND FLOW_CODE = 'INDEM' AND flow_id = ?2 AND FLOW_DATE = ?3", nativeQuery = true)
+	DMD_TABLE getDemandDataval(String acct_num, String flowid, Date flow_date);
+	
 	@Query(value = "SELECT * FROM DEMAND_TBL WHERE loan_acct_no =?1 AND FLOW_DATE =?2", nativeQuery = true)
 	DMD_TABLE getflowcode(String acid, Date flow_date);
+	
+	@Query(value = "SELECT * FROM DEMAND_TBL WHERE loan_acct_no =?1", nativeQuery = true)
+	DMD_TABLE getflowcodedatas(String acid);
 	
 	@Query(value = "SELECT TOP 1 *\r\n"
 			+ "FROM DEMAND_TBL\r\n"
