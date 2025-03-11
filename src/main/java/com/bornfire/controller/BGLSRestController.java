@@ -2921,16 +2921,33 @@ public class BGLSRestController {
 			LocalDate endDate1 = convertToLocalDate(bookingDate);/* 30-03-2024 */
 			long daysBetween1 = ChronoUnit.DAYS.between(startDate1, endDate1);/* 15 days */
 
-			BigDecimal flowAmount = new BigDecimal(flow_amount);
+			// Example input value
+			BigDecimal flowAmount = new BigDecimal(flow_amount); // Replace with actual flow_amount
 
+			// Apply conditional rounding (2.49 → 2, 2.50 → 3)
+			BigDecimal roundedFlowAmount = flowAmount.setScale(0, RoundingMode.HALF_UP);
+
+			// Output results
+			System.out.println("Flow Amount (Original): " + flowAmount);
+			System.out.println("Flow Amount (Rounded): " + roundedFlowAmount);
 			BigDecimal daysInMonthDecimal = new BigDecimal(daysBetween);
 			BigDecimal singledayamount = flowAmount.divide(daysInMonthDecimal, 2,
 					RoundingMode.HALF_UP);/* 6000/30=200 */
 
 			BigDecimal betweendaysDecimal = new BigDecimal(daysBetween1);
-			BigDecimal finalamount = singledayamount.multiply(betweendaysDecimal);/* 200*15=3000 */
+			// Multiply the values (Exact value, no rounding yet)
+			BigDecimal finalamount = singledayamount.multiply(betweendaysDecimal);
 
-			BigDecimal creditAmount = flowAmount.subtract(finalamount);/* 6000-3000=3000 */
+			// Apply conditional rounding for further calculations (2.49 → 2, 2.50 → 3)
+			BigDecimal roundedFinalAmount = finalamount.setScale(0, RoundingMode.HALF_UP);
+
+			// Subtract using the rounded amount
+			BigDecimal creditAmount = flowAmount.subtract(roundedFinalAmount).setScale(0, RoundingMode.HALF_UP);
+
+			// Output results
+			System.out.println("Final Amount (Exact): " + finalamount); // No rounding applied
+			System.out.println("Final Amount (Rounded for Calculation): " + roundedFinalAmount);
+			System.out.println("Credit Amount (Rounded): " + creditAmount);
 			/* TRM table entry set here */
 
 			Lease_Loan_Work_Entity loandetails = lease_Loan_Work_Repo.getLeaseAccount(account_no);
@@ -2945,7 +2962,7 @@ public class BGLSRestController {
 			debitTrm.setTran_type("TRANSFER");
 			debitTrm.setPart_tran_type("Debit");
 			debitTrm.setAcct_crncy(loandetails.getLoan_currency());
-			debitTrm.setTran_amt(flowAmount);
+			debitTrm.setTran_amt(roundedFlowAmount);
 			debitTrm.setTran_particular(loandetails.getLoan_accountno() + " " + tranParticulars);
 			debitTrm.setTran_remarks(loandetails.getLoan_accountno() + " " + tranParticulars);
 			debitTrm.setTran_date(flow_date);
@@ -3014,20 +3031,42 @@ public class BGLSRestController {
 			creditTrm1.setDel_flg("N");
 			tRAN_MAIN_TRM_WRK_REP.save(creditTrm1);
 
-			/* update demand table interest tran details */
+			/* Update demand table interest tran details */
 			DMD_TABLE demandRecords = dMD_TABLE_REPO.getDemandData(account_no, flow_code, flow_id);
 
-			demandRecords.setTran_date(flow_date);
-			demandRecords.setTran_id(tranId);
-			demandRecords.setPart_tran_id(partTranId1);
-			demandRecords.setPart_tran_type("Debit");
-			demandRecords.setTran_crncy(loandetails.getLoan_currency());
-			demandRecords.setTran_amt(new BigDecimal(flow_amount));
-			demandRecords.setModify_time(flow_date);
-			demandRecords.setModify_flg("Y");
-			demandRecords.setModify_user(user);
+			if (demandRecords != null) {
+			    demandRecords.setTran_date(flow_date);
+			    demandRecords.setTran_id(tranId);
+			    demandRecords.setPart_tran_id(partTranId1);
+			    demandRecords.setPart_tran_type("Debit");
+			    demandRecords.setTran_crncy(loandetails.getLoan_currency());
+			    demandRecords.setTran_amt(new BigDecimal(flow_amount));
+			    demandRecords.setModify_time(flow_date);
+			    demandRecords.setModify_flg("Y");
+			    demandRecords.setModify_user(user);
 
-			dMD_TABLE_REPO.save(demandRecords);
+			    dMD_TABLE_REPO.save(demandRecords);  // Save the first update
+			    System.out.println("✅ Demand record updated successfully!");
+			} else {
+			    System.out.println("❌ No demand record found for flow_code: " + flow_code);
+			}
+
+			// Update second record for flow_code1 = "PRDEM"
+			String flow_code1 = "PRDEM";
+			DMD_TABLE demandRecords1 = dMD_TABLE_REPO.getDemandData(account_no, flow_code1, flow_id);
+
+			if (demandRecords1 != null) {
+			    String flow_codeval = demandRecords1.getFlow_code();
+			    System.out.println("THE GETTING FLOW CODE VALUE IS HERE: " + flow_codeval);
+
+			    demandRecords1.setModify_flg("Y");
+			    demandRecords1.setModify_user(user);
+
+			    dMD_TABLE_REPO.save(demandRecords1);  // Save the second update
+			    System.out.println("✅ Demand record (PRDEM) updated successfully!");
+			} else {
+			    System.out.println("❌ No demand record found for flow_code: PRDEM");
+			}
 
 		} else if (flow_code.equals("BCDEM - FEES")) {
 			System.out.println("The fees transaction will be worked " + flow_code);
@@ -3087,20 +3126,42 @@ public class BGLSRestController {
 			creditTrm.setDel_flg("N");
 			tRAN_MAIN_TRM_WRK_REP.save(creditTrm);
 
-			/*
-			 * update demand table interest tran details DMD_TABLE demandRecords =
-			 * dMD_TABLE_REPO.getDemandData(account_no, flow_code, flow_id);
-			 * System.out.println("THE GTTING FLOW DATE IS HERE " + flow_date);
-			 * demandRecords.setTran_date(flow_date); demandRecords.setTran_id(tranId);
-			 * demandRecords.setPart_tran_id(partTranId1);
-			 * demandRecords.setPart_tran_type("Debit");
-			 * demandRecords.setTran_crncy(loandetails.getLoan_currency());
-			 * demandRecords.setTran_amt(new BigDecimal(flow_amount));
-			 * demandRecords.setModify_time(flow_date); demandRecords.setModify_flg("Y");
-			 * demandRecords.setModify_user(user);
-			 * 
-			 * dMD_TABLE_REPO.save(demandRecords);
-			 */
+			try {
+				DMD_TABLE demandRecords = new DMD_TABLE();
+
+				// Assign values
+				BigDecimal srlNo = new BigDecimal(String.valueOf(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID()));
+				BigDecimal flowAmt = (flow_amount != null) ? new BigDecimal(String.valueOf(flow_amount))
+						: BigDecimal.ZERO;
+
+				demandRecords.setSrl_no(srlNo);
+				demandRecords.setLoan_acid(account_no);
+				demandRecords.setLoan_acct_no(account_no);
+				demandRecords.setAcct_name(accountName);
+				demandRecords.setFlow_id(partTranId1);
+				demandRecords.setFlow_date(flow_date);
+				demandRecords.setFlow_code(flow_code);
+				demandRecords.setFlow_amt(flowAmt);
+				demandRecords.setFlow_crncy_code(leasydebit.getAcct_crncy());
+				demandRecords.setAdj_dt(flow_date);
+				demandRecords.setAdj_amt(flowAmt);
+				demandRecords.setTran_amt(flowAmt);
+				demandRecords.setTran_date(flow_date);
+				demandRecords.setTran_id(tranId);
+				demandRecords.setPart_tran_type("Credit");
+				demandRecords.setPart_tran_id(partTranId1);
+				demandRecords.setModify_time(flow_date);
+				demandRecords.setDel_flg("N");
+				demandRecords.setModify_flg("Y");
+				demandRecords.setModify_user(user);
+				
+				dMD_TABLE_REPO.save(demandRecords);
+				System.out.println("✅ Record successfully added to the database!");
+
+			} catch (Exception e) {
+				System.err.println("❌ Error while saving demand record: " + e.getMessage());
+				e.printStackTrace();
+			}
 		} else {
 
 			System.out.println("Deposit Account Interest");
@@ -3268,12 +3329,13 @@ public class BGLSRestController {
 		BigDecimal partTranId1 = BigDecimal.valueOf(1);
 		BigDecimal partTranId2 = BigDecimal.valueOf(2);
 		BigDecimal partTranId3 = BigDecimal.valueOf(3);
+		BigDecimal partTranId4 = BigDecimal.valueOf(4);
 
 		if (operation.equals("CollectionCash")) {
 
 			System.out.println("Cash Collection Part");
 
-			if (flow_code.equals("PRDEM") || flow_code.equals("INDEM")) {
+			if (flow_code.equals("PRDEM") || flow_code.equals("INDEM") || flow_code.equals("BCDEM - FEES")) {
 
 				String tranParticulars = null;
 
@@ -3347,6 +3409,14 @@ public class BGLSRestController {
 
 				demandRecords.setAdj_dt(flow_date);
 				demandRecords.setAdj_amt(new BigDecimal(flow_amount));
+				demandRecords.setTran_amt(new BigDecimal(flow_amount));
+				demandRecords.setTran_date(flow_date);
+				demandRecords.setTran_id(tranId);
+				demandRecords.setPart_tran_type("Credit");
+				demandRecords.setPart_tran_id(partTranId1);
+				demandRecords.setModify_time(flow_date);
+				demandRecords.setModify_flg("Y");
+				demandRecords.setModify_user(user);
 
 				dMD_TABLE_REPO.save(demandRecords);
 
@@ -3428,24 +3498,9 @@ public class BGLSRestController {
 
 			System.out.println("Routing A/C Collection Part");
 
-			if (flow_code.equals("PRDEM") || flow_code.equals("INDEM")) {
+			if (flow_code.equals("PRDEM") || flow_code.equals("INDEM") || flow_code.equals("BCDEM - FEES")) {
 
 				String tranParticulars = null;
-
-				if (flow_code.equals("PRDEM")) {
-					tranParticulars = "Principle Installment Recovered";
-
-				} else {
-					tranParticulars = "Interest Installment Recovered";
-
-				}
-
-				DMD_TABLE demandRecordsval = dMD_TABLE_REPO.getDemandDataval(account_no, flow_id, flow_date);
-
-				String flow_code1 = demandRecordsval.getFlow_code();
-				BigDecimal flow_amountval = demandRecordsval.getFlow_amt();
-
-				System.out.println("THE GETTING FLOW CODE IS HERE " + flow_code1);
 
 				System.out.println("Loan Account Interest");
 
@@ -3454,6 +3509,17 @@ public class BGLSRestController {
 				/* TRM table entry set here */
 
 				/* First Transaction - customer loan account credit */
+				DMD_TABLE demandRecordsvaldatas = dMD_TABLE_REPO.getDemandDatavalueses(account_no, flow_id, flow_date);
+				
+				tranParticulars = "Principle Installment Recovered";
+				
+				String flow_codeval = demandRecordsvaldatas.getFlow_code();
+				BigDecimal flow_amountvalues = demandRecordsvaldatas.getFlow_amt();
+				System.out.println("SECOND TRANSACTION FLOW_AMOUNT "+flow_amountvalues);
+				System.out.println("SECOND TRANSACTION FLOW_CODE "+flow_codeval);
+				
+				System.out.println("FIRST TRANSACTION FLOW_AMOUNT "+flow_amount);
+				System.out.println("FIRST TRANSACTION FLOW_CODE "+flow_code);
 				TRAN_MAIN_TRM_WRK_ENTITY creditTrm = new TRAN_MAIN_TRM_WRK_ENTITY();
 				creditTrm.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
 				creditTrm.setTran_id(tranId);
@@ -3463,12 +3529,12 @@ public class BGLSRestController {
 				creditTrm.setTran_type("TRANSFER");
 				creditTrm.setPart_tran_type("Credit");
 				creditTrm.setAcct_crncy(loandetails.getLoan_currency());
-				creditTrm.setTran_amt(new BigDecimal(flow_amount));
+				creditTrm.setTran_amt(flow_amountvalues);
 				creditTrm.setTran_particular(loandetails.getLoan_accountno() + " " + tranParticulars);
 				creditTrm.setTran_remarks(loandetails.getLoan_accountno() + " " + tranParticulars);
 				creditTrm.setTran_date(flow_date);
 				creditTrm.setValue_date(flow_date);
-				creditTrm.setFlow_code(flow_code);
+				creditTrm.setFlow_code(flow_codeval);
 				creditTrm.setFlow_date(flow_date);
 				creditTrm.setTran_status("ENTERED");
 				creditTrm.setEntry_user(user);
@@ -3476,9 +3542,18 @@ public class BGLSRestController {
 				creditTrm.setDel_flg("N");
 				tRAN_MAIN_TRM_WRK_REP.save(creditTrm);
 
+				/* SECOND Transaction - customer loan account credit */
+				
+				DMD_TABLE demandRecordsval = dMD_TABLE_REPO.getDemandDataval(account_no, flow_id, flow_date);
+
+				String flow_code1 = demandRecordsval.getFlow_code();
+				BigDecimal flow_amountval = demandRecordsval.getFlow_amt();
+				System.out.println("SECOND TRANSACTION FLOW_AMOUNT "+flow_amountval);
+				System.out.println("SECOND TRANSACTION FLOW_CODE "+flow_code1);
+				
 				String tranParticularsvalue = "Interest Installment Recovered";
 
-				/* SECOND Transaction - customer loan account credit */
+				
 				TRAN_MAIN_TRM_WRK_ENTITY creditTrm1 = new TRAN_MAIN_TRM_WRK_ENTITY();
 				creditTrm1.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
 				creditTrm1.setTran_id(tranId);
@@ -3500,6 +3575,42 @@ public class BGLSRestController {
 				creditTrm1.setEntry_time(flow_date);
 				creditTrm1.setDel_flg("N");
 				tRAN_MAIN_TRM_WRK_REP.save(creditTrm1);
+				
+				/* THIRD Transaction - customer loan account credit */
+				
+				DMD_TABLE demandRecordsval2 = dMD_TABLE_REPO.getDemandDatavalues(account_no, flow_id, flow_date);
+				String flow_code11 = demandRecordsval2.getFlow_code();
+				BigDecimal flow_amountval1 = demandRecordsval2.getFlow_amt();
+				System.out.println("THIRD TRANSACTION FLOW_AMOUNT "+flow_amountval1);
+				System.out.println("THIRD TRANSACTION FLOW_CODE "+flow_code11);
+				
+				String tranParticularsvalue2 = "Service Charges Recovered";
+				
+				TRAN_MAIN_TRM_WRK_ENTITY creditTrm2 = new TRAN_MAIN_TRM_WRK_ENTITY();
+				creditTrm2.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
+				creditTrm2.setTran_id(tranId);
+				creditTrm2.setPart_tran_id(partTranId3);
+				creditTrm2.setAcct_num(loandetails.getLoan_accountno());
+				creditTrm2.setAcct_name(loandetails.getCustomer_name());
+				creditTrm2.setTran_type("TRANSFER");
+				creditTrm2.setPart_tran_type("Credit");
+				creditTrm2.setAcct_crncy(loandetails.getLoan_currency());
+				creditTrm2.setTran_amt(flow_amountval1);
+				creditTrm2.setTran_particular(loandetails.getLoan_accountno() + " " + tranParticularsvalue2);
+				creditTrm2.setTran_remarks(loandetails.getLoan_accountno() + " " + tranParticularsvalue2);
+				creditTrm2.setTran_date(flow_date);
+				creditTrm2.setValue_date(flow_date);
+				creditTrm2.setFlow_code(flow_code11);
+				creditTrm2.setFlow_date(flow_date);
+				creditTrm2.setTran_status("ENTERED");
+				creditTrm2.setEntry_user(user);
+				creditTrm2.setEntry_time(flow_date);
+				creditTrm2.setDel_flg("N");
+				tRAN_MAIN_TRM_WRK_REP.save(creditTrm2);
+
+				System.out.println("THE GETTING FLOW CODE IS HERE " + flow_code11);
+				System.out.println("THE GETTING FLOW AMOUNT IS HERE " + flow_amountval1);
+				
 
 				/* Second Transaction - office Loan Account Debit */
 				/* this account already existed in COA */
@@ -3508,16 +3619,29 @@ public class BGLSRestController {
 
 				TRAN_MAIN_TRM_WRK_ENTITY debitTrm = new TRAN_MAIN_TRM_WRK_ENTITY();
 
-				// Convert flow_amount to BigDecimal if it's not null or empty
-				BigDecimal amount1 = (flow_amount != null && !flow_amount.isEmpty()) ? new BigDecimal(flow_amount)
-						: null;
+				// Get flow_amountvalues from demandRecordsvaldatas (assuming it's already a BigDecimal)
+				BigDecimal amount1 = (flow_amountvalues != null) ? flow_amountvalues : null;
 
-				// Perform addition only if amount1 is not null
-				BigDecimal tran_amt = (amount1 != null) ? amount1.add(flow_amountval) : flow_amountval;
+				// Ensure flow_amountval and flow_amountval1 are not null before addition
+				BigDecimal amount2 = (flow_amountval != null) ? flow_amountval : null;
+				BigDecimal amount3 = (flow_amountval1 != null) ? flow_amountval1 : null;
+
+				// Perform addition only if values are not null
+				BigDecimal tran_amt = BigDecimal.ZERO;
+				if (amount1 != null) tran_amt = tran_amt.add(amount1);
+				if (amount2 != null) tran_amt = tran_amt.add(amount2);
+				if (amount3 != null) tran_amt = tran_amt.add(amount3);
+
+				// Print for debugging
+				System.out.println("flow_amountvalues (amount1): " + amount1);
+				System.out.println("flow_amountval (amount2): " + amount2);
+				System.out.println("flow_amountval1 (amount3): " + amount3);
+				System.out.println("Total tran_amt: " + tran_amt);
+
 
 				debitTrm.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
 				debitTrm.setTran_id(tranId);
-				debitTrm.setPart_tran_id(partTranId3);
+				debitTrm.setPart_tran_id(partTranId4);
 				debitTrm.setAcct_num(leasydebit.getAcct_num());
 				debitTrm.setAcct_name(leasydebit.getAcct_name());
 				debitTrm.setTran_type("TRANSFER");
@@ -3541,6 +3665,14 @@ public class BGLSRestController {
 
 				demandRecords.setAdj_dt(flow_date);
 				demandRecords.setAdj_amt(new BigDecimal(flow_amount));
+				demandRecords.setTran_amt(new BigDecimal(flow_amount));
+				demandRecords.setTran_date(flow_date);
+				demandRecords.setTran_id(tranId);
+				demandRecords.setPart_tran_type("Credit");
+				demandRecords.setPart_tran_id(partTranId1);
+				demandRecords.setModify_time(flow_date);
+				demandRecords.setModify_flg("Y");
+				demandRecords.setModify_user(user);
 
 				dMD_TABLE_REPO.save(demandRecords);
 
