@@ -1880,51 +1880,55 @@ function rowadddcorporate() {
 
 			<div class="col-sm-11 ml-5" style="font-size: 0.8rem;">
 				<div th:if="${formmode}=='list'">
-				<div class="card">
-					<div class="card-header" style="background-color: #e9ecef; height: 50px">
-						<div class="float-left">
-							<h6 style="font-size: 1.2rem;">ASPIRA LOAN - LIST</h6>
-						</div>
-						<!--<div class="btn-group nav-buttons float-right">
+					<div class="card">
+						<div class="card-header"
+							style="background-color: #e9ecef; height: 50px">
+							<div class="float-left">
+								<h6 style="font-size: 1.2rem;">ASPIRA LOAN - LIST</h6>
+							</div>
+							<!--<div class="btn-group nav-buttons float-right">
 							<button type="button" class="btn btn-primary p-2" id="btnAdd"
 								onclick="addscreen();">ADD</button>
 						</div>-->
-					</div>
-					<div class="card-body" style="overflow-y: auto; border: 1px solid #ddd;">
-						<div class="table-responsive" id="cardBody">
-							<table class="table  table-bordered  table-hover table-sm"
-								style="margin-bottom: 0px; font-size: initial;" id="usertable">
-								<thead class="thead-light"
-									style="position: sticky; top: 0;background-color: #f8f9fa; z-index: 1;">
-									<tr class="filters">
-										<th style="width: 8%;">S.NO</th>
-										<th style="width: 10%;">LOAN ID</th>
-										<th>LOAN NAME</th>
-										<th>RETAILER NAME</th>
-										<th>RETAILER BRANCH ID</th>
-										<th style="width: 10%;">STATUS</th>
-									</tr>
-								</thead>
-								<tbody >
-								<tr th:each="list, iterator : ${list}" class="userlist">
-									<td style="font-size: 14px" th:text="${iterator.index +1}"></td>
-									<td style="font-size: 14px" class="text-primary" th:attr="data-id=${list?.id}, data-account_holderkey=${list?.account_holderkey}" th:text="${list?.id}"
-										onclick="ClickId(this);"></td>
-									<td style="font-size: 14px" th:text="${list?.loan_name}"></td>
-									<td style="font-size: 14px" th:text="${list?.retailer_name}">TEST</td>
-									<td style="font-size: 14px" th:text="${list?.retailer_branch}">TEST</td>
-									<td style="font-size: 14px" th:text="${list?.account_state}">TEST</td>
-								</tr>
-								</tbody>
-							</table>
+						</div>
+						<div class="card-body"
+							style="overflow-y: auto; border: 1px solid #ddd;">
+							<div class="table-responsive" id="cardBody">
+								<table class="table  table-bordered  table-hover table-sm"
+									style="margin-bottom: 0px; font-size: initial;" id="usertable">
+									<thead class="thead-light"
+										style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 1;">
+										<tr class="filters">
+											<th style="width: 8%;">S.NO</th>
+											<th style="width: 10%;">LOAN ID</th>
+											<th>LOAN NAME</th>
+											<th>RETAILER NAME</th>
+											<th>RETAILER BRANCH ID</th>
+											<th style="width: 10%;">STATUS</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="list, iterator : ${list}" class="userlist">
+											<td style="font-size: 14px" th:text="${iterator.index +1}"></td>
+											<td style="font-size: 14px" class="text-primary"
+												th:attr="data-id=${list?.id}, data-account_holderkey=${list?.account_holderkey}"
+												th:text="${list?.id}" onclick="ClickId(this);"></td>
+											<td style="font-size: 14px" th:text="${list?.loan_name}"></td>
+											<td style="font-size: 14px" th:text="${list?.retailer_name}">TEST</td>
+											<td style="font-size: 14px"
+												th:text="${list?.retailer_branch}">TEST</td>
+											<td style="font-size: 14px" th:text="${list?.account_state}">TEST</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="card-footer text-center">
+							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
+							<button class="btn btn-primary p-2" onclick="back()">Back</button>
 						</div>
 					</div>
-					<div class="card-footer text-center">
-						<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-						<button class="btn btn-primary p-2" onclick="back()">Back</button>
-					</div>
 				</div>
-			</div>
 
 				<div th:if="${formmode}=='viewloan'" class="mt-3">
 
@@ -1934,7 +1938,10 @@ function rowadddcorporate() {
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem;" class="ml-3">ACCOUNT PROFILE</h6>
 							</div>
+							<div class="btn-group nav-buttons float-right">
+								<button class="btn btn-primary p-2" onclick="Uploadloan();">Upload</button>
 
+							</div>
 						</div>
 						<div class="card-body">
 							<form action="#" th:object="${drawDownDetails}" method="post"
@@ -1951,23 +1958,25 @@ function rowadddcorporate() {
 											<label>Customer Id</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${loan[0][0]}" name="customer_id" id="customer_id" readonly />
+											<input type="text" th:value="${loan[0][0]}"
+												name="customer_id" id="customer_id" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Customer Name</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${loan[0][1]}" name="employer_name" id="employer_name"
-												readonly />
+											<input type="text" th:value="${loan[0][1]}"
+												name="employer_name" id="employer_name" readonly />
 										</div>
 
 										<div class="col-sm-2">
 											<label>Account Type</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="account_holdertype" id="account_holdertype" th:value="${view?.account_holdertype}"
-												readonly />
-																						</div>
+											<input type="text" name="account_holdertype"
+												id="account_holdertype"
+												th:value="${view?.account_holdertype}" readonly />
+										</div>
 									</div>
 									<div class="row formline  ml-2 mt-1">
 
@@ -1975,20 +1984,23 @@ function rowadddcorporate() {
 											<label>Account Name</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${view?.loan_name}" name="loan_name" id="loan_name" readonly />
+											<input type="text" th:value="${view?.loan_name}"
+												name="loan_name" id="loan_name" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Account No</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${view?.id}" name="id" id="id" readonly />
+											<input type="text" th:value="${view?.id}" name="id" id="id"
+												readonly />
 										</div>
 
 										<div class="col-sm-2">
 											<label>Loan Name</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${view?.loan_name}" name="loan_name" id="loan_name" readonly />
+											<input type="text" th:value="${view?.loan_name}"
+												name="loan_name" id="loan_name" readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2 mt-1">
@@ -1997,22 +2009,23 @@ function rowadddcorporate() {
 											<label>Assigned Branch</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" value="5792" name="assigned_branchkey" id="assigned_branchkey" readonly />
+											<input type="text" value="5792" name="assigned_branchkey"
+												id="assigned_branchkey" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Open Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="date" th:value="${view?.creation_date}" name="creation_date" id="creation_date"
-												 readonly  /> 
+											<input type="date" th:value="${view?.creation_date}"
+												name="creation_date" id="creation_date" readonly />
 										</div>
 
 										<div class="col-sm-2">
 											<label> Approval Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="date" name="approved_date" id="approved_date" th:value="${view?.approved_date}"
-												 readonly  />
+											<input type="date" name="approved_date" id="approved_date"
+												th:value="${view?.approved_date}" readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2 mt-1">
@@ -2021,21 +2034,23 @@ function rowadddcorporate() {
 											<label>Last Modified Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="date" th:value="${view?.last_modified_date}" name="last_modified_date" id="last_modified_date"  readonly/>
+											<input type="date" th:value="${view?.last_modified_date}"
+												name="last_modified_date" id="last_modified_date" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Last Review Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="date" th:value="${view?.closed_date}" name="closed_date" id="closed_date"  readonly/>
+											<input type="date" th:value="${view?.closed_date}"
+												name="closed_date" id="closed_date" readonly />
 										</div>
 
 										<div class="col-sm-2">
 											<label> Account Status </label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text"  th:value="${view?.account_state}" name="account_state" id="account_state" readonly
-											 />
+											<input type="text" th:value="${view?.account_state}"
+												name="account_state" id="account_state" readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2  mt-1">
@@ -2043,7 +2058,8 @@ function rowadddcorporate() {
 											<label>Sub Status</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${view?.account_substate}" name="account_substate" id="account_substate" readonly />
+											<input type="text" th:value="${view?.account_substate}"
+												name="account_substate" id="account_substate" readonly />
 										</div>
 
 										<div class="col-sm-2">
@@ -2051,14 +2067,14 @@ function rowadddcorporate() {
 										</div>
 										<div class="col-sm-2">
 											<input type="text" name="currency_code" id="currency_code"
-												value="KES"  readonly/>
+												value="KES" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Loan Amount</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="loan_amount" th:value="${view?.loan_amount}" 
-												id="loan_amount"  readonly/>
+											<input type="text" name="loan_amount"
+												th:value="${view?.loan_amount}" id="loan_amount" readonly />
 
 										</div>
 									</div>
@@ -2066,23 +2082,24 @@ function rowadddcorporate() {
 										<div class="col-sm-2">
 											<label>Payment Method</label>
 										</div>
-										<div class="col-sm-2"> 
-											<input type="text" name="payment_method" th:value="${view?.payment_method}"
-												id="payment_method" readonly
-												  />
+										<div class="col-sm-2">
+											<input type="text" name="payment_method"
+												th:value="${view?.payment_method}" id="payment_method"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Penalty Paid</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="penalty_paid" id="penalty_paid" th:value="${view?.principal_paid}"
-												readonly />
+											<input type="text" name="penalty_paid" id="penalty_paid"
+												th:value="${view?.principal_paid}" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Rate of Interest</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="interest_rate" id="interest_rate" th:value="${view?.interest_rate}"
+											<input type="text" name="interest_rate" id="interest_rate"
+												th:value="${view?.interest_rate}"
 												oninput="numberOnly(this);" readonly />
 
 										</div>
@@ -2092,22 +2109,25 @@ function rowadddcorporate() {
 											<label>Penalty Rate</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="penalty_rate" id="penalty_rate" th:value="${view?.penalty_rate}"
-												oninput="numberOnly(this);"  readonly/>
+											<input type="text" name="penalty_rate" id="penalty_rate"
+												th:value="${view?.penalty_rate}" oninput="numberOnly(this);"
+												readonly />
 										</div>
 										<div class="col-sm-2 ">
 											<label>Disbursement Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="date" id="disbursement_date" th:value="${view?.expected_disbursementdate}"
-												name="disbursement_date"    readonly/>
+											<input type="date" id="disbursement_date"
+												th:value="${view?.expected_disbursementdate}"
+												name="disbursement_date" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>First Payment Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="date" id="first_repaymentdate"  th:value="${view?.first_repaymentdate}"
-												name="first_repaymentdate"    readonly/>
+											<input type="date" id="first_repaymentdate"
+												th:value="${view?.first_repaymentdate}"
+												name="first_repaymentdate" readonly />
 										</div>
 									</div>
 									<div class="row formline ml-2  mt-1">
@@ -2115,21 +2135,24 @@ function rowadddcorporate() {
 											<label>Repayment Method</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="repayment_schedule_method" th:value="${view?.repayment_schedule_method}"  id="repayment_schedule_method"
-												readonly />
+											<input type="text" name="repayment_schedule_method"
+												th:value="${view?.repayment_schedule_method}"
+												id="repayment_schedule_method" readonly />
 										</div>
 										<div class="col-sm-2 ">
 											<label>Repayment Instalments</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="repayment_installments" th:value="${view?.repayment_installments}" readonly
+											<input type="text" id="repayment_installments"
+												th:value="${view?.repayment_installments}" readonly
 												name="repayment_installments" />
 										</div>
 										<div class="col-sm-2">
 											<label>Principal Due</label>
 										</div>
-											<div class="col-sm-2">
-											<input type="text" id="principal_due" th:value="${view?.principal_due}" readonly
+										<div class="col-sm-2">
+											<input type="text" id="principal_due"
+												th:value="${view?.principal_due}" readonly
 												name="principal_due" />
 										</div>
 									</div>
@@ -2138,22 +2161,24 @@ function rowadddcorporate() {
 											<label>Principal Paid</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${view?.principal_paid}" name="principal_paid" id="principal_paid"
-												readonly />
+											<input type="text" th:value="${view?.principal_paid}"
+												name="principal_paid" id="principal_paid" readonly />
 										</div>
 										<div class="col-sm-2 ">
 											<label>Interest Due</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="interest_due" th:value="${view?.interest_due}" 
-												name="interest_due" readonly />
+											<input type="text" id="interest_due"
+												th:value="${view?.interest_due}" name="interest_due"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Interest Paid</label>
 										</div>
 										<div class="col-sm-2">
-<input type="text" id="interest_paid" th:value="${view?.interest_paid}" 
-												name="interest_paid" readonly />
+											<input type="text" id="interest_paid"
+												th:value="${view?.interest_paid}" name="interest_paid"
+												readonly />
 										</div>
 									</div>
 									<div class="row formline ml-2  mt-1">
@@ -2161,25 +2186,26 @@ function rowadddcorporate() {
 											<label>Fee Due</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="fees_due" id="fees_due" th:value="${view?.fees_due}" 
-												readonly />
+											<input type="text" name="fees_due" id="fees_due"
+												th:value="${view?.fees_due}" readonly />
 										</div>
 										<div class="col-sm-2 ">
 											<label>Fee Paid</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="fees_paid" th:value="${view?.sale_referredby}" 
-												name="fees_paid" readonly />
+											<input type="text" id="fees_paid"
+												th:value="${view?.sale_referredby}" name="fees_paid"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Penalty Due</label>
 										</div>
 										<div class="col-sm-2">
-<input type="text" id="penalty_due" th:value="${view?.penalty_due}" 
-												name="penalty_due" readonly />
+											<input type="text" id="penalty_due"
+												th:value="${view?.penalty_due}" name="penalty_due" readonly />
 										</div>
 									</div>
-									
+
 								</div>
 								<div class="">
 									<div class="ml-4 mt-2">
@@ -2191,23 +2217,24 @@ function rowadddcorporate() {
 											<label>Sales Processed By VGID</label>
 										</div>
 										<div class="col-sm-2">
-												<input type="text"  th:value="${view?.sale_processedbyvgid}" name="sale_processedbyvgid" id="sale_processedbyvgid"
+											<input type="text" th:value="${view?.sale_processedbyvgid}"
+												name="sale_processedbyvgid" id="sale_processedbyvgid"
 												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Sales Processed For</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text"  th:value="${view?.sale_processedfor}" name="sale_processedfor" id="sale_processedfor"
-												readonly />
+											<input type="text" th:value="${view?.sale_processedfor}"
+												name="sale_processedfor" id="sale_processedfor" readonly />
 										</div>
 
 										<div class="col-sm-2">
 											<label>Sales Referred By</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${view?.sale_referredby}"  name="sale_referredby" id="sale_referredby"
-												readonly />
+											<input type="text" th:value="${view?.sale_referredby}"
+												name="sale_referredby" id="sale_referredby" readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2 mt-1">
@@ -2216,20 +2243,25 @@ function rowadddcorporate() {
 											<label>Employment Status</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="employment_status"th:value="${view?.employment_status}" id="employment_status" readonly />
+											<input type="text" name="employment_status"
+												th:value="${view?.employment_status}" id="employment_status"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Job Title</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="job_title" id="job_title" th:value="${view?.job_title}"  readonly />
+											<input type="text" name="job_title" id="job_title"
+												th:value="${view?.job_title}" readonly />
 										</div>
 
 										<div class="col-sm-2">
 											<label>Employer Name</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="employer_name" th:value="${view?.employer_name}" id="employer_name" readonly />
+											<input type="text" name="employer_name"
+												th:value="${view?.employer_name}" id="employer_name"
+												readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2 mt-1">
@@ -2238,22 +2270,22 @@ function rowadddcorporate() {
 											<label>TU Core</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${view?.tuscore}" name="tuscore" id="tuscore" readonly />
+											<input type="text" th:value="${view?.tuscore}" name="tuscore"
+												id="tuscore" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>TU Probability</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${view?.tuprobability}" name="tuprobability" id="tuprobability"
-												readonly />
+											<input type="text" th:value="${view?.tuprobability}"
+												name="tuprobability" id="tuprobability" readonly />
 										</div>
 
 										<div class="col-sm-2">
 											<label>TU Full Name</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="tufullname" id="tufullname"
-												readonly />
+											<input type="text" name="tufullname" id="tufullname" readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2 mt-1">
@@ -2261,170 +2293,180 @@ function rowadddcorporate() {
 										<div class="col-sm-2">
 											<label>TU Reasons</label>
 										</div>
-								<div class="col-sm-2">
-											<input type="text" th:value="${view?.tufullname}" name="tufullname" id="tufullname"
-												readonly />
+										<div class="col-sm-2">
+											<input type="text" th:value="${view?.tufullname}"
+												name="tufullname" id="tufullname" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Tureason 1</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="tureason1" th:value="${view?.tureason1}" name="tureason1" 
-												readonly />
+											<input type="text" id="tureason1"
+												th:value="${view?.tureason1}" name="tureason1" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Tureason 2</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="tureason2" th:value="${view?.tureason2}" name="tureason2"
-												readonly />
+											<input type="text" id="tureason2"
+												th:value="${view?.tureason2}" name="tureason2" readonly />
 										</div>
 									</div>
 
-								</div> 
-									<div class="row formline mt-1  ml-2">
-										<div class="col-sm-2">
-											<label>Disposable Income</label>
-										</div>
-										<div class="col-sm-2">
-											
-											<input type="text" name="disposable_income" id="disposable_income" th:value="${view?.disposable_income}"
-												readonly />
-										</div>
-										<div class="col-sm-2">
-											<label>Manual Override Amount</label>
-										</div>
-										<div class="col-sm-2">
-											<input type="text" th:value="${view?.manualoverride_amount}"  name="manualoverride_amount" id="manualoverride_amount" 
-												readonly />
-										</div>
-
-										<div class="col-sm-2">
-											<label>Manual Override Expiry Date</label>
-										</div>
-										<div class="col-sm-2">
-											<input type="date"  th:value="${view?.manualoverride_expiry_date}" name="manualoverride_expiry_date" id="manualoverride_expiry_date"
-												readonly />
-										</div>
+								</div>
+								<div class="row formline mt-1  ml-2">
+									<div class="col-sm-2">
+										<label>Disposable Income</label>
 									</div>
-									<div class="row formline  ml-2 mt-1">
+									<div class="col-sm-2">
 
-										<div class="col-sm-2">
-											<label>CP Fees</label>
-										</div>
-										<div class="col-sm-2">
-											<input type="text" name="cpfees" th:value="${view?.cpfees}" id="cpfees" readonly />
-										</div>
-										<div class="col-sm-2">
-											<label>Deposit Amount</label>
-										</div>
-										<div class="col-sm-2">
-											<input type="text" th:value="${view?.deposit_amount}"  name="deposit_amount" id="deposit_amount" readonly />
-										</div>
-
-										<div class="col-sm-2">
-											<label>Total Product Price</label>
-										</div>
-										<div class="col-sm-2">
-											<input type="text" name="total_product_price" id="total_product_price" th:value="${view?.total_product_price}"  readonly />
-										</div>
+										<input type="text" name="disposable_income"
+											id="disposable_income" th:value="${view?.disposable_income}"
+											readonly />
 									</div>
-									<div class="row formline  ml-2 mt-1">
-
-										<div class="col-sm-2">
-											<label>Retailer Name</label>
-										</div>
-										<div class="col-sm-2">
-											<input type="text"  th:value="${view?.retailer_name}" name="retailer_name" id="retailer_name" readonly />
-										</div>
-										<div class="col-sm-2">
-											<label>Retailer Branch</label>
-										</div>
-										<div class="col-sm-2">
-											<input type="text" th:value="${view?.retailer_branch}" name="retailer_branch" id="retailer_branch"
-												readonly />
-										</div>
-
-										<div class="col-sm-2">
-											<label>VG Application Id</label>
-										</div>
-										<div class="col-sm-2">
-											<input type="text" th:value="${view?.vg_application_id}" name="vg_application_id" id="vg_application_id"
-												readonly />
-										</div>
+									<div class="col-sm-2">
+										<label>Manual Override Amount</label>
 									</div>
-									<div class="row formline  ml-2 mt-1">
-
-										<div class="col-sm-2">
-											<label>Contract Signed</label>
-										</div>
-										<div class="col-sm-2">
-											<input type="text" th:value="${view?.contract_signed}" name="contract_signed" id="contract_signed" readonly />
-										</div>
-										<div class="col-sm-2">
-											<label>Date of First Call</label>
-										</div>
-										<div class="col-sm-2">
-											<input type="date" name="date_of_first_call" id="date_of_first_call" readonly />
-										</div>
-
-										<div class="col-sm-2">
-											<label>Last Call Outcome</label>
-										</div>
-										<div class="col-sm-2">
-											<input type="date" th:value="${view?.date_of_first_call}" name="last_call_outcome" id="last_call_outcome" readonly
-											  />
-										</div>
-									</div>
-									<div class="row formline  ml-2  mt-1">
-										<div class="col-sm-2">
-											<label>As On Date</label>
-										</div>
-										<div class="col-sm-2">
-											<input type="date" th:value="${view?.asondate}" name="asondate" id="asondate" readonly />
-										</div>
-<div class="col-sm-2">
-											<label>Remarks 1</label>
-										</div>
-										<div class="col-sm-2">
-											<input type="text" name=" " id=" "
-												readonly />
-										</div>
-										<div class="col-sm-2">
-											<label>Remarks 2</label>
-										</div>
-										<div class="col-sm-2">
-											<input type="text" name=" " id=" "
-												readonly />
-										</div>
+									<div class="col-sm-2">
+										<input type="text" th:value="${view?.manualoverride_amount}"
+											name="manualoverride_amount" id="manualoverride_amount"
+											readonly />
 									</div>
 
-									<div class="card-footer text-center mt-4">
-										<button class="btn btn-primary p-2" onclick="home();">Home</button>
-										 
-										<button class="btn btn-primary p-2" onclick="back();">Back</button>
-									</div> 
+									<div class="col-sm-2">
+										<label>Manual Override Expiry Date</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="date"
+											th:value="${view?.manualoverride_expiry_date}"
+											name="manualoverride_expiry_date"
+											id="manualoverride_expiry_date" readonly />
+									</div>
+								</div>
+								<div class="row formline  ml-2 mt-1">
+
+									<div class="col-sm-2">
+										<label>CP Fees</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text" name="cpfees" th:value="${view?.cpfees}"
+											id="cpfees" readonly />
+									</div>
+									<div class="col-sm-2">
+										<label>Deposit Amount</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text" th:value="${view?.deposit_amount}"
+											name="deposit_amount" id="deposit_amount" readonly />
+									</div>
+
+									<div class="col-sm-2">
+										<label>Total Product Price</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text" name="total_product_price"
+											id="total_product_price"
+											th:value="${view?.total_product_price}" readonly />
+									</div>
+								</div>
+								<div class="row formline  ml-2 mt-1">
+
+									<div class="col-sm-2">
+										<label>Retailer Name</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text" th:value="${view?.retailer_name}"
+											name="retailer_name" id="retailer_name" readonly />
+									</div>
+									<div class="col-sm-2">
+										<label>Retailer Branch</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text" th:value="${view?.retailer_branch}"
+											name="retailer_branch" id="retailer_branch" readonly />
+									</div>
+
+									<div class="col-sm-2">
+										<label>VG Application Id</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text" th:value="${view?.vg_application_id}"
+											name="vg_application_id" id="vg_application_id" readonly />
+									</div>
+								</div>
+								<div class="row formline  ml-2 mt-1">
+
+									<div class="col-sm-2">
+										<label>Contract Signed</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text" th:value="${view?.contract_signed}"
+											name="contract_signed" id="contract_signed" readonly />
+									</div>
+									<div class="col-sm-2">
+										<label>Date of First Call</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="date" name="date_of_first_call"
+											id="date_of_first_call" readonly />
+									</div>
+
+									<div class="col-sm-2">
+										<label>Last Call Outcome</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="date" th:value="${view?.date_of_first_call}"
+											name="last_call_outcome" id="last_call_outcome" readonly />
+									</div>
+								</div>
+								<div class="row formline  ml-2  mt-1">
+									<div class="col-sm-2">
+										<label>As On Date</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="date" th:value="${view?.asondate}"
+											name="asondate" id="asondate" readonly />
+									</div>
+									<div class="col-sm-2">
+										<label>Remarks 1</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text" name=" " id=" " readonly />
+									</div>
+									<div class="col-sm-2">
+										<label>Remarks 2</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text" name=" " id=" " readonly />
+									</div>
+								</div>
+
+								<div class="card-footer text-center mt-4">
+									<button class="btn btn-primary p-2" onclick="home();">Home</button>
+
+									<button class="btn btn-primary p-2" onclick="back();">Back</button>
+								</div>
 								<table
 									Style="border: 1px solid #ccc; width: 100%; max-width: 100%; margin: 0 auto; box-sizing: border-box;">
 									<tr>
 										<td class="col-sm-2" style="text-align: center;"><font
 											size="2"><B>Entry User :</B></font></td>
 										<td class="col-sm-2" style="width: 112px; margin-right: 20px;"><input
-											type="text" id="entryuser" 
-											name="ub.entryuser" value="System"
+											type="text" id="entryuser" name="ub.entryuser" value="System"
 											style="border: none; outline: none; background-color: transparent; font-size: 12px;"
 											readonly></td>
 										<td class="col-sm-2" style="text-align: center;"><font
 											size="2"><B>Modify User :</B></font></td>
 										<td class="col-sm-2" style="width: 112px;"><input
-											type="text" id="modifyuser"  
-											name="ub.modifyuser"  value="System"
+											type="text" id="modifyuser" name="ub.modifyuser"
+											value="System"
 											style="border: none; outline: none; background-color: transparent; font-size: 12px;"
 											readonly></td>
 										<td class="col-sm-2" style="text-align: center;"><font
 											size="2"><B>Verify User :</B></font></td>
 										<td class="col-sm-2" style="width: 112px;"><input
-											type="text" id="verifyuser" name="ub.verifyuser" value="System"
+											type="text" id="verifyuser" name="ub.verifyuser"
+											value="System"
 											style="border: none; outline: none; background-color: transparent; font-size: 12px;"
 											readonly></td>
 									</tr>
@@ -2433,7 +2475,7 @@ function rowadddcorporate() {
 													Time :</B></font></td>
 										<td style="width: 112px"><input type="text"
 											id="entrytime" name="ub.entrytime"
-											th:value="${#dates.format(view?.creation_date, 'dd-MM-yyyy HH:mm:ss')}" 
+											th:value="${#dates.format(view?.creation_date, 'dd-MM-yyyy HH:mm:ss')}"
 											readonly
 											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;">
 										</td>
@@ -2441,13 +2483,14 @@ function rowadddcorporate() {
 													Time :</B></font></td>
 										<td style="width: 112px"><input type="text"
 											id="modifytime" name="ub.modifytime"
-									th:value="${#dates.format(view?.last_modified_date, 'dd-MM-yyyy HH:mm:ss')}" 
+											th:value="${#dates.format(view?.last_modified_date, 'dd-MM-yyyy HH:mm:ss')}"
 											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
 											readonly></td>
 										<td style="text-align: center; font-size: 15px;"><font
 											size="2"><B>Verify Time :</B></font></td>
 										<td style="width: 112px"><input type="text"
-											id="verifytime" name="ub.verifytime" th:value="${#dates.format(view?.approved_date, 'dd-MM-yyyy HH:mm:ss')}" 
+											id="verifytime" name="ub.verifytime"
+											th:value="${#dates.format(view?.approved_date, 'dd-MM-yyyy HH:mm:ss')}"
 											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
 											readonly></td>
 									</tr>
