@@ -183,6 +183,114 @@
 		var cust_id = a.getAttribute("data-cust_id");
 		location.href = 'CustMaint?formmode=viewCust&cust_id=' + cust_id;
 	}
+
+	function firstexceldownload() {
+		alert("firstexceldownload function worked ");
+		// Show the Bootstrap modal
+		$("#alert33").modal("show");
+	}
+
+	function secondexceldownload() {
+		alert("secondexceldownload function worked ");
+		$("#alert43").modal("show");
+	}
+
+	function thirdexceldownload() {
+		alert("thirdexceldownload function worked ");
+		$("#alert53").modal("show");
+	}
+</script>
+<script>
+	function handleFileSelection() {
+		var fileInput = document.getElementById("report_name");
+		var fileNameField = document.getElementById("suburb");
+
+		if (fileInput.files.length > 0) {
+			fileNameField.value = fileInput.files[0].name; // Set selected file name
+		} else {
+			fileNameField.value = ""; // Clear field if no file is selected
+		}
+	}
+</script>
+<script type="text/javascript">
+	function submitdatas() {
+		//	alert("hi");
+		var form = $('#reportform')[0];
+		var data = new FormData(form);
+
+		$.ajax({
+			type : "POST",
+			url : "uploadxmldata1",
+			data : data,
+			processData : false,
+			contentType : false,
+			success : function(response) {
+				console.log(response);
+				showResponse(response);
+				$('#uploadfiles').modal('hide');
+			},
+			error : function(error) {
+				showResponse("Error: " + error.responseText);
+			}
+		});
+	}
+	function showResponse(responseText) {
+		$("#alertmsg").text(responseText);
+		$('#normalalertvalues').modal("toggle");
+	}
+	
+	function submitdatas1() {
+		//	alert("hi");
+		var form = $('#reportform1')[0];
+		var data = new FormData(form);
+
+		$.ajax({
+			type : "POST",
+			url : "uploadxmldata2",
+			data : data,
+			processData : false,
+			contentType : false,
+			success : function(response) {
+				console.log(response);
+				showResponse(response);
+				$('#uploadfiles').modal('hide');
+			},
+			error : function(error) {
+				showResponse("Error: " + error.responseText);
+			}
+		});
+	}
+	function showResponse(responseText) {
+		$("#alertmsg").text(responseText);
+		$('#normalalertvalues').modal("toggle");
+	}
+	
+	
+	function submitdatas2() {
+		//	alert("hi");
+		var form = $('#reportform2')[0];
+		var data = new FormData(form);
+
+		$.ajax({
+			type : "POST",
+			url : "uploadxmldata3",
+			data : data,
+			processData : false,
+			contentType : false,
+			success : function(response) {
+				console.log(response);
+				showResponse(response);
+				$('#uploadfiles').modal('hide');
+			},
+			error : function(error) {
+				showResponse("Error: " + error.responseText);
+			}
+		});
+	}
+	function showResponse(responseText) {
+		$("#alertmsg").text(responseText);
+		$('#normalalertvalues').modal("toggle");
+	}
 </script>
 </head>
 <body>
@@ -229,17 +337,25 @@
 					<div class="panel panel-primary filterable">
 
 						<div class="card w-100 border panel panel-primary filterable">
-							<div class="card-header"
-								style="background-color: #e9ecef; height: 50px">
-								<div class="float-left">
-									<h6 style="font-size: 1.2rem;">CUSTOMER MAINTENANCE- LIST</h6>
-								</div>
-								<div style="float: right;">
-									<button type="button"
-										class="btn btn-xs btn-primary btns p-2 border btn-filter ">Filter</button>
+							<div
+								class="card-header bg-light d-flex justify-content-between align-items-center"
+								style="height: 50px;">
+								<h6 class="mb-0" style="font-size: 1.2rem;">CUSTOMER
+									MAINTENANCE - LIST</h6>
+
+								<div class="d-flex gap-2">
+									<button type="button" class="btn btn-primary btn-xs p-2"
+										onclick="firstexceldownload();">Upload excel 1</button>
+									<button type="button" class="btn btn-primary btn-xs p-2"
+										onclick="secondexceldownload();">Upload excel 2</button>
+									<button type="button" class="btn btn-primary btn-xs p-2"
+										onclick="thirdexceldownload();">Upload excel 3</button>
 								</div>
 
+								<button type="button"
+									class="btn btn-primary btn-xs p-2 border btn-filter">Filter</button>
 							</div>
+
 							<div class="card-body"
 								style="overflow-y: auto; border: 1px solid #ddd;">
 								<div class="table-responsive mt-2" id="cardBody">
@@ -377,33 +493,32 @@
 									<div class="col-sm-2">
 										<input type="text" id="preferred_language"
 											class="form-control form-control-sm bg-white border border-dark bg-white border border-dark"
-											th:value="${view?.preferred_language}" name="preferred_language"
-											autocomplete="off" readonly>
+											th:value="${view?.preferred_language}"
+											name="preferred_language" autocomplete="off" readonly>
 									</div>
 
 
 								</div>
-                        <div class="row formline mt-2">
+								<div class="row formline mt-2">
 									<label class="col-sm-2">DOB </label>
 									<div class="col-sm-2">
 										<input type="text" id="birth_date"
 											class="form-control form-control-sm bg-white border border-dark bg-white border border-dark"
-											th:value="${#dates.format(view?.birth_date, 'dd-MM-yyyy')}"
-											 name="birth_date"
-											autocomplete="off" readonly>
+											th:value="${view?.birth_date != null ? #temporals.format(view.birth_date, 'dd-MM-yyyy') : ''}"
+											name="birth_date" autocomplete="off" readonly>
 									</div>
 									<div class="col-sm-1"></div>
 									<label class="col-sm-2">Gender </label>
 									<div class="col-sm-2">
 										<input type="text" id="gender"
 											class="form-control form-control-sm bg-white border border-dark bg-white border border-dark"
-											th:value="${view?.gender}" name="gender"
-											autocomplete="off" readonly>
+											th:value="${view?.gender}" name="gender" autocomplete="off"
+											readonly>
 									</div>
 
 
 								</div>
-                           <div class="row formline mt-2">
+								<div class="row formline mt-2">
 									<label class="col-sm-2">Loan Cycle </label>
 									<div class="col-sm-2">
 										<input type="text" id="loan_cycle"
@@ -422,7 +537,7 @@
 
 
 								</div>
-                          <div class="row formline mt-2">
+								<div class="row formline mt-2">
 									<label class="col-sm-2">Address Line 1 </label>
 									<div class="col-sm-2">
 										<input type="text" id="address_line1"
@@ -441,7 +556,7 @@
 
 
 								</div>
-								 <div class="row formline mt-2">
+								<div class="row formline mt-2">
 									<label class="col-sm-2">Address Line 3 </label>
 									<div class="col-sm-2">
 										<input type="text" id="address_line3"
@@ -454,30 +569,28 @@
 									<div class="col-sm-2">
 										<input type="text" id="city"
 											class="form-control form-control-sm bg-white border border-dark bg-white border border-dark"
-											th:value="${view?.city}" name="city"
-											autocomplete="off" readonly>
+											th:value="${view?.city}" name="city" autocomplete="off"
+											readonly>
 									</div>
 
 
 								</div>
-								 <div class="row formline mt-2">
+								<div class="row formline mt-2">
 									<label class="col-sm-2">Suburb </label>
 									<div class="col-sm-2">
 										<input type="text" id="suburb"
 											class="form-control form-control-sm bg-white border border-dark bg-white border border-dark"
-											th:value="${view?.suburb}" name="suburb"
-											autocomplete="off" readonly>
+											th:value="${view?.suburb}" name="suburb" autocomplete="off"
+											readonly>
 									</div>
 									<div class="col-sm-1"></div>
 									<label class="col-sm-2">AsonDate </label>
 									<div class="col-sm-2">
 										<input type="text" id="asondate"
 											class="form-control form-control-sm bg-white border border-dark bg-white border border-dark"
-										 th:value="${#dates.format(view?.asondate, 'dd-MM-yyyy')}" name="asondate"
-											autocomplete="off" readonly>
+											th:value="${view?.birth_date != null ? #temporals.format(view.asondate, 'dd-MM-yyyy') : ''}"
+											name="asondate" autocomplete="off" readonly>
 									</div>
-
-
 								</div>
 							</div>
 							<div class="card-footer text-center"
@@ -496,6 +609,171 @@
 		</div>
 	</div>
 
+	<div class="modal fade" data-backdrop="false" data-keyboard="false"
+		id="alert33" tabindex="-1" role="dialog" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content" style="width: 120%; height: 25%;">
+				<div class="card">
+					<!-- Header with Alert Message -->
+					<div class="modal-header"
+						style="justify-content: center; width: 100%;">
+						<h5 class="modal-title" id="popupAlert" style="font-size: 18px;">Upload
+							Files - Client Data</h5>
+						<!-- Alert message will appear here -->
+					</div>
+
+					<!-- Body with Response -->
+					<div class="modal-body"
+						style="text-align: center; display: flex; flex-direction: column; align-items: center; height: 100px; overflow-y: auto; font-weight: bold; font-size: 15px;">
+						<div class="row formline">
+							<div class="col-sm-6">Upload File :</div>
+							<div class="col-sm-6">
+								<form action="#" th:object="${reportform}" method="post"
+									enctype="multipart/form-data" id="reportform">
+									<input type="file" name="file" id="fileInput"
+										class="form-control form-control-sm bg-white border border-dark"
+										accept=".xml, .xls, .xlsx" />
+									<button type="button" class="btn btn-primary"
+										onclick="submitdatas()">Submit</button>
+								</form>
+							</div>
+						</div>
+					</div>
+
+
+					<!-- Footer with Close Button -->
+					<div class="modal-footer"
+						style="justify-content: center; width: 100%;">
+						<button type="button" class="btn btn-primary" data-dismiss="modal"
+							onclick="refreshPage()">Close</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" data-backdrop="false" data-keyboard="false"
+		id="alert43" tabindex="-1" role="dialog" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content" style="width: 120%; height: 25%;">
+				<div class="card">
+					<!-- Header with Alert Message -->
+					<div class="modal-header"
+						style="justify-content: center; width: 100%;">
+						<h5 class="modal-title" id="popupAlert" style="font-size: 18px;">Upload
+							Files - Account Data</h5>
+						<!-- Alert message will appear here -->
+					</div>
+
+					<!-- Body with Response -->
+					<div class="modal-body"
+						style="text-align: center; display: flex; flex-direction: column; align-items: center; height: 100px; overflow-y: auto; font-weight: bold; font-size: 15px;">
+						<div class="row formline">
+							<div class="col-sm-6">Upload File :</div>
+							<div class="col-sm-6">
+								<form action="#" th:object="${reportform}" method="post"
+									enctype="multipart/form-data" id="reportform1">
+									<input type="file" name="file" id="fileInput"
+										class="form-control form-control-sm bg-white border border-dark"
+										accept=".xml, .xls, .xlsx" />
+									<button type="button" class="btn btn-primary"
+										onclick="submitdatas1()">Submit</button>
+								</form>
+							</div>
+						</div>
+					</div>
+
+
+					<!-- Footer with Close Button -->
+					<div class="modal-footer"
+						style="justify-content: center; width: 100%;">
+						<button type="button" class="btn btn-primary" data-dismiss="modal"
+							onclick="refreshPage()">Close</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" data-backdrop="false" data-keyboard="false"
+		id="alert53" tabindex="-1" role="dialog" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content" style="width: 120%; height: 25%;">
+				<div class="card">
+					<!-- Header with Alert Message -->
+					<div class="modal-header"
+						style="justify-content: center; width: 100%;">
+						<h5 class="modal-title" id="popupAlert" style="font-size: 18px;">Upload
+							Files - Repayment Datas</h5>
+						<!-- Alert message will appear here -->
+					</div>
+
+					<!-- Body with Response -->
+					<div class="modal-body"
+						style="text-align: center; display: flex; flex-direction: column; align-items: center; height: 100px; overflow-y: auto; font-weight: bold; font-size: 15px;">
+						<div class="row formline">
+							<div class="col-sm-6">Upload File :</div>
+							<div class="col-sm-6">
+								<form action="#" th:object="${reportform}" method="post"
+									enctype="multipart/form-data" id="reportform2">
+									<input type="file" name="file" id="fileInput"
+										class="form-control form-control-sm bg-white border border-dark"
+										accept=".xml, .xls, .xlsx" />
+									<button type="button" class="btn btn-primary"
+										onclick="submitdatas2()">Submit</button>
+								</form>
+							</div>
+						</div>
+					</div>
+
+
+					<!-- Footer with Close Button -->
+					<div class="modal-footer"
+						style="justify-content: center; width: 100%;">
+						<button type="button" class="btn btn-primary" data-dismiss="modal"
+							onclick="refreshPage()">Close</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" data-backdrop="false" data-keyboard="false"
+		id="normalalertvalues" tabindex="-1" role="dialog" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content"
+				style="width: 120%; height: 25%; margin-right: 480px;">
+				<div class="card">
+					<!-- Header with Alert Message -->
+					<div class="modal-header"
+						style="justify-content: center; width: 100%;">
+						<h5 class="modal-title" id="popupAlert" style="font-size: 18px;">Upload
+							Alerts</h5>
+						<!-- Alert message will appear here -->
+					</div>
+
+					<!-- Body with Response -->
+					<div class="modal-body"
+						style="text-align: center; display: flex; flex-direction: column; align-items: center; height: 100px; overflow-y: auto; font-weight: bold; font-size: 15px;">
+						<h6 id="alertmsg"></h6>
+					</div>
+					<!-- Footer with Close Button -->
+					<div class="modal-footer"
+						style="justify-content: center; width: 100%;">
+						<button type="button" class="btn btn-primary" data-dismiss="modal"
+							onclick="backs()">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>
