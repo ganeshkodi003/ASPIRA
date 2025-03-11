@@ -2016,8 +2016,8 @@ function rowadddcorporate() {
 											<label>Open Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" 
-											th:value="${view.creation_date}"
+											<input type="text"
+											th:value="${#dates.format(view?.creation_date, 'dd-MM-yyyy')}"
 												name="creation_date" id="creation_date" readonly />
 										</div>
 
@@ -2437,7 +2437,8 @@ function rowadddcorporate() {
 									<div class="col-sm-2">
 										<input type="text" name="total_product_price"
 											id="total_product_price"
-											th:value="${view?.total_product_price}" readonly />
+											th:value="${view?.total_product_price == 0 ? '0.00' :#numbers.formatDecimal(view?.total_product_price, 0, 'COMMA', 2, 'POINT')}"
+										 readonly />
 									</div>
 								</div>
 								<div class="row formline  ml-2 mt-1">
