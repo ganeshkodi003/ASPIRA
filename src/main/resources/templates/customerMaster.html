@@ -1840,27 +1840,21 @@ function rowadddcorporate() {
 
 		}
 
-		function toggleDetails(index) {
-			const detailRow1 = document.getElementById('details-' + index + '-1');
-			const detailRow2 = document.getElementById('details-' + index + '-2');
-			const isAlreadyOpen = detailRow1.style.display !== 'none';
+function ClickId(a) {
+    // If `a` is not passed, try to get the event target
+    if (!a) a = event.target; 
 
-			// Hide all other open rows first
-			const openRows = document.querySelectorAll('.details-row');
-			openRows.forEach(row => {
-				row.style.display = 'none';
-				row.style.backgroundColor = 'transparent';
-			});
+    var id = a.getAttribute("data-id");
+    var holder_key = a.getAttribute("data-account_holderkey");
 
-			// Toggle the clicked row: show if it was closed, hide if it was already open
-			if (!isAlreadyOpen) {
-				// Show rows with highlight
-				detailRow1.style.display = '';
-				detailRow2.style.display = '';
-				detailRow1.style.backgroundColor = '#f0f8ff'; // Light blue highlight
-				detailRow2.style.backgroundColor = '#f0f8ff';
-			}
-		}
+    // Ensure holder_key is checked properly
+    if (id && id.trim() !== "") {
+        location.href = 'customerMaster?formmode=view&id=' + id;
+    } else {
+        location.href = 'customerMaster?formmode=list';
+    }
+}
+
 	</script>
 
 </head>
@@ -1877,7 +1871,59 @@ function rowadddcorporate() {
 
 
 				<div class="mt-5">
+				<div th:if="${formmode}=='list'">
+					<div class="card">
+						<div class="card-header"
+							style="background-color: #e9ecef; height: 50px">
+							<div class="float-left">
+								<h6 style="font-size: 1.2rem;">ASPIRA LOAN - LIST</h6>
+							</div>
+							<!--<div class="btn-group nav-buttons float-right">
+							<button type="button" class="btn btn-primary p-2" id="btnAdd"
+								onclick="addscreen();">ADD</button>
+						</div>-->
+						</div>
+						<div class="card-body"
+							style="overflow-y: auto; border: 1px solid #ddd;">
+							<div class="table-responsive" id="cardBody">
+								<table class="table  table-bordered  table-hover table-sm"
+									style="margin-bottom: 0px; font-size: initial;" id="usertable">
+									<thead class="thead-light"
+										style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 1;">
+										<tr class="filters">
+											<th style="width: 8%;">S.NO</th>
+											<th style="width: 10%;">LOAN ID</th>
+											<th>LOAN NAME</th>
+											<th>DOB</th>
+											<th>RETAILER BRANCH ID</th>
+											<th style="width: 10%;">STATUS</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="list, iterator : ${list}" class="userlist">
+											<td style="font-size: 14px" th:text="${iterator.index +1}"></td>
+											<td style="font-size: 14px" class="text-primary"
+												th:attr="data-id=${list?.customer_id}"
+												th:text="${list?.customer_id}" onclick="ClickId(this);"></td>
+											<td style="font-size: 14px"  th:text="${list?.first_name + ' ' + list?.last_name}" > </td>
+											<td style="font-size: 14px"th:text="${#dates.format(list?.birth_date, 'dd-MM-yyyy')}"> </td>
+											<td style="font-size: 14px" th:text="${list?.assigned_branch_key}"
+												>TEST</td>
+											<td style="font-size: 14px" th:text="${list?.client_state}">TEST</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="card-footer text-center">
+							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
+							<button class="btn btn-primary p-2" onclick="back()">Back</button>
+						</div>
+					</div>
+				</div>
 
+				
+				<div th:if="${formmode}=='view'">
 					<div class="card">
 						<div class="card-header"
 							style="background-color: #e9ecef; height: 50px">
@@ -2110,8 +2156,240 @@ function rowadddcorporate() {
 
 						</div>
 					</div>
+				
+				
 				</div>
+				<div th:if="${formmode}=='home'">
+				<div class="card" >
+						<div class="card-header"
+							style="background-color: #e9ecef; height: 50px">
+							<div class="float-left">
+								<h6 style="font-size: 1.2rem;" class="ml-3">LEASE LOAN -
+									OPEN</h6>
+							</div>
+									<div class="btn-group nav-buttons float-right pl-3">
+								<button class="btn btn-primary p-2" onclick="ClickId();">list</button>
 
+							</div>
+								<div class="btn-group nav-buttons float-right">
+								<button class="btn btn-primary p-2" onclick="Uploadloan();">Upload</button>
+
+							</div>
+
+
+						</div >
+
+						
+						<div class="card-body" >
+							<form action="#" method="post" id="drawDownDetailsAdd"
+								autocomplete="off" name="drawDownDetailsData"
+								th:fragment="finuserapply">
+									<div class="">
+										<div class="row formline mt-2 ml-2">
+											<div class="col-sm-2"></div>
+											<div class="col-sm-2">
+												<label>Customer Id</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="text" name="customer_id"
+													 id="customer_id"
+													readonly />
+											</div>
+											<div class="col-sm-2">
+												<label>Customer Name</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="text"
+													
+													readonly />
+											</div>
+										</div>
+
+										<div class="row formline mt-2 ml-2">
+											<div class="col-sm-2"></div>
+											<div class="col-sm-2">
+												<label>First Name</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="text" name="first_name"
+											/>
+											</div>
+											<div class="col-sm-2">
+												<label>Last Name</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="text" name="last_name"
+													 />
+											</div>
+										</div>
+
+										<div class="row formline mt-2 ml-2">
+											<div class="col-sm-2"></div>
+											<div class="col-sm-2">
+												<label>Gender</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="text" name="gender"
+													 />
+											</div>
+											<div class="col-sm-2">
+												<label>Date of Birth</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="date" name="dob"
+													 />
+											</div>
+										</div>
+
+										<div class="row formline mt-2 ml-2">
+											<div class="col-sm-2"></div>
+											<div class="col-sm-2">
+												<label>Branch</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="text" name="branch"
+												 />
+											</div>
+											<div class="col-sm-2">
+												<label>Client Role Key</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="text" name="client_role_key"
+												
+													id="client_role_key" />
+											</div>
+										</div>
+
+										<div class="row formline mt-2 ml-2">
+											<div class="col-sm-2"></div>
+											<div class="col-sm-2">
+												<label>Creation Date</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="date" name="creation_date"
+													 />
+											</div>
+											<div class="col-sm-2">
+												<label>Approval Date</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="date" name="approval_date"
+													 />
+											</div>
+										</div>
+
+										<div class="row formline mt-2 ml-2">
+											<div class="col-sm-2"></div>
+											<div class="col-sm-2">
+												<label>Last Modification Date</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="date" name="modification_date"
+												
+													id="modification_date" />
+											</div>
+											<div class="col-sm-2">
+												<label>Activation Date</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="date" name="activation_date"
+												
+													id="activation_date" />
+											</div>
+										</div>
+
+										<div class="row formline mt-2 ml-2">
+											<div class="col-sm-2"></div>
+											<div class="col-sm-2">
+												<label>Mobile No</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="text" name="mobile_no" id="mobile_no" />
+											</div>
+											<div class="col-sm-2">
+												<label>Email Id</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="email" name="email_id"id="email_id" />
+											</div>
+										</div>
+
+										<div class="row formline mt-2 ml-2">
+											<div class="col-sm-2"></div>
+											<div class="col-sm-2">
+												<label>Address 1</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="text" name="address_1" id="address_1" />
+											</div>
+											<div class="col-sm-2">
+												<label>Address 2</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="text" name="address_2" id="address_2" />
+											</div>
+										</div>
+
+										<div class="row formline mt-2 ml-2">
+											<div class="col-sm-2"></div>
+											<div class="col-sm-2">
+												<label>City</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="text" name="city" 
+													id="city" />
+											</div>
+											<div class="col-sm-2">
+												<label>Suburb</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="text" name="suburb" id="suburb" />
+											</div>
+										</div>
+
+										<div class="row formline mt-2 ml-2">
+											<div class="col-sm-2"></div>
+											<div class="col-sm-2">
+												<label>Loan Cycle</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="text" name="loan_cycle"id="loan_cycle" />
+											</div>
+											<div class="col-sm-2">
+												<label>Group Loan Cycle</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="text" name="group_loan_cycle"
+													id="group_loan_cycle" />
+											</div>
+										</div>
+
+										<div class="row formline mt-2 ml-2">
+											<div class="col-sm-2"></div>
+											<div class="col-sm-2">
+												<label>Assigned User</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="text" name="assigned_user"
+													id="assigned_user" />
+											</div>
+											<div class="col-sm-2">
+												<label>As On Date</label>
+											</div>
+											<div class="col-sm-2">
+												<input type="date" name="as_on_date" id="as_on_date" />
+											</div>
+										</div>
+									</div>
+									<div class="card-footer text-center mt-2">
+										<button class="btn btn-primary p-2" onclick="home();">Home</button>
+										<button class="btn btn-primary p-2" onclick="back();">Back</button>
+									</div>
+								</form>
+
+						</div>
+					</div>
+					</div>
 			</div>
 		</div>
 	</div>

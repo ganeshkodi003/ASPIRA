@@ -3454,7 +3454,7 @@ public class BGLSNavigationController {
 	
 	@RequestMapping(value = "customerMaster", method = { RequestMethod.GET, RequestMethod.POST })
 	public String customerMaster(@RequestParam(required = false) String formmode, Model md,
-			HttpServletRequest req, @RequestParam(required = false) String dd_notice_ref,
+			HttpServletRequest req, @RequestParam(required = false) String id,
 			@RequestParam(required = false) String synd_fac_ref) {
 
 		String user = (String) req.getSession().getAttribute("USERID");
@@ -3462,9 +3462,18 @@ public class BGLSNavigationController {
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String formattedDate = dateFormat.format(TRANDATE);		
-
-		CLIENT_MASTER_ENTITY client = clientMasterRepo.getClientView("30012301");
+		if (formmode == null) {
+			md.addAttribute("formmode", "home");
+		}
+		else if (formmode.equals("list")) {
+			md.addAttribute("formmode", "list"); 
+			md.addAttribute("list", clientMasterRepo.getLoanActDet());
+	
+		} else if (formmode.equals("view")) {
+			md.addAttribute("formmode", "view");
+			CLIENT_MASTER_ENTITY client = clientMasterRepo.getClientView(id);
 			md.addAttribute("customer", client);
+		}
 			md.addAttribute("currentDate", TRANDATE);
 			md.addAttribute("ConDate", formattedDate);
 			md.addAttribute("user", user);
