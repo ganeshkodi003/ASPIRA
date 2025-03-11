@@ -6,14 +6,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,7 +24,6 @@ import java.util.function.Consumer;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -58,8 +53,6 @@ import com.bornfire.entities.BGLSAuditTable;
 import com.bornfire.entities.BGLSAuditTable_Rep;
 import com.bornfire.entities.BGLSBusinessTable_Entity;
 import com.bornfire.entities.BGLSBusinessTable_Rep;
-import com.bornfire.entities.CLIENT_MASTER_ENTITY;
-import com.bornfire.entities.CLIENT_MASTER_REPO;
 import com.bornfire.entities.Chart_Acc_Entity;
 import com.bornfire.entities.Chart_Acc_Rep;
 import com.bornfire.entities.CustomerRequest;
@@ -73,8 +66,6 @@ import com.bornfire.entities.Employee_Profile_Rep;
 import com.bornfire.entities.GeneralLedgerEntity;
 import com.bornfire.entities.GeneralLedgerRep;
 import com.bornfire.entities.GeneralLedgerWork_Rep;
-import com.bornfire.entities.LOAN_ACT_MST_ENTITY;
-import com.bornfire.entities.LOAN_ACT_MST_REPO;
 import com.bornfire.entities.LeaseData;
 import com.bornfire.entities.Lease_Loan_Master_Entity;
 import com.bornfire.entities.Lease_Loan_Master_Repo;
@@ -220,12 +211,6 @@ public class BGLSRestController {
 
 	@Autowired
 	Transaction_Reversed_Table_Repo transaction_Reversed_Table_Repo;
-	
-	@Autowired
-	CLIENT_MASTER_REPO cLIENT_MASTER_REPO;
-	
-	@Autowired
-	LOAN_ACT_MST_REPO lOAN_ACT_MST_REPO;
 
 	/* THANVEER */
 	@RequestMapping(value = "employeeAdd", method = RequestMethod.POST)
@@ -2555,309 +2540,6 @@ public class BGLSRestController {
 			e.printStackTrace(); // Consider using a logging framework
 			return "Error: " + e.getMessage();
 		}
-	}
-	
-	@PostMapping("/uploadxmldata1")
-	@ResponseBody
-	public String uploadxmldata1(@RequestParam("file") MultipartFile file, HttpServletRequest req) {
-	    BigDecimal creditSum = BigDecimal.ZERO;
-	    BigDecimal debitSum = BigDecimal.ZERO;
-	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-	    LocalDate localDate = LocalDate.now();
-	    String userId = (String) req.getSession().getAttribute("USERID");
-
-	    LocalDateTime localDateTime = LocalDateTime.now();
-	    java.util.Date utilDate = java.util.Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-	    Date entryDate = new Date(utilDate.getTime());
-	    Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-	    List<CLIENT_MASTER_ENTITY> transactions = new ArrayList<>();
-
-	    try (InputStream inputStream = file.getInputStream(); Workbook workbook = new XSSFWorkbook(inputStream)) {
-	        Sheet sheet = workbook.getSheetAt(0);
-	        
-	        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-	            Row row = sheet.getRow(i);
-	            if (row == null) continue; // Skip null rows
-	            
-	            CLIENT_MASTER_ENTITY transaction = new CLIENT_MASTER_ENTITY();
-
-	            transaction.setEncoded_key(getCellValueAsString(row.getCell(0)));
-	            // Fetch mobile number as a String
-	            String customerid = "";
-	            Cell cell = row.getCell(1);  // Get cell
-
-	            if (cell != null) {
-	                if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
-	                    customerid = cell.getStringCellValue().trim();
-	                } else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-	                    customerid = String.format("%.0f", cell.getNumericCellValue()).trim(); // Convert without scientific notation
-	                }
-	            }
-
-	            // Set customer_id as a String
-	            transaction.setCustomer_id(customerid);
-	            
-	            transaction.setClient_state(getCellValueAsString(row.getCell(2)));
-
-	            transaction.setCreation_date(parseDateCell(row.getCell(3)));
-	            transaction.setLast_modified_date(parseDateCell(row.getCell(4)));
-	            transaction.setActivation_date(parseDateCell(row.getCell(5)));
-	            transaction.setApproved_date(parseDateCell(row.getCell(6)));
-
-	            transaction.setFirst_name(getCellValueAsString(row.getCell(7))); // Corrected
-	            transaction.setLast_name(getCellValueAsString(row.getCell(8))); // Corrected
-
-	         // Fetch mobile number as a String
-	            String mobileNumber = getCellValueAsString(row.getCell(9));
-	            // Validate the mobile number length
-	            if (mobileNumber.length() > 20) {
-	                throw new IllegalArgumentException("Mobile number is too long. Max length: 20");
-	            }
-	            // Set mobile number as a String
-	            transaction.setMobile_phone(mobileNumber);
-	            
-	            transaction.setEmail_address(getCellValueAsString(row.getCell(10)));
-	            transaction.setPreferred_language(getCellValueAsString(row.getCell(11))); // Corrected
-
-	            transaction.setBirth_date(parseDateCell(row.getCell(12)));
-
-	            transaction.setGender(getCellValueAsString(row.getCell(13)));
-	            transaction.setAssigned_branch_key(getCellValueAsString(row.getCell(14)));
-	            transaction.setClient_role_key(getCellValueAsString(row.getCell(15)));
-
-	            transaction.setLoan_cycle(parseBigDecimal(row.getCell(16)));
-	            transaction.setGroup_loan_cycle(parseBigDecimal(row.getCell(17)));
-
-	            transaction.setAddress_line1(getCellValueAsString(row.getCell(18)));
-	            transaction.setAddress_line2(getCellValueAsString(row.getCell(19)));
-	            transaction.setAddress_line3(getCellValueAsString(row.getCell(20)));
-
-	            transaction.setCity(getCellValueAsString(row.getCell(21)));
-	            transaction.setSuburb(getCellValueAsString(row.getCell(22)));
-	            transaction.setAssigned_user_key(getCellValueAsString(row.getCell(23)));
-	            transaction.setAsondate(parseDateCell(row.getCell(24)));
-
-	            transactions.add(transaction);
-	        }
-
-	        cLIENT_MASTER_REPO.saveAll(transactions); // Ensure `clientMasterRepo` is autowired properly.
-
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return "Error: " + e.getMessage();
-	    }
-	    return userId;
-	}
-	
-	
-	@PostMapping("/uploadxmldata2")
-	@ResponseBody
-	public String uploadxmldata2(@RequestParam("file") MultipartFile file, HttpServletRequest req) {
-	    BigDecimal creditSum = BigDecimal.ZERO;
-	    BigDecimal debitSum = BigDecimal.ZERO;
-	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-	    LocalDate localDate = LocalDate.now();
-	    String userId = (String) req.getSession().getAttribute("USERID");
-
-	    // Check if file is empty
-	    if (file == null || file.isEmpty()) {
-	        return "Error: Uploaded file is empty!";
-	    }
-
-	    // Validate file type (Only .xlsx)
-	    if (!file.getOriginalFilename().endsWith(".xlsx")) {
-	        return "Error: Only .xlsx files are supported!";
-	    }
-	    
-	    LocalDateTime localDateTime = LocalDateTime.now();
-	    java.util.Date utilDate = java.util.Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-	    Date entryDate = new Date(utilDate.getTime());
-	    Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-	    List<LOAN_ACT_MST_ENTITY> transactions = new ArrayList<>();
-
-	    try (InputStream inputStream = file.getInputStream(); Workbook workbook = new XSSFWorkbook(inputStream)) {
-	        Sheet sheet = workbook.getSheetAt(0);
-	        
-	        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-	            Row row = sheet.getRow(i);
-	            if (row == null) continue; // Skip null rows
-	            
-	            LOAN_ACT_MST_ENTITY transaction = new LOAN_ACT_MST_ENTITY();
-
-	            transaction.setEncoded_key(getCellValueAsString(row.getCell(0)));
-	            transaction.setId(getCellValueAsString(row.getCell(1)));
-	            transaction.setAccount_holdertype(getCellValueAsString(row.getCell(2)));
-	            transaction.setAccount_holderkey(getCellValueAsString(row.getCell(3)));
-	            transaction.setCreationDate(parseDateCell(row.getCell(4)));
-	            transaction.setApprovedDate(parseDateCell(row.getCell(5)));
-	            transaction.setLastModifiedDate(parseDateCell(row.getCell(6)));
-	            transaction.setClosedDate(parseDateCell(row.getCell(7)));
-	            transaction.setLastAccountAppraisalDate(parseDateCell(row.getCell(8)));
-	            transaction.setAccount_state(getCellValueAsString(row.getCell(9)));
-	            transaction.setAccount_substate(getCellValueAsString(row.getCell(10)));
-	            transaction.setProduct_typekey(getCellValueAsString(row.getCell(11)));
-	            transaction.setLoan_name(getCellValueAsString(row.getCell(12)));
-	            transaction.setPayment_method(getCellValueAsString(row.getCell(13)));
-	            transaction.setAssigned_branchkey(getCellValueAsString(row.getCell(14)));
-	            transaction.setLoan_amount(parseBigDecimal(row.getCell(15)));
-	            transaction.setInterest_rate(parseBigDecimal(row.getCell(16)));
-	            transaction.setPenalty_rate(parseBigDecimal(row.getCell(17)));
-	            transaction.setAccrued_interest(parseBigDecimal(row.getCell(18)));
-	            transaction.setAccrued_penalty(parseBigDecimal(row.getCell(19)));
-	            transaction.setPrincipal_due(parseBigDecimal(row.getCell(20)));
-	            transaction.setPrincipal_paid(parseBigDecimal(row.getCell(21)));
-	            transaction.setPrincipal_balance(parseBigDecimal(row.getCell(22)));
-	            transaction.setInterest_due(parseBigDecimal(row.getCell(23)));
-	            transaction.setInterest_paid(parseBigDecimal(row.getCell(24)));
-	            transaction.setInterest_balance(parseBigDecimal(row.getCell(25)));
-	            
-	            transaction.setInterest_fromarrearsbalance(parseBigDecimal(row.getCell(26)));
-	            transaction.setInterest_fromarrearsdue(parseBigDecimal(row.getCell(27)));
-	            transaction.setInterest_fromarrearspaid(parseBigDecimal(row.getCell(28)));
-	            transaction.setFees_due(parseBigDecimal(row.getCell(29)));
-	            transaction.setFees_paid(parseBigDecimal(row.getCell(30)));
-	            transaction.setFees_balance(parseBigDecimal(row.getCell(31)));
-	            transaction.setPenalty_due(parseBigDecimal(row.getCell(32)));
-	            transaction.setPenalty_paid(parseBigDecimal(row.getCell(33)));
-	            transaction.setPenalty_balance(parseBigDecimal(row.getCell(34)));
-	            transaction.setExpectedDisbursementDate(parseDateCell(row.getCell(35)));
-	            transaction.setDisbursementDate(parseDateCell(row.getCell(36)));
-	            transaction.setFirstRepaymentDate(parseDateCell(row.getCell(37)));
-	            transaction.setGrace_period(parseBigDecimal(row.getCell(38)));
-	            transaction.setRepayment_installments(parseBigDecimal(row.getCell(39)));
-	            transaction.setRepayment_periodcount(parseBigDecimal(row.getCell(40)));
-	            transaction.setDays_late(parseBigDecimal(row.getCell(41)));
-	            transaction.setDays_inarrears(parseBigDecimal(row.getCell(42)));
-	            transaction.setRepayment_schedule_method(getCellValueAsString(row.getCell(43)));
-	            transaction.setCurrency_code(getCellValueAsString(row.getCell(44)));
-	            transaction.setSale_processedbyvgid(getCellValueAsString(row.getCell(45)));
-	            transaction.setSale_processedfor(getCellValueAsString(row.getCell(46)));
-	            transaction.setSale_referredby(getCellValueAsString(row.getCell(47)));
-	            transaction.setEmployment_status(getCellValueAsString(row.getCell(48)));
-	            transaction.setJob_title(getCellValueAsString(row.getCell(49)));
-	            transaction.setEmployer_name(getCellValueAsString(row.getCell(50)));
-	            transaction.setTuscore(parseBigDecimal(row.getCell(51)));
-	            transaction.setTuprobability(parseBigDecimal(row.getCell(52)));
-	            transaction.setTufullname(getCellValueAsString(row.getCell(53)));
-	            transaction.setTureason1(getCellValueAsString(row.getCell(54)));
-	            transaction.setTureason2(getCellValueAsString(row.getCell(55)));
-	            transaction.setTureason3(getCellValueAsString(row.getCell(56)));
-	            transaction.setTureason4(getCellValueAsString(row.getCell(57)));
-	            transaction.setDisposable_income(parseBigDecimal(row.getCell(58)));
-	            transaction.setManualoverride_amount(parseBigDecimal(row.getCell(59)));
-	            transaction.setManualOverrideExpiryDate(parseDateCell(row.getCell(60)));
-	            transaction.setCpfees(parseBigDecimal(row.getCell(61)));
-	            transaction.setDeposit_amount(parseBigDecimal(row.getCell(62)));
-	            transaction.setTotal_product_price(parseBigDecimal(row.getCell(63)));
-	            transaction.setRetailer_name(getCellValueAsString(row.getCell(64)));
-	            transaction.setRetailer_branch(getCellValueAsString(row.getCell(65)));
-	            transaction.setVg_application_id(getCellValueAsString(row.getCell(66)));
-	            transaction.setContract_signed(getCellValueAsString(row.getCell(67)));
-	            transaction.setDateOfFirstCall(parseDateCell(row.getCell(68)));
-	            transaction.setLast_call_outcome(getCellValueAsString(row.getCell(69)));
-	            transaction.setAsOnDate(parseDateCell(row.getCell(70)));
-
-	            transactions.add(transaction);
-	        }
-
-	        lOAN_ACT_MST_REPO.saveAll(transactions); // Ensure `clientMasterRepo` is autowired properly.
-
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return "Error: " + e.getMessage();
-	    }
-	    return "File uploaded successfully by user: " + userId;
-	}
-	
-	
-	
-	private OffsetDateTime parseDateCell(Cell cell) {
-	    try {
-	        if (cell != null) {
-	            switch (cell.getCellType()) {
-	                case Cell.CELL_TYPE_NUMERIC:
-	                    if (DateUtil.isCellDateFormatted(cell)) {
-	                        Date date = cell.getDateCellValue();
-	                        return date.toInstant().atOffset(ZoneOffset.UTC); // Convert to OffsetDateTime
-	                    }
-	                    break;
-
-	                case Cell.CELL_TYPE_STRING:
-	                    String dateStr = cell.getStringCellValue().trim();
-
-	                    if (dateStr.isEmpty() || dateStr.equalsIgnoreCase("NULL")) {
-	                        return null;
-	                    }
-
-	                    // List of potential date formats
-	                    String[] dateFormats = {
-	                        "yyyy-MM-dd'T'HH:mm:ssXXX",  // ISO 8601 with timezone
-	                        "yyyy-MM-dd HH:mm:ss",      // Common SQL Server datetime
-	                        "MM/dd/yyyy HH:mm:ss",      // US format with time
-	                        "dd/MM/yyyy HH:mm:ss",      // EU format with time
-	                        "MM/dd/yyyy",               // US format (date only)
-	                        "dd/MM/yyyy",               // EU format (date only)
-	                        "yyyy-MM-dd"                // Simple date format
-	                    };
-
-	                    for (String format : dateFormats) {
-	                        try {
-	                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format).withZone(ZoneOffset.UTC);
-	                            return OffsetDateTime.parse(dateStr, formatter);
-	                        } catch (Exception ignored) {
-	                        }
-	                    }
-	                    break;
-
-	                default:
-	                    break;
-	            }
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	    return null;
-	}
-
-
-	private BigDecimal parseBigDecimal(Cell cell) {
-	    try {
-	        if (cell == null || cell.getCellTypeEnum() == CellType.BLANK) {
-	            return BigDecimal.ZERO; // Return 0 if the cell is empty or null
-	        }
-
-	        switch (cell.getCellTypeEnum()) {
-	            case NUMERIC:
-	                return BigDecimal.valueOf(cell.getNumericCellValue());
-
-	            case STRING:
-	                String value = cell.getStringCellValue().trim();
-	                if (!value.isEmpty() && value.matches("-?\\d+(\\.\\d+)?")) { // Validate number format
-	                    return new BigDecimal(value);
-	                }
-	                break;
-
-	            case FORMULA:
-	                try {
-	                    return BigDecimal.valueOf(cell.getNumericCellValue());
-	                } catch (IllegalStateException e) {
-	                    String formulaValue = cell.getStringCellValue().trim();
-	                    if (!formulaValue.isEmpty() && formulaValue.matches("-?\\d+(\\.\\d+)?")) {
-	                        return new BigDecimal(formulaValue);
-	                    }
-	                }
-	                break;
-
-	            default:
-	                break;
-	        }
-	    } catch (Exception e) {
-	        System.err.println("Error parsing BigDecimal from cell at row " + 
-	            cell.getRowIndex() + ", column " + cell.getColumnIndex() + ": " + e.getMessage());
-	    }
-	    return BigDecimal.ZERO; // Return 0 instead of throwing an exception
 	}
 
 	// Utility method to return null if the value is invalid

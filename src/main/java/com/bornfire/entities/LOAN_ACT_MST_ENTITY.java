@@ -2,9 +2,7 @@ package com.bornfire.entities;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.time.OffsetDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -13,90 +11,78 @@ import javax.persistence.Table;
 @Table(name="LOAN_ACCOUNT_MASTER_TBL")
 public class LOAN_ACT_MST_ENTITY {
 
-	private String encoded_key;
+	private String	encoded_key;
 	@Id
-	private String id;
-	private String account_holdertype;
-	private String account_holderkey;
-	@Column(name = "CREATION_DATE")
-	private OffsetDateTime creationDate;
-	@Column(name = "APPROVED_DATE")
-	private OffsetDateTime approvedDate;
-	@Column(name = "LAST_MODIFIED_DATE")
-	private OffsetDateTime lastModifiedDate;
-	@Column(name = "CLOSED_DATE")
-	private OffsetDateTime closedDate;
-	@Column(name = "LAST_ACCOUNT_APPRAISALDATE")
-	private OffsetDateTime lastAccountAppraisalDate;
-	private String account_state;
-	private String account_substate;
-	private String product_typekey;
-	private String loan_name;
-	private String payment_method;
-	private String assigned_branchkey;
-	private BigDecimal loan_amount;
-	private BigDecimal interest_rate;
-	private BigDecimal penalty_rate;
-	private BigDecimal accrued_interest;
-	private BigDecimal accrued_penalty;
-	private BigDecimal principal_due;
-	private BigDecimal principal_paid;
-	private BigDecimal principal_balance;
-	private BigDecimal interest_due;
-	private BigDecimal interest_paid;
-	private BigDecimal interest_balance;
-	private BigDecimal interest_fromarrearsbalance;
-	private BigDecimal interest_fromarrearsdue;
-	private BigDecimal interest_fromarrearspaid;
-	private BigDecimal fees_due;
-	private BigDecimal fees_paid;
-	private BigDecimal fees_balance;
-	private BigDecimal penalty_due;
-	private BigDecimal penalty_paid;
-	private BigDecimal penalty_balance;
-	@Column(name = "EXPECTED_DISBURSEMENTDATE")
-	private OffsetDateTime expectedDisbursementDate;
-	@Column(name = "DISBURSEMENT_DATE")
-	private OffsetDateTime disbursementDate;
-	@Column(name = "FIRST_REPAYMENTDATE")
-	private OffsetDateTime firstRepaymentDate;
-	private BigDecimal grace_period;
-	private BigDecimal repayment_installments;
-	private BigDecimal repayment_periodcount;
-	private BigDecimal days_late;
-	private BigDecimal days_inarrears;
-	private String repayment_schedule_method;
-	private String currency_code;
-	private String sale_processedbyvgid;
-	private String sale_processedfor;
-	private String sale_referredby;
-	private String employment_status;
-	private String job_title;
-	private String employer_name;
-	private BigDecimal tuscore;
-	private BigDecimal tuprobability;
-	private String tufullname;
-	private String tureason1;
-	private String tureason2;
-	private String tureason3;
-	private String tureason4;
-	private BigDecimal disposable_income;
-	private BigDecimal manualoverride_amount;
-	@Column(name = "MANUALOVERRIDE_EXPIRY_DATE")
-	private OffsetDateTime manualOverrideExpiryDate;
-	private BigDecimal cpfees;
-	private BigDecimal deposit_amount;
-	private BigDecimal total_product_price;
-	private String retailer_name;
-	private String retailer_branch;
-	private String vg_application_id;
-	private String contract_signed;
-	@Column(name = "DATE_OF_FIRST_CALL")
-	private OffsetDateTime dateOfFirstCall;
-	private String last_call_outcome;
-	@Column(name = "ASONDATE")
-	private OffsetDateTime asOnDate;
-	
+	private String	id;
+	private String	account_holdertype;
+	private String	account_holderkey;
+	private Date	creation_date;
+	private Date	approved_date;
+	private Date	last_modified_date;
+	private Date	closed_date;
+	private Date	last_account_appraisaldate;
+	private String	account_state;
+	private String	account_substate;
+	private String	product_typekey;
+	private String	loan_name;
+	private String	payment_method;
+	private String	assigned_branchkey;
+	private BigDecimal	loan_amount;
+	private BigDecimal	interest_rate;
+	private BigDecimal	penalty_rate;
+	private BigDecimal	accrued_interest;
+	private BigDecimal	accrued_penalty;
+	private BigDecimal	principal_due;
+	private BigDecimal	principal_paid;
+	private BigDecimal	principal_balance;
+	private BigDecimal	interest_due;
+	private BigDecimal	interest_paid;
+	private BigDecimal	interest_balance;
+	private BigDecimal	interest_fromarrearsbalance;
+	private BigDecimal	interest_fromarrearsdue;
+	private BigDecimal	interest_fromarrearspaid;
+	private BigDecimal	fees_due;
+	private BigDecimal	fees_paid;
+	private BigDecimal	fees_balance;
+	private BigDecimal	penalty_due;
+	private BigDecimal	penalty_paid;
+	private BigDecimal	penalty_balance;
+	private Date	expected_disbursementdate;
+	private Date	disbursement_date;
+	private Date	first_repaymentdate;
+	private BigDecimal	grace_period;
+	private BigDecimal	repayment_installments;
+	private BigDecimal	repayment_periodcount;
+	private BigDecimal	days_late;
+	private BigDecimal	days_inarrears;
+	private String	repayment_schedule_method;
+	private String	currency_code;
+	private String	sale_processedbyvgid;
+	private String	sale_processedfor;
+	private String	sale_referredby;
+	private String	employment_status;
+	private String	job_title;
+	private String	employer_name;
+	private BigDecimal	tuscore;
+	private BigDecimal	tuprobability;
+	private String	tufullname;
+	private String	tureason1;
+	private String	tureason2;
+	private String	tureason3;
+	private String	tureason4;
+	private BigDecimal	disposable_income;
+	private BigDecimal	manualoverride_amount;
+	private Date	manualoverride_expiry_date;
+	private BigDecimal	cpfees;
+	private BigDecimal	deposit_amount;
+	private BigDecimal	total_product_price;
+	private String	retailer_name;
+	private String	retailer_branch;
+	private String	vg_application_id;
+	private String	contract_signed;
+	private Date	date_of_first_call;
+	private String	last_call_outcome;
+	private Date	asondate;
 	public String getEncoded_key() {
 		return encoded_key;
 	}
@@ -121,35 +107,35 @@ public class LOAN_ACT_MST_ENTITY {
 	public void setAccount_holderkey(String account_holderkey) {
 		this.account_holderkey = account_holderkey;
 	}
-	public OffsetDateTime getCreationDate() {
-		return creationDate;
+	public Date getCreation_date() {
+		return creation_date;
 	}
-	public void setCreationDate(OffsetDateTime creationDate) {
-		this.creationDate = creationDate;
+	public void setCreation_date(Date creation_date) {
+		this.creation_date = creation_date;
 	}
-	public OffsetDateTime getApprovedDate() {
-		return approvedDate;
+	public Date getApproved_date() {
+		return approved_date;
 	}
-	public void setApprovedDate(OffsetDateTime approvedDate) {
-		this.approvedDate = approvedDate;
+	public void setApproved_date(Date approved_date) {
+		this.approved_date = approved_date;
 	}
-	public OffsetDateTime getLastModifiedDate() {
-		return lastModifiedDate;
+	public Date getLast_modified_date() {
+		return last_modified_date;
 	}
-	public void setLastModifiedDate(OffsetDateTime lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
+	public void setLast_modified_date(Date last_modified_date) {
+		this.last_modified_date = last_modified_date;
 	}
-	public OffsetDateTime getClosedDate() {
-		return closedDate;
+	public Date getClosed_date() {
+		return closed_date;
 	}
-	public void setClosedDate(OffsetDateTime closedDate) {
-		this.closedDate = closedDate;
+	public void setClosed_date(Date closed_date) {
+		this.closed_date = closed_date;
 	}
-	public OffsetDateTime getLastAccountAppraisalDate() {
-		return lastAccountAppraisalDate;
+	public Date getLast_account_appraisaldate() {
+		return last_account_appraisaldate;
 	}
-	public void setLastAccountAppraisalDate(OffsetDateTime lastAccountAppraisalDate) {
-		this.lastAccountAppraisalDate = lastAccountAppraisalDate;
+	public void setLast_account_appraisaldate(Date last_account_appraisaldate) {
+		this.last_account_appraisaldate = last_account_appraisaldate;
 	}
 	public String getAccount_state() {
 		return account_state;
@@ -307,23 +293,23 @@ public class LOAN_ACT_MST_ENTITY {
 	public void setPenalty_balance(BigDecimal penalty_balance) {
 		this.penalty_balance = penalty_balance;
 	}
-	public OffsetDateTime getExpectedDisbursementDate() {
-		return expectedDisbursementDate;
+	public Date getExpected_disbursementdate() {
+		return expected_disbursementdate;
 	}
-	public void setExpectedDisbursementDate(OffsetDateTime expectedDisbursementDate) {
-		this.expectedDisbursementDate = expectedDisbursementDate;
+	public void setExpected_disbursementdate(Date expected_disbursementdate) {
+		this.expected_disbursementdate = expected_disbursementdate;
 	}
-	public OffsetDateTime getDisbursementDate() {
-		return disbursementDate;
+	public Date getDisbursement_date() {
+		return disbursement_date;
 	}
-	public void setDisbursementDate(OffsetDateTime disbursementDate) {
-		this.disbursementDate = disbursementDate;
+	public void setDisbursement_date(Date disbursement_date) {
+		this.disbursement_date = disbursement_date;
 	}
-	public OffsetDateTime getFirstRepaymentDate() {
-		return firstRepaymentDate;
+	public Date getFirst_repaymentdate() {
+		return first_repaymentdate;
 	}
-	public void setFirstRepaymentDate(OffsetDateTime firstRepaymentDate) {
-		this.firstRepaymentDate = firstRepaymentDate;
+	public void setFirst_repaymentdate(Date first_repaymentdate) {
+		this.first_repaymentdate = first_repaymentdate;
 	}
 	public BigDecimal getGrace_period() {
 		return grace_period;
@@ -457,11 +443,11 @@ public class LOAN_ACT_MST_ENTITY {
 	public void setManualoverride_amount(BigDecimal manualoverride_amount) {
 		this.manualoverride_amount = manualoverride_amount;
 	}
-	public OffsetDateTime getManualOverrideExpiryDate() {
-		return manualOverrideExpiryDate;
+	public Date getManualoverride_expiry_date() {
+		return manualoverride_expiry_date;
 	}
-	public void setManualOverrideExpiryDate(OffsetDateTime manualOverrideExpiryDate) {
-		this.manualOverrideExpiryDate = manualOverrideExpiryDate;
+	public void setManualoverride_expiry_date(Date manualoverride_expiry_date) {
+		this.manualoverride_expiry_date = manualoverride_expiry_date;
 	}
 	public BigDecimal getCpfees() {
 		return cpfees;
@@ -505,11 +491,11 @@ public class LOAN_ACT_MST_ENTITY {
 	public void setContract_signed(String contract_signed) {
 		this.contract_signed = contract_signed;
 	}
-	public OffsetDateTime getDateOfFirstCall() {
-		return dateOfFirstCall;
+	public Date getDate_of_first_call() {
+		return date_of_first_call;
 	}
-	public void setDateOfFirstCall(OffsetDateTime dateOfFirstCall) {
-		this.dateOfFirstCall = dateOfFirstCall;
+	public void setDate_of_first_call(Date date_of_first_call) {
+		this.date_of_first_call = date_of_first_call;
 	}
 	public String getLast_call_outcome() {
 		return last_call_outcome;
@@ -517,43 +503,42 @@ public class LOAN_ACT_MST_ENTITY {
 	public void setLast_call_outcome(String last_call_outcome) {
 		this.last_call_outcome = last_call_outcome;
 	}
-	public OffsetDateTime getAsOnDate() {
-		return asOnDate;
+	public Date getAsondate() {
+		return asondate;
 	}
-	public void setAsOnDate(OffsetDateTime asOnDate) {
-		this.asOnDate = asOnDate;
+	public void setAsondate(Date asondate) {
+		this.asondate = asondate;
 	}
-	
 	public LOAN_ACT_MST_ENTITY(String encoded_key, String id, String account_holdertype, String account_holderkey,
-			OffsetDateTime creationDate, OffsetDateTime approvedDate, OffsetDateTime lastModifiedDate,
-			OffsetDateTime closedDate, OffsetDateTime lastAccountAppraisalDate, String account_state,
-			String account_substate, String product_typekey, String loan_name, String payment_method,
-			String assigned_branchkey, BigDecimal loan_amount, BigDecimal interest_rate, BigDecimal penalty_rate,
-			BigDecimal accrued_interest, BigDecimal accrued_penalty, BigDecimal principal_due,
-			BigDecimal principal_paid, BigDecimal principal_balance, BigDecimal interest_due, BigDecimal interest_paid,
-			BigDecimal interest_balance, BigDecimal interest_fromarrearsbalance, BigDecimal interest_fromarrearsdue,
-			BigDecimal interest_fromarrearspaid, BigDecimal fees_due, BigDecimal fees_paid, BigDecimal fees_balance,
-			BigDecimal penalty_due, BigDecimal penalty_paid, BigDecimal penalty_balance,
-			OffsetDateTime expectedDisbursementDate, OffsetDateTime disbursementDate, OffsetDateTime firstRepaymentDate,
-			BigDecimal grace_period, BigDecimal repayment_installments, BigDecimal repayment_periodcount,
-			BigDecimal days_late, BigDecimal days_inarrears, String repayment_schedule_method, String currency_code,
-			String sale_processedbyvgid, String sale_processedfor, String sale_referredby, String employment_status,
-			String job_title, String employer_name, BigDecimal tuscore, BigDecimal tuprobability, String tufullname,
-			String tureason1, String tureason2, String tureason3, String tureason4, BigDecimal disposable_income,
-			BigDecimal manualoverride_amount, OffsetDateTime manualOverrideExpiryDate, BigDecimal cpfees,
+			Date creation_date, Date approved_date, Date last_modified_date, Date closed_date,
+			Date last_account_appraisaldate, String account_state, String account_substate, String product_typekey,
+			String loan_name, String payment_method, String assigned_branchkey, BigDecimal loan_amount,
+			BigDecimal interest_rate, BigDecimal penalty_rate, BigDecimal accrued_interest, BigDecimal accrued_penalty,
+			BigDecimal principal_due, BigDecimal principal_paid, BigDecimal principal_balance, BigDecimal interest_due,
+			BigDecimal interest_paid, BigDecimal interest_balance, BigDecimal interest_fromarrearsbalance,
+			BigDecimal interest_fromarrearsdue, BigDecimal interest_fromarrearspaid, BigDecimal fees_due,
+			BigDecimal fees_paid, BigDecimal fees_balance, BigDecimal penalty_due, BigDecimal penalty_paid,
+			BigDecimal penalty_balance, Date expected_disbursementdate, Date disbursement_date,
+			Date first_repaymentdate, BigDecimal grace_period, BigDecimal repayment_installments,
+			BigDecimal repayment_periodcount, BigDecimal days_late, BigDecimal days_inarrears,
+			String repayment_schedule_method, String currency_code, String sale_processedbyvgid,
+			String sale_processedfor, String sale_referredby, String employment_status, String job_title,
+			String employer_name, BigDecimal tuscore, BigDecimal tuprobability, String tufullname, String tureason1,
+			String tureason2, String tureason3, String tureason4, BigDecimal disposable_income,
+			BigDecimal manualoverride_amount, Date manualoverride_expiry_date, BigDecimal cpfees,
 			BigDecimal deposit_amount, BigDecimal total_product_price, String retailer_name, String retailer_branch,
-			String vg_application_id, String contract_signed, OffsetDateTime dateOfFirstCall, String last_call_outcome,
-			OffsetDateTime asOnDate) {
+			String vg_application_id, String contract_signed, Date date_of_first_call, String last_call_outcome,
+			Date asondate) {
 		super();
 		this.encoded_key = encoded_key;
 		this.id = id;
 		this.account_holdertype = account_holdertype;
 		this.account_holderkey = account_holderkey;
-		this.creationDate = creationDate;
-		this.approvedDate = approvedDate;
-		this.lastModifiedDate = lastModifiedDate;
-		this.closedDate = closedDate;
-		this.lastAccountAppraisalDate = lastAccountAppraisalDate;
+		this.creation_date = creation_date;
+		this.approved_date = approved_date;
+		this.last_modified_date = last_modified_date;
+		this.closed_date = closed_date;
+		this.last_account_appraisaldate = last_account_appraisaldate;
 		this.account_state = account_state;
 		this.account_substate = account_substate;
 		this.product_typekey = product_typekey;
@@ -580,9 +565,9 @@ public class LOAN_ACT_MST_ENTITY {
 		this.penalty_due = penalty_due;
 		this.penalty_paid = penalty_paid;
 		this.penalty_balance = penalty_balance;
-		this.expectedDisbursementDate = expectedDisbursementDate;
-		this.disbursementDate = disbursementDate;
-		this.firstRepaymentDate = firstRepaymentDate;
+		this.expected_disbursementdate = expected_disbursementdate;
+		this.disbursement_date = disbursement_date;
+		this.first_repaymentdate = first_repaymentdate;
 		this.grace_period = grace_period;
 		this.repayment_installments = repayment_installments;
 		this.repayment_periodcount = repayment_periodcount;
@@ -605,7 +590,7 @@ public class LOAN_ACT_MST_ENTITY {
 		this.tureason4 = tureason4;
 		this.disposable_income = disposable_income;
 		this.manualoverride_amount = manualoverride_amount;
-		this.manualOverrideExpiryDate = manualOverrideExpiryDate;
+		this.manualoverride_expiry_date = manualoverride_expiry_date;
 		this.cpfees = cpfees;
 		this.deposit_amount = deposit_amount;
 		this.total_product_price = total_product_price;
@@ -613,17 +598,17 @@ public class LOAN_ACT_MST_ENTITY {
 		this.retailer_branch = retailer_branch;
 		this.vg_application_id = vg_application_id;
 		this.contract_signed = contract_signed;
-		this.dateOfFirstCall = dateOfFirstCall;
+		this.date_of_first_call = date_of_first_call;
 		this.last_call_outcome = last_call_outcome;
-		this.asOnDate = asOnDate;
+		this.asondate = asondate;
 	}
 	
 	@Override
 	public String toString() {
 		return "LOAN_ACT_MST_ENTITY [encoded_key=" + encoded_key + ", id=" + id + ", account_holdertype="
-				+ account_holdertype + ", account_holderkey=" + account_holderkey + ", creationDate=" + creationDate
-				+ ", approvedDate=" + approvedDate + ", lastModifiedDate=" + lastModifiedDate + ", closedDate="
-				+ closedDate + ", lastAccountAppraisalDate=" + lastAccountAppraisalDate + ", account_state="
+				+ account_holdertype + ", account_holderkey=" + account_holderkey + ", creation_date=" + creation_date
+				+ ", approved_date=" + approved_date + ", last_modified_date=" + last_modified_date + ", closed_date="
+				+ closed_date + ", last_account_appraisaldate=" + last_account_appraisaldate + ", account_state="
 				+ account_state + ", account_substate=" + account_substate + ", product_typekey=" + product_typekey
 				+ ", loan_name=" + loan_name + ", payment_method=" + payment_method + ", assigned_branchkey="
 				+ assigned_branchkey + ", loan_amount=" + loan_amount + ", interest_rate=" + interest_rate
@@ -634,9 +619,9 @@ public class LOAN_ACT_MST_ENTITY {
 				+ interest_fromarrearsbalance + ", interest_fromarrearsdue=" + interest_fromarrearsdue
 				+ ", interest_fromarrearspaid=" + interest_fromarrearspaid + ", fees_due=" + fees_due + ", fees_paid="
 				+ fees_paid + ", fees_balance=" + fees_balance + ", penalty_due=" + penalty_due + ", penalty_paid="
-				+ penalty_paid + ", penalty_balance=" + penalty_balance + ", expectedDisbursementDate="
-				+ expectedDisbursementDate + ", disbursementDate=" + disbursementDate + ", firstRepaymentDate="
-				+ firstRepaymentDate + ", grace_period=" + grace_period + ", repayment_installments="
+				+ penalty_paid + ", penalty_balance=" + penalty_balance + ", expected_disbursementdate="
+				+ expected_disbursementdate + ", disbursement_date=" + disbursement_date + ", first_repaymentdate="
+				+ first_repaymentdate + ", grace_period=" + grace_period + ", repayment_installments="
 				+ repayment_installments + ", repayment_periodcount=" + repayment_periodcount + ", days_late="
 				+ days_late + ", days_inarrears=" + days_inarrears + ", repayment_schedule_method="
 				+ repayment_schedule_method + ", currency_code=" + currency_code + ", sale_processedbyvgid="
@@ -645,12 +630,52 @@ public class LOAN_ACT_MST_ENTITY {
 				+ ", employer_name=" + employer_name + ", tuscore=" + tuscore + ", tuprobability=" + tuprobability
 				+ ", tufullname=" + tufullname + ", tureason1=" + tureason1 + ", tureason2=" + tureason2
 				+ ", tureason3=" + tureason3 + ", tureason4=" + tureason4 + ", disposable_income=" + disposable_income
-				+ ", manualoverride_amount=" + manualoverride_amount + ", manualOverrideExpiryDate="
-				+ manualOverrideExpiryDate + ", cpfees=" + cpfees + ", deposit_amount=" + deposit_amount
+				+ ", manualoverride_amount=" + manualoverride_amount + ", manualoverride_expiry_date="
+				+ manualoverride_expiry_date + ", cpfees=" + cpfees + ", deposit_amount=" + deposit_amount
 				+ ", total_product_price=" + total_product_price + ", retailer_name=" + retailer_name
 				+ ", retailer_branch=" + retailer_branch + ", vg_application_id=" + vg_application_id
-				+ ", contract_signed=" + contract_signed + ", dateOfFirstCall=" + dateOfFirstCall
-				+ ", last_call_outcome=" + last_call_outcome + ", asOnDate=" + asOnDate + "]";
+				+ ", contract_signed=" + contract_signed + ", date_of_first_call=" + date_of_first_call
+				+ ", last_call_outcome=" + last_call_outcome + ", asondate=" + asondate + ", getEncoded_key()="
+				+ getEncoded_key() + ", getId()=" + getId() + ", getAccount_holdertype()=" + getAccount_holdertype()
+				+ ", getAccount_holderkey()=" + getAccount_holderkey() + ", getCreation_date()=" + getCreation_date()
+				+ ", getApproved_date()=" + getApproved_date() + ", getLast_modified_date()=" + getLast_modified_date()
+				+ ", getClosed_date()=" + getClosed_date() + ", getLast_account_appraisaldate()="
+				+ getLast_account_appraisaldate() + ", getAccount_state()=" + getAccount_state()
+				+ ", getAccount_substate()=" + getAccount_substate() + ", getProduct_typekey()=" + getProduct_typekey()
+				+ ", getLoan_name()=" + getLoan_name() + ", getPayment_method()=" + getPayment_method()
+				+ ", getAssigned_branchkey()=" + getAssigned_branchkey() + ", getLoan_amount()=" + getLoan_amount()
+				+ ", getInterest_rate()=" + getInterest_rate() + ", getPenalty_rate()=" + getPenalty_rate()
+				+ ", getAccrued_interest()=" + getAccrued_interest() + ", getAccrued_penalty()=" + getAccrued_penalty()
+				+ ", getPrincipal_due()=" + getPrincipal_due() + ", getPrincipal_paid()=" + getPrincipal_paid()
+				+ ", getPrincipal_balance()=" + getPrincipal_balance() + ", getInterest_due()=" + getInterest_due()
+				+ ", getInterest_paid()=" + getInterest_paid() + ", getInterest_balance()=" + getInterest_balance()
+				+ ", getInterest_fromarrearsbalance()=" + getInterest_fromarrearsbalance()
+				+ ", getInterest_fromarrearsdue()=" + getInterest_fromarrearsdue() + ", getInterest_fromarrearspaid()="
+				+ getInterest_fromarrearspaid() + ", getFees_due()=" + getFees_due() + ", getFees_paid()="
+				+ getFees_paid() + ", getFees_balance()=" + getFees_balance() + ", getPenalty_due()=" + getPenalty_due()
+				+ ", getPenalty_paid()=" + getPenalty_paid() + ", getPenalty_balance()=" + getPenalty_balance()
+				+ ", getExpected_disbursementdate()=" + getExpected_disbursementdate() + ", getDisbursement_date()="
+				+ getDisbursement_date() + ", getFirst_repaymentdate()=" + getFirst_repaymentdate()
+				+ ", getGrace_period()=" + getGrace_period() + ", getRepayment_installments()="
+				+ getRepayment_installments() + ", getRepayment_periodcount()=" + getRepayment_periodcount()
+				+ ", getDays_late()=" + getDays_late() + ", getDays_inarrears()=" + getDays_inarrears()
+				+ ", getRepayment_schedule_method()=" + getRepayment_schedule_method() + ", getCurrency_code()="
+				+ getCurrency_code() + ", getSale_processedbyvgid()=" + getSale_processedbyvgid()
+				+ ", getSale_processedfor()=" + getSale_processedfor() + ", getSale_referredby()="
+				+ getSale_referredby() + ", getEmployment_status()=" + getEmployment_status() + ", getJob_title()="
+				+ getJob_title() + ", getEmployer_name()=" + getEmployer_name() + ", getTuscore()=" + getTuscore()
+				+ ", getTuprobability()=" + getTuprobability() + ", getTufullname()=" + getTufullname()
+				+ ", getTureason1()=" + getTureason1() + ", getTureason2()=" + getTureason2() + ", getTureason3()="
+				+ getTureason3() + ", getTureason4()=" + getTureason4() + ", getDisposable_income()="
+				+ getDisposable_income() + ", getManualoverride_amount()=" + getManualoverride_amount()
+				+ ", getManualoverride_expiry_date()=" + getManualoverride_expiry_date() + ", getCpfees()="
+				+ getCpfees() + ", getDeposit_amount()=" + getDeposit_amount() + ", getTotal_product_price()="
+				+ getTotal_product_price() + ", getRetailer_name()=" + getRetailer_name() + ", getRetailer_branch()="
+				+ getRetailer_branch() + ", getVg_application_id()=" + getVg_application_id()
+				+ ", getContract_signed()=" + getContract_signed() + ", getDate_of_first_call()="
+				+ getDate_of_first_call() + ", getLast_call_outcome()=" + getLast_call_outcome() + ", getAsondate()="
+				+ getAsondate() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
 	}
 	public LOAN_ACT_MST_ENTITY() {
 		super();
