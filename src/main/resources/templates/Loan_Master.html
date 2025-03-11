@@ -2,16 +2,9 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <!--
-	CREATED BY : PRAVEEN
-	DATE : 19-09-24
+	CREATED BY : Nithya
+	DATE : 11-03-25
     VERSION    : 01
--->
-<!--
-	CREATED BY : SUIRYA K
-	DATE       : 06-11-24
-	PURPOSE    : PLUGINS TO MOVE CUSTOMER MAINTAINANCE AND UPDATE DOCUMENT MASTER
-	VERSION    : 02
-	 
 -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -901,7 +894,7 @@ function rowadddcorporate() {
 		        });
 		    }).catch((error) => {
 		        console.error('Error processing files:', error);
-		        // Ensure the loader is hidden if there’s an error during file processing
+		        // Ensure the loader is hidden if thereâ€™s an error during file processing
 		        $('#loader').hide();
 		    });
 		}
@@ -2182,13 +2175,13 @@ function rowadddcorporate() {
 												name="principal_paid" id="principal_paid" readonly />
 										</div>
 										<div class="col-sm-2">
-											<label>Principal Expense</label>
+											<label>Principal Balance</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="principal_due"
-											th:value="${view?.principal_due == 0 ? '0.00' :#numbers.formatDecimal(view?.principal_due, 0, 'COMMA', 2, 'POINT')}"
+											<input type="text" id="principal_balance"
+											th:value="${view?.principal_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.principal_balance, 0, 'COMMA', 2, 'POINT')}"
 												 readonly
-												name="principal_due" />
+												name="principal_balance" />
 										</div>
 									</div>
 									<div class="row formline ml-2  mt-1">
@@ -2211,12 +2204,12 @@ function rowadddcorporate() {
 												readonly />
 										</div>
 										<div class="col-sm-2">
-											<label>Interest Expense</label>
+											<label>Interest Balance</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="interest_paid"
-											th:value="${view?.principal_due == 0 ? '0.00' :#numbers.formatDecimal(view?.principal_due, 0, 'COMMA', 2, 'POINT')}"
-												 name="interest_paid"
+											<input type="text" id="interest_balance"
+											th:value="${view?.interest_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.interest_balance, 0, 'COMMA', 2, 'POINT')}"
+												 name="interest_balance"
 												readonly />
 										</div>
 									</div>
@@ -2239,12 +2232,12 @@ function rowadddcorporate() {
 												readonly />
 										</div>
 										<div class="col-sm-2">
-											<label>Fee Expense</label>
+											<label>Fee Balance</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="penalty_due"
-											th:value="${view?.principal_due == 0 ? '0.00' :#numbers.formatDecimal(view?.principal_due, 0, 'COMMA', 2, 'POINT')}"
-												 name="penalty_due" readonly />
+											<input type="text" id="fees_balance"
+											th:value="${view?.fees_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.fees_balance, 0, 'COMMA', 2, 'POINT')}"
+												 name="fees_balance" readonly />
 										</div>
 									</div>
 										<div class="row formline ml-2  mt-1">
@@ -2265,12 +2258,12 @@ function rowadddcorporate() {
 												  readonly />
 										</div>
 										<div class="col-sm-2">
-											<label>Penalty Expense</label>
+											<label>Penalty Balance</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="penalty_due"
-											th:value="${view?.penalty_due == 0 ? '0.00' :#numbers.formatDecimal(view?.penalty_due, 0, 'COMMA', 2, 'POINT')}"
-											  name="penalty_due" readonly />
+											<input type="text" id="penalty_balance"
+											th:value="${view?.penalty_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.penalty_balance, 0, 'COMMA', 2, 'POINT')}"
+												 name="penalty_balance" readonly />
 										</div>
 									</div>
 								</div>
@@ -2637,7 +2630,7 @@ function rowadddcorporate() {
 					<h5 class="modal-title">Alerts</h5>
 
 					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true" onclick="$('#normalalert').modal('hide')">×</button>
+						aria-hidden="true" onclick="$('#normalalert').modal('hide')">Ã—</button>
 				</div>
 				<div class="modal-body" style="text-align: center;">
 					<h6 id="Normalalertmsg"></h6>
