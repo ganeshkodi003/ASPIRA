@@ -220,6 +220,7 @@ public class CustOnboardinController {
 		String BRANCH_ID = (String) req.getSession().getAttribute("BRANCH_ID");
 		String BRANCH_DESC = (String) req.getSession().getAttribute("BRANCH_DESC");
 		Date TRANDATE = (Date) req.getSession().getAttribute("TRANDATE");
+		System.out.println(TRANDATE);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		String formattedDate = sdf.format(TRANDATE);
 		System.out.println(unique_id+"unique_idunique_id");
@@ -3447,11 +3448,9 @@ public class CustOnboardinController {
 					String AccountNO2 = CifId.getLa_loan_accountno();
 					String AccountNO1 = CifId.getTd_deposit_accountno();
 					String AccountNo = null;
-					System.out.println(AccountNO2 +"jhghg");
-					Lease_Loan_Work_Entity LeaseAccount = lease_Loan_Work_Repo.getLeaseAccount(AccountNO);
-					DepositEntity DepositAccount = depositRep.getCustdataact(AccountNO);
+					Lease_Loan_Work_Entity LeaseAccount = lease_Loan_Work_Repo.getLeaseAccount(AccountNO2);
+					DepositEntity DepositAccount = depositRep.getCustdataact(AccountNO1);
 					if (CifId.getCa_schemetype().equals("LA")) {
-						System.out.println(LeaseAccount.getLoan_accountno());
 						AccountNo = LeaseAccount.getLoan_accountno();
 					} else {
 						AccountNo = DepositAccount.getDepo_actno();
@@ -3474,15 +3473,15 @@ public class CustOnboardinController {
 					String AccountNO2 = CifId.getLa_loan_accountno();
 					String AccountNO1 = CifId.getTd_deposit_accountno();
 					String AccountNo = null;
-					Lease_Loan_Work_Entity LeaseAccount = lease_Loan_Work_Repo.getLeaseAccount(AccountNO);
-					DepositEntity DepositAccount = depositRep.getCustdataact(AccountNO);
+					Lease_Loan_Work_Entity LeaseAccount = lease_Loan_Work_Repo.getLeaseAccount(AccountNO2);
+					DepositEntity DepositAccount = depositRep.getCustdataact(AccountNO1);
 					if (CifId.getCa_schemetype().equals("LA")) {
 						AccountNo = LeaseAccount.getLoan_accountno();
 					} else {
 						AccountNo = DepositAccount.getDepo_actno();
 					}
 
-					msg = "Account Approved Successfully " + AccountNO + "<br>";
+					msg = "Account Approved Successfully " + AccountNo + "<br>";
 					msg += "Reference No: " + ApprefNO + "<br>";
 					msg += "Approved Name: " + username + " <br>";
 					msg += "Approved Date: " + ComplianceDate + " ";
