@@ -2017,7 +2017,7 @@ function rowadddcorporate() {
 										</div>
 										<div class="col-sm-2">
 											<input type="text" 
-											th:value="${view?.creation_date != null ? #temporals.format(view.creation_date, 'dd-MM-yyyy') : ''}"
+											th:value="${view.creation_date}"
 												name="creation_date" id="creation_date" readonly />
 										</div>
 

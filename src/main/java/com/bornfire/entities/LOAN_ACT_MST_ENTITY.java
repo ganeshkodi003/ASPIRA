@@ -2,7 +2,10 @@ package com.bornfire.entities;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -83,432 +86,575 @@ public class LOAN_ACT_MST_ENTITY {
 	private Date	date_of_first_call;
 	private String	last_call_outcome;
 	private Date	asondate;
+	
 	public String getEncoded_key() {
 		return encoded_key;
 	}
+
 	public void setEncoded_key(String encoded_key) {
 		this.encoded_key = encoded_key;
 	}
+
 	public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public String getAccount_holdertype() {
 		return account_holdertype;
 	}
+
 	public void setAccount_holdertype(String account_holdertype) {
 		this.account_holdertype = account_holdertype;
 	}
+
 	public String getAccount_holderkey() {
 		return account_holderkey;
 	}
+
 	public void setAccount_holderkey(String account_holderkey) {
 		this.account_holderkey = account_holderkey;
 	}
+
 	public Date getCreation_date() {
 		return creation_date;
 	}
+
 	public void setCreation_date(Date creation_date) {
 		this.creation_date = creation_date;
 	}
+
 	public Date getApproved_date() {
 		return approved_date;
 	}
+
 	public void setApproved_date(Date approved_date) {
 		this.approved_date = approved_date;
 	}
+
 	public Date getLast_modified_date() {
 		return last_modified_date;
 	}
+
 	public void setLast_modified_date(Date last_modified_date) {
 		this.last_modified_date = last_modified_date;
 	}
+
 	public Date getClosed_date() {
 		return closed_date;
 	}
+
 	public void setClosed_date(Date closed_date) {
 		this.closed_date = closed_date;
 	}
+
 	public Date getLast_account_appraisaldate() {
 		return last_account_appraisaldate;
 	}
+
 	public void setLast_account_appraisaldate(Date last_account_appraisaldate) {
 		this.last_account_appraisaldate = last_account_appraisaldate;
 	}
+
 	public String getAccount_state() {
 		return account_state;
 	}
+
 	public void setAccount_state(String account_state) {
 		this.account_state = account_state;
 	}
+
 	public String getAccount_substate() {
 		return account_substate;
 	}
+
 	public void setAccount_substate(String account_substate) {
 		this.account_substate = account_substate;
 	}
+
 	public String getProduct_typekey() {
 		return product_typekey;
 	}
+
 	public void setProduct_typekey(String product_typekey) {
 		this.product_typekey = product_typekey;
 	}
+
 	public String getLoan_name() {
 		return loan_name;
 	}
+
 	public void setLoan_name(String loan_name) {
 		this.loan_name = loan_name;
 	}
+
 	public String getPayment_method() {
 		return payment_method;
 	}
+
 	public void setPayment_method(String payment_method) {
 		this.payment_method = payment_method;
 	}
+
 	public String getAssigned_branchkey() {
 		return assigned_branchkey;
 	}
+
 	public void setAssigned_branchkey(String assigned_branchkey) {
 		this.assigned_branchkey = assigned_branchkey;
 	}
+
 	public BigDecimal getLoan_amount() {
 		return loan_amount;
 	}
+
 	public void setLoan_amount(BigDecimal loan_amount) {
 		this.loan_amount = loan_amount;
 	}
+
 	public BigDecimal getInterest_rate() {
 		return interest_rate;
 	}
+
 	public void setInterest_rate(BigDecimal interest_rate) {
 		this.interest_rate = interest_rate;
 	}
+
 	public BigDecimal getPenalty_rate() {
 		return penalty_rate;
 	}
+
 	public void setPenalty_rate(BigDecimal penalty_rate) {
 		this.penalty_rate = penalty_rate;
 	}
+
 	public BigDecimal getAccrued_interest() {
 		return accrued_interest;
 	}
+
 	public void setAccrued_interest(BigDecimal accrued_interest) {
 		this.accrued_interest = accrued_interest;
 	}
+
 	public BigDecimal getAccrued_penalty() {
 		return accrued_penalty;
 	}
+
 	public void setAccrued_penalty(BigDecimal accrued_penalty) {
 		this.accrued_penalty = accrued_penalty;
 	}
+
 	public BigDecimal getPrincipal_due() {
 		return principal_due;
 	}
+
 	public void setPrincipal_due(BigDecimal principal_due) {
 		this.principal_due = principal_due;
 	}
+
 	public BigDecimal getPrincipal_paid() {
 		return principal_paid;
 	}
+
 	public void setPrincipal_paid(BigDecimal principal_paid) {
 		this.principal_paid = principal_paid;
 	}
+
 	public BigDecimal getPrincipal_balance() {
 		return principal_balance;
 	}
+
 	public void setPrincipal_balance(BigDecimal principal_balance) {
 		this.principal_balance = principal_balance;
 	}
+
 	public BigDecimal getInterest_due() {
 		return interest_due;
 	}
+
 	public void setInterest_due(BigDecimal interest_due) {
 		this.interest_due = interest_due;
 	}
+
 	public BigDecimal getInterest_paid() {
 		return interest_paid;
 	}
+
 	public void setInterest_paid(BigDecimal interest_paid) {
 		this.interest_paid = interest_paid;
 	}
+
 	public BigDecimal getInterest_balance() {
 		return interest_balance;
 	}
+
 	public void setInterest_balance(BigDecimal interest_balance) {
 		this.interest_balance = interest_balance;
 	}
+
 	public BigDecimal getInterest_fromarrearsbalance() {
 		return interest_fromarrearsbalance;
 	}
+
 	public void setInterest_fromarrearsbalance(BigDecimal interest_fromarrearsbalance) {
 		this.interest_fromarrearsbalance = interest_fromarrearsbalance;
 	}
+
 	public BigDecimal getInterest_fromarrearsdue() {
 		return interest_fromarrearsdue;
 	}
+
 	public void setInterest_fromarrearsdue(BigDecimal interest_fromarrearsdue) {
 		this.interest_fromarrearsdue = interest_fromarrearsdue;
 	}
+
 	public BigDecimal getInterest_fromarrearspaid() {
 		return interest_fromarrearspaid;
 	}
+
 	public void setInterest_fromarrearspaid(BigDecimal interest_fromarrearspaid) {
 		this.interest_fromarrearspaid = interest_fromarrearspaid;
 	}
+
 	public BigDecimal getFees_due() {
 		return fees_due;
 	}
+
 	public void setFees_due(BigDecimal fees_due) {
 		this.fees_due = fees_due;
 	}
+
 	public BigDecimal getFees_paid() {
 		return fees_paid;
 	}
+
 	public void setFees_paid(BigDecimal fees_paid) {
 		this.fees_paid = fees_paid;
 	}
+
 	public BigDecimal getFees_balance() {
 		return fees_balance;
 	}
+
 	public void setFees_balance(BigDecimal fees_balance) {
 		this.fees_balance = fees_balance;
 	}
+
 	public BigDecimal getPenalty_due() {
 		return penalty_due;
 	}
+
 	public void setPenalty_due(BigDecimal penalty_due) {
 		this.penalty_due = penalty_due;
 	}
+
 	public BigDecimal getPenalty_paid() {
 		return penalty_paid;
 	}
+
 	public void setPenalty_paid(BigDecimal penalty_paid) {
 		this.penalty_paid = penalty_paid;
 	}
+
 	public BigDecimal getPenalty_balance() {
 		return penalty_balance;
 	}
+
 	public void setPenalty_balance(BigDecimal penalty_balance) {
 		this.penalty_balance = penalty_balance;
 	}
+
 	public Date getExpected_disbursementdate() {
 		return expected_disbursementdate;
 	}
+
 	public void setExpected_disbursementdate(Date expected_disbursementdate) {
 		this.expected_disbursementdate = expected_disbursementdate;
 	}
+
 	public Date getDisbursement_date() {
 		return disbursement_date;
 	}
+
 	public void setDisbursement_date(Date disbursement_date) {
 		this.disbursement_date = disbursement_date;
 	}
+
 	public Date getFirst_repaymentdate() {
 		return first_repaymentdate;
 	}
+
 	public void setFirst_repaymentdate(Date first_repaymentdate) {
 		this.first_repaymentdate = first_repaymentdate;
 	}
+
 	public BigDecimal getGrace_period() {
 		return grace_period;
 	}
+
 	public void setGrace_period(BigDecimal grace_period) {
 		this.grace_period = grace_period;
 	}
+
 	public BigDecimal getRepayment_installments() {
 		return repayment_installments;
 	}
+
 	public void setRepayment_installments(BigDecimal repayment_installments) {
 		this.repayment_installments = repayment_installments;
 	}
+
 	public BigDecimal getRepayment_periodcount() {
 		return repayment_periodcount;
 	}
+
 	public void setRepayment_periodcount(BigDecimal repayment_periodcount) {
 		this.repayment_periodcount = repayment_periodcount;
 	}
+
 	public BigDecimal getDays_late() {
 		return days_late;
 	}
+
 	public void setDays_late(BigDecimal days_late) {
 		this.days_late = days_late;
 	}
+
 	public BigDecimal getDays_inarrears() {
 		return days_inarrears;
 	}
+
 	public void setDays_inarrears(BigDecimal days_inarrears) {
 		this.days_inarrears = days_inarrears;
 	}
+
 	public String getRepayment_schedule_method() {
 		return repayment_schedule_method;
 	}
+
 	public void setRepayment_schedule_method(String repayment_schedule_method) {
 		this.repayment_schedule_method = repayment_schedule_method;
 	}
+
 	public String getCurrency_code() {
 		return currency_code;
 	}
+
 	public void setCurrency_code(String currency_code) {
 		this.currency_code = currency_code;
 	}
+
 	public String getSale_processedbyvgid() {
 		return sale_processedbyvgid;
 	}
+
 	public void setSale_processedbyvgid(String sale_processedbyvgid) {
 		this.sale_processedbyvgid = sale_processedbyvgid;
 	}
+
 	public String getSale_processedfor() {
 		return sale_processedfor;
 	}
+
 	public void setSale_processedfor(String sale_processedfor) {
 		this.sale_processedfor = sale_processedfor;
 	}
+
 	public String getSale_referredby() {
 		return sale_referredby;
 	}
+
 	public void setSale_referredby(String sale_referredby) {
 		this.sale_referredby = sale_referredby;
 	}
+
 	public String getEmployment_status() {
 		return employment_status;
 	}
+
 	public void setEmployment_status(String employment_status) {
 		this.employment_status = employment_status;
 	}
+
 	public String getJob_title() {
 		return job_title;
 	}
+
 	public void setJob_title(String job_title) {
 		this.job_title = job_title;
 	}
+
 	public String getEmployer_name() {
 		return employer_name;
 	}
+
 	public void setEmployer_name(String employer_name) {
 		this.employer_name = employer_name;
 	}
+
 	public BigDecimal getTuscore() {
 		return tuscore;
 	}
+
 	public void setTuscore(BigDecimal tuscore) {
 		this.tuscore = tuscore;
 	}
+
 	public BigDecimal getTuprobability() {
 		return tuprobability;
 	}
+
 	public void setTuprobability(BigDecimal tuprobability) {
 		this.tuprobability = tuprobability;
 	}
+
 	public String getTufullname() {
 		return tufullname;
 	}
+
 	public void setTufullname(String tufullname) {
 		this.tufullname = tufullname;
 	}
+
 	public String getTureason1() {
 		return tureason1;
 	}
+
 	public void setTureason1(String tureason1) {
 		this.tureason1 = tureason1;
 	}
+
 	public String getTureason2() {
 		return tureason2;
 	}
+
 	public void setTureason2(String tureason2) {
 		this.tureason2 = tureason2;
 	}
+
 	public String getTureason3() {
 		return tureason3;
 	}
+
 	public void setTureason3(String tureason3) {
 		this.tureason3 = tureason3;
 	}
+
 	public String getTureason4() {
 		return tureason4;
 	}
+
 	public void setTureason4(String tureason4) {
 		this.tureason4 = tureason4;
 	}
+
 	public BigDecimal getDisposable_income() {
 		return disposable_income;
 	}
+
 	public void setDisposable_income(BigDecimal disposable_income) {
 		this.disposable_income = disposable_income;
 	}
+
 	public BigDecimal getManualoverride_amount() {
 		return manualoverride_amount;
 	}
+
 	public void setManualoverride_amount(BigDecimal manualoverride_amount) {
 		this.manualoverride_amount = manualoverride_amount;
 	}
+
 	public Date getManualoverride_expiry_date() {
 		return manualoverride_expiry_date;
 	}
+
 	public void setManualoverride_expiry_date(Date manualoverride_expiry_date) {
 		this.manualoverride_expiry_date = manualoverride_expiry_date;
 	}
+
 	public BigDecimal getCpfees() {
 		return cpfees;
 	}
+
 	public void setCpfees(BigDecimal cpfees) {
 		this.cpfees = cpfees;
 	}
+
 	public BigDecimal getDeposit_amount() {
 		return deposit_amount;
 	}
+
 	public void setDeposit_amount(BigDecimal deposit_amount) {
 		this.deposit_amount = deposit_amount;
 	}
+
 	public BigDecimal getTotal_product_price() {
 		return total_product_price;
 	}
+
 	public void setTotal_product_price(BigDecimal total_product_price) {
 		this.total_product_price = total_product_price;
 	}
+
 	public String getRetailer_name() {
 		return retailer_name;
 	}
+
 	public void setRetailer_name(String retailer_name) {
 		this.retailer_name = retailer_name;
 	}
+
 	public String getRetailer_branch() {
 		return retailer_branch;
 	}
+
 	public void setRetailer_branch(String retailer_branch) {
 		this.retailer_branch = retailer_branch;
 	}
+
 	public String getVg_application_id() {
 		return vg_application_id;
 	}
+
 	public void setVg_application_id(String vg_application_id) {
 		this.vg_application_id = vg_application_id;
 	}
+
 	public String getContract_signed() {
 		return contract_signed;
 	}
+
 	public void setContract_signed(String contract_signed) {
 		this.contract_signed = contract_signed;
 	}
+
 	public Date getDate_of_first_call() {
 		return date_of_first_call;
 	}
+
 	public void setDate_of_first_call(Date date_of_first_call) {
 		this.date_of_first_call = date_of_first_call;
 	}
+
 	public String getLast_call_outcome() {
 		return last_call_outcome;
 	}
+
 	public void setLast_call_outcome(String last_call_outcome) {
 		this.last_call_outcome = last_call_outcome;
 	}
+
 	public Date getAsondate() {
 		return asondate;
 	}
+
 	public void setAsondate(Date asondate) {
 		this.asondate = asondate;
 	}
+
 	public LOAN_ACT_MST_ENTITY(String encoded_key, String id, String account_holdertype, String account_holderkey,
 			Date creation_date, Date approved_date, Date last_modified_date, Date closed_date,
 			Date last_account_appraisaldate, String account_state, String account_substate, String product_typekey,
@@ -602,7 +748,7 @@ public class LOAN_ACT_MST_ENTITY {
 		this.last_call_outcome = last_call_outcome;
 		this.asondate = asondate;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "LOAN_ACT_MST_ENTITY [encoded_key=" + encoded_key + ", id=" + id + ", account_holdertype="
@@ -635,48 +781,9 @@ public class LOAN_ACT_MST_ENTITY {
 				+ ", total_product_price=" + total_product_price + ", retailer_name=" + retailer_name
 				+ ", retailer_branch=" + retailer_branch + ", vg_application_id=" + vg_application_id
 				+ ", contract_signed=" + contract_signed + ", date_of_first_call=" + date_of_first_call
-				+ ", last_call_outcome=" + last_call_outcome + ", asondate=" + asondate + ", getEncoded_key()="
-				+ getEncoded_key() + ", getId()=" + getId() + ", getAccount_holdertype()=" + getAccount_holdertype()
-				+ ", getAccount_holderkey()=" + getAccount_holderkey() + ", getCreation_date()=" + getCreation_date()
-				+ ", getApproved_date()=" + getApproved_date() + ", getLast_modified_date()=" + getLast_modified_date()
-				+ ", getClosed_date()=" + getClosed_date() + ", getLast_account_appraisaldate()="
-				+ getLast_account_appraisaldate() + ", getAccount_state()=" + getAccount_state()
-				+ ", getAccount_substate()=" + getAccount_substate() + ", getProduct_typekey()=" + getProduct_typekey()
-				+ ", getLoan_name()=" + getLoan_name() + ", getPayment_method()=" + getPayment_method()
-				+ ", getAssigned_branchkey()=" + getAssigned_branchkey() + ", getLoan_amount()=" + getLoan_amount()
-				+ ", getInterest_rate()=" + getInterest_rate() + ", getPenalty_rate()=" + getPenalty_rate()
-				+ ", getAccrued_interest()=" + getAccrued_interest() + ", getAccrued_penalty()=" + getAccrued_penalty()
-				+ ", getPrincipal_due()=" + getPrincipal_due() + ", getPrincipal_paid()=" + getPrincipal_paid()
-				+ ", getPrincipal_balance()=" + getPrincipal_balance() + ", getInterest_due()=" + getInterest_due()
-				+ ", getInterest_paid()=" + getInterest_paid() + ", getInterest_balance()=" + getInterest_balance()
-				+ ", getInterest_fromarrearsbalance()=" + getInterest_fromarrearsbalance()
-				+ ", getInterest_fromarrearsdue()=" + getInterest_fromarrearsdue() + ", getInterest_fromarrearspaid()="
-				+ getInterest_fromarrearspaid() + ", getFees_due()=" + getFees_due() + ", getFees_paid()="
-				+ getFees_paid() + ", getFees_balance()=" + getFees_balance() + ", getPenalty_due()=" + getPenalty_due()
-				+ ", getPenalty_paid()=" + getPenalty_paid() + ", getPenalty_balance()=" + getPenalty_balance()
-				+ ", getExpected_disbursementdate()=" + getExpected_disbursementdate() + ", getDisbursement_date()="
-				+ getDisbursement_date() + ", getFirst_repaymentdate()=" + getFirst_repaymentdate()
-				+ ", getGrace_period()=" + getGrace_period() + ", getRepayment_installments()="
-				+ getRepayment_installments() + ", getRepayment_periodcount()=" + getRepayment_periodcount()
-				+ ", getDays_late()=" + getDays_late() + ", getDays_inarrears()=" + getDays_inarrears()
-				+ ", getRepayment_schedule_method()=" + getRepayment_schedule_method() + ", getCurrency_code()="
-				+ getCurrency_code() + ", getSale_processedbyvgid()=" + getSale_processedbyvgid()
-				+ ", getSale_processedfor()=" + getSale_processedfor() + ", getSale_referredby()="
-				+ getSale_referredby() + ", getEmployment_status()=" + getEmployment_status() + ", getJob_title()="
-				+ getJob_title() + ", getEmployer_name()=" + getEmployer_name() + ", getTuscore()=" + getTuscore()
-				+ ", getTuprobability()=" + getTuprobability() + ", getTufullname()=" + getTufullname()
-				+ ", getTureason1()=" + getTureason1() + ", getTureason2()=" + getTureason2() + ", getTureason3()="
-				+ getTureason3() + ", getTureason4()=" + getTureason4() + ", getDisposable_income()="
-				+ getDisposable_income() + ", getManualoverride_amount()=" + getManualoverride_amount()
-				+ ", getManualoverride_expiry_date()=" + getManualoverride_expiry_date() + ", getCpfees()="
-				+ getCpfees() + ", getDeposit_amount()=" + getDeposit_amount() + ", getTotal_product_price()="
-				+ getTotal_product_price() + ", getRetailer_name()=" + getRetailer_name() + ", getRetailer_branch()="
-				+ getRetailer_branch() + ", getVg_application_id()=" + getVg_application_id()
-				+ ", getContract_signed()=" + getContract_signed() + ", getDate_of_first_call()="
-				+ getDate_of_first_call() + ", getLast_call_outcome()=" + getLast_call_outcome() + ", getAsondate()="
-				+ getAsondate() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+				+ ", last_call_outcome=" + last_call_outcome + ", asondate=" + asondate + "]";
 	}
+
 	public LOAN_ACT_MST_ENTITY() {
 		super();
 		// TODO Auto-generated constructor stub
