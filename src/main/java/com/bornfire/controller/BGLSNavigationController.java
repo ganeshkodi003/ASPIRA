@@ -70,6 +70,8 @@ import com.bornfire.entities.Baj_Work_Repo;
 import com.bornfire.entities.BamDocumentMasRep;
 import com.bornfire.entities.Bamdocumentmanager;
 import com.bornfire.entities.Budget_Maintanance_Repo;
+import com.bornfire.entities.CLIENT_MASTER_ENTITY;
+import com.bornfire.entities.CLIENT_MASTER_REPO;
 import com.bornfire.entities.COAGL_Rep;
 import com.bornfire.entities.CandEvalFormEntity;
 import com.bornfire.entities.CandEvalFormRep;
@@ -93,7 +95,6 @@ import com.bornfire.entities.GeneralLedgerWork_Entity;
 import com.bornfire.entities.GeneralLedgerWork_Rep;
 import com.bornfire.entities.HolidayMaster_Entity;
 import com.bornfire.entities.HolidayMaster_Rep;
-import com.bornfire.entities.LOAN_ACT_MST_ENTITY;
 import com.bornfire.entities.LOAN_ACT_MST_REPO;
 import com.bornfire.entities.Lease_Loan_Master_Entity;
 import com.bornfire.entities.Lease_Loan_Master_Repo;
@@ -3447,6 +3448,31 @@ public class BGLSNavigationController {
 		} 
 		return "Aspira_Loan_Maintanace";
 	}
+	
+	 @Autowired
+	    private CLIENT_MASTER_REPO clientMasterRepo;
+	
+	@RequestMapping(value = "customerMaster", method = { RequestMethod.GET, RequestMethod.POST })
+	public String customerMaster(@RequestParam(required = false) String formmode, Model md,
+			HttpServletRequest req, @RequestParam(required = false) String dd_notice_ref,
+			@RequestParam(required = false) String synd_fac_ref) {
 
+		String user = (String) req.getSession().getAttribute("USERID");
+		Date TRANDATE = (Date) req.getSession().getAttribute("TRANDATE");
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String formattedDate = dateFormat.format(TRANDATE);		
+
+		CLIENT_MASTER_ENTITY client = clientMasterRepo.getClientView("30012301");
+			md.addAttribute("customer", client);
+			md.addAttribute("currentDate", TRANDATE);
+			md.addAttribute("ConDate", formattedDate);
+			md.addAttribute("user", user);
+
+		return "customerMaster";
+
+	}
+	
+	
 
 }

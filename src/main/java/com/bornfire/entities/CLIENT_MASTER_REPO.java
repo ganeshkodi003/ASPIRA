@@ -14,4 +14,6 @@ public interface CLIENT_MASTER_REPO extends JpaRepository<CLIENT_MASTER_ENTITY, 
     
     @Query(value = "SELECT * FROM CLIENT_MASTER_TBL WHERE CUSTOMER_ID = ?1", nativeQuery = true)
     CLIENT_MASTER_ENTITY getClientView(String cust);
+    
+  
 }

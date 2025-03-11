@@ -536,39 +536,41 @@ function ClickId(a) {
 }
 function getRepaymentDetails() {
 	 if (event) event.preventDefault();
-	 let principal = document.getElementById("Principal").value.trim();
+	 let principleAmount = document.getElementById("Principal").value.trim();
 	 let interestRate = document.getElementById("intrest_rate").value.trim();
-	 let months = document.getElementById("No_of_frequency").value.trim();
+	 let noOfInstallment = document.getElementById("No_of_frequency").value.trim();
 	  let remainingPrincipal = principal; 
 	
     $.ajax({
-        url: "./getInterestDetails",
-        type: "GET",
-        data: {
-            principal: principal,
-            annualInterestRate: interestRate,
-            months: months
-        },
-        
+    	url: "./getInterestDetails?" + "&Product_value=" + principleAmount
+	+ "&int_rate=" + interestRate
+		+ "&no_of_inst=" + noOfInstallment ,
+        type: "GET",      
         success: function (data) {
             let trHTML = "";
              // Start with the initial principal amount
 
             $.each(data, function (index, entity) {
-                let principal_expense = entity[0].toFixed(2); // Principal Expense
-                let interest_expense = entity[1].toFixed(2);  // Interest Expense
-                remainingPrincipal -= parseFloat(principal_expense); // Reduce principal balance
-                let installmentamt = (parseFloat(principal_expense) + parseFloat(interest_expense)).toFixed(2); // Correct (Numeric Addition)
-                let charges_amt = entity[2] ? parseFloat(entity[2]).toFixed(2) : "0.00";
+
+				var no_of_instalment = entity.no_of_instalment;
+				var from_date = formatDate(entity.from_date);
+				var installment_date = formatDate(entity.installment_date);
+				var installment_description = entity.installment_description;
+				var installment_amt = formatNumber(entity.installment_amt);
+				var principal_amt = formatNumber(entity.principal_amt);
+				var interest_amt = formatNumber(entity.interest_amt);
+				var charges_amt = formatNumber(entity.charges_amt);
+				var principal_outstanding = formatNumber(entity.principal_outstanding);
+				
                 trHTML += '<tr id="scheduleRow" style="font-size: larger;">'
-                    + '<td>' + (index + 1) + '</td>'  // Installment No
+                    + '<td>' + no_of_instalment + '</td>'  // Installment No
                     + '<td>' + (index + 1) + '</td>'
                     + '<td>' + 'Installment ' + (index + 1) + '</td>' // Description
-                    + '<td>' + installmentamt + '</td>'
-                    + '<td class="text-right">' + principal_expense + '</td>' // Principal Expense
-                    + '<td class="text-right">' + interest_expense + '</td>' // Interest Expense
+                    + '<td>' + installment_amt + '</td>'
+                    + '<td class="text-right">' + principal_amt + '</td>' // Principal Expense
+                    + '<td class="text-right">' + interest_amt + '</td>' // Interest Expense
                     + '<td class="text-right">' + charges_amt + '</td>'
-                    + '<td class="text-right">' + remainingPrincipal.toFixed(2) + '</td>' // Remaining Principal
+                    + '<td class="text-right">' + principal_outstanding + '</td>' // Remaining Principal
                     + '</tr>';
             });
 
