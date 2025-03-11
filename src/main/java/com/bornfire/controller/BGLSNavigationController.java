@@ -3490,5 +3490,22 @@ public class BGLSNavigationController {
 		}
 		return "Loan_Master.html";
 	}
+	@RequestMapping(value = "loanSchedule", method = { RequestMethod.GET, RequestMethod.POST })
+	public String loanSchedule(@RequestParam(required = false) String formmode, Model md,
+			HttpServletRequest req,@RequestParam(required = false) String id,@RequestParam(required = false) String holder_key) {
+
+		if (formmode == null || formmode.equals("list")) {
+			md.addAttribute("formmode", "list");
+			md.addAttribute("list", LOAN_ACT_MST_REPO.getLoanActDet());
+		} else if (formmode.equals("view")) {
+			md.addAttribute("formmode", "view");
+			System.out.println(holder_key);
+			md.addAttribute("view", LOAN_ACT_MST_REPO.getLoanView(id));
+			md.addAttribute("loan", LOAN_ACT_MST_REPO.getLoanValue(holder_key));
+		} 
+	   
+
+	    return "Loan Schedule";
+	}
 
 }

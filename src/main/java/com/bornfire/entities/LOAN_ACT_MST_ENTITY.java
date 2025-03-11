@@ -602,6 +602,81 @@ public class LOAN_ACT_MST_ENTITY {
 		this.last_call_outcome = last_call_outcome;
 		this.asondate = asondate;
 	}
+	
+	@Override
+	public String toString() {
+		return "LOAN_ACT_MST_ENTITY [encoded_key=" + encoded_key + ", id=" + id + ", account_holdertype="
+				+ account_holdertype + ", account_holderkey=" + account_holderkey + ", creation_date=" + creation_date
+				+ ", approved_date=" + approved_date + ", last_modified_date=" + last_modified_date + ", closed_date="
+				+ closed_date + ", last_account_appraisaldate=" + last_account_appraisaldate + ", account_state="
+				+ account_state + ", account_substate=" + account_substate + ", product_typekey=" + product_typekey
+				+ ", loan_name=" + loan_name + ", payment_method=" + payment_method + ", assigned_branchkey="
+				+ assigned_branchkey + ", loan_amount=" + loan_amount + ", interest_rate=" + interest_rate
+				+ ", penalty_rate=" + penalty_rate + ", accrued_interest=" + accrued_interest + ", accrued_penalty="
+				+ accrued_penalty + ", principal_due=" + principal_due + ", principal_paid=" + principal_paid
+				+ ", principal_balance=" + principal_balance + ", interest_due=" + interest_due + ", interest_paid="
+				+ interest_paid + ", interest_balance=" + interest_balance + ", interest_fromarrearsbalance="
+				+ interest_fromarrearsbalance + ", interest_fromarrearsdue=" + interest_fromarrearsdue
+				+ ", interest_fromarrearspaid=" + interest_fromarrearspaid + ", fees_due=" + fees_due + ", fees_paid="
+				+ fees_paid + ", fees_balance=" + fees_balance + ", penalty_due=" + penalty_due + ", penalty_paid="
+				+ penalty_paid + ", penalty_balance=" + penalty_balance + ", expected_disbursementdate="
+				+ expected_disbursementdate + ", disbursement_date=" + disbursement_date + ", first_repaymentdate="
+				+ first_repaymentdate + ", grace_period=" + grace_period + ", repayment_installments="
+				+ repayment_installments + ", repayment_periodcount=" + repayment_periodcount + ", days_late="
+				+ days_late + ", days_inarrears=" + days_inarrears + ", repayment_schedule_method="
+				+ repayment_schedule_method + ", currency_code=" + currency_code + ", sale_processedbyvgid="
+				+ sale_processedbyvgid + ", sale_processedfor=" + sale_processedfor + ", sale_referredby="
+				+ sale_referredby + ", employment_status=" + employment_status + ", job_title=" + job_title
+				+ ", employer_name=" + employer_name + ", tuscore=" + tuscore + ", tuprobability=" + tuprobability
+				+ ", tufullname=" + tufullname + ", tureason1=" + tureason1 + ", tureason2=" + tureason2
+				+ ", tureason3=" + tureason3 + ", tureason4=" + tureason4 + ", disposable_income=" + disposable_income
+				+ ", manualoverride_amount=" + manualoverride_amount + ", manualoverride_expiry_date="
+				+ manualoverride_expiry_date + ", cpfees=" + cpfees + ", deposit_amount=" + deposit_amount
+				+ ", total_product_price=" + total_product_price + ", retailer_name=" + retailer_name
+				+ ", retailer_branch=" + retailer_branch + ", vg_application_id=" + vg_application_id
+				+ ", contract_signed=" + contract_signed + ", date_of_first_call=" + date_of_first_call
+				+ ", last_call_outcome=" + last_call_outcome + ", asondate=" + asondate + ", getEncoded_key()="
+				+ getEncoded_key() + ", getId()=" + getId() + ", getAccount_holdertype()=" + getAccount_holdertype()
+				+ ", getAccount_holderkey()=" + getAccount_holderkey() + ", getCreation_date()=" + getCreation_date()
+				+ ", getApproved_date()=" + getApproved_date() + ", getLast_modified_date()=" + getLast_modified_date()
+				+ ", getClosed_date()=" + getClosed_date() + ", getLast_account_appraisaldate()="
+				+ getLast_account_appraisaldate() + ", getAccount_state()=" + getAccount_state()
+				+ ", getAccount_substate()=" + getAccount_substate() + ", getProduct_typekey()=" + getProduct_typekey()
+				+ ", getLoan_name()=" + getLoan_name() + ", getPayment_method()=" + getPayment_method()
+				+ ", getAssigned_branchkey()=" + getAssigned_branchkey() + ", getLoan_amount()=" + getLoan_amount()
+				+ ", getInterest_rate()=" + getInterest_rate() + ", getPenalty_rate()=" + getPenalty_rate()
+				+ ", getAccrued_interest()=" + getAccrued_interest() + ", getAccrued_penalty()=" + getAccrued_penalty()
+				+ ", getPrincipal_due()=" + getPrincipal_due() + ", getPrincipal_paid()=" + getPrincipal_paid()
+				+ ", getPrincipal_balance()=" + getPrincipal_balance() + ", getInterest_due()=" + getInterest_due()
+				+ ", getInterest_paid()=" + getInterest_paid() + ", getInterest_balance()=" + getInterest_balance()
+				+ ", getInterest_fromarrearsbalance()=" + getInterest_fromarrearsbalance()
+				+ ", getInterest_fromarrearsdue()=" + getInterest_fromarrearsdue() + ", getInterest_fromarrearspaid()="
+				+ getInterest_fromarrearspaid() + ", getFees_due()=" + getFees_due() + ", getFees_paid()="
+				+ getFees_paid() + ", getFees_balance()=" + getFees_balance() + ", getPenalty_due()=" + getPenalty_due()
+				+ ", getPenalty_paid()=" + getPenalty_paid() + ", getPenalty_balance()=" + getPenalty_balance()
+				+ ", getExpected_disbursementdate()=" + getExpected_disbursementdate() + ", getDisbursement_date()="
+				+ getDisbursement_date() + ", getFirst_repaymentdate()=" + getFirst_repaymentdate()
+				+ ", getGrace_period()=" + getGrace_period() + ", getRepayment_installments()="
+				+ getRepayment_installments() + ", getRepayment_periodcount()=" + getRepayment_periodcount()
+				+ ", getDays_late()=" + getDays_late() + ", getDays_inarrears()=" + getDays_inarrears()
+				+ ", getRepayment_schedule_method()=" + getRepayment_schedule_method() + ", getCurrency_code()="
+				+ getCurrency_code() + ", getSale_processedbyvgid()=" + getSale_processedbyvgid()
+				+ ", getSale_processedfor()=" + getSale_processedfor() + ", getSale_referredby()="
+				+ getSale_referredby() + ", getEmployment_status()=" + getEmployment_status() + ", getJob_title()="
+				+ getJob_title() + ", getEmployer_name()=" + getEmployer_name() + ", getTuscore()=" + getTuscore()
+				+ ", getTuprobability()=" + getTuprobability() + ", getTufullname()=" + getTufullname()
+				+ ", getTureason1()=" + getTureason1() + ", getTureason2()=" + getTureason2() + ", getTureason3()="
+				+ getTureason3() + ", getTureason4()=" + getTureason4() + ", getDisposable_income()="
+				+ getDisposable_income() + ", getManualoverride_amount()=" + getManualoverride_amount()
+				+ ", getManualoverride_expiry_date()=" + getManualoverride_expiry_date() + ", getCpfees()="
+				+ getCpfees() + ", getDeposit_amount()=" + getDeposit_amount() + ", getTotal_product_price()="
+				+ getTotal_product_price() + ", getRetailer_name()=" + getRetailer_name() + ", getRetailer_branch()="
+				+ getRetailer_branch() + ", getVg_application_id()=" + getVg_application_id()
+				+ ", getContract_signed()=" + getContract_signed() + ", getDate_of_first_call()="
+				+ getDate_of_first_call() + ", getLast_call_outcome()=" + getLast_call_outcome() + ", getAsondate()="
+				+ getAsondate() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
+	}
 	public LOAN_ACT_MST_ENTITY() {
 		super();
 		// TODO Auto-generated constructor stub
