@@ -677,17 +677,17 @@
 									<table class="table table-bordered mt-3">
 										<thead class="thead-light">
 											<tr>
-												<th style="text-align: left;">Principal Expenses</th>
-												<th style="text-align: left;">Principal Due</th>
-												<th style="text-align: right;">Interest Expenses</th>
-												<th style="text-align: left;">Interest Due</th>
-												<th style="text-align: right;">Fee Expenses</th>
-												<th style="text-align: left;">Fee Due</th>
-												<th style="text-align: right;">Penalty Expenses</th>
-												<th style="text-align: left;">Penalty Due</th>
 												<th style="text-align: left;">Due Date</th>
+												<th style="text-align: right;">Principal Expenses</th>
+												<th style="text-align: right;">Interest Expenses</th>
+												<th style="text-align: right;">Fee Expenses</th>
+												<th style="text-align: right;">Penalty Expenses</th>
 												<th style="text-align: left;">Repaid Date</th>
-												<th style="text-align: left;">Repaid Amount</th>
+												<th style="text-align: right;">Principal Paid</th>
+												<th style="text-align: right;">Interest Paid</th>
+												<th style="text-align: right;">Fee Paid</th>
+												<th style="text-align: right;">Penalty Paid</th>
+												<th style="text-align: right;">Total Dues</th>
 											</tr>
 										</thead>
 										<tbody id="repaymentDet">
@@ -705,45 +705,47 @@
 				</div>
 
 				<div th:if="${formmode}=='listschedule'">
-				    <div class="card">
-				        <div class="card-header" style="background-color: #e9ecef; height: 50px;">
-				            <div class="float-left">
-				                <h6 style="font-size: 1.2rem;">LOAN SCHEDULE - LIST</h6>
-				            </div>
-				        </div>
-				        <div class="card-body" style="overflow: hidden; border: 1px solid #ddd;">
-				            <div class="table-container" style="height: 600px; overflow-y: auto; position: relative;">
-				                <table class="table table-bordered table-hover table-sm" id="usertable" style="width: 100%; border-collapse: collapse;">
-				                    <thead class="thead-light" style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 2;">
-				                        <tr class="filters">
-				                            <th style="width: 8%;">S.NO</th>
-				                            <th style="width: 10%;">LOAN ID</th>
-				                            <th>LOAN NAME</th>
-				                            <th>RETAILER NAME</th>
-				                            <th>RETAILER BRANCH ID</th>
-				                            <th style="width: 10%;">STATUS</th>
-				                        </tr>
-				                    </thead>
-				                    <tbody>
-				                        <tr th:each="list, iterator : ${list}" class="userlist">
-				                            <td style="font-size: 14px" th:text="${iterator.index +1}"></td>
-				                            <td style="font-size: 14px" class="text-primary"
-				                                th:attr="data-id=${list?.id}, data-account_holderkey=${list?.account_holderkey},data-encoded_key=${list?.encoded_key}"
-				                                th:text="${list?.id}" onclick="ClickId(this);"></td>
-				                            <td style="font-size: 14px" th:text="${list?.loan_name}"></td>
-				                            <td style="font-size: 14px" th:text="${list?.retailer_name}">TEST</td>
-				                            <td style="font-size: 14px" th:text="${list?.retailer_branch}">TEST</td>
-				                            <td style="font-size: 14px" th:text="${list?.account_state}">TEST</td>
-				                        </tr>
-				                    </tbody>
-				                </table>
-				            </div>
-				        </div>
-				        <div class="card-footer text-center">
-				            <button class="btn btn-primary p-2" onclick="Home();">Home</button>
-				            <button class="btn btn-primary p-2" onclick="back()">Back</button>
-				        </div>
-				    </div>
+					<div class="card">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px;">
+							<div class="float-left">
+								<h6 style="font-size: 1.2rem;">LOAN SCHEDULE - LIST</h6>
+							</div>
+						</div>
+						<div class="card-body" style="overflow: hidden; border: 1px solid #ddd;">
+							<div class="table-container" style="height: 600px; overflow-y: auto; position: relative;">
+								<table class="table table-bordered table-hover table-sm" id="usertable"
+									style="width: 100%; border-collapse: collapse;">
+									<thead class="thead-light"
+										style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 2;">
+										<tr class="filters">
+											<th style="width: 8%;">S.NO</th>
+											<th style="width: 10%;">LOAN ID</th>
+											<th>LOAN NAME</th>
+											<th>RETAILER NAME</th>
+											<th>RETAILER BRANCH ID</th>
+											<th style="width: 10%;">STATUS</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="list, iterator : ${list}" class="userlist">
+											<td style="font-size: 14px" th:text="${iterator.index +1}"></td>
+											<td style="font-size: 14px" class="text-primary"
+												th:attr="data-id=${list?.id}, data-account_holderkey=${list?.account_holderkey},data-encoded_key=${list?.encoded_key}"
+												th:text="${list?.id}" onclick="ClickId(this);"></td>
+											<td style="font-size: 14px" th:text="${list?.loan_name}"></td>
+											<td style="font-size: 14px" th:text="${list?.retailer_name}">TEST</td>
+											<td style="font-size: 14px" th:text="${list?.retailer_branch}">TEST</td>
+											<td style="font-size: 14px" th:text="${list?.account_state}">TEST</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="card-footer text-center">
+							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
+							<button class="btn btn-primary p-2" onclick="back()">Back</button>
+						</div>
+					</div>
 				</div>
 
 
@@ -839,63 +841,62 @@
 									</div>
 
 									<!-- Loan Repayment Table -->
-									<div class="table-responsive">
+									<div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
 										<table class="table table-bordered fixed-header">
-											<thead class="thead-light">
+											<thead class="thead-light"
+												style="position: sticky; top: 0; background-color: #e9ecef; z-index: 1;">
 												<tr>
-													<th style="text-align: left;">Principal Expenses</th>
-													<th style="text-align: left;">Principal Due</th>
-													<th style="text-align: right;">Interest Expenses</th>
-													<th style="text-align: left;">Interest Due</th>
-													<th style="text-align: right;">Fee Expenses</th>
-													<th style="text-align: left;">Fee Due</th>
-													<th style="text-align: right;">Penalty Expenses</th>
-													<th style="text-align: left;">Penalty Due</th>
 													<th style="text-align: left;">Due Date</th>
+													<th style="text-align: right;">Principal Expenses</th>
+													<th style="text-align: right;">Interest Expenses</th>
+													<th style="text-align: right;">Fee Expenses</th>
+													<th style="text-align: right;">Penalty Expenses</th>
 													<th style="text-align: left;">Repaid Date</th>
-													<th style="text-align: left;">Repaid Amount</th>
+													<th style="text-align: right;">Principal Paid</th>
+													<th style="text-align: right;">Interest Paid</th>
+													<th style="text-align: right;">Fee Paid</th>
+													<th style="text-align: right;">Penalty Paid</th>
+													<th style="text-align: right;">Total Dues</th>
 												</tr>
 											</thead>
+											<tbody>
+												<tr th:each="list : ${dues}" class="userlist text-right">
+													<td style="font-size: 14px; text-align: left;"
+														th:text="${#dates.format(list[1], 'dd-MM-yyyy')}"></td>
+													<td style="font-size: 14px;"
+														th:text="${#numbers.formatDecimal(list[3], 1, 'COMMA', 2, 'POINT')}">
+													</td>
+													<td style="font-size: 14px;"
+														th:text="${#numbers.formatDecimal(list[6], 1, 'COMMA', 2, 'POINT')}">
+													</td>
+													<td style="font-size: 14px;"
+														th:text="${#numbers.formatDecimal(list[9], 1, 'COMMA', 2, 'POINT')}">
+													</td>
+													<td style="font-size: 14px;"
+														th:text="${#numbers.formatDecimal(list[12], 1, 'COMMA', 2, 'POINT')}">
+													</td>
+													<td style="font-size: 14px; text-align: left;"
+														th:text="${#dates.format(list[2], 'dd-MM-yyyy')}"></td>
+													<td style="font-size: 14px;"
+														th:text="${#numbers.formatDecimal(list[4], 1, 'COMMA', 2, 'POINT')}">
+													</td>
+													<td style="font-size: 14px;"
+														th:text="${#numbers.formatDecimal(list[7], 1, 'COMMA', 2, 'POINT')}">
+													</td>
+													<td style="font-size: 14px;"
+														th:text="${#numbers.formatDecimal(list[10], 1, 'COMMA', 2, 'POINT')}">
+													</td>
+													<td style="font-size: 14px;"
+														th:text="${#numbers.formatDecimal(list[13], 1, 'COMMA', 2, 'POINT')}">
+													</td>
+													<td style="font-size: 14px;"
+														th:text="${#numbers.formatDecimal(list[5] + list[8] + list[11] + list[14], 1, 'COMMA', 2, 'POINT')}">
+													</td>
+
+												</tr>
+
+											</tbody>
 										</table>
-										<div class="table-container">
-											<table class="table table-bordered">
-												<tbody>
-													<tr th:each="list : ${dues}" class="userlist text-right">
-														<td style="font-size: 14px"
-															th:text="${#numbers.formatDecimal(list[3], 1, 'COMMA', 2, 'POINT')}">
-														</td>
-														<td style="font-size: 14px"
-															th:text="${#numbers.formatDecimal(list[5], 1, 'COMMA', 2, 'POINT')}">
-														</td>
-														<td style="font-size: 14px"
-															th:text="${#numbers.formatDecimal(list[6], 1, 'COMMA', 2, 'POINT')}">
-														</td>
-														<td style="font-size: 14px"
-															th:text="${#numbers.formatDecimal(list[8], 1, 'COMMA', 2, 'POINT')}">
-														</td>
-														<td style="font-size: 14px"
-															th:text="${#numbers.formatDecimal(list[6], 1, 'COMMA', 2, 'POINT')}">
-														</td>
-														<td style="font-size: 14px"
-															th:text="${#numbers.formatDecimal(list[11], 1, 'COMMA', 2, 'POINT')}">
-														</td>
-														<td style="font-size: 14px"
-															th:text="${#numbers.formatDecimal(list[12], 1, 'COMMA', 2, 'POINT')}">
-														</td>
-														<td style="font-size: 14px"
-															th:text="${#numbers.formatDecimal(list[14], 1, 'COMMA', 2, 'POINT')}">
-														</td>
-														<td style="font-size: 14px"
-															th:text="${#dates.format(list[1], 'dd-MM-yyyy')}"></td>
-														<td style="font-size: 14px"
-															th:text="${#dates.format(list[2], 'dd-MM-yyyy')}"></td>
-														<td style="font-size: 14px"
-															th:text="${#numbers.formatDecimal(list[3], 1, 'COMMA', 2, 'POINT')}">
-														</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
 									</div>
 
 								</form>
