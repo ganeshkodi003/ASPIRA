@@ -1870,8 +1870,6 @@ function firstexceldownload() {
 function ClickId(a, mode = 'view') {
     let id = null;
 
-  
-
     if (a) {
         console.log("Customer ID Text Content:", a.textContent.trim());
         console.log("Customer ID Data Attribute:", a.getAttribute("data-id"));
@@ -2046,12 +2044,12 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 											style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 1;">
 											<tr class="filters">
 												<th style="width: 8%;">S.NO</th>
-												<th style="width: 10%;">LOAN ID</th>
-												<th>LOAN NAME</th>
+												<th style="width: 10%;">CUSTOMER ID</th>
+												<th>CUSTOMER NAME</th>
 												<th>DOB</th>
-												<th>RETAILER BRANCH ID</th>
+												<th>BRANCH ID</th>
 												<th style="width: 10%;">STATUS</th>
-												<th>Verify Status</th>
+												<th>VERIFY STATUS</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -2107,7 +2105,7 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 										class="btn ml-2 btn-primary p-2"
 										onclick="ClickId(null, 'modify')">Modify</button>
 									<button
-										th:if="${module} == 'module2' and ${formmode}=='verify'"
+										th:if="${module} == 'module2' and ${formmode}=='verify' and ${#strings.trim(list?.verify_flg) == 'N'}" 
 										class="btn ml-2 btn-primary p-2" th:onclick="verifyUser([[${customer?.customer_id}]])">verify</button>
 
 								</div>
