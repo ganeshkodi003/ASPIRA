@@ -3537,6 +3537,10 @@ public class BGLSNavigationController {
 			md.addAttribute("formmode", "modify");
 			md.addAttribute("view", LOAN_ACT_MST_REPO.getLoanView(id));
 			md.addAttribute("loan", LOAN_ACT_MST_REPO.getLoanValue(holder_key));
+		} else if (formmode.equals("verify")) {
+			md.addAttribute("formmode", "verify");
+			md.addAttribute("view", LOAN_ACT_MST_REPO.getLoanView(id));
+			md.addAttribute("loan", LOAN_ACT_MST_REPO.getLoanValue(holder_key));
 		}
 		return "Loan_Maintenance";
 	}
@@ -3586,6 +3590,27 @@ System.out.println(encodedKey);
 		up.setAccount_holdertype(up.getAccount_holdertype());
 		up.setLoan_name(up.getLoan_name());
 		up.setId(up.getId());
+		up.setAssigned_branchkey(up.getAssigned_branchkey());
+		up.setCreation_date(up.getCreation_date());
+		up.setApproved_date(up.getApproved_date());
+		up.setLast_modified_date(up.getLast_modified_date());
+		up.setClosed_date(up.getClosed_date());
+		up.setAccount_state(up.getAccount_state());
+		up.setAccount_substate(up.getAccount_substate());
+		up.setLoan_amount(up.getLoan_amount());
+		up.setPayment_method(up.getPayment_method());
+		up.setPenalty_rate(up.getPenalty_rate());
+		up.setInterest_rate(up.getInterest_rate());
+		up.setExpected_disbursementdate(up.getExpected_disbursementdate());
+		up.setFirst_repaymentdate(up.getFirst_repaymentdate());
+		up.setRepayment_installments(up.getRepayment_installments());
+		up.setPrincipal_due(up.getPrincipal_due());
+		up.setPrincipal_paid(up.getPrincipal_paid());
+		up.setPrincipal_balance(up.getPrincipal_balance());
+		up.setInterest_due(up.getInterest_due());
+		up.setInterest_paid(up.getInterest_paid());
+		up.setInterest_balance(up.getInterest_balance());
+		
 		
 		CLIENT_MASTER_ENTITY up1 = client_mst_entity;
 		System.out.println(loan_act_mst_entity.getRepayment_installments());
