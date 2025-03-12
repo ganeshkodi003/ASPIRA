@@ -235,10 +235,7 @@ input:hover+.password-info {
 	opacity: 0.8;
 }
 </style>
-<script>
-function home() {
-	location.href = 'LSDB/Dashboard';
-}
+<script> 
 function back() {
 	event.preventDefault();
 	window.history.back();
@@ -256,8 +253,13 @@ function viewscreen(a) {
 <script>
 function modifyscreen(a) {
 	event.preventDefault();
-	var id = document.getElementById("customer_id").value;
-	var holder_key = document.getElementById("account_holderkey").value;
+//	var id = document.getElementById("customer_id").value;
+	//var holder_key = document.getElementById("account_holderkey").value;
+	var id = a.getAttribute("data-id");
+	alert(id);
+	var holder_key = a.getAttribute("data-account_holderkey");
+	alert(holder_key);
+	location.href = 'Loan_Maintenance?formmode=view&id=' + id  +'&holder_key=' +holder_key;
 	location.href = 'Loan_Maintenance?formmode=modify&id=' + id  +'&holder_key=' +holder_key;
 }
 </script>
@@ -335,22 +337,23 @@ function modifyscreen(a) {
 			<label>Customer Id</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" th:value="${loan[0][0]}" name="customer_id" id="customer_id" readonly />
+			<input type="text" th:value="${loan[0][0]}" name="customer_id" id="customer_id" th:if="${formmode}=='view'" readonly />
+			<input type="text" th:value="${loan[0][0]}" th:if="${formmode}=='modify'" name="customer_id" id="customer_id" />
 		</div>
 		<div class="col-sm-2">
 			<label>Customer Name</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" th:value="${loan[0][1]}" name="employer_name" id="employer_name" readonly />
+			<input type="text" th:value="${loan[0][1]}" name="employer_name" id="employer_name" th:if="${formmode}=='view'" readonly />
+			<input type="text" th:value="${loan[0][1]}" name="employer_name" id="employer_name" th:if="${formmode}=='modify'" />
 		</div>
 		<div class="col-sm-2">
 			<label>Account Type</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="account_holdertype" id="account_holdertype" th:value="${view?.account_holdertype}"
-				readonly />
-				<input type="text" name="account_holderkey" id="account_holderkey" th:value="${view?.account_holderkey}"
-				readonly hidden/>
+			<input type="text" name="account_holdertype" id="account_holdertype" th:value="${view?.account_holdertype}" th:if="${formmode}=='view'" readonly />
+			<input type="text" name="account_holdertype" id="account_holdertype" th:value="${view?.account_holdertype}" th:if="${formmode}=='modify'" />
+			<input type="text" name="account_holderkey" id="account_holderkey" th:value="${view?.account_holderkey}" readonly  HIDDEN/>
 		</div>
 	</div>
 
@@ -359,19 +362,22 @@ function modifyscreen(a) {
 			<label>Account Name</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" th:value="${view?.loan_name}" name="loan_name" id="loan_name" readonly />
+			<input type="text" th:value="${view?.loan_name}" name="loan_name" id="loan_name" th:if="${formmode}=='view'" readonly />
+			<input type="text" th:value="${view?.loan_name}" name="loan_name" id="loan_name" th:if="${formmode}=='modify'" />
 		</div>
 		<div class="col-sm-2">
 			<label>Account No</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" th:value="${view?.id}" name="id" id="id" readonly />
+			<input type="text" th:value="${view?.id}" name="id" id="id" th:if="${formmode}=='view'" readonly />
+			<input type="text" th:value="${view?.id}" name="id" id="id" th:if="${formmode}=='modify'" />
 		</div>
 		<div class="col-sm-2">
 			<label>Loan Name</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" th:value="${view?.loan_name}" name="loan_name" id="loan_name" readonly />
+			<input type="text" th:value="${view?.loan_name}" name="loan_name" id="loan_name" th:if="${formmode}=='view'" readonly />
+			<input type="text" th:value="${view?.loan_name}" name="loan_name" id="loan_name" th:if="${formmode}=='modify'" />
 		</div>
 	</div>
 
@@ -380,21 +386,22 @@ function modifyscreen(a) {
 			<label>Assigned Branch</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" value="5792" name="assigned_branchkey" id="assigned_branchkey" readonly />
+			<input type="text" value="5792" name="assigned_branchkey" id="assigned_branchkey" th:if="${formmode}=='view'" readonly />
+			<input type="text" value="5792" name="assigned_branchkey" id="assigned_branchkey" th:if="${formmode}=='modify'" />
 		</div>
 		<div class="col-sm-2">
 			<label>Open Date</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" th:value="${#dates.format(view?.creation_date, 'dd-MM-yyyy')}" name="creation_date"
-				id="creation_date" readonly />
+			<input type="text" th:value="${#dates.format(view?.creation_date, 'dd-MM-yyyy')}" name="creation_date" id="creation_date" th:if="${formmode}=='view'" readonly />
+			<input type="text" th:value="${#dates.format(view?.creation_date, 'dd-MM-yyyy')}" name="creation_date" id="creation_date" th:if="${formmode}=='modify'" />
 		</div>
 		<div class="col-sm-2">
 			<label> Approval Date</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="approved_date" id="approved_date"
-				th:value="${#dates.format(view?.approved_date, 'dd-MM-yyyy')}" readonly />
+			<input type="text" name="approved_date" id="approved_date" th:value="${#dates.format(view?.approved_date, 'dd-MM-yyyy')}" th:if="${formmode}=='view'" readonly />
+			<input type="text" name="approved_date" id="approved_date" th:value="${#dates.format(view?.approved_date, 'dd-MM-yyyy')}" th:if="${formmode}=='modify'" />
 		</div>
 	</div>
 
@@ -403,21 +410,22 @@ function modifyscreen(a) {
 			<label>Last Modified Date</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" th:value="${#dates.format(view?.last_modified_date, 'dd-MM-yyyy')}"
-				name="last_modified_date" id="last_modified_date" readonly />
+			<input type="text" th:value="${#dates.format(view?.last_modified_date, 'dd-MM-yyyy')}" name="last_modified_date" id="last_modified_date" th:if="${formmode}=='view'" readonly />
+			<input type="text" th:value="${#dates.format(view?.last_modified_date, 'dd-MM-yyyy')}" name="last_modified_date" id="last_modified_date" th:if="${formmode}=='modify'" />
 		</div>
 		<div class="col-sm-2">
 			<label>Last Review Date</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" th:value="${#dates.format(view?.closed_date, 'dd-MM-yyyy')}" name="closed_date"
-				id="closed_date" readonly />
+			<input type="text" th:value="${#dates.format(view?.closed_date, 'dd-MM-yyyy')}" name="closed_date" id="closed_date" th:if="${formmode}=='view'" readonly />
+			<input type="text" th:value="${#dates.format(view?.closed_date, 'dd-MM-yyyy')}" name="closed_date" id="closed_date" th:if="${formmode}=='modify'" />
 		</div>
 		<div class="col-sm-2">
 			<label> Account Status </label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" th:value="${view?.account_state}" name="account_state" id="account_state" readonly />
+			<input type="text" th:value="${view?.account_state}" name="account_state" id="account_state" th:if="${formmode}=='view'" readonly />
+			<input type="text" th:value="${view?.account_state}" name="account_state" id="account_state" th:if="${formmode}=='modify'" />
 		</div>
 	</div>
 
@@ -426,22 +434,24 @@ function modifyscreen(a) {
 			<label>Sub Status</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" th:value="${view?.account_substate}" name="account_substate" id="account_substate"
-				readonly />
+			<input type="text" th:value="${view?.account_substate}" name="account_substate" id="account_substate" th:if="${formmode}=='view'" readonly />
+			<input type="text" th:value="${view?.account_substate}" name="account_substate" id="account_substate" th:if="${formmode}=='modify'" />
 		</div>
 		<div class="col-sm-2">
 			<label>Currency Code</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="currency_code" id="currency_code" value="KES" readonly />
+			<input type="text" name="currency_code" id="currency_code" value="KES" th:if="${formmode}=='view'" readonly />
+			<input type="text" name="currency_code" id="currency_code" value="KES" th:if="${formmode}=='modify'" />
 		</div>
 		<div class="col-sm-2">
 			<label>Loan Amount</label>
 		</div>
 		<div class="col-sm-2">
 			<input type="text" name="loan_amount"
-				th:value="${view?.loan_amount == 0 ? '0.00' :#numbers.formatDecimal(view?.loan_amount, 0, 'COMMA', 2, 'POINT')}"
-				id="loan_amount" readonly />
+				th:value="${view?.loan_amount == 0 ? '0.00' :#numbers.formatDecimal(view?.loan_amount, 0, 'COMMA', 2, 'POINT')}" id="loan_amount" th:if="${formmode}=='view'" readonly />
+				<input type="text" name="loan_amount"
+				th:value="${view?.loan_amount == 0 ? '0.00' :#numbers.formatDecimal(view?.loan_amount, 0, 'COMMA', 2, 'POINT')}" id="loan_amount" th:if="${formmode}=='modify'" />
 		</div>
 	</div>
 
@@ -450,21 +460,22 @@ function modifyscreen(a) {
 			<label>Payment Method</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="payment_method" th:value="${view?.payment_method}" id="payment_method" readonly />
+			<input type="text" name="payment_method" th:value="${view?.payment_method}" id="payment_method" th:if="${formmode}=='view'" readonly />
+			<input type="text" name="payment_method" th:value="${view?.payment_method}" id="payment_method" th:if="${formmode}=='modify'" />
 		</div>
 		<div class="col-sm-2">
 			<label>Penalty Rate</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="penalty_rate" id="penalty_rate" th:value="${view?.penalty_rate}"
-				oninput="numberOnly(this);" readonly />
+			<input type="text" name="penalty_rate" id="penalty_rate" th:value="${view?.penalty_rate}" oninput="numberOnly(this);" th:if="${formmode}=='view'" readonly />
+			<input type="text" name="penalty_rate" id="penalty_rate" th:value="${view?.penalty_rate}" oninput="numberOnly(this);" th:if="${formmode}=='modify'" />
 		</div>
 		<div class="col-sm-2">
 			<label>Rate of Interest</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="interest_rate" id="interest_rate" th:value="${view?.interest_rate}"
-				oninput="numberOnly(this);" readonly />
+			<input type="text" name="interest_rate" id="interest_rate" th:value="${view?.interest_rate}" oninput="numberOnly(this);" th:if="${formmode}=='view'" readonly />
+			<input type="text" name="interest_rate" id="interest_rate" th:value="${view?.interest_rate}" oninput="numberOnly(this);" th:if="${formmode}=='modify'" />
 		</div>
 	</div>
 	<div class="row formline ml-2  mt-1">
@@ -473,16 +484,18 @@ function modifyscreen(a) {
 		</div>
 		<div class="col-sm-2">
 			<input type="text" id="disbursement_date"
-				th:value="${#dates.format(view?.expected_disbursementdate, 'dd-MM-yyyy')}" name="disbursement_date"
-				readonly />
+				th:value="${#dates.format(view?.expected_disbursementdate, 'dd-MM-yyyy')}" name="disbursement_date" th:if="${formmode}=='view'" readonly />
+				<input type="text" id="disbursement_date"
+				th:value="${#dates.format(view?.expected_disbursementdate, 'dd-MM-yyyy')}" name="disbursement_date" th:if="${formmode}=='modify'" />
 		</div>
 		<div class="col-sm-2">
 			<label>First Payment Date</label>
 		</div>
 		<div class="col-sm-2">
 			<input type="text" id="first_repaymentdate"
-				th:value="${#dates.format(view?.first_repaymentdate, 'dd-MM-yyyy')}" name="first_repaymentdate"
-				readonly />
+				th:value="${#dates.format(view?.first_repaymentdate, 'dd-MM-yyyy')}" name="first_repaymentdate" th:if="${formmode}=='view'" readonly />
+				<input type="text" id="first_repaymentdate"
+				th:value="${#dates.format(view?.first_repaymentdate, 'dd-MM-yyyy')}" name="first_repaymentdate" th:if="${formmode}=='modify'" />
 		</div>
 		<div class="col-sm-2">
 			<label>Remarks 1</label>
@@ -497,15 +510,15 @@ function modifyscreen(a) {
 			<label>Repayment Method</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="repayment_schedule_method" th:value="${view?.repayment_schedule_method}"
-				id="repayment_schedule_method" readonly />
+			<input type="text" name="repayment_schedule_method" th:value="${view?.repayment_schedule_method}" id="repayment_schedule_method" th:if="${formmode}=='view'" readonly />
+			<input type="text" name="repayment_schedule_method" th:value="${view?.repayment_schedule_method}" id="repayment_schedule_method" th:if="${formmode}=='modify'" />
 		</div>
 		<div class="col-sm-2 ">
 			<label>Repayment Instalments</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="repayment_installments" th:value="${view?.repayment_installments}" readonly
-				name="repayment_installments" />
+			<input type="text" id="repayment_installments" th:value="${view?.repayment_installments}" readonly name="repayment_installments" th:if="${formmode}=='view'"/>
+			<input type="text" id="repayment_installments" th:value="${view?.repayment_installments}" readonly name="repayment_installments" th:if="${formmode}=='modify'" />
 		</div>
 		<div class="col-sm-2">
 			<label>Remarks 2</label>
@@ -521,24 +534,29 @@ function modifyscreen(a) {
 		</div>
 		<div class="col-sm-2">
 			<input type="text" id="principal_due"
-				th:value="${view?.principal_due == 0 ? '0.00' :#numbers.formatDecimal(view?.principal_due, 0, 'COMMA', 2, 'POINT')}"
-				readonly name="principal_due" />
+				th:value="${view?.principal_due == 0 ? '0.00' :#numbers.formatDecimal(view?.principal_due, 0, 'COMMA', 2, 'POINT')}" readonly name="principal_due" th:if="${formmode}=='view'"/>
+			<input type="text" id="principal_due"
+				th:value="${view?.principal_due == 0 ? '0.00' :#numbers.formatDecimal(view?.principal_due, 0, 'COMMA', 2, 'POINT')}" readonly name="principal_due" th:if="${formmode}=='modify'"/>
 		</div>
 		<div class="col-sm-2">
 			<label>Principal Paid</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text"
-				th:value="${view?.principal_paid == 0 ? '0.00' :#numbers.formatDecimal(view?.principal_paid, 0, 'COMMA', 2, 'POINT')}"
-				name="principal_paid" id="principal_paid" readonly />
+			<input type="text" th:if="${formmode}=='view'"
+				th:value="${view?.principal_paid == 0 ? '0.00' :#numbers.formatDecimal(view?.principal_paid, 0, 'COMMA', 2, 'POINT')}" name="principal_paid" id="principal_paid" readonly />
+				<input type="text" th:if="${formmode}=='modify'"
+				th:value="${view?.principal_paid == 0 ? '0.00' :#numbers.formatDecimal(view?.principal_paid, 0, 'COMMA', 2, 'POINT')}" name="principal_paid" id="principal_paid" />
 		</div>
 		<div class="col-sm-2">
 			<label>Principal Balance</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="principal_balance"
+			<input type="text" id="principal_balance" th:if="${formmode}=='view'"
 				th:value="${view?.principal_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.principal_balance, 0, 'COMMA', 2, 'POINT')}"
 				readonly name="principal_balance" />
+			<input type="text" id="principal_balance" th:if="${formmode}=='modify'"
+				th:value="${view?.principal_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.principal_balance, 0, 'COMMA', 2, 'POINT')}"
+				 name="principal_balance" />
 		</div>
 	</div>
 
@@ -547,25 +565,34 @@ function modifyscreen(a) {
 			<label>Interest Due</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="interest_due"
+			<input type="text" id="interest_due" th:if="${formmode}=='view'"
 				th:value="${view?.interest_due == 0 ? '0.00' :#numbers.formatDecimal(view?.interest_due, 0, 'COMMA', 2, 'POINT')}"
 				name="interest_due" readonly />
+				<input type="text" id="interest_due" th:if="${formmode}=='modify'"
+				th:value="${view?.interest_due == 0 ? '0.00' :#numbers.formatDecimal(view?.interest_due, 0, 'COMMA', 2, 'POINT')}"
+				name="interest_due" />
 		</div>
 		<div class="col-sm-2">
 			<label>Interest Paid</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="interest_paid"
+			<input type="text" id="interest_paid" th:if="${formmode}=='view'"
 				th:value="${view?.interest_paid == 0 ? '0.00' :#numbers.formatDecimal(view?.interest_paid, 0, 'COMMA', 2, 'POINT')}"
 				name="interest_paid" readonly />
+				<input type="text" id="interest_paid" th:if="${formmode}=='modify'"
+				th:value="${view?.interest_paid == 0 ? '0.00' :#numbers.formatDecimal(view?.interest_paid, 0, 'COMMA', 2, 'POINT')}"
+				name="interest_paid" />
 		</div>
 		<div class="col-sm-2">
 			<label>Interest Balance</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="interest_balance"
+			<input type="text" id="interest_balance" th:if="${formmode}=='view'"
 				th:value="${view?.interest_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.interest_balance, 0, 'COMMA', 2, 'POINT')}"
 				name="interest_balance" readonly />
+				<input type="text" id="interest_balance" th:if="${formmode}=='modify'"
+				th:value="${view?.interest_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.interest_balance, 0, 'COMMA', 2, 'POINT')}"
+				name="interest_balance" />
 		</div>
 	</div>
 
@@ -574,25 +601,34 @@ function modifyscreen(a) {
 			<label>Fee Due</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="fees_due" id="fees_due"
+			<input type="text" name="fees_due" id="fees_due" th:if="${formmode}=='view'"
 				th:value="${view?.fees_due == 0 ? '0.00' :#numbers.formatDecimal(view?.fees_due, 0, 'COMMA', 2, 'POINT')}"
 				readonly />
+				<input type="text" name="fees_due" id="fees_due" th:if="${formmode}=='modify'"
+				th:value="${view?.fees_due == 0 ? '0.00' :#numbers.formatDecimal(view?.fees_due, 0, 'COMMA', 2, 'POINT')}"
+				 />
 		</div>
 		<div class="col-sm-2 ">
 			<label>Fee Paid</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="fees_paid"
+			<input type="text" id="fees_paid" th:if="${formmode}=='view'"
 				th:value="${view?.fees_paid == 0 ? '0.00' :#numbers.formatDecimal(view?.fees_paid, 0, 'COMMA', 2, 'POINT')}"
 				name="fees_paid" readonly />
+				<input type="text" id="fees_paid" th:if="${formmode}=='modify'"
+				th:value="${view?.fees_paid == 0 ? '0.00' :#numbers.formatDecimal(view?.fees_paid, 0, 'COMMA', 2, 'POINT')}"
+				name="fees_paid"  />
 		</div>
 		<div class="col-sm-2">
 			<label>Fee Balance</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="fees_balance"
+			<input type="text" id="fees_balance" th:if="${formmode}=='view'"
 				th:value="${view?.fees_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.fees_balance, 0, 'COMMA', 2, 'POINT')}"
 				name="fees_balance" readonly />
+				<input type="text" id="fees_balance" th:if="${formmode}=='modify'"
+				th:value="${view?.fees_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.fees_balance, 0, 'COMMA', 2, 'POINT')}"
+				name="fees_balance" />
 		</div>
 	</div>
 
@@ -601,25 +637,34 @@ function modifyscreen(a) {
 			<label>Penalty Due</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="penalty_due"
+			<input type="text" id="penalty_due" th:if="${formmode}=='view'"
 				th:value="${view?.penalty_due == 0 ? '0.00' :#numbers.formatDecimal(view?.penalty_due, 0, 'COMMA', 2, 'POINT')}"
 				name="penalty_due" readonly />
+			<input type="text" id="penalty_due" th:if="${formmode}=='modify'"
+				th:value="${view?.penalty_due == 0 ? '0.00' :#numbers.formatDecimal(view?.penalty_due, 0, 'COMMA', 2, 'POINT')}"
+				name="penalty_due"  />
 		</div>
 		<div class="col-sm-2">
 			<label>Penalty Paid</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="penalty_paid" id="penalty_paid"
+			<input type="text" name="penalty_paid" id="penalty_paid" th:if="${formmode}=='view'"
 				th:value="${view?.penalty_paid == 0 ? '0.00' :#numbers.formatDecimal(view?.penalty_paid, 0, 'COMMA', 2, 'POINT')}"
 				readonly />
+			<input type="text" name="penalty_paid" id="penalty_paid" th:if="${formmode}=='modify'"
+				th:value="${view?.penalty_paid == 0 ? '0.00' :#numbers.formatDecimal(view?.penalty_paid, 0, 'COMMA', 2, 'POINT')}"
+				 />
 		</div>
 		<div class="col-sm-2">
 			<label>Penalty Balance</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="penalty_balance"
+			<input type="text" id="penalty_balance" th:if="${formmode}=='view'"
 				th:value="${view?.penalty_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.penalty_balance, 0, 'COMMA', 2, 'POINT')}"
 				name="penalty_balance" readonly />
+			<input type="text" id="penalty_balance" th:if="${formmode}=='modify'"
+				th:value="${view?.penalty_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.penalty_balance, 0, 'COMMA', 2, 'POINT')}"
+				name="penalty_balance"  />
 		</div>
 	</div>
 </div>
@@ -633,15 +678,18 @@ function modifyscreen(a) {
 			<label>Sales Processed By VGID</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" th:value="${view?.sale_processedbyvgid}" name="sale_processedbyvgid"
+			<input type="text" th:value="${view?.sale_processedbyvgid}" name="sale_processedbyvgid" th:if="${formmode}=='view'"
 				id="sale_processedbyvgid" readonly />
+				<input type="text" th:value="${view?.sale_processedbyvgid}" name="sale_processedbyvgid" th:if="${formmode}=='modify'"
+				id="sale_processedbyvgid"  />
 		</div>
 		<div class="col-sm-2">
 			<label>Sales Processed For</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" th:value="${view?.sale_processedfor}" name="sale_processedfor" id="sale_processedfor"
+			<input type="text" th:value="${view?.sale_processedfor}" name="sale_processedfor" id="sale_processedfor" th:if="${formmode}=='view'"
 				readonly />
+			<input type="text" th:value="${view?.sale_processedfor}" name="sale_processedfor" id="sale_processedfor" th:if="${formmode}=='modify'"/>
 		</div>
 
 		<div class="col-sm-2">
@@ -649,7 +697,9 @@ function modifyscreen(a) {
 		</div>
 		<div class="col-sm-2">
 			<input type="text" th:value="${view?.sale_referredby}" name="sale_referredby" id="sale_referredby"
-				readonly />
+				th:if="${formmode}=='view'" readonly />
+			<input type="text" th:value="${view?.sale_referredby}" name="sale_referredby" id="sale_referredby"
+				th:if="${formmode}=='modify'" />
 		</div>
 	</div>
 	<div class="row formline  ml-2 mt-1">
@@ -659,63 +709,71 @@ function modifyscreen(a) {
 		</div>
 		<div class="col-sm-2">
 			<input type="text" name="employment_status" th:value="${view?.employment_status}" id="employment_status"
-				readonly />
+				th:if="${formmode}=='view'" readonly />
+				<input type="text" name="employment_status" th:value="${view?.employment_status}" id="employment_status"
+				th:if="${formmode}=='modify'"   />
 		</div>
 		<div class="col-sm-2">
 			<label>Job Title</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="job_title" id="job_title" th:value="${view?.job_title}" readonly />
+			<input type="text" name="job_title" id="job_title" th:value="${view?.job_title}" th:if="${formmode}=='view'" readonly />
+			<input type="text" name="job_title" id="job_title" th:value="${view?.job_title}" th:if="${formmode}=='modify'"   />
 		</div>
 
 		<div class="col-sm-2">
 			<label>Employer Name</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="employer_name" th:value="${view?.employer_name}" id="employer_name" readonly />
+			<input type="text" name="employer_name" th:value="${view?.employer_name}" id="employer_name" th:if="${formmode}=='view'" readonly />
+			<input type="text" name="employer_name" th:value="${view?.employer_name}" id="employer_name" th:if="${formmode}=='modify'"   />
 		</div>
 	</div>
 	<div class="row formline  ml-2 mt-1">
-
 		<div class="col-sm-2">
 			<label>TU Core</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" th:value="${view?.tuscore}" name="tuscore" id="tuscore" readonly />
+			<input type="text" th:value="${view?.tuscore}" name="tuscore" id="tuscore" th:if="${formmode}=='view'" readonly />
+			<input type="text" th:value="${view?.tuscore}" name="tuscore" id="tuscore" th:if="${formmode}=='modify'"   />
 		</div>
 		<div class="col-sm-2">
 			<label>TU Probability</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" th:value="${view?.tuprobability}" name="tuprobability" id="tuprobability" readonly />
+			<input type="text" th:value="${view?.tuprobability}" name="tuprobability" id="tuprobability" th:if="${formmode}=='view'" readonly />
+			<input type="text" th:value="${view?.tuprobability}" name="tuprobability" id="tuprobability" th:if="${formmode}=='modify'"   />
 		</div>
 
 		<div class="col-sm-2">
 			<label>TU Full Name</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" name="tufullname" id="tufullname" readonly />
+			<input type="text" name="tufullname" id="tufullname" th:if="${formmode}=='view'" readonly />
+			<input type="text" name="tufullname" id="tufullname" th:if="${formmode}=='modify'"   />
 		</div>
 	</div>
 	<div class="row formline  ml-2 mt-1">
-
 		<div class="col-sm-2">
 			<label>TU Reasons</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" th:value="${view?.tufullname}" name="tufullname" id="tufullname" readonly />
+			<input type="text" th:value="${view?.tufullname}" name="tufullname" id="tufullname" th:if="${formmode}=='view'" readonly />
+			<input type="text" th:value="${view?.tufullname}" name="tufullname" id="tufullname" th:if="${formmode}=='modify'"   />
 		</div>
 		<div class="col-sm-2">
 			<label>Tureason 1</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="tureason1" th:value="${view?.tureason1}" name="tureason1" readonly />
+			<input type="text" id="tureason1" th:value="${view?.tureason1}" name="tureason1" th:if="${formmode}=='view'" readonly />
+			<input type="text" id="tureason1" th:value="${view?.tureason1}" name="tureason1" th:if="${formmode}=='modify'"   />
 		</div>
 		<div class="col-sm-2">
 			<label>Tureason 2</label>
 		</div>
 		<div class="col-sm-2">
-			<input type="text" id="tureason2" th:value="${view?.tureason2}" name="tureason2" readonly />
+			<input type="text" id="tureason2" th:value="${view?.tureason2}" name="tureason2" th:if="${formmode}=='view'" readonly />
+			<input type="text" id="tureason2" th:value="${view?.tureason2}" name="tureason2" th:if="${formmode}=='modify'"   />
 		</div>
 	</div>
 
@@ -724,27 +782,34 @@ function modifyscreen(a) {
 	<div class="col-sm-2">
 		<label>Disposable Income</label>
 	</div>
-	<div class="col-sm-2">
-
-		<input type="text" name="disposable_income" id="disposable_income"
+	<div class="col-sm-2"> 
+		<input type="text" name="disposable_income" id="disposable_income" th:if="${formmode}=='view'"
 			th:value="${view?.disposable_income == 0 ? '0.00' :#numbers.formatDecimal(view?.disposable_income, 0, 'COMMA', 2, 'POINT')}"
 			readonly />
+			<input type="text" name="disposable_income" id="disposable_income" th:if="${formmode}=='modify'"
+			th:value="${view?.disposable_income == 0 ? '0.00' :#numbers.formatDecimal(view?.disposable_income, 0, 'COMMA', 2, 'POINT')}"
+			  />
 	</div>
 	<div class="col-sm-2">
 		<label>Manual Override Amount</label>
 	</div>
 	<div class="col-sm-2">
-		<input type="text"
+		<input type="text" th:if="${formmode}=='view'"
 			th:value="${view?.manualoverride_amount == 0 ? '0.00' :#numbers.formatDecimal(view?.manualoverride_amount, 0, 'COMMA', 2, 'POINT')}"
 			name="manualoverride_amount" id="manualoverride_amount" readonly />
+			<input type="text" th:if="${formmode}=='modify'"
+			th:value="${view?.manualoverride_amount == 0 ? '0.00' :#numbers.formatDecimal(view?.manualoverride_amount, 0, 'COMMA', 2, 'POINT')}"
+			name="manualoverride_amount" id="manualoverride_amount"   />
 	</div>
 
 	<div class="col-sm-2">
 		<label>Manual Override Expiry Date</label>
 	</div>
 	<div class="col-sm-2">
-		<input type="text" th:value="${#dates.format(view?.manualoverride_expiry_date, 'dd-MM-yyyy')}"
+		<input type="text" th:value="${#dates.format(view?.manualoverride_expiry_date, 'dd-MM-yyyy')}" th:if="${formmode}=='view'"
 			name="manualoverride_expiry_date" id="manualoverride_expiry_date" readonly />
+			<input type="text" th:value="${#dates.format(view?.manualoverride_expiry_date, 'dd-MM-yyyy')}" th:if="${formmode}=='modify'"
+			name="manualoverride_expiry_date" id="manualoverride_expiry_date"   />
 	</div>
 </div>
 <div class="row formline  ml-2 mt-1">
@@ -753,26 +818,35 @@ function modifyscreen(a) {
 		<label>CP Fees</label>
 	</div>
 	<div class="col-sm-2">
-		<input type="text" name="cpfees"
+		<input type="text" name="cpfees" th:if="${formmode}=='view'"
 			th:value="${view?.cpfees == 0 ? '0.00' :#numbers.formatDecimal(view?.cpfees, 0, 'COMMA', 2, 'POINT')}"
 			id="cpfees" readonly />
+			<input type="text" name="cpfees" th:if="${formmode}=='modify'"
+			th:value="${view?.cpfees == 0 ? '0.00' :#numbers.formatDecimal(view?.cpfees, 0, 'COMMA', 2, 'POINT')}"
+			id="cpfees"   />
 	</div>
 	<div class="col-sm-2">
 		<label>Deposit Amount</label>
 	</div>
 	<div class="col-sm-2">
-		<input type="text"
+		<input type="text" th:if="${formmode}=='view'"
 			th:value="${view?.deposit_amount == 0 ? '0.00' :#numbers.formatDecimal(view?.deposit_amount, 0, 'COMMA', 2, 'POINT')}"
 			name="deposit_amount" id="deposit_amount" readonly />
+			<input type="text" th:if="${formmode}=='modify'"
+			th:value="${view?.deposit_amount == 0 ? '0.00' :#numbers.formatDecimal(view?.deposit_amount, 0, 'COMMA', 2, 'POINT')}"
+			name="deposit_amount" id="deposit_amount"   />
 	</div>
 
 	<div class="col-sm-2">
 		<label>Total Product Price</label>
 	</div>
 	<div class="col-sm-2">
-		<input type="text" name="total_product_price" id="total_product_price"
+		<input type="text" name="total_product_price" id="total_product_price" th:if="${formmode}=='view'"
 			th:value="${view?.total_product_price == 0 ? '0.00' :#numbers.formatDecimal(view?.total_product_price, 0, 'COMMA', 2, 'POINT')}"
 			readonly />
+			<input type="text" name="total_product_price" id="total_product_price" th:if="${formmode}=='modify'"
+			th:value="${view?.total_product_price == 0 ? '0.00' :#numbers.formatDecimal(view?.total_product_price, 0, 'COMMA', 2, 'POINT')}"
+			  />
 	</div>
 </div>
 <div class="row formline  ml-2 mt-1">
@@ -781,13 +855,15 @@ function modifyscreen(a) {
 		<label>Retailer Name</label>
 	</div>
 	<div class="col-sm-2">
-		<input type="text" th:value="${view?.retailer_name}" name="retailer_name" id="retailer_name" readonly />
+		<input type="text" th:value="${view?.retailer_name}" name="retailer_name" id="retailer_name" th:if="${formmode}=='view'" readonly />
+		<input type="text" th:value="${view?.retailer_name}" name="retailer_name" id="retailer_name" th:if="${formmode}=='modify'"   />
 	</div>
 	<div class="col-sm-2">
 		<label>Retailer Branch</label>
 	</div>
 	<div class="col-sm-2">
-		<input type="text" th:value="${view?.retailer_branch}" name="retailer_branch" id="retailer_branch" readonly />
+		<input type="text" th:value="${view?.retailer_branch}" name="retailer_branch" id="retailer_branch"  th:if="${formmode}=='view'"  readonly />
+		<input type="text" th:value="${view?.retailer_branch}" name="retailer_branch" id="retailer_branch"  th:if="${formmode}=='modify'"  />
 	</div>
 
 	<div class="col-sm-2">
@@ -795,7 +871,9 @@ function modifyscreen(a) {
 	</div>
 	<div class="col-sm-2">
 		<input type="text" th:value="${view?.vg_application_id}" name="vg_application_id" id="vg_application_id"
-			readonly />
+			th:if="${formmode}=='view'" readonly />
+			<input type="text" th:value="${view?.vg_application_id}" name="vg_application_id" id="vg_application_id"
+			th:if="${formmode}=='modify'"   />
 	</div>
 </div>
 <div class="row formline  ml-2 mt-1">
@@ -804,22 +882,25 @@ function modifyscreen(a) {
 		<label>Contract Signed</label>
 	</div>
 	<div class="col-sm-2">
-		<input type="text" th:value="${view?.contract_signed}" name="contract_signed" id="contract_signed" readonly />
+		<input type="text" th:value="${view?.contract_signed}" name="contract_signed" id="contract_signed" th:if="${formmode}=='view'" readonly />
+		<input type="text" th:value="${view?.contract_signed}" name="contract_signed" id="contract_signed" th:if="${formmode}=='modify'"   />
 	</div>
 	<div class="col-sm-2">
 		<label>Date of First Call</label>
 	</div>
 	<div class="col-sm-2">
 		<input type="text" name="date_of_first_call" th:value="${#dates.format(view?.date_of_first_call, 'dd-MM-yyyy')}"
-			id="date_of_first_call" readonly />
+			id="date_of_first_call" th:if="${formmode}=='view'" readonly />
+			<input type="text" name="date_of_first_call" th:value="${#dates.format(view?.date_of_first_call, 'dd-MM-yyyy')}"
+			id="date_of_first_call" th:if="${formmode}=='modify'"   />
 	</div>
 
 	<div class="col-sm-2">
 		<label>Last Call Outcome</label>
 	</div>
 	<div class="col-sm-2">
-		<input type="text" th:value="${view?.last_call_outcome}" name="last_call_outcome" id="last_call_outcome"
-			readonly />
+		<input type="text" th:value="${view?.last_call_outcome}" name="last_call_outcome" id="last_call_outcome" th:if="${formmode}=='view'" readonly />
+		<input type="text" th:value="${view?.last_call_outcome}" name="last_call_outcome" id="last_call_outcome" th:if="${formmode}=='modify'"   />
 	</div>
 </div>
 <div class="row formline  ml-2  mt-1">
@@ -827,8 +908,8 @@ function modifyscreen(a) {
 		<label>As On Date</label>
 	</div>
 	<div class="col-sm-2">
-		<input type="text" th:value="${#dates.format(view?.asondate, 'dd-MM-yyyy')}" name="asondate" id="asondate"
-			readonly />
+		<input type="text" th:value="${#dates.format(view?.asondate, 'dd-MM-yyyy')}" name="asondate" id="asondate" th:if="${formmode}=='view'" readonly />
+		<input type="text" th:value="${#dates.format(view?.asondate, 'dd-MM-yyyy')}" name="asondate" id="asondate" th:if="${formmode}=='modify'"   />
 	</div>
 	<div class="col-sm-2">
 		<label>Remarks 1</label>
@@ -844,8 +925,9 @@ function modifyscreen(a) {
 	</div>
 </div>
 <div class="card-footer text-center mt-4">
-	<button class="btn btn-primary p-2" onclick="home();">Home</button>
-	<button class="btn btn-primary p-2" onclick="modifyscreen(this);">Modify</button>
+	<button class="btn btn-primary p-2"  >Home</button>
+	<button class="btn btn-primary p-2"  th:attr="data-id=${view?.id}, data-account_holderkey=${view?.account_holderkey}" th:if="${formmode}=='view'" onclick="modifyscreen(this);">Modify</button>
+	<button class="btn btn-primary p-2" onclick="modifyloan();">Submit</button>
 	<button class="btn btn-primary p-2" onclick="back();">Back</button>
 </div>
 <!-------------------------------------------------------------------------- footer ------------------------------------------------------------>
