@@ -294,58 +294,96 @@ input:hover+.password-info {
 	opacity: 0.8;
 }
 </style>
-
 <script>
+		$(document).ready(function () {
+			$('.dropdown-toggle').dropdown();
+		});
+	</script>
 
-function ClickId(a, mode = 'view') {
-    let id = null;
+<script th:inline="javascript">
+//Global variables to store the current customer account type and ID
+var currentAcctType = '';
+var currentCustomerId = '';
 
-    if (mode === 'modify') {
-        // Get ID from the input field when modifying
-        id = document.getElementById("customer_id") ? document.getElementById("customer_id").value.trim() : null;
+function confirmAndOpenTab(evt, tabName) {
+    var ca_acct_type = document.getElementById('ca_acct_type').value;
+    var customerId = document.getElementById('customer_id').value;
+
+    if (!ca_acct_type || !customerId) {
+      //  alert("Please select customer ID");
+        $("#alertmsg").text("Please select customer ID");
+		$('#alert').modal("toggle");
     } else {
-        // Get ID from the clicked element (table row)
-        if (!a) a = event.target;
-        while (a && !a.hasAttribute("data-id")) {
-            a = a.parentElement;
+        // Check if the account type or customer ID has changed
+        if (ca_acct_type !== currentAcctType || customerId !== currentCustomerId) {
+            // Show the confirmation dialog
+            var confirmation = confirm("Do you want to open this DOCUMENT MASTER Tab?");
+            if (confirmation) {
+                currentAcctType = ca_acct_type; // Update the current account type
+                currentCustomerId = customerId; // Update the current customer ID
+                openTabAndShowTable(evt, tabName, ca_acct_type);
+            }
+        } else {
+            openTabAndShowTable(evt, tabName, ca_acct_type);
         }
-        id = a ? a.getAttribute("data-id") : null;
     }
-		  
-    
-    let url = id && id !== "" 
-        ? `customerMaster?formmode=${mode}&id=${id}`
-        : `customerMaster?formmode=list`;
-
-				if(dues==='module1'){
-			url += '&module=module1';
-				}
-				else{
-					url += '&module=module2';
-				}
-  
-    location.href = url; // Redirect to the appropriate page
 }
 
-function modifysubmit() {
-    event.preventDefault(); // Prevent default form submission
-
-    let formData = $("#drawDownDetailsAdd").serialize(); // Serialize form data
-	console.log(formData);
-   $.ajax({
-        type: "POST",
-        url: "./modifyCustomer",  // Update this URL as per your backend endpoint
-        data: formData,
-        success: function(response) {
-            alert("Customer details updated successfully!");
-            location.href = "customerMaster?formmode=list&id=" + $("#customer_id").val(); // Redirect to view page
-        },
-        error: function(error) {
-            console.error("Error updating customer details:", error);
-            alert("Failed to update customer details. Please try again.");
-        }
-    }); 
+function openTabAndShowTable(evt, tabName, ca_acct_type) {
+    if (ca_acct_type === "INDIVIDUAL" || ca_acct_type === "JOINT ACCOUNT") {
+        document.getElementById("individualTable").style.display = "block";
+        document.getElementById("corporateTable").style.display = "none";
+    } else {
+        document.getElementById("individualTable").style.display = "none";
+        document.getElementById("corporateTable").style.display = "block";
+    }
+    openTab(evt, tabName);
 }
+
+function openTab(evt, tabName) {
+    evt.preventDefault(); // Prevent default action
+    hideAllTabs(); // Hide all tabs
+    document.getElementById(tabName).style.display = 'block'; // Show the selected tab
+    const tablinks = document.getElementsByClassName("tablinks");
+    for (let i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active"); // Remove the active class from all tabs
+    }
+    evt.currentTarget.classList.add("active"); // Add active class to the clicked tab
+    currentTab = tabName; // Update the currentTab variable
+}
+
+function hideAllTabs() {
+    const tabContents = document.getElementsByClassName('tabcontent');
+    for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].style.display = 'none'; // Hide all tab content
+    }
+}
+
+// Initialize the first tab as active
+document.addEventListener("DOMContentLoaded", function () {
+    hideAllTabs();
+    document.getElementById('tab1').style.display = 'block';
+});
+
+		function home() {
+			location.href = 'LSDB/Dashboard';
+		}
+
+		function refreshPage1() {
+			event.preventDefault();
+			location.href = 'drawDownLoan?formmode=add';
+		}
+
+		function listPage() {
+			event.preventDefault();
+			location.href = 'drawDownLoanMaintanace?formmode=list';
+		}
+
+
+
+
+	</script>
+<script>
 	var mrowCount = 1;
 	var mrowCountcor =3;
 	function rowadd() {  
@@ -1833,8 +1871,8 @@ function firstexceldownload() {
 	</script>
 <script th:inline="javascript">
 	/*<![CDATA[*/
-	var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
-
+	var dues = [[${modify}]]; // Thymeleaf data injected into JavaScript
+alert(dues)
 	/*]]>*/
 </script>
 <script type="text/javascript">
@@ -1873,7 +1911,10 @@ function firstexceldownload() {
 	</div>
 	<div class="container-manager">
 		<div class="row">
+
 			<div class="col-sm-11 ml-5" style="font-size: 0.8rem;">
+
+
 				<div class="mt-5">
 					<div th:if="${formmode}=='list'">
 						<div class="card">
@@ -2161,7 +2202,6 @@ function firstexceldownload() {
 									</fieldset>
 									<div class="card-footer text-center mt-2">
 										<button class="btn btn-primary p-2" onclick="home();">Home</button>
-										<button th:if="${formmode} == 'modify'" class="btn btn-primary p-2" onclick="modifysubmit();">submit</button>
 										<button class="btn btn-primary p-2" onclick="back();">Back</button>
 									</div>
 								</form>
