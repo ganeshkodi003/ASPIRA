@@ -3492,12 +3492,8 @@ public class BGLSNavigationController {
 			HttpServletRequest request,@RequestParam(required = false) String id,@RequestParam(required = false) String holder_key) {
 		String user = (String) request.getSession().getAttribute("USERID");
 		
-		if (formmode == null || formmode.equals("list")) {
-
-
-			model.addAttribute("formmode", "list"); 
-			md.addAttribute("list", LOAN_ACT_MST_REPO.getLoanActDet());
-			md.addAttribute("user", user);
+		if (formmode == null || formmode.equals("loanscrn")) {
+			model.addAttribute("formmode", "loanscrn");  
 		} else if (formmode.equals("viewloan")) {
 			model.addAttribute("formmode", "viewloan");
 			md.addAttribute("user", user);
