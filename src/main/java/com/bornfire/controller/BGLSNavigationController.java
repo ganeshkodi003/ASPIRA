@@ -3458,41 +3458,46 @@ public class BGLSNavigationController {
 	
 	 @Autowired
 	    private CLIENT_MASTER_REPO clientMasterRepo;
-	
-	@RequestMapping(value = "customerMaster", method = { RequestMethod.GET, RequestMethod.POST })
-	public String customerMaster(@RequestParam(required = false) String formmode, Model md, boolean modify,
-			HttpServletRequest req, @RequestParam(required = false) String id,
-			@RequestParam(required = false) String synd_fac_ref) {
 
-		String user = (String) req.getSession().getAttribute("USERID");
-		Date TRANDATE = (Date) req.getSession().getAttribute("TRANDATE");
+			@RequestMapping(value = "customerMaster", method = { RequestMethod.GET, RequestMethod.POST })
+			public String customerMaster(@RequestParam(required = false) String formmode,
+					@RequestParam(required = false) String module,
+					@RequestParam(required = false) String id,
+					Model md, HttpServletRequest req) {
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String formattedDate = dateFormat.format(TRANDATE);
-		System.out.println(modify);	
-		if (formmode == null) {
+				String user = (String) req.getSession().getAttribute("USERID");
+				Date TRANDATE = (Date) req.getSession().getAttribute("TRANDATE");
 
-			md.addAttribute("formmode", "home");
-			
-		}
-		else if (formmode.equals("list")) {
-			System.out.println(modify);
-			md.addAttribute("formmode", "list"); 
-			md.addAttribute("list", clientMasterRepo.getLoanActDet());
-	
-		} else if (formmode.equals("view")) {
-			md.addAttribute("formmode", "view");
-			CLIENT_MASTER_ENTITY client = clientMasterRepo.getClientView(id);
-			md.addAttribute("customer", client);
-		}
-			md.addAttribute("modify", modify);
-			md.addAttribute("currentDate", TRANDATE);
-			md.addAttribute("ConDate", formattedDate);
-			md.addAttribute("user", user);
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				String formattedDate = dateFormat.format(TRANDATE);
 
-		return "customerMaster";
+				if (formmode == null) {
+					md.addAttribute("formmode", "home");
+				} else if (formmode.equals("list")) {
+					md.addAttribute("formmode", "list");
+					md.addAttribute("list", clientMasterRepo.getLoanActDet());
+				} else if (formmode.equals("view")) {
+					md.addAttribute("formmode", "view");
+					CLIENT_MASTER_ENTITY client = clientMasterRepo.getClientView(id);
+					md.addAttribute("customer", client);
+				} else if (formmode.equals("modify") && "module2".equals(module)) {
+					md.addAttribute("formmode", "modify");
+					CLIENT_MASTER_ENTITY client = clientMasterRepo.getClientView(id);
+					md.addAttribute("customer", client);
+				} else if (formmode.equals("verify") && "module2".equals(module)) {
+					// Allow verify only for module2
+					md.addAttribute("formmode", "verify");
+					CLIENT_MASTER_ENTITY client = clientMasterRepo.getClientView(id);
+					md.addAttribute("customer", client);
+				}
 
-	}
+				md.addAttribute("currentDate", TRANDATE);
+				md.addAttribute("ConDate", formattedDate);
+				md.addAttribute("user", user);
+				md.addAttribute("module", module);
+
+				return "customerMaster";
+			}
 	
 	@RequestMapping(value = "loanMaster", method = { RequestMethod.GET, RequestMethod.POST })
 	public String loanMaster(@RequestParam(required = false) String formmode, Model model, String customer_id, Model md, 

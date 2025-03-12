@@ -48,6 +48,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bornfire.config.SequenceGenerator;
 import com.bornfire.entities.Access_Role_Entity;
@@ -4664,10 +4665,10 @@ public class BGLSRestController {
 				Cell cell11 = row.getCell(24);
 				LocalDateTime asOnDateTime = parseDateCell(cell11);
 
-				if (asOnDateTime != null) {
-				    Date asOnDate = Date.from(asOnDateTime.atZone(ZoneId.systemDefault()).toInstant());
-				    transaction.setAsondate(new java.sql.Date(asOnDate.getTime())); // Convert to java.sql.Date
-				}
+				// if (asOnDateTime != null) {
+				//     Date asOnDate = Date.from(asOnDateTime.atZone(ZoneId.systemDefault()).toInstant());
+				//     transaction.setAsondate(new java.sql.Date(asOnDate.getTime())); // Convert to java.sql.Date
+				// }
 
 				transactions.add(transaction);
 			}
@@ -5055,6 +5056,10 @@ public class BGLSRestController {
 	}
 
 	private BigDecimal parseBigDecimal(Cell cell) {
+		try {
+			if (cell == null || cell.getCellTypeEnum() == CellType.BLANK) {
+				return BigDecimal.ZERO; // Return 0 if the cell is empty or null
+			}
 		try {
 			if (cell == null || cell.getCellTypeEnum() == CellType.BLANK) {
 				return BigDecimal.ZERO; // Return 0 if the cell is empty or null

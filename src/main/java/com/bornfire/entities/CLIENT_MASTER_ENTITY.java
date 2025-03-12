@@ -2,12 +2,15 @@ package com.bornfire.entities;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 @Table(name="CLIENT_MASTER_TBL")
 public class CLIENT_MASTER_ENTITY {
@@ -16,20 +19,25 @@ public class CLIENT_MASTER_ENTITY {
 	private String	customer_id;
 	private String	client_state;
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-	private Date	creation_date;
+	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	private LocalDate	creation_date;
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-	private Date	last_modified_date;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	private LocalDate	last_modified_date;
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-	private Date	activation_date;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	private LocalDate	activation_date;
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-	private Date	approved_date;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	private LocalDate	approved_date;
 	private String	first_name;
 	private String	last_name;
 	private String	mobile_phone;
 	private String	email_address;
 	private String	preferred_language;
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-	private Date	birth_date;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	private LocalDate	birth_date;
 	private String	gender;
 	private String	assigned_branch_key;
 	private String	client_role_key;
@@ -42,7 +50,8 @@ public class CLIENT_MASTER_ENTITY {
 	private String	suburb;
 	private String	assigned_user_key;
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-	private Date	asondate;
+	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	private LocalDate	asondate;
 	public String getEncoded_key() {
 		return encoded_key;
 	}
@@ -61,28 +70,28 @@ public class CLIENT_MASTER_ENTITY {
 	public void setClient_state(String client_state) {
 		this.client_state = client_state;
 	}
-	public Date getCreation_date() {
+	public LocalDate getCreation_date() {
 		return creation_date;
 	}
-	public void setCreation_date(Date creation_date) {
+	public void setCreation_date(LocalDate creation_date) {
 		this.creation_date = creation_date;
 	}
-	public Date getLast_modified_date() {
+	public LocalDate getLast_modified_date() {
 		return last_modified_date;
 	}
-	public void setLast_modified_date(Date last_modified_date) {
+	public void setLast_modified_date(LocalDate last_modified_date) {
 		this.last_modified_date = last_modified_date;
 	}
-	public Date getActivation_date() {
+	public LocalDate getActivation_date() {
 		return activation_date;
 	}
-	public void setActivation_date(Date activation_date) {
+	public void setActivation_date(LocalDate activation_date) {
 		this.activation_date = activation_date;
 	}
-	public Date getApproved_date() {
+	public LocalDate getApproved_date() {
 		return approved_date;
 	}
-	public void setApproved_date(Date approved_date) {
+	public void setApproved_date(LocalDate approved_date) {
 		this.approved_date = approved_date;
 	}
 	public String getFirst_name() {
@@ -115,10 +124,10 @@ public class CLIENT_MASTER_ENTITY {
 	public void setPreferred_language(String preferred_language) {
 		this.preferred_language = preferred_language;
 	}
-	public Date getBirth_date() {
+	public LocalDate getBirth_date() {
 		return birth_date;
 	}
-	public void setBirth_date(Date birth_date) {
+	public void setBirth_date(LocalDate birth_date) {
 		this.birth_date = birth_date;
 	}
 	public String getGender() {
@@ -187,18 +196,18 @@ public class CLIENT_MASTER_ENTITY {
 	public void setAssigned_user_key(String assigned_user_key) {
 		this.assigned_user_key = assigned_user_key;
 	}
-	public Date getAsondate() {
+	public LocalDate getAsondate() {
 		return asondate;
 	}
-	public void setAsondate(Date asondate) {
+	public void setAsondate(LocalDate asondate) {
 		this.asondate = asondate;
 	}
-	public CLIENT_MASTER_ENTITY(String encoded_key, String customer_id, String client_state, Date creation_date,
-			Date last_modified_date, Date activation_date, Date approved_date, String first_name, String last_name,
-			String mobile_phone, String email_address, String preferred_language, Date birth_date, String gender,
+	public CLIENT_MASTER_ENTITY(String encoded_key, String customer_id, String client_state, LocalDate creation_date,
+			LocalDate last_modified_date, LocalDate activation_date, LocalDate approved_date, String first_name, String last_name,
+			String mobile_phone, String email_address, String preferred_language, LocalDate birth_date, String gender,
 			String assigned_branch_key, String client_role_key, BigDecimal loan_cycle, BigDecimal group_loan_cycle,
 			String address_line1, String address_line2, String address_line3, String city, String suburb,
-			String assigned_user_key, Date asondate) {
+			String assigned_user_key, LocalDate asondate) {
 		super();
 		this.encoded_key = encoded_key;
 		this.customer_id = customer_id;
