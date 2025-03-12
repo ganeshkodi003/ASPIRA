@@ -1867,12 +1867,34 @@ function firstexceldownload() {
 	$("#alert33").modal("show");
 }
 
+function ClickId(a, mode = 'view') {
+    let id = null;
+
+    if (mode === 'modify') {
+        // Get ID from the input field when modifying
+        id = document.getElementById("customer_id") ? document.getElementById("customer_id").value.trim() : null;
+    } else {
+        // Get ID from the clicked element (table row)
+        if (!a) a = event.target;
+        while (a && !a.hasAttribute("data-id")) {
+            a = a.parentElement;
+        }
+        id = a ? a.getAttribute("data-id") : null;
+    }
+
+    // Construct the URL based on whether ID exists
+   let url = id && id !== "" 
+        ? `customerMaster?formmode=${mode}&id=${id}&module=${dues}`
+        : `customerMaster?formmode=list&module=${dues}`;
+    location.href = url; // Redirect to the appropriate page
+}
 
 	</script>
 <script th:inline="javascript">
 	/*<![CDATA[*/
-	var dues = [[${modify}]]; // Thymeleaf data injected into JavaScript
-alert(dues)
+var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
+// Thymeleaf data injected into JavaScript
+
 	/*]]>*/
 </script>
 <script type="text/javascript">
@@ -1921,7 +1943,7 @@ alert(dues)
 							<div class="card-header"
 								style="background-color: #e9ecef; height: 50px">
 								<div class="float-left">
-									<h6 style="font-size: 1.2rem;">ASPIRA LOAN - LIST</h6>
+									<h6 style="font-size: 1.2rem;">CUSTOMER MAINTENANCE - LIST</h6>
 								</div>
 								<!--<div class="btn-group nav-buttons float-right">
 							<button type="button" class="btn btn-primary p-2" id="btnAdd"
@@ -1972,16 +1994,18 @@ alert(dues)
 					</div>
 
 
-					<div th:if="${formmode}=='view'">
+					<div th:if="${formmode}=='view'or ${formmode}=='modify'">
 						<div class="card">
 							<div class="card-header"
 								style="background-color: #e9ecef; height: 50px">
 								<div class="float-left">
-									<h6 style="font-size: 1.2rem;" class="ml-3">LEASE LOAN -
-										OPEN</h6>
+									<h6 style="font-size: 1.2rem;" class="ml-3">CUSTOMER MAINTENANCE</h6>
 								</div>
 								<div class="btn-group nav-buttons float-right">
-									<button class="btn btn-primary p-2" onclick="Uploadloan();">Upload</button>
+									<button class="btn btn-primary p-2 " th:if="${module} == 'module1'" onclick="Uploadloan();">Upload</button>
+<button th:if="${module} == 'module2' and ${formmode}=='view'"  class="btn ml-2 btn-primary p-2" onclick="ClickId(null, 'modify')">
+    Modify
+</button>
 
 								</div>
 
@@ -1992,7 +2016,7 @@ alert(dues)
 								<form action="#" method="post" id="drawDownDetailsAdd"
 									autocomplete="off" name="drawDownDetailsData"
 									th:fragment="finuserapply">
-									<fieldset th:disabled="${modify} != 'true'">
+									<fieldset th:disabled="${formmode} != 'modify'">
 										<div class="">
 											<div class="row formline mt-2 ml-2">
 												<div class="col-sm-2"></div>
@@ -2202,6 +2226,7 @@ alert(dues)
 									</fieldset>
 									<div class="card-footer text-center mt-2">
 										<button class="btn btn-primary p-2" onclick="home();">Home</button>
+										<button class="btn btn-primary p-2" th:if="${formmode} == 'modify'" onclick="submit();">submit</button>
 										<button class="btn btn-primary p-2" onclick="back();">Back</button>
 									</div>
 								</form>
@@ -2211,6 +2236,7 @@ alert(dues)
 
 
 					</div>
+					
 					<div th:if="${formmode}=='home'">
 						<div class="card">
 							<div class="card-header"
