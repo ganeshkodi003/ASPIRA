@@ -1861,6 +1861,11 @@ function ClickId(a, modify = false) {
     location.href = url;
 }
 
+function firstexceldownload() {
+	alert("firstexceldownload function worked ");
+	// Show the Bootstrap modal
+	$("#alert33").modal("show");
+}
 
 
 	</script>
@@ -1869,6 +1874,33 @@ function ClickId(a, modify = false) {
 	var dues = [[${modify}]]; // Thymeleaf data injected into JavaScript
 alert(dues)
 	/*]]>*/
+</script>
+<script type="text/javascript">
+	function submitdatas() {
+		//	alert("hi");
+		var form = $('#reportform')[0];
+		var data = new FormData(form);
+
+		$.ajax({
+			type : "POST",
+			url : "uploadxmldata1",
+			data : data,
+			processData : false,
+			contentType : false,
+			success : function(response) {
+				console.log(response);
+				showResponse(response);
+				$('#uploadfiles').modal('hide');
+			},
+			error : function(error) {
+				showResponse("Error: " + error.responseText);
+			}
+		});
+	}
+	function showResponse(responseText) {
+		$("#alertmsg").text(responseText);
+		$('#normalalertvalues').modal("toggle");
+	}
 </script>
 </head>
 <title>ASPIRA</title>
@@ -1884,285 +1916,289 @@ alert(dues)
 
 
 				<div class="mt-5">
-				<div th:if="${formmode}=='list'">
-					<div class="card">
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
-							<div class="float-left">
-								<h6 style="font-size: 1.2rem;">ASPIRA LOAN - LIST</h6>
-							</div>
-							<!--<div class="btn-group nav-buttons float-right">
+					<div th:if="${formmode}=='list'">
+						<div class="card">
+							<div class="card-header"
+								style="background-color: #e9ecef; height: 50px">
+								<div class="float-left">
+									<h6 style="font-size: 1.2rem;">ASPIRA LOAN - LIST</h6>
+								</div>
+								<!--<div class="btn-group nav-buttons float-right">
 							<button type="button" class="btn btn-primary p-2" id="btnAdd"
 								onclick="addscreen();">ADD</button>
 						</div>-->
-						</div>
-						<div class="card-body"
-							style="overflow-y: auto; border: 1px solid #ddd;">
-							<div class="table-responsive" id="cardBody">
-								<table class="table  table-bordered  table-hover table-sm"
-									style="margin-bottom: 0px; font-size: initial;" id="usertable">
-									<thead class="thead-light"
-										style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 1;">
-										<tr class="filters">
-											<th style="width: 8%;">S.NO</th>
-											<th style="width: 10%;">LOAN ID</th>
-											<th>LOAN NAME</th>
-											<th>DOB</th>
-											<th>RETAILER BRANCH ID</th>
-											<th style="width: 10%;">STATUS</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr th:each="list, iterator : ${list}" class="userlist">
-											<td style="font-size: 14px" th:text="${iterator.index +1}"></td>
-											<td style="font-size: 14px" class="text-primary"
-												th:attr="data-id=${list?.customer_id}"
-												th:text="${list?.customer_id}" onclick="ClickId(this);"></td>
-											<td style="font-size: 14px"  th:text="${list?.first_name + ' ' + list?.last_name}" > </td>
-											<td style="font-size: 14px"th:text="${#dates.format(list?.birth_date, 'dd-MM-yyyy')}"> </td>
-											<td style="font-size: 14px" th:text="${list?.assigned_branch_key}"
-												>TEST</td>
-											<td style="font-size: 14px" th:text="${list?.client_state}">TEST</td>
-										</tr>
-									</tbody>
-								</table>
 							</div>
-						</div>
-						<div class="card-footer text-center">
-							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary p-2" onclick="back()">Back</button>
+							<div class="card-body"
+								style="overflow-y: auto; border: 1px solid #ddd;">
+								<div class="table-responsive" id="cardBody">
+									<table class="table  table-bordered  table-hover table-sm"
+										style="margin-bottom: 0px; font-size: initial;" id="usertable">
+										<thead class="thead-light"
+											style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 1;">
+											<tr class="filters">
+												<th style="width: 8%;">S.NO</th>
+												<th style="width: 10%;">LOAN ID</th>
+												<th>LOAN NAME</th>
+												<th>DOB</th>
+												<th>RETAILER BRANCH ID</th>
+												<th style="width: 10%;">STATUS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="list, iterator : ${list}" class="userlist">
+												<td style="font-size: 14px" th:text="${iterator.index +1}"></td>
+												<td style="font-size: 14px" class="text-primary"
+													th:attr="data-id=${list?.customer_id}"
+													th:text="${list?.customer_id}" onclick="ClickId(this);"></td>
+												<td style="font-size: 14px"
+													th:text="${list?.first_name + ' ' + list?.last_name}">
+												</td>
+												<td style="font-size: 14px"
+													th:text="${#dates.format(list?.birth_date, 'dd-MM-yyyy')}">
+												</td>
+												<td style="font-size: 14px"
+													th:text="${list?.assigned_branch_key}">TEST</td>
+												<td style="font-size: 14px" th:text="${list?.client_state}">TEST</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="card-footer text-center">
+								<button class="btn btn-primary p-2" onclick="Home();">Home</button>
+								<button class="btn btn-primary p-2" onclick="back()">Back</button>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				
-				<div th:if="${formmode}=='view'">
-					<div class="card">
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
-							<div class="float-left">
-								<h6 style="font-size: 1.2rem;" class="ml-3">LEASE LOAN -
-									OPEN</h6>
+
+					<div th:if="${formmode}=='view'">
+						<div class="card">
+							<div class="card-header"
+								style="background-color: #e9ecef; height: 50px">
+								<div class="float-left">
+									<h6 style="font-size: 1.2rem;" class="ml-3">LEASE LOAN -
+										OPEN</h6>
+								</div>
+								<div class="btn-group nav-buttons float-right">
+									<button class="btn btn-primary p-2" onclick="Uploadloan();">Upload</button>
+
+								</div>
+
+
 							</div>
-	<div class="btn-group nav-buttons float-right">
-								<button class="btn btn-primary p-2" onclick="Uploadloan();">Upload</button>
+							<div class="card-body">
 
-							</div>
-
-
-						</div>
-						<div class="card-body">
-					
-							<form action="#" method="post" id="drawDownDetailsAdd"
-								autocomplete="off" name="drawDownDetailsData"
-								th:fragment="finuserapply">
+								<form action="#" method="post" id="drawDownDetailsAdd"
+									autocomplete="off" name="drawDownDetailsData"
+									th:fragment="finuserapply">
 									<fieldset th:disabled="${modify} != 'true'">
-									<div class="">
-										<div class="row formline mt-2 ml-2">
-											<div class="col-sm-2"></div>
-											<div class="col-sm-2">
-												<label>Customer Id</label>
+										<div class="">
+											<div class="row formline mt-2 ml-2">
+												<div class="col-sm-2"></div>
+												<div class="col-sm-2">
+													<label>Customer Id</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="text" name="customer_id"
+														th:value="${customer?.customer_id}" id="customer_id"
+														readonly />
+												</div>
+												<div class="col-sm-2">
+													<label>Customer Name</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="text"
+														th:value="${customer?.first_name + ' ' + customer?.last_name}"
+														readonly />
+												</div>
 											</div>
-											<div class="col-sm-2">
-												<input type="text" name="customer_id"
-													th:value="${customer?.customer_id}" id="customer_id"
-													readonly />
-											</div>
-											<div class="col-sm-2">
-												<label>Customer Name</label>
-											</div>
-											<div class="col-sm-2">
-												<input type="text"
-													th:value="${customer?.first_name + ' ' + customer?.last_name}"
-													readonly />
-											</div>
-										</div>
 
-										<div class="row formline mt-2 ml-2">
-											<div class="col-sm-2"></div>
-											<div class="col-sm-2">
-												<label>First Name</label>
+											<div class="row formline mt-2 ml-2">
+												<div class="col-sm-2"></div>
+												<div class="col-sm-2">
+													<label>First Name</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="text" name="first_name"
+														th:value="${customer?.first_name}" id="first_name" />
+												</div>
+												<div class="col-sm-2">
+													<label>Last Name</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="text" name="last_name"
+														th:value="${customer?.last_name}" id="last_name" />
+												</div>
 											</div>
-											<div class="col-sm-2">
-												<input type="text" name="first_name"
-													th:value="${customer?.first_name}" id="first_name" />
-											</div>
-											<div class="col-sm-2">
-												<label>Last Name</label>
-											</div>
-											<div class="col-sm-2">
-												<input type="text" name="last_name"
-													th:value="${customer?.last_name}" id="last_name" />
-											</div>
-										</div>
 
-										<div class="row formline mt-2 ml-2">
-											<div class="col-sm-2"></div>
-											<div class="col-sm-2">
-												<label>Gender</label>
+											<div class="row formline mt-2 ml-2">
+												<div class="col-sm-2"></div>
+												<div class="col-sm-2">
+													<label>Gender</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="text" name="gender"
+														th:value="${customer?.gender}" id="gender" />
+												</div>
+												<div class="col-sm-2">
+													<label>Date of Birth</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="date" name="dob"
+														th:value="${customer?.birth_date}" id="dob" />
+												</div>
 											</div>
-											<div class="col-sm-2">
-												<input type="text" name="gender"
-													th:value="${customer?.gender}" id="gender" />
-											</div>
-											<div class="col-sm-2">
-												<label>Date of Birth</label>
-											</div>
-											<div class="col-sm-2">
-												<input type="date" name="dob"
-													th:value="${customer?.birth_date}" id="dob" />
-											</div>
-										</div>
 
-										<div class="row formline mt-2 ml-2">
-											<div class="col-sm-2"></div>
-											<div class="col-sm-2">
-												<label>Branch</label>
+											<div class="row formline mt-2 ml-2">
+												<div class="col-sm-2"></div>
+												<div class="col-sm-2">
+													<label>Branch</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="text" name="branch"
+														th:value="${customer?.assigned_branch_key}" id="branch" />
+												</div>
+												<div class="col-sm-2">
+													<label>Client Role Key</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="text" name="client_role_key"
+														th:value="${customer?.client_role_key}"
+														id="client_role_key" />
+												</div>
 											</div>
-											<div class="col-sm-2">
-												<input type="text" name="branch"
-													th:value="${customer?.assigned_branch_key}" id="branch" />
-											</div>
-											<div class="col-sm-2">
-												<label>Client Role Key</label>
-											</div>
-											<div class="col-sm-2">
-												<input type="text" name="client_role_key"
-													th:value="${customer?.client_role_key}"
-													id="client_role_key" />
-											</div>
-										</div>
 
-										<div class="row formline mt-2 ml-2">
-											<div class="col-sm-2"></div>
-											<div class="col-sm-2">
-												<label>Creation Date</label>
+											<div class="row formline mt-2 ml-2">
+												<div class="col-sm-2"></div>
+												<div class="col-sm-2">
+													<label>Creation Date</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="date" name="creation_date"
+														th:value="${customer?.creation_date}" id="creation_date" />
+												</div>
+												<div class="col-sm-2">
+													<label>Approval Date</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="date" name="approval_date"
+														th:value="${customer?.approved_date}" id="approval_date" />
+												</div>
 											</div>
-											<div class="col-sm-2">
-												<input type="date" name="creation_date"
-													th:value="${customer?.creation_date}" id="creation_date" />
-											</div>
-											<div class="col-sm-2">
-												<label>Approval Date</label>
-											</div>
-											<div class="col-sm-2">
-												<input type="date" name="approval_date"
-													th:value="${customer?.approved_date}" id="approval_date" />
-											</div>
-										</div>
 
-										<div class="row formline mt-2 ml-2">
-											<div class="col-sm-2"></div>
-											<div class="col-sm-2">
-												<label>Last Modification Date</label>
+											<div class="row formline mt-2 ml-2">
+												<div class="col-sm-2"></div>
+												<div class="col-sm-2">
+													<label>Last Modification Date</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="date" name="modification_date"
+														th:value="${customer?.last_modified_date}"
+														id="modification_date" />
+												</div>
+												<div class="col-sm-2">
+													<label>Activation Date</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="date" name="activation_date"
+														th:value="${customer?.activation_date}"
+														id="activation_date" />
+												</div>
 											</div>
-											<div class="col-sm-2">
-												<input type="date" name="modification_date"
-													th:value="${customer?.last_modified_date}"
-													id="modification_date" />
-											</div>
-											<div class="col-sm-2">
-												<label>Activation Date</label>
-											</div>
-											<div class="col-sm-2">
-												<input type="date" name="activation_date"
-													th:value="${customer?.activation_date}"
-													id="activation_date" />
-											</div>
-										</div>
 
-										<div class="row formline mt-2 ml-2">
-											<div class="col-sm-2"></div>
-											<div class="col-sm-2">
-												<label>Mobile No</label>
+											<div class="row formline mt-2 ml-2">
+												<div class="col-sm-2"></div>
+												<div class="col-sm-2">
+													<label>Mobile No</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="text" name="mobile_no"
+														th:value="${customer?.mobile_phone}" id="mobile_no" />
+												</div>
+												<div class="col-sm-2">
+													<label>Email Id</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="email" name="email_id"
+														th:value="${customer?.email_address}" id="email_id" />
+												</div>
 											</div>
-											<div class="col-sm-2">
-												<input type="text" name="mobile_no"
-													th:value="${customer?.mobile_phone}" id="mobile_no" />
-											</div>
-											<div class="col-sm-2">
-												<label>Email Id</label>
-											</div>
-											<div class="col-sm-2">
-												<input type="email" name="email_id"
-													th:value="${customer?.email_address}" id="email_id" />
-											</div>
-										</div>
 
-										<div class="row formline mt-2 ml-2">
-											<div class="col-sm-2"></div>
-											<div class="col-sm-2">
-												<label>Address 1</label>
+											<div class="row formline mt-2 ml-2">
+												<div class="col-sm-2"></div>
+												<div class="col-sm-2">
+													<label>Address 1</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="text" name="address_1"
+														th:value="${customer?.address_line1}" id="address_1" />
+												</div>
+												<div class="col-sm-2">
+													<label>Address 2</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="text" name="address_2"
+														th:value="${customer?.address_line2}" id="address_2" />
+												</div>
 											</div>
-											<div class="col-sm-2">
-												<input type="text" name="address_1"
-													th:value="${customer?.address_line1}" id="address_1" />
-											</div>
-											<div class="col-sm-2">
-												<label>Address 2</label>
-											</div>
-											<div class="col-sm-2">
-												<input type="text" name="address_2"
-													th:value="${customer?.address_line2}" id="address_2" />
-											</div>
-										</div>
 
-										<div class="row formline mt-2 ml-2">
-											<div class="col-sm-2"></div>
-											<div class="col-sm-2">
-												<label>City</label>
+											<div class="row formline mt-2 ml-2">
+												<div class="col-sm-2"></div>
+												<div class="col-sm-2">
+													<label>City</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="text" name="city" th:value="${customer?.city}"
+														id="city" />
+												</div>
+												<div class="col-sm-2">
+													<label>Suburb</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="text" name="suburb"
+														th:value="${customer?.suburb}" id="suburb" />
+												</div>
 											</div>
-											<div class="col-sm-2">
-												<input type="text" name="city" th:value="${customer?.city}"
-													id="city" />
-											</div>
-											<div class="col-sm-2">
-												<label>Suburb</label>
-											</div>
-											<div class="col-sm-2">
-												<input type="text" name="suburb"
-													th:value="${customer?.suburb}" id="suburb" />
-											</div>
-										</div>
 
-										<div class="row formline mt-2 ml-2">
-											<div class="col-sm-2"></div>
-											<div class="col-sm-2">
-												<label>Loan Cycle</label>
+											<div class="row formline mt-2 ml-2">
+												<div class="col-sm-2"></div>
+												<div class="col-sm-2">
+													<label>Loan Cycle</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="text" name="loan_cycle"
+														th:value="${customer?.loan_cycle}" id="loan_cycle" />
+												</div>
+												<div class="col-sm-2">
+													<label>Group Loan Cycle</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="text" name="group_loan_cycle"
+														th:value="${customer?.group_loan_cycle}"
+														id="group_loan_cycle" />
+												</div>
 											</div>
-											<div class="col-sm-2">
-												<input type="text" name="loan_cycle"
-													th:value="${customer?.loan_cycle}" id="loan_cycle" />
-											</div>
-											<div class="col-sm-2">
-												<label>Group Loan Cycle</label>
-											</div>
-											<div class="col-sm-2">
-												<input type="text" name="group_loan_cycle"
-													th:value="${customer?.group_loan_cycle}"
-													id="group_loan_cycle" />
-											</div>
-										</div>
 
-										<div class="row formline mt-2 ml-2">
-											<div class="col-sm-2"></div>
-											<div class="col-sm-2">
-												<label>Assigned User</label>
-											</div>
-											<div class="col-sm-2">
-												<input type="text" name="assigned_user"
-													th:value="${customer?.assigned_user_key}"
-													id="assigned_user" />
-											</div>
-											<div class="col-sm-2">
-												<label>As On Date</label>
-											</div>
-											<div class="col-sm-2">
-												<input type="date" name="as_on_date"
-													th:value="${customer?.asondate}" id="as_on_date" />
+											<div class="row formline mt-2 ml-2">
+												<div class="col-sm-2"></div>
+												<div class="col-sm-2">
+													<label>Assigned User</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="text" name="assigned_user"
+														th:value="${customer?.assigned_user_key}"
+														id="assigned_user" />
+												</div>
+												<div class="col-sm-2">
+													<label>As On Date</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="date" name="as_on_date"
+														th:value="${customer?.asondate}" id="as_on_date" />
+												</div>
 											</div>
 										</div>
-									</div>
 									</fieldset>
 									<div class="card-footer text-center mt-2">
 										<button class="btn btn-primary p-2" onclick="home();">Home</button>
@@ -2170,36 +2206,37 @@ alert(dues)
 									</div>
 								</form>
 
+							</div>
 						</div>
+
+
 					</div>
-				
-				
-				</div>
-				<div th:if="${formmode}=='home'">
-				<div class="card" >
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
-							<div class="float-left">
-								<h6 style="font-size: 1.2rem;" class="ml-3">LEASE LOAN -
-									OPEN</h6>
-							</div>
-									<div class="btn-group nav-buttons float-right pl-3">
-								<button class="btn btn-primary p-2" onclick="ClickId();">list</button>
+					<div th:if="${formmode}=='home'">
+						<div class="card">
+							<div class="card-header"
+								style="background-color: #e9ecef; height: 50px">
+								<div class="float-left">
+									<h6 style="font-size: 1.2rem;" class="ml-3">LEASE LOAN -
+										OPEN</h6>
+								</div>
+								<div class="btn-group nav-buttons float-right pl-3">
+									<button class="btn btn-primary p-2" onclick="ClickId();">list</button>
 
-							</div>
+								</div>
 								<div class="btn-group nav-buttons float-right">
-								<button class="btn btn-primary p-2" onclick="Uploadloan();">Upload</button>
+									<button class="btn btn-primary p-2"
+										onclick="firstexceldownload();">Upload</button>
+
+								</div>
+
 
 							</div>
 
 
-						</div >
-
-						
-						<div class="card-body" >
-							<form action="#" method="post" id="drawDownDetailsAdd"
-								autocomplete="off" name="drawDownDetailsData"
-								th:fragment="finuserapply">
+							<div class="card-body">
+								<form action="#" method="post" id="drawDownDetailsAdd"
+									autocomplete="off" name="drawDownDetailsData"
+									th:fragment="finuserapply">
 									<div class="">
 										<div class="row formline mt-2 ml-2">
 											<div class="col-sm-2"></div>
@@ -2207,17 +2244,14 @@ alert(dues)
 												<label>Customer Id</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="text" name="customer_id"
-													 id="customer_id"
+												<input type="text" name="customer_id" id="customer_id"
 													readonly />
 											</div>
 											<div class="col-sm-2">
 												<label>Customer Name</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="text"
-													
-													readonly />
+												<input type="text" readonly />
 											</div>
 										</div>
 
@@ -2227,15 +2261,13 @@ alert(dues)
 												<label>First Name</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="text" name="first_name"
-											/>
+												<input type="text" name="first_name" />
 											</div>
 											<div class="col-sm-2">
 												<label>Last Name</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="text" name="last_name"
-													 />
+												<input type="text" name="last_name" />
 											</div>
 										</div>
 
@@ -2245,15 +2277,13 @@ alert(dues)
 												<label>Gender</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="text" name="gender"
-													 />
+												<input type="text" name="gender" />
 											</div>
 											<div class="col-sm-2">
 												<label>Date of Birth</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="date" name="dob"
-													 />
+												<input type="date" name="dob" />
 											</div>
 										</div>
 
@@ -2263,15 +2293,13 @@ alert(dues)
 												<label>Branch</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="text" name="branch"
-												 />
+												<input type="text" name="branch" />
 											</div>
 											<div class="col-sm-2">
 												<label>Client Role Key</label>
 											</div>
 											<div class="col-sm-2">
 												<input type="text" name="client_role_key"
-												
 													id="client_role_key" />
 											</div>
 										</div>
@@ -2282,15 +2310,13 @@ alert(dues)
 												<label>Creation Date</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="date" name="creation_date"
-													 />
+												<input type="date" name="creation_date" />
 											</div>
 											<div class="col-sm-2">
 												<label>Approval Date</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="date" name="approval_date"
-													 />
+												<input type="date" name="approval_date" />
 											</div>
 										</div>
 
@@ -2301,7 +2327,6 @@ alert(dues)
 											</div>
 											<div class="col-sm-2">
 												<input type="date" name="modification_date"
-												
 													id="modification_date" />
 											</div>
 											<div class="col-sm-2">
@@ -2309,7 +2334,6 @@ alert(dues)
 											</div>
 											<div class="col-sm-2">
 												<input type="date" name="activation_date"
-												
 													id="activation_date" />
 											</div>
 										</div>
@@ -2326,7 +2350,7 @@ alert(dues)
 												<label>Email Id</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="email" name="email_id"id="email_id" />
+												<input type="email" name="email_id" id="email_id" />
 											</div>
 										</div>
 
@@ -2352,8 +2376,7 @@ alert(dues)
 												<label>City</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="text" name="city" 
-													id="city" />
+												<input type="text" name="city" id="city" />
 											</div>
 											<div class="col-sm-2">
 												<label>Suburb</label>
@@ -2369,7 +2392,7 @@ alert(dues)
 												<label>Loan Cycle</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="text" name="loan_cycle"id="loan_cycle" />
+												<input type="text" name="loan_cycle" id="loan_cycle" />
 											</div>
 											<div class="col-sm-2">
 												<label>Group Loan Cycle</label>
@@ -2386,8 +2409,7 @@ alert(dues)
 												<label>Assigned User</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="text" name="assigned_user"
-													id="assigned_user" />
+												<input type="text" name="assigned_user" id="assigned_user" />
 											</div>
 											<div class="col-sm-2">
 												<label>As On Date</label>
@@ -2403,46 +2425,46 @@ alert(dues)
 									</div>
 								</form>
 
+							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Model Boxes -->
+
+
+		<div class="modal fade" data-backdrop="false" data-keyboard="false"
+			style="padding-right: 850px" id="alert">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
+				<div class="modal-content">
+					<div class="modal-body" style="text-align: center">
+						<p id="alertmsg"></p>
+						<button type="button" class="btn btn-primary" data-dismiss="modal"
+							onclick="refreshPage1()">Ok</button>
 					</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Model Boxes -->
-
-
-	<div class="modal fade" data-backdrop="false" data-keyboard="false"
-		style="padding-right: 850px" id="alert">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
-			<div class="modal-content">
-				<div class="modal-body" style="text-align: center">
-					<p id="alertmsg"></p>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
-						onclick="refreshPage1()">Ok</button>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false"
-		id="alert1">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-			<div class="modal-content">
-				<div class="modal-body" style="text-align: center">
-					<p id="alertmsg1"></p>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
-						onclick="listPage();">Ok</button>
+		<div class="modal fade" data-backdrop="false" data-keyboard="false"
+			id="alert1">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-body" style="text-align: center">
+						<p id="alertmsg1"></p>
+						<button type="button" class="btn btn-primary" data-dismiss="modal"
+							onclick="listPage();">Ok</button>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<!-- Get Normal Alerts -->
-	<!--<div class="modal fade" data-backdrop="static" data-keyboard="false" id="normalAlert">
+		<!-- Get Normal Alerts -->
+		<!--<div class="modal fade" data-backdrop="static" data-keyboard="false" id="normalAlert">
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
 				<div class="modal-body" style="text-align: center">
@@ -2454,188 +2476,267 @@ alert(dues)
 		</div>
 	</div>-->
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false"
-		id="normalAlert" tabindex="-1" role="dialog" aria-hidden="true">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-			<div class="modal-content"
-				style="position: fixed; left: 50%; transform: translate(-50%, 0%); width: 30%; height: 25%;">
-				<div class="modal-header">
-					<h5 class="modal-title">Alerts</h5>
-
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true" onclick="$('#normalalert').modal('hide')">×</button>
-				</div>
-				<div class="modal-body" style="text-align: center;">
-					<h6 id="Normalalertmsg"></h6>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
-						onclick="$('#normalalert').modal('hide')">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="scheduleModal" class="modal fade" data-backdrop="static"
-		data-keyboard="false" tabindex="-1" role="dialog">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content"
-				style="width: 1300px; margin-left: -400px;">
-				<div class="modal-header">
-					<h5 class="modal-title" style="text-align: center;">DEMAND
-						SCHEDULE DETAILS</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close" onclick="$('#scheduleModal').modal('hide');">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<!--<div class="d-flex mt-2 mb-2">
-						<div>
-							<label style="font-size: 13px; font-weight: 500;">SYNDICATION
-								REF NO</label>
-						</div>
-						<div class="ml-3">
-							<input class="" type="text" id="sync_ref_num" readonly />
-						</div>
-						<div class="ml-3">
-							<label style="font-size: 13px; font-weight: 500;">TRANCHE
-								REF</label>
-						</div>
-						<div class="ml-3">
-							<input class="" type="text" id="tranche_reff" readonly />
-						</div>
-						<div class="ml-3">
-							<label style="font-size: 13px; font-weight: 500;">BORROWER
-								NAME</label>
-						</div>
-						<div class="ml-3">
-							<input class="" type="text" id="borrower_name" readonly />
-						</div>
-					</div>-->
-
-
-				</div>
-				<div class="modal-footer d-flex justify-content-center">
-					<!--<button type="button" class="btn btn-primary active" onclick="sechduleSubmit();">Submit</button>-->
-					<button type="button" class="btn btn-primary active"
-						onclick="$('#scheduleModal').modal('hide');">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Sechdule Modal view -->
-	<div id="scheduleModalView" class="modal fade" data-backdrop="static"
-		data-keyboard="false" tabindex="-1" role="dialog">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content"
-				style="width: 1300px; margin-left: -400px;">
-				<div class="modal-header">
-					<h5 class="modal-title" style="text-align: center;">SCHEDULE
-						PAYMENT DETAILS</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close"
-						onclick="$('#scheduleModalView').modal('hide');">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<!--<div class="d-flex mt-2 mb-2">
-						<div>
-							<label style="font-size: 13px; font-weight: 500;">SYNDICATION
-								REF NO</label>
-						</div>
-						<div class="ml-3">
-							<input class="" type="text" id="sync_ref_num" readonly />
-						</div>
-						<div class="ml-3">
-							<label style="font-size: 13px; font-weight: 500;">TRANCHE
-								REF</label>
-						</div>
-						<div class="ml-3">
-							<input class="" type="text" id="tranche_reff" readonly />
-						</div>
-						<div class="ml-3">
-							<label style="font-size: 13px; font-weight: 500;">BORROWER
-								NAME</label>
-						</div>
-						<div class="ml-3">
-							<input class="" type="text" id="borrower_name" readonly />
-						</div>
-					</div>-->
-
-					<div class="table-responsive">
-						<table class="table table-bordered">
-							<thead>
-								<tr>
-									<th style="white-space: nowrap; width: 100px;">SCHEDULE NO</th>
-									<th style="white-space: nowrap; width: 100px;">ORIGINAL
-										DEMAND DATE</th>
-									<th style="white-space: nowrap; width: 100px;">DEMAND DATE</th>
-									<th style="white-space: nowrap; width: 100px;">DEMAND TYPE</th>
-									<th style="white-space: nowrap; width: 100px;">DEMAND ID</th>
-									<th style="white-space: nowrap; width: 100px;">DEMAND
-										AMOUNT</th>
-									<th style="white-space: nowrap; width: 100px;">INSTALMENT
-										NO</th>
-									<th style="white-space: nowrap; width: 100px;">REMARKS</th>
-								</tr>
-							</thead>
-							<tbody id="sehduleViewDetails">
-
-								<!-- More rows can be added similarly -->
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="modal-footer d-flex justify-content-center">
-
-					<button type="button" class="btn btn-primary active"
-						onclick="$('#scheduleModalView').modal('hide');">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" data-backdrop="false" data-keyboard="false"
-		id="mypopup2" tabindex="-1" role="dialog" aria-hidden="true"
-		style="padding-right: 800px">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-			<div class="modal-content" style="width: 120%; height: 25%">
-				<div class="card">
-					<!-- Header with Alert Message -->
+		<div class="modal fade" data-backdrop="false" data-keyboard="false"
+			id="normalAlert" tabindex="-1" role="dialog" aria-hidden="true">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content"
+					style="position: fixed; left: 50%; transform: translate(-50%, 0%); width: 30%; height: 25%;">
 					<div class="modal-header">
-						<h5 class="modal-title" id="popupAlert" style="font-size: 13px">Alert
-							Message</h5>
-						<!-- Alert message will appear here -->
-					</div>
+						<h5 class="modal-title">Alerts</h5>
 
-					<!-- Body with Response -->
-					<div class="modal-body"
-						style="text-align: center; display: flex; justify-content: center; align-items: center; height: 100px; overflow-y: auto; font-weight: bold; font-size: 15px">
-						<h6 id="popupmsg"></h6>
-						<!-- Response will be displayed here -->
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true" onclick="$('#normalalert').modal('hide')">×</button>
 					</div>
-
-					<!-- Footer with Close Button -->
-					<div class="modal-footer">
+					<div class="modal-body" style="text-align: center;">
+						<h6 id="Normalalertmsg"></h6>
 						<button type="button" class="btn btn-primary" data-dismiss="modal"
-							onclick="openCity(event, 'india');">Close</button>
-						<!-- Calls goBack function -->
+							onclick="$('#normalalert').modal('hide')">Close</button>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div id="customConfirmModal" class="modal">
-		<div class="modal-content">
-			<p>Do you want to open this DOCUMENT MASTER Tab?</p>
-			<button id="confirmYes" class="btn">Yes</button>
-			<button id="confirmNo" class="btn">No</button>
-		</div>
-	</div>
 
+		<div id="scheduleModal" class="modal fade" data-backdrop="static"
+			data-keyboard="false" tabindex="-1" role="dialog">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content"
+					style="width: 1300px; margin-left: -400px;">
+					<div class="modal-header">
+						<h5 class="modal-title" style="text-align: center;">DEMAND
+							SCHEDULE DETAILS</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close" onclick="$('#scheduleModal').modal('hide');">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<!--<div class="d-flex mt-2 mb-2">
+						<div>
+							<label style="font-size: 13px; font-weight: 500;">SYNDICATION
+								REF NO</label>
+						</div>
+						<div class="ml-3">
+							<input class="" type="text" id="sync_ref_num" readonly />
+						</div>
+						<div class="ml-3">
+							<label style="font-size: 13px; font-weight: 500;">TRANCHE
+								REF</label>
+						</div>
+						<div class="ml-3">
+							<input class="" type="text" id="tranche_reff" readonly />
+						</div>
+						<div class="ml-3">
+							<label style="font-size: 13px; font-weight: 500;">BORROWER
+								NAME</label>
+						</div>
+						<div class="ml-3">
+							<input class="" type="text" id="borrower_name" readonly />
+						</div>
+					</div>-->
+
+
+					</div>
+					<div class="modal-footer d-flex justify-content-center">
+						<!--<button type="button" class="btn btn-primary active" onclick="sechduleSubmit();">Submit</button>-->
+						<button type="button" class="btn btn-primary active"
+							onclick="$('#scheduleModal').modal('hide');">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Sechdule Modal view -->
+		<div id="scheduleModalView" class="modal fade" data-backdrop="static"
+			data-keyboard="false" tabindex="-1" role="dialog">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content"
+					style="width: 1300px; margin-left: -400px;">
+					<div class="modal-header">
+						<h5 class="modal-title" style="text-align: center;">SCHEDULE
+							PAYMENT DETAILS</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close"
+							onclick="$('#scheduleModalView').modal('hide');">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<!--<div class="d-flex mt-2 mb-2">
+						<div>
+							<label style="font-size: 13px; font-weight: 500;">SYNDICATION
+								REF NO</label>
+						</div>
+						<div class="ml-3">
+							<input class="" type="text" id="sync_ref_num" readonly />
+						</div>
+						<div class="ml-3">
+							<label style="font-size: 13px; font-weight: 500;">TRANCHE
+								REF</label>
+						</div>
+						<div class="ml-3">
+							<input class="" type="text" id="tranche_reff" readonly />
+						</div>
+						<div class="ml-3">
+							<label style="font-size: 13px; font-weight: 500;">BORROWER
+								NAME</label>
+						</div>
+						<div class="ml-3">
+							<input class="" type="text" id="borrower_name" readonly />
+						</div>
+					</div>-->
+
+						<div class="table-responsive">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th style="white-space: nowrap; width: 100px;">SCHEDULE
+											NO</th>
+										<th style="white-space: nowrap; width: 100px;">ORIGINAL
+											DEMAND DATE</th>
+										<th style="white-space: nowrap; width: 100px;">DEMAND
+											DATE</th>
+										<th style="white-space: nowrap; width: 100px;">DEMAND
+											TYPE</th>
+										<th style="white-space: nowrap; width: 100px;">DEMAND ID</th>
+										<th style="white-space: nowrap; width: 100px;">DEMAND
+											AMOUNT</th>
+										<th style="white-space: nowrap; width: 100px;">INSTALMENT
+											NO</th>
+										<th style="white-space: nowrap; width: 100px;">REMARKS</th>
+									</tr>
+								</thead>
+								<tbody id="sehduleViewDetails">
+
+									<!-- More rows can be added similarly -->
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="modal-footer d-flex justify-content-center">
+
+						<button type="button" class="btn btn-primary active"
+							onclick="$('#scheduleModalView').modal('hide');">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" data-backdrop="false" data-keyboard="false"
+			id="mypopup2" tabindex="-1" role="dialog" aria-hidden="true"
+			style="padding-right: 800px">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content" style="width: 120%; height: 25%">
+					<div class="card">
+						<!-- Header with Alert Message -->
+						<div class="modal-header">
+							<h5 class="modal-title" id="popupAlert" style="font-size: 13px">Alert
+								Message</h5>
+							<!-- Alert message will appear here -->
+						</div>
+
+						<!-- Body with Response -->
+						<div class="modal-body"
+							style="text-align: center; display: flex; justify-content: center; align-items: center; height: 100px; overflow-y: auto; font-weight: bold; font-size: 15px">
+							<h6 id="popupmsg"></h6>
+							<!-- Response will be displayed here -->
+						</div>
+
+						<!-- Footer with Close Button -->
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary"
+								data-dismiss="modal" onclick="openCity(event, 'india');">Close</button>
+							<!-- Calls goBack function -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="customConfirmModal" class="modal">
+			<div class="modal-content">
+				<p>Do you want to open this DOCUMENT MASTER Tab?</p>
+				<button id="confirmYes" class="btn">Yes</button>
+				<button id="confirmNo" class="btn">No</button>
+			</div>
+		</div>
+
+
+		<div class="modal fade" data-backdrop="false" data-keyboard="false"
+			id="alert33" tabindex="-1" role="dialog" aria-hidden="true">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content" style="width: 120%; height: 25%;">
+					<div class="card">
+						<!-- Header with Alert Message -->
+						<div class="modal-header"
+							style="justify-content: center; width: 100%;">
+							<h5 class="modal-title" id="popupAlert" style="font-size: 18px;">Upload
+								Files - Client Data</h5>
+							<!-- Alert message will appear here -->
+						</div>
+
+						<!-- Body with Response -->
+						<div class="modal-body"
+							style="text-align: center; display: flex; flex-direction: column; align-items: center; height: 100px; overflow-y: auto; font-weight: bold; font-size: 15px;">
+							<div class="row formline">
+								<div class="col-sm-6">Upload File :</div>
+								<div class="col-sm-6">
+									<form action="#" th:object="${reportform}" method="post"
+										enctype="multipart/form-data" id="reportform">
+										<input type="file" name="file" id="fileInput"
+											class="form-control form-control-sm bg-white border border-dark"
+											accept=".xml, .xls, .xlsx" />
+										<button type="button" class="btn btn-primary"
+											onclick="submitdatas()">Submit</button>
+									</form>
+								</div>
+							</div>
+						</div>
+
+
+						<!-- Footer with Close Button -->
+						<div class="modal-footer"
+							style="justify-content: center; width: 100%;">
+							<button type="button" class="btn btn-primary"
+								data-dismiss="modal" onclick="refreshPage()">Close</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" data-backdrop="false" data-keyboard="false"
+			id="normalalertvalues" tabindex="-1" role="dialog" aria-hidden="true">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content"
+					style="width: 120%; height: 30%;">
+					<div class="card">
+						<!-- Header with Alert Message -->
+						<div class="modal-header"
+							style="justify-content: center; width: 100%;">
+							<h5 class="modal-title" id="popupAlert" style="font-size: 18px;">Upload
+								Alerts</h5>
+							<!-- Alert message will appear here -->
+						</div>
+
+						<!-- Body with Response -->
+						<div class="modal-body"
+							style="text-align: center; display: flex; flex-direction: column; align-items: center; height: 100px; overflow-y: auto; font-weight: bold; font-size: 15px;">
+							<h6 id="alertmsg"></h6>
+						</div>
+						<!-- Footer with Close Button -->
+						<div class="modal-footer"
+							style="justify-content: center; width: 100%;">
+							<button type="button" class="btn btn-primary"
+								data-dismiss="modal" onclick="backs()">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 </body>
 
 </html>

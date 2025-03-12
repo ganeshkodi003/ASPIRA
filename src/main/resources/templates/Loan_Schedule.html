@@ -523,9 +523,39 @@ input:hover+.password-info {
 
 	}
 
+	function thirdexceldownload() {
+		alert("thirdexceldownload function worked ");
+		$("#alert53").modal("show");
+	}
+
 </script>
+<script type="text/javascript">
+	function submitdatas2() {
+		//	alert("hi");
+		var form = $('#reportform2')[0];
+		var data = new FormData(form);
 
-
+		$.ajax({
+			type : "POST",
+			url : "uploadxmldata3",
+			data : data,
+			processData : false,
+			contentType : false,
+			success : function(response) {
+				console.log(response);
+				showResponse(response);
+				$('#alert53').modal('hide');
+			},
+			error : function(error) {
+				showResponse("Error: " + error.responseText);
+			}
+		});
+	}
+	function showResponse(responseText) {
+		$("#alertmsg").text(responseText);
+		$('#normalalertvalues').modal("toggle");
+	}
+</script>
 <body>
 
 	<div class="col-sm-2">
@@ -549,7 +579,7 @@ input:hover+.password-info {
 									<div class="btn-group nav-buttons float-right">
 										<button class="btn btn-primary p-2" onclick="switchToList();">List</button>
 										<button class="btn btn-primary p-2 ml-1"
-											onclick="Uploadloan();">Upload</button>
+											onclick="thirdexceldownload();">Upload</button>
 									</div>
 
 								</div>
@@ -877,6 +907,79 @@ input:hover+.password-info {
 			</div>
 		</div>
 	</div>
+
+
+	<div class="modal fade" data-backdrop="false" data-keyboard="false"
+		id="alert53" tabindex="-1" role="dialog" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content" style="width: 120%; height: 30%;">
+				<div class="card">
+					<!-- Header with Alert Message -->
+					<div class="modal-header"
+						style="justify-content: center; width: 100%;">
+						<h5 class="modal-title" id="popupAlert" style="font-size: 18px;">Upload
+							Files - Repayment Datas</h5>
+						<!-- Alert message will appear here -->
+					</div>
+
+					<!-- Body with Response -->
+					<div class="modal-body"
+						style="text-align: center; display: flex; flex-direction: column; align-items: center; height: 100px; overflow-y: auto; font-weight: bold; font-size: 15px;">
+						<div class="row formline">
+							<div class="col-sm-6">Upload File :</div>
+							<div class="col-sm-6">
+								<form action="#" th:object="${reportform}" method="post"
+									enctype="multipart/form-data" id="reportform2">
+									<input type="file" name="file" id="fileInput"
+										class="form-control form-control-sm bg-white border border-dark"
+										accept=".xml, .xls, .xlsx" />
+									<button type="button" class="btn btn-primary"
+										onclick="submitdatas2()">Submit</button>
+								</form>
+							</div>
+						</div>
+					</div>
+
+
+					<!-- Footer with Close Button -->
+					<div class="modal-footer"
+						style="justify-content: center; width: 100%;">
+						<button type="button" class="btn btn-primary" data-dismiss="modal"
+							onclick="refreshPage()">Close</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" data-bs-backdrop="false"
+		data-bs-keyboard="false" id="normalalertvalues" tabindex="-1"
+		aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<!-- Header with Alert Message -->
+				<div class="modal-header justify-content-center">
+					<h5 class="modal-title" id="popupAlert" style="font-size: 18px;">Upload
+						Alerts</h5>
+				</div>
+
+				<!-- Body with Response -->
+				<div class="modal-body text-center"
+					style="max-height: 300px; overflow-y: auto; font-weight: bold; font-size: 15px;">
+					<h6 id="alertmsg"></h6>
+				</div>
+
+				<!-- Footer with Close Button -->
+				<div class="modal-footer justify-content-center">
+					<button type="button" class="btn btn-primary"
+						data-bs-dismiss="modal" onclick="backs()">Close</button>
+				</div>
+			</div>
+		</div>
 	</div>
 
 </body>

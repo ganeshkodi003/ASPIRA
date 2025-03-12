@@ -286,55 +286,82 @@ input:hover+.password-info {
 	visibility: visible;
 	opacity: 0.8;
 }
-</style> 
-  
-<script>
-		function back() { 
-			event.preventDefault();
-			window.history.back();
-		}
-		
-		function Homeln() {
+</style>
 
-			location.href = 'Dashboard';
-		}
-	</script>  
+<script>
+	function back() {
+		event.preventDefault();
+		window.history.back();
+	}
+
+	function Homeln() {
+
+		location.href = 'Dashboard';
+	}
+</script>
 
 
 <script type="text/javascript">
-		//validations 
+	//validations 
 
-		function numberAndLetters(inputElement) {
-			inputElement.value = inputElement.value.replace(/[^0-9a-zA-Z]/g, '')
+	function numberAndLetters(inputElement) {
+		inputElement.value = inputElement.value.replace(/[^0-9a-zA-Z]/g, '')
 				.toUpperCase();
-		}
+	}
 
-		function numberOnly(inputElement) {
-			inputElement.value = inputElement.value.replace(/\D/g, '');
-		}
+	function numberOnly(inputElement) {
+		inputElement.value = inputElement.value.replace(/\D/g, '');
+	}
 
-		 
-		function handleIn(input) {
-			// Remove special characters using regex
-			input.value = input.value.replace(/[^\w\s]/gi, '').toUpperCase();
-		}
-
-
-	</script>    
+	function handleIn(input) {
+		// Remove special characters using regex
+		input.value = input.value.replace(/[^\w\s]/gi, '').toUpperCase();
+	}
+</script>
 <script>
- 
-		function ClickId(a) {
-			var id = a.getAttribute("data-id");
-			var holder_key = a.getAttribute("data-account_holderkey");
-			location.href = 'loanMaster?formmode=viewloan&id=' + id  +'&holder_key=' +holder_key;
-		}
-		
-		function ListLoan() {  
-		    location.href = 'loanMaster?formmode=list';
-		}
+	function ClickId(a) {
+		var id = a.getAttribute("data-id");
+		var holder_key = a.getAttribute("data-account_holderkey");
+		location.href = 'loanMaster?formmode=viewloan&id=' + id
+				+ '&holder_key=' + holder_key;
+	}
 
-	</script>
+	function ListLoan() {
+		location.href = 'loanMaster?formmode=list';
+	}
 
+	function thirdexceldownload() {
+		alert("secondexceldownload function worked ");
+		$("#alert53").modal("show");
+	}
+</script>
+<script type="text/javascript">
+	function submitdatas2() {
+		//	alert("hi");
+		var form = $('#reportform2')[0];
+		var data = new FormData(form);
+
+		$.ajax({
+			type : "POST",
+			url : "uploadxmldata2",
+			data : data,
+			processData : false,
+			contentType : false,
+			success : function(response) {
+				console.log(response);
+				showResponse(response);
+				$('#alert53').modal('hide');
+			},
+			error : function(error) {
+				showResponse("Error: " + error.responseText);
+			}
+		});
+	}
+	function showResponse(responseText) {
+		$("#alertmsg").text(responseText);
+		$('#normalalertvalues').modal("toggle");
+	}
+</script>
 </head>
 <title>ASPIRA</title>
 
@@ -403,8 +430,9 @@ input:hover+.password-info {
 						<div class="card-header"
 							style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
-								<h6 style="font-size: 1.2rem;" class="ml-4">LOAN MASTER - VIEW</h6>
-							</div> 
+								<h6 style="font-size: 1.2rem;" class="ml-4">LOAN MASTER -
+									VIEW</h6>
+							</div>
 						</div>
 						<div class="card-body">
 							<form action="#" th:object="${drawDownDetails}" method="post"
@@ -480,7 +508,7 @@ input:hover+.password-info {
 										</div>
 										<div class="col-sm-2">
 											<input type="text"
-											th:value="${#dates.format(view?.creation_date, 'dd-MM-yyyy')}"
+												th:value="${#dates.format(view?.creation_date, 'dd-MM-yyyy')}"
 												name="creation_date" id="creation_date" readonly />
 										</div>
 
@@ -489,8 +517,8 @@ input:hover+.password-info {
 										</div>
 										<div class="col-sm-2">
 											<input type="text" name="approved_date" id="approved_date"
-											th:value="${#dates.format(view?.approved_date, 'dd-MM-yyyy')}"
-											  readonly />
+												th:value="${#dates.format(view?.approved_date, 'dd-MM-yyyy')}"
+												readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2 mt-1">
@@ -499,14 +527,16 @@ input:hover+.password-info {
 											<label>Last Modified Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${#dates.format(view?.last_modified_date, 'dd-MM-yyyy')}"
+											<input type="text"
+												th:value="${#dates.format(view?.last_modified_date, 'dd-MM-yyyy')}"
 												name="last_modified_date" id="last_modified_date" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Last Review Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${#dates.format(view?.closed_date, 'dd-MM-yyyy')}"
+											<input type="text"
+												th:value="${#dates.format(view?.closed_date, 'dd-MM-yyyy')}"
 												name="closed_date" id="closed_date" readonly />
 										</div>
 
@@ -518,7 +548,7 @@ input:hover+.password-info {
 												name="account_state" id="account_state" readonly />
 										</div>
 									</div>
-									<div class="row formline  ml-2  mt-1"> 
+									<div class="row formline  ml-2  mt-1">
 										<div class="col-sm-2">
 											<label>Currency Code</label>
 										</div>
@@ -531,8 +561,8 @@ input:hover+.password-info {
 										</div>
 										<div class="col-sm-2">
 											<input type="text" name="loan_amount"
-											th:value="${view?.loan_amount == 0 ? '0.00' :#numbers.formatDecimal(view?.loan_amount, 0, 'COMMA', 2, 'POINT')}"
-												 id="loan_amount" readonly /> 
+												th:value="${view?.loan_amount == 0 ? '0.00' :#numbers.formatDecimal(view?.loan_amount, 0, 'COMMA', 2, 'POINT')}"
+												id="loan_amount" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Sub Status</label>
@@ -551,7 +581,7 @@ input:hover+.password-info {
 												th:value="${view?.payment_method}" id="payment_method"
 												readonly />
 										</div>
-											<div class="col-sm-2">
+										<div class="col-sm-2">
 											<label>Penalty Rate</label>
 										</div>
 										<div class="col-sm-2">
@@ -559,7 +589,7 @@ input:hover+.password-info {
 												th:value="${view?.penalty_rate}" oninput="numberOnly(this);"
 												readonly />
 										</div>
-										
+
 										<div class="col-sm-2">
 											<label>Rate of Interest</label>
 										</div>
@@ -570,13 +600,13 @@ input:hover+.password-info {
 
 										</div>
 									</div>
-									<div class="row formline ml-2  mt-1"> 
+									<div class="row formline ml-2  mt-1">
 										<div class="col-sm-2 ">
 											<label>Disbursement Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="disbursement_date" 
-												 th:value="${#dates.format(view?.expected_disbursementdate, 'dd-MM-yyyy')}"
+											<input type="text" id="disbursement_date"
+												th:value="${#dates.format(view?.expected_disbursementdate, 'dd-MM-yyyy')}"
 												name="disbursement_date" readonly />
 										</div>
 										<div class="col-sm-2">
@@ -591,9 +621,7 @@ input:hover+.password-info {
 											<label>Remarks 1</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id=" "
-												  readonly
-												name=" " />
+											<input type="text" id=" " readonly name=" " />
 										</div>
 									</div>
 									<div class="row formline ml-2  mt-1">
@@ -617,29 +645,26 @@ input:hover+.password-info {
 											<label>Remarks 2</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id=" "
-												  readonly
-												name=" " />
+											<input type="text" id=" " readonly name=" " />
 										</div>
 									</div>
-							  
 
-	<div class="row formline ml-2  mt-1">
-									<div class="col-sm-2">
+
+									<div class="row formline ml-2  mt-1">
+										<div class="col-sm-2">
 											<label>Principal Due</label>
 										</div>
 										<div class="col-sm-2">
 											<input type="text" id="principal_due"
-											th:value="${view?.principal_due == 0 ? '0.00' :#numbers.formatDecimal(view?.principal_due, 0, 'COMMA', 2, 'POINT')}"
-										  readonly
-												name="principal_due" />
+												th:value="${view?.principal_due == 0 ? '0.00' :#numbers.formatDecimal(view?.principal_due, 0, 'COMMA', 2, 'POINT')}"
+												readonly name="principal_due" />
 										</div>
-									<div class="col-sm-2">
+										<div class="col-sm-2">
 											<label>Principal Paid</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text"  
-											th:value="${view?.principal_paid == 0 ? '0.00' :#numbers.formatDecimal(view?.principal_paid, 0, 'COMMA', 2, 'POINT')}"
+											<input type="text"
+												th:value="${view?.principal_paid == 0 ? '0.00' :#numbers.formatDecimal(view?.principal_paid, 0, 'COMMA', 2, 'POINT')}"
 												name="principal_paid" id="principal_paid" readonly />
 										</div>
 										<div class="col-sm-2">
@@ -647,9 +672,8 @@ input:hover+.password-info {
 										</div>
 										<div class="col-sm-2">
 											<input type="text" id="principal_balance"
-											th:value="${view?.principal_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.principal_balance, 0, 'COMMA', 2, 'POINT')}"
-												 readonly
-												name="principal_balance" />
+												th:value="${view?.principal_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.principal_balance, 0, 'COMMA', 2, 'POINT')}"
+												readonly name="principal_balance" />
 										</div>
 									</div>
 									<div class="row formline ml-2  mt-1">
@@ -658,27 +682,24 @@ input:hover+.password-info {
 										</div>
 										<div class="col-sm-2">
 											<input type="text" id="interest_due"
-											th:value="${view?.interest_due == 0 ? '0.00' :#numbers.formatDecimal(view?.interest_due, 0, 'COMMA', 2, 'POINT')}"
-												 name="interest_due"
-												readonly />
+												th:value="${view?.interest_due == 0 ? '0.00' :#numbers.formatDecimal(view?.interest_due, 0, 'COMMA', 2, 'POINT')}"
+												name="interest_due" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Interest Paid</label>
 										</div>
 										<div class="col-sm-2">
 											<input type="text" id="interest_paid"
-											th:value="${view?.interest_paid == 0 ? '0.00' :#numbers.formatDecimal(view?.interest_paid, 0, 'COMMA', 2, 'POINT')}"
-												  name="interest_paid"
-												readonly />
+												th:value="${view?.interest_paid == 0 ? '0.00' :#numbers.formatDecimal(view?.interest_paid, 0, 'COMMA', 2, 'POINT')}"
+												name="interest_paid" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Interest Balance</label>
 										</div>
 										<div class="col-sm-2">
 											<input type="text" id="interest_balance"
-											th:value="${view?.interest_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.interest_balance, 0, 'COMMA', 2, 'POINT')}"
-												 name="interest_balance"
-												readonly />
+												th:value="${view?.interest_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.interest_balance, 0, 'COMMA', 2, 'POINT')}"
+												name="interest_balance" readonly />
 										</div>
 									</div>
 									<div class="row formline ml-2  mt-1">
@@ -687,51 +708,50 @@ input:hover+.password-info {
 										</div>
 										<div class="col-sm-2">
 											<input type="text" name="fees_due" id="fees_due"
-											th:value="${view?.fees_due == 0 ? '0.00' :#numbers.formatDecimal(view?.fees_due, 0, 'COMMA', 2, 'POINT')}"
-												 readonly />
+												th:value="${view?.fees_due == 0 ? '0.00' :#numbers.formatDecimal(view?.fees_due, 0, 'COMMA', 2, 'POINT')}"
+												readonly />
 										</div>
 										<div class="col-sm-2 ">
 											<label>Fee Paid</label>
 										</div>
 										<div class="col-sm-2">
 											<input type="text" id="fees_paid"
-											th:value="${view?.fees_paid == 0 ? '0.00' :#numbers.formatDecimal(view?.fees_paid, 0, 'COMMA', 2, 'POINT')}"
-											 name="fees_paid"
-												readonly />
+												th:value="${view?.fees_paid == 0 ? '0.00' :#numbers.formatDecimal(view?.fees_paid, 0, 'COMMA', 2, 'POINT')}"
+												name="fees_paid" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Fee Balance</label>
 										</div>
 										<div class="col-sm-2">
 											<input type="text" id="fees_balance"
-											th:value="${view?.fees_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.fees_balance, 0, 'COMMA', 2, 'POINT')}"
-												 name="fees_balance" readonly />
+												th:value="${view?.fees_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.fees_balance, 0, 'COMMA', 2, 'POINT')}"
+												name="fees_balance" readonly />
 										</div>
 									</div>
-										<div class="row formline ml-2  mt-1">
+									<div class="row formline ml-2  mt-1">
 										<div class="col-sm-2">
 											<label>Penalty Due</label>
 										</div>
 										<div class="col-sm-2">
 											<input type="text" id="penalty_due"
-											th:value="${view?.penalty_due == 0 ? '0.00' :#numbers.formatDecimal(view?.penalty_due, 0, 'COMMA', 2, 'POINT')}"
-											  name="penalty_due" readonly />
+												th:value="${view?.penalty_due == 0 ? '0.00' :#numbers.formatDecimal(view?.penalty_due, 0, 'COMMA', 2, 'POINT')}"
+												name="penalty_due" readonly />
 										</div>
-									<div class="col-sm-2">
+										<div class="col-sm-2">
 											<label>Penalty Paid</label>
 										</div>
 										<div class="col-sm-2">
 											<input type="text" name="penalty_paid" id="penalty_paid"
-											th:value="${view?.penalty_paid == 0 ? '0.00' :#numbers.formatDecimal(view?.penalty_paid, 0, 'COMMA', 2, 'POINT')}"
-												  readonly />
+												th:value="${view?.penalty_paid == 0 ? '0.00' :#numbers.formatDecimal(view?.penalty_paid, 0, 'COMMA', 2, 'POINT')}"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Penalty Balance</label>
 										</div>
 										<div class="col-sm-2">
 											<input type="text" id="penalty_balance"
-											th:value="${view?.penalty_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.penalty_balance, 0, 'COMMA', 2, 'POINT')}"
-												 name="penalty_balance" readonly />
+												th:value="${view?.penalty_balance == 0 ? '0.00' :#numbers.formatDecimal(view?.penalty_balance, 0, 'COMMA', 2, 'POINT')}"
+												name="penalty_balance" readonly />
 										</div>
 									</div>
 								</div>
@@ -849,7 +869,7 @@ input:hover+.password-info {
 									<div class="col-sm-2">
 
 										<input type="text" name="disposable_income"
-											id="disposable_income" 
+											id="disposable_income"
 											th:value="${view?.disposable_income == 0 ? '0.00' :#numbers.formatDecimal(view?.disposable_income, 0, 'COMMA', 2, 'POINT')}"
 											readonly />
 									</div>
@@ -857,8 +877,8 @@ input:hover+.password-info {
 										<label>Manual Override Amount</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" 
-										th:value="${view?.manualoverride_amount == 0 ? '0.00' :#numbers.formatDecimal(view?.manualoverride_amount, 0, 'COMMA', 2, 'POINT')}"
+										<input type="text"
+											th:value="${view?.manualoverride_amount == 0 ? '0.00' :#numbers.formatDecimal(view?.manualoverride_amount, 0, 'COMMA', 2, 'POINT')}"
 											name="manualoverride_amount" id="manualoverride_amount"
 											readonly />
 									</div>
@@ -867,7 +887,7 @@ input:hover+.password-info {
 										<label>Manual Override Expiry Date</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" 
+										<input type="text"
 											th:value="${#dates.format(view?.manualoverride_expiry_date, 'dd-MM-yyyy')}"
 											name="manualoverride_expiry_date"
 											id="manualoverride_expiry_date" readonly />
@@ -879,16 +899,16 @@ input:hover+.password-info {
 										<label>CP Fees</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" name="cpfees" 
-										th:value="${view?.cpfees == 0 ? '0.00' :#numbers.formatDecimal(view?.cpfees, 0, 'COMMA', 2, 'POINT')}"
+										<input type="text" name="cpfees"
+											th:value="${view?.cpfees == 0 ? '0.00' :#numbers.formatDecimal(view?.cpfees, 0, 'COMMA', 2, 'POINT')}"
 											id="cpfees" readonly />
 									</div>
 									<div class="col-sm-2">
 										<label>Deposit Amount</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text"  
-										th:value="${view?.deposit_amount == 0 ? '0.00' :#numbers.formatDecimal(view?.deposit_amount, 0, 'COMMA', 2, 'POINT')}"
+										<input type="text"
+											th:value="${view?.deposit_amount == 0 ? '0.00' :#numbers.formatDecimal(view?.deposit_amount, 0, 'COMMA', 2, 'POINT')}"
 											name="deposit_amount" id="deposit_amount" readonly />
 									</div>
 
@@ -899,7 +919,7 @@ input:hover+.password-info {
 										<input type="text" name="total_product_price"
 											id="total_product_price"
 											th:value="${view?.total_product_price == 0 ? '0.00' :#numbers.formatDecimal(view?.total_product_price, 0, 'COMMA', 2, 'POINT')}"
-										 readonly />
+											readonly />
 									</div>
 								</div>
 								<div class="row formline  ml-2 mt-1">
@@ -941,7 +961,7 @@ input:hover+.password-info {
 									</div>
 									<div class="col-sm-2">
 										<input type="text" name="date_of_first_call"
-										th:value="${#dates.format(view?.date_of_first_call, 'dd-MM-yyyy')}"
+											th:value="${#dates.format(view?.date_of_first_call, 'dd-MM-yyyy')}"
 											id="date_of_first_call" readonly />
 									</div>
 
@@ -958,7 +978,8 @@ input:hover+.password-info {
 										<label>As On Date</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" 	th:value="${#dates.format(view?.asondate, 'dd-MM-yyyy')}"
+										<input type="text"
+											th:value="${#dates.format(view?.asondate, 'dd-MM-yyyy')}"
 											name="asondate" id="asondate" readonly />
 									</div>
 									<div class="col-sm-2">
@@ -1046,8 +1067,9 @@ input:hover+.password-info {
 								<h6 style="font-size: 1.2rem;" class="ml-4">LOAN MASTER</h6>
 							</div>
 							<div class="btn-group nav-buttons float-right">
-							<button class="btn btn-primary p-2" onclick="ListLoan();">List</button>
-								<button class="btn btn-primary p-2 ml-1" onclick="Uploadloan();">Upload</button> 
+								<button class="btn btn-primary p-2" onclick="ListLoan();">List</button>
+								<button class="btn btn-primary p-2 ml-1"
+									onclick="thirdexceldownload();">Upload</button>
 							</div>
 						</div>
 						<div class="card-body">
@@ -1065,15 +1087,15 @@ input:hover+.password-info {
 											<label>Customer Id</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" 
-												name="customer_id" id="customer_id" readonly />
+											<input type="text" name="customer_id" id="customer_id"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Customer Name</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text"  
-												name="employer_name" id="employer_name" readonly />
+											<input type="text" name="employer_name" id="employer_name"
+												readonly />
 										</div>
 
 										<div class="col-sm-2">
@@ -1081,8 +1103,7 @@ input:hover+.password-info {
 										</div>
 										<div class="col-sm-2">
 											<input type="text" name="account_holdertype"
-												id="account_holdertype"
-												  readonly />
+												id="account_holdertype" readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2 mt-1">
@@ -1091,23 +1112,20 @@ input:hover+.password-info {
 											<label>Account Name</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text"  
-												name="loan_name" id="loan_name" readonly />
+											<input type="text" name="loan_name" id="loan_name" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Account No</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text"  name="id" id="id"
-												readonly />
+											<input type="text" name="id" id="id" readonly />
 										</div>
 
 										<div class="col-sm-2">
 											<label>Loan Name</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text"  
-												name="loan_name" id="loan_name" readonly />
+											<input type="text" name="loan_name" id="loan_name" readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2 mt-1">
@@ -1123,9 +1141,8 @@ input:hover+.password-info {
 											<label>Open Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text"
-										 
-												name="creation_date" id="creation_date" readonly />
+											<input type="text" name="creation_date" id="creation_date"
+												readonly />
 										</div>
 
 										<div class="col-sm-2">
@@ -1133,8 +1150,7 @@ input:hover+.password-info {
 										</div>
 										<div class="col-sm-2">
 											<input type="text" name="approved_date" id="approved_date"
-											 
-											  readonly />
+												readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2 mt-1">
@@ -1143,46 +1159,46 @@ input:hover+.password-info {
 											<label>Last Modified Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text"  
-												name="last_modified_date" id="last_modified_date" readonly />
+											<input type="text" name="last_modified_date"
+												id="last_modified_date" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Last Review Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" 
-												name="closed_date" id="closed_date" readonly />
+											<input type="text" name="closed_date" id="closed_date"
+												readonly />
 										</div>
 
 										<div class="col-sm-2">
 											<label> Account Status </label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" 
-												name="account_state" id="account_state" readonly />
+											<input type="text" name="account_state" id="account_state"
+												readonly />
 										</div>
 									</div>
-									<div class="row formline  ml-2  mt-1"> 
+									<div class="row formline  ml-2  mt-1">
 										<div class="col-sm-2">
 											<label>Currency Code</label>
 										</div>
 										<div class="col-sm-2">
 											<input type="text" name="currency_code" id="currency_code"
-												  readonly />
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Loan Amount</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="loan_amount"
-											  id="loan_amount" readonly /> 
+											<input type="text" name="loan_amount" id="loan_amount"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Sub Status</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text"  
-												name="account_substate" id="account_substate" readonly />
+											<input type="text" name="account_substate"
+												id="account_substate" readonly />
 										</div>
 									</div>
 									<div class="row formline ml-2  mt-1">
@@ -1190,51 +1206,46 @@ input:hover+.password-info {
 											<label>Payment Method</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="payment_method"
-												  id="payment_method"
+											<input type="text" name="payment_method" id="payment_method"
 												readonly />
 										</div>
-											<div class="col-sm-2">
+										<div class="col-sm-2">
 											<label>Penalty Rate</label>
 										</div>
 										<div class="col-sm-2">
 											<input type="text" name="penalty_rate" id="penalty_rate"
-												 oninput="numberOnly(this);"
-												readonly />
+												oninput="numberOnly(this);" readonly />
 										</div>
-										
+
 										<div class="col-sm-2">
 											<label>Rate of Interest</label>
 										</div>
 										<div class="col-sm-2">
 											<input type="text" name="interest_rate" id="interest_rate"
-												 
 												oninput="numberOnly(this);" readonly />
 
 										</div>
 									</div>
-									<div class="row formline ml-2  mt-1"> 
+									<div class="row formline ml-2  mt-1">
 										<div class="col-sm-2 ">
 											<label>Disbursement Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="disbursement_date" 
-												 name="disbursement_date" readonly />
+											<input type="text" id="disbursement_date"
+												name="disbursement_date" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>First Payment Date</label>
 										</div>
 										<div class="col-sm-2">
 											<input type="text" id="first_repaymentdate"
-												 name="first_repaymentdate" readonly />
+												name="first_repaymentdate" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Remarks 1</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id=" "
-												  readonly
-												name=" " />
+											<input type="text" id=" " readonly name=" " />
 										</div>
 									</div>
 									<div class="row formline ml-2  mt-1">
@@ -1243,48 +1254,45 @@ input:hover+.password-info {
 										</div>
 										<div class="col-sm-2">
 											<input type="text" name="repayment_schedule_method"
-												 id="repayment_schedule_method" readonly />
+												id="repayment_schedule_method" readonly />
 										</div>
 										<div class="col-sm-2 ">
 											<label>Repayment Instalments</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="repayment_installments"
-												  readonly
+											<input type="text" id="repayment_installments" readonly
 												name="repayment_installments" />
 										</div>
 										<div class="col-sm-2">
 											<label>Remarks 2</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id=" "
-												  readonly
-												name=" " />
+											<input type="text" id=" " readonly name=" " />
 										</div>
 									</div>
-							  
 
-	<div class="row formline ml-2  mt-1">
-									<div class="col-sm-2">
+
+									<div class="row formline ml-2  mt-1">
+										<div class="col-sm-2">
 											<label>Principal Due</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="principal_due"
-										  readonly name="principal_due" />
+											<input type="text" id="principal_due" readonly
+												name="principal_due" />
 										</div>
-									<div class="col-sm-2">
+										<div class="col-sm-2">
 											<label>Principal Paid</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text"  
-											 name="principal_paid" id="principal_paid" readonly />
+											<input type="text" name="principal_paid" id="principal_paid"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Principal Balance</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="principal_balance"
-										  readonly name="principal_balance" />
+											<input type="text" id="principal_balance" readonly
+												name="principal_balance" />
 										</div>
 									</div>
 									<div class="row formline ml-2  mt-1">
@@ -1292,22 +1300,22 @@ input:hover+.password-info {
 											<label>Interest Due</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="interest_due"
-										  name="interest_due" readonly />
+											<input type="text" id="interest_due" name="interest_due"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Interest Paid</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="interest_paid"
-										   name="interest_paid" readonly />
+											<input type="text" id="interest_paid" name="interest_paid"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Interest Balance</label>
 										</div>
 										<div class="col-sm-2">
 											<input type="text" id="interest_balance"
-										  name="interest_balance" 	readonly />
+												name="interest_balance" readonly />
 										</div>
 									</div>
 									<div class="row formline ml-2  mt-1">
@@ -1315,45 +1323,43 @@ input:hover+.password-info {
 											<label>Fee Due</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="fees_due" id="fees_due"
-											  readonly />
+											<input type="text" name="fees_due" id="fees_due" readonly />
 										</div>
 										<div class="col-sm-2 ">
 											<label>Fee Paid</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="fees_paid"
-										  name="fees_paid" 	readonly />
+											<input type="text" id="fees_paid" name="fees_paid" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Fee Balance</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="fees_balance"
-											 name="fees_balance" readonly />
+											<input type="text" id="fees_balance" name="fees_balance"
+												readonly />
 										</div>
 									</div>
-										<div class="row formline ml-2  mt-1">
+									<div class="row formline ml-2  mt-1">
 										<div class="col-sm-2">
 											<label>Penalty Due</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="penalty_due"
-										   name="penalty_due" readonly />
+											<input type="text" id="penalty_due" name="penalty_due"
+												readonly />
 										</div>
-									<div class="col-sm-2">
+										<div class="col-sm-2">
 											<label>Penalty Paid</label>
 										</div>
 										<div class="col-sm-2">
 											<input type="text" name="penalty_paid" id="penalty_paid"
-										   readonly />
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Penalty Balance</label>
 										</div>
 										<div class="col-sm-2">
 											<input type="text" id="penalty_balance"
-											  name="penalty_balance" readonly />
+												name="penalty_balance" readonly />
 										</div>
 									</div>
 								</div>
@@ -1367,24 +1373,23 @@ input:hover+.password-info {
 											<label>Sales Processed By VGID</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text"  
-												name="sale_processedbyvgid" id="sale_processedbyvgid"
-												readonly />
+											<input type="text" name="sale_processedbyvgid"
+												id="sale_processedbyvgid" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Sales Processed For</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text"  
-												name="sale_processedfor" id="sale_processedfor" readonly />
+											<input type="text" name="sale_processedfor"
+												id="sale_processedfor" readonly />
 										</div>
 
 										<div class="col-sm-2">
 											<label>Sales Referred By</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text"  
-												name="sale_referredby" id="sale_referredby" readonly />
+											<input type="text" name="sale_referredby"
+												id="sale_referredby" readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2 mt-1">
@@ -1394,7 +1399,7 @@ input:hover+.password-info {
 										</div>
 										<div class="col-sm-2">
 											<input type="text" name="employment_status"
-											 id="employment_status" readonly />
+												id="employment_status" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Job Title</label>
@@ -1407,7 +1412,7 @@ input:hover+.password-info {
 											<label>Employer Name</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="employer_name"  id="employer_name"
+											<input type="text" name="employer_name" id="employer_name"
 												readonly />
 										</div>
 									</div>
@@ -1417,15 +1422,14 @@ input:hover+.password-info {
 											<label>TU Core</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text"   name="tuscore"
-												id="tuscore" readonly />
+											<input type="text" name="tuscore" id="tuscore" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>TU Probability</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text"  
-												name="tuprobability" id="tuprobability" readonly />
+											<input type="text" name="tuprobability" id="tuprobability"
+												readonly />
 										</div>
 
 										<div class="col-sm-2">
@@ -1441,20 +1445,19 @@ input:hover+.password-info {
 											<label>TU Reasons</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text"  
-												name="tufullname" id="tufullname" readonly />
+											<input type="text" name="tufullname" id="tufullname" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Tureason 1</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="tureason1"  name="tureason1" readonly />
+											<input type="text" id="tureason1" name="tureason1" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Tureason 2</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="tureason2"  name="tureason2" readonly />
+											<input type="text" id="tureason2" name="tureason2" readonly />
 										</div>
 									</div>
 
@@ -1466,22 +1469,21 @@ input:hover+.password-info {
 									<div class="col-sm-2">
 
 										<input type="text" name="disposable_income"
-											id="disposable_income"  readonly />
+											id="disposable_income" readonly />
 									</div>
 									<div class="col-sm-2">
 										<label>Manual Override Amount</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" 
-									 name="manualoverride_amount" id="manualoverride_amount"
-											readonly />
+										<input type="text" name="manualoverride_amount"
+											id="manualoverride_amount" readonly />
 									</div>
 
 									<div class="col-sm-2">
 										<label>Manual Override Expiry Date</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text"  name="manualoverride_expiry_date"
+										<input type="text" name="manualoverride_expiry_date"
 											id="manualoverride_expiry_date" readonly />
 									</div>
 								</div>
@@ -1491,13 +1493,14 @@ input:hover+.password-info {
 										<label>CP Fees</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" name="cpfees"  id="cpfees" readonly />
+										<input type="text" name="cpfees" id="cpfees" readonly />
 									</div>
 									<div class="col-sm-2">
 										<label>Deposit Amount</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" name="deposit_amount" id="deposit_amount" readonly />
+										<input type="text" name="deposit_amount" id="deposit_amount"
+											readonly />
 									</div>
 
 									<div class="col-sm-2">
@@ -1505,7 +1508,7 @@ input:hover+.password-info {
 									</div>
 									<div class="col-sm-2">
 										<input type="text" name="total_product_price"
-											id="total_product_price"  readonly />
+											id="total_product_price" readonly />
 									</div>
 								</div>
 								<div class="row formline  ml-2 mt-1">
@@ -1514,23 +1517,23 @@ input:hover+.password-info {
 										<label>Retailer Name</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text"  
-											name="retailer_name" id="retailer_name" readonly />
+										<input type="text" name="retailer_name" id="retailer_name"
+											readonly />
 									</div>
 									<div class="col-sm-2">
 										<label>Retailer Branch</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" 
-											name="retailer_branch" id="retailer_branch" readonly />
+										<input type="text" name="retailer_branch" id="retailer_branch"
+											readonly />
 									</div>
 
 									<div class="col-sm-2">
 										<label>VG Application Id</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text"  
-											name="vg_application_id" id="vg_application_id" readonly />
+										<input type="text" name="vg_application_id"
+											id="vg_application_id" readonly />
 									</div>
 								</div>
 								<div class="row formline  ml-2 mt-1">
@@ -1539,23 +1542,23 @@ input:hover+.password-info {
 										<label>Contract Signed</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text"  
-											name="contract_signed" id="contract_signed" readonly />
+										<input type="text" name="contract_signed" id="contract_signed"
+											readonly />
 									</div>
 									<div class="col-sm-2">
 										<label>Date of First Call</label>
 									</div>
 									<div class="col-sm-2">
 										<input type="text" name="date_of_first_call"
-									 id="date_of_first_call" readonly />
+											id="date_of_first_call" readonly />
 									</div>
 
 									<div class="col-sm-2">
 										<label>Last Call Outcome</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text"  
-											name="last_call_outcome" id="last_call_outcome" readonly />
+										<input type="text" name="last_call_outcome"
+											id="last_call_outcome" readonly />
 									</div>
 								</div>
 								<div class="row formline  ml-2  mt-1">
@@ -1563,8 +1566,7 @@ input:hover+.password-info {
 										<label>As On Date</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" 	 
-											name="asondate" id="asondate" readonly />
+										<input type="text" name="asondate" id="asondate" readonly />
 									</div>
 									<div class="col-sm-2">
 										<label>Remarks 1</label>
@@ -1591,19 +1593,19 @@ input:hover+.password-info {
 										<td class="col-sm-2" style="text-align: center;"><font
 											size="2"><B>Entry User :</B></font></td>
 										<td class="col-sm-2" style="width: 112px; margin-right: 20px;"><input
-											type="text" id="entryuser" name="ub.entryuser"  
+											type="text" id="entryuser" name="ub.entryuser"
 											style="border: none; outline: none; background-color: transparent; font-size: 12px;"
 											readonly></td>
 										<td class="col-sm-2" style="text-align: center;"><font
 											size="2"><B>Modify User :</B></font></td>
 										<td class="col-sm-2" style="width: 112px;"><input
-											type="text" id="modifyuser" name="ub.modifyuser" 
+											type="text" id="modifyuser" name="ub.modifyuser"
 											style="border: none; outline: none; background-color: transparent; font-size: 12px;"
 											readonly></td>
 										<td class="col-sm-2" style="text-align: center;"><font
 											size="2"><B>Verify User :</B></font></td>
 										<td class="col-sm-2" style="width: 112px;"><input
-											type="text" id="verifyuser" name="ub.verifyuser" 
+											type="text" id="verifyuser" name="ub.verifyuser"
 											style="border: none; outline: none; background-color: transparent; font-size: 12px;"
 											readonly></td>
 									</tr>
@@ -1640,7 +1642,7 @@ input:hover+.password-info {
 					</div>
 				</div>
 
-			
+
 			</div>
 		</div>
 	</div>
@@ -1871,6 +1873,78 @@ input:hover+.password-info {
 		</div>
 	</div>
 
-</body>
+	<div class="modal fade" data-backdrop="false" data-keyboard="false"
+		id="alert53" tabindex="-1" role="dialog" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content" style="width: 120%; height: 30%;">
+				<div class="card">
+					<!-- Header with Alert Message -->
+					<div class="modal-header"
+						style="justify-content: center; width: 100%;">
+						<h5 class="modal-title" id="popupAlert" style="font-size: 18px;">Upload
+							Files - Account Datas</h5>
+						<!-- Alert message will appear here -->
+					</div>
 
+					<!-- Body with Response -->
+					<div class="modal-body"
+						style="text-align: center; display: flex; flex-direction: column; align-items: center; height: 100px; overflow-y: auto; font-weight: bold; font-size: 15px;">
+						<div class="row formline">
+							<div class="col-sm-6">Upload File :</div>
+							<div class="col-sm-6">
+								<form action="#" th:object="${reportform}" method="post"
+									enctype="multipart/form-data" id="reportform2">
+									<input type="file" name="file" id="fileInput"
+										class="form-control form-control-sm bg-white border border-dark"
+										accept=".xml, .xls, .xlsx" />
+									<button type="button" class="btn btn-primary"
+										onclick="submitdatas2()">Submit</button>
+								</form>
+							</div>
+						</div>
+					</div>
+
+
+					<!-- Footer with Close Button -->
+					<div class="modal-footer"
+						style="justify-content: center; width: 100%;">
+						<button type="button" class="btn btn-primary" data-dismiss="modal"
+							onclick="refreshPage()">Close</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" data-bs-backdrop="false"
+		data-bs-keyboard="false" id="normalalertvalues" tabindex="-1"
+		aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<!-- Header with Alert Message -->
+				<div class="modal-header justify-content-center">
+					<h5 class="modal-title" id="popupAlert" style="font-size: 18px;">Upload
+						Alerts</h5>
+				</div>
+
+				<!-- Body with Response -->
+				<div class="modal-body text-center"
+					style="max-height: 300px; overflow-y: auto; font-weight: bold; font-size: 15px;">
+					<h6 id="alertmsg"></h6>
+				</div>
+
+				<!-- Footer with Close Button -->
+				<div class="modal-footer justify-content-center">
+					<button type="button" class="btn btn-primary"
+						data-bs-dismiss="modal" onclick="backs()">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
 </html>
