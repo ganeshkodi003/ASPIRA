@@ -1870,11 +1870,20 @@ function firstexceldownload() {
 function ClickId(a, mode = 'view') {
     let id = null;
 
+  
+
+    if (a) {
+        console.log("Customer ID Text Content:", a.textContent.trim());
+        console.log("Customer ID Data Attribute:", a.getAttribute("data-id"));
+    }
+
+    // Check mode and get ID accordingly
     if (mode === 'modify') {
-        // Get ID from the input field when modifying
-        id = document.getElementById("customer_id") ? document.getElementById("customer_id").value.trim() : null;
+        id = document.getElementById("customer_id") 
+            ? document.getElementById("customer_id").value.trim() 
+            : null;
     } else {
-        // Get ID from the clicked element (table row)
+        // Get ID from the clicked element
         if (!a) a = event.target;
         while (a && !a.hasAttribute("data-id")) {
             a = a.parentElement;
@@ -1882,14 +1891,92 @@ function ClickId(a, mode = 'view') {
         id = a ? a.getAttribute("data-id") : null;
     }
 
+    // If mode is "verify", get the ID from customerId (fixed)
+    if (mode === 'verify' && !id) {
+    	  id = a ? a.getAttribute("data-id") : null;
+    }
+
+    alert("Selected ID: " + id); // Debugging alert
+
     // Construct the URL based on whether ID exists
-   let url = id && id !== "" 
+    let url = id && id !== "" 
         ? `customerMaster?formmode=${mode}&id=${id}&module=${dues}`
         : `customerMaster?formmode=list&module=${dues}`;
+
     location.href = url; // Redirect to the appropriate page
 }
 
-	</script>
+
+
+
+
+
+function submitForm() {
+	event.preventDefault();
+    var formData = $("#drawDownDetailsAdd").serializeArray();
+
+    formData.forEach(function (field) {
+        if (isDateField(field.name) && field.value) {
+            let date = new Date(field.value);
+            field.value = formatDateWithMidnight(date); // Ensure correct format
+        }
+    });
+
+    console.log($.param(formData)); // Debugging output
+
+    $.ajax({
+        url: './modifySubmit',
+        type: 'POST',
+        data: $.param(formData),
+        success: function(response) {
+            alert('Form submitted successfully!');
+            window.location.href = "./customerMaster?formmode=list&module=module2";
+
+        },
+        error: function(xhr, status, error) {
+            alert('Error: ' + xhr.responseText);
+        }
+    });
+}
+
+// Function to check if a field is a date field
+function isDateField(fieldName) {
+    return [
+        "creation_date", "last_modified_date", "activation_date", "approved_date", 
+        "birth_date", "asondate"
+    ].includes(fieldName);
+}
+
+// Function to format date as "dd-MM-yyyy 00:00:00"
+function formatDateWithMidnight(date) {
+    let dd = String(date.getDate()).padStart(2, '0');
+    let MM = String(date.getMonth() + 1).padStart(2, '0');
+    let yyyy = date.getFullYear();
+    return `${dd}-${MM}-${yyyy} 00:00:00`;
+}
+function verifyUser(userId) {
+	alert(userId)
+
+    fetch('./verifyUserById', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({ UserId: userId })
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data); // Show success or error message
+        window.location.href = "./customerMaster?formmode=list&module=module2";
+    })
+    .catch(error => {
+        console.error("Error verifying user:", error);
+        alert("An error occurred while verifying the user.");
+    });
+}
+
+
+</script>
 <script th:inline="javascript">
 	/*<![CDATA[*/
 var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
@@ -1964,25 +2051,35 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 												<th>DOB</th>
 												<th>RETAILER BRANCH ID</th>
 												<th style="width: 10%;">STATUS</th>
+												<th>Verify Status</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr th:each="list, iterator : ${list}" class="userlist">
 												<td style="font-size: 14px" th:text="${iterator.index +1}"></td>
+
+												<!-- Removed id="customerId" to avoid duplicates -->
 												<td style="font-size: 14px" class="text-primary"
 													th:attr="data-id=${list?.customer_id}"
-													th:text="${list?.customer_id}" onclick="ClickId(this);"></td>
-												<td style="font-size: 14px"
-													th:text="${list?.first_name + ' ' + list?.last_name}">
+													th:text="${list?.customer_id}" onclick="ClickId(this);">
 												</td>
+
 												<td style="font-size: 14px"
-													th:text="${#dates.format(list?.birth_date, 'dd-MM-yyyy')}">
-												</td>
+													th:text="${list?.first_name + ' ' + list?.last_name}"></td>
 												<td style="font-size: 14px"
-													th:text="${list?.assigned_branch_key}">TEST</td>
-												<td style="font-size: 14px" th:text="${list?.client_state}">TEST</td>
+													th:text="${#dates.format(list?.birth_date, 'dd-MM-yyyy')}"></td>
+												<td style="font-size: 14px"
+													th:text="${list?.assigned_branch_key}"></td>
+												<td style="font-size: 14px" th:text="${list?.client_state}"></td>
+
+												<td style="font-size: 14px; font-weight: bold;"
+													th:style="${#strings.trim(list?.verify_flg) == 'Y' ? 'color: green;' : 'color: red;'}"
+													th:text="${#strings.trim(list?.verify_flg) == 'Y' ? 'Verified' : 'Not Verified'}"
+													th:attr="data-id=${list?.customer_id}"
+													onclick="ClickId(this, 'verify')"></td>
 											</tr>
 										</tbody>
+
 									</table>
 								</div>
 							</div>
@@ -1994,18 +2091,24 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 					</div>
 
 
-					<div th:if="${formmode}=='view'or ${formmode}=='modify'">
+					<div
+						th:if="${formmode}=='view'or ${formmode}=='modify' or ${formmode}=='verify'">
 						<div class="card">
 							<div class="card-header"
 								style="background-color: #e9ecef; height: 50px">
 								<div class="float-left">
-									<h6 style="font-size: 1.2rem;" class="ml-3">CUSTOMER MAINTENANCE</h6>
+									<h6 style="font-size: 1.2rem;" class="ml-3">CUSTOMER
+										MAINTENANCE</h6>
 								</div>
 								<div class="btn-group nav-buttons float-right">
-									<button class="btn btn-primary p-2 " th:if="${module} == 'module1'" onclick="Uploadloan();">Upload</button>
-<button th:if="${module} == 'module2' and ${formmode}=='view'"  class="btn ml-2 btn-primary p-2" onclick="ClickId(null, 'modify')">
-    Modify
-</button>
+									<button class="btn btn-primary p-2 "
+										th:if="${module} == 'module1'" onclick="Uploadloan();">Upload</button>
+									<button th:if="${module} == 'module2' and ${formmode}=='view'"
+										class="btn ml-2 btn-primary p-2"
+										onclick="ClickId(null, 'modify')">Modify</button>
+									<button
+										th:if="${module} == 'module2' and ${formmode}=='verify'"
+										class="btn ml-2 btn-primary p-2" th:onclick="verifyUser([[${customer?.customer_id}]])">verify</button>
 
 								</div>
 
@@ -2069,9 +2172,11 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 													<label>Date of Birth</label>
 												</div>
 												<div class="col-sm-2">
-													<input type="date" name="dob"
-														th:value="${customer?.birth_date}" id="dob" />
+													<input type="date" name="birth_date"
+														th:value="${#dates.format(customer?.birth_date, 'yyyy-MM-dd')}"
+														id="dob" />
 												</div>
+
 											</div>
 
 											<div class="row formline mt-2 ml-2">
@@ -2080,7 +2185,7 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 													<label>Branch</label>
 												</div>
 												<div class="col-sm-2">
-													<input type="text" name="branch"
+													<input type="text" name="assigned_branch_key"
 														th:value="${customer?.assigned_branch_key}" id="branch" />
 												</div>
 												<div class="col-sm-2">
@@ -2100,14 +2205,16 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 												</div>
 												<div class="col-sm-2">
 													<input type="date" name="creation_date"
-														th:value="${customer?.creation_date}" id="creation_date" />
+														th:value="${customer?.creation_date != null ? #dates.format(customer.creation_date, 'yyyy-MM-dd') : ''}"
+														id="creation_date" />
 												</div>
 												<div class="col-sm-2">
 													<label>Approval Date</label>
 												</div>
 												<div class="col-sm-2">
-													<input type="date" name="approval_date"
-														th:value="${customer?.approved_date}" id="approval_date" />
+													<input type="date" name="approved_date"
+														th:value="${customer?.approved_date != null ? #dates.format(customer.approved_date, 'yyyy-MM-dd') : ''}"
+														id="approval_date" />
 												</div>
 											</div>
 
@@ -2117,8 +2224,8 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 													<label>Last Modification Date</label>
 												</div>
 												<div class="col-sm-2">
-													<input type="date" name="modification_date"
-														th:value="${customer?.last_modified_date}"
+													<input type="date" name="last_modified_date"
+														th:value="${customer?.last_modified_date != null ? #dates.format(customer.last_modified_date, 'yyyy-MM-dd') : ''}"
 														id="modification_date" />
 												</div>
 												<div class="col-sm-2">
@@ -2126,10 +2233,11 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 												</div>
 												<div class="col-sm-2">
 													<input type="date" name="activation_date"
-														th:value="${customer?.activation_date}"
+														th:value="${customer?.activation_date != null ? #dates.format(customer.activation_date, 'yyyy-MM-dd') : ''}"
 														id="activation_date" />
 												</div>
 											</div>
+
 
 											<div class="row formline mt-2 ml-2">
 												<div class="col-sm-2"></div>
@@ -2137,14 +2245,14 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 													<label>Mobile No</label>
 												</div>
 												<div class="col-sm-2">
-													<input type="text" name="mobile_no"
+													<input type="text" name="mobile_phone"
 														th:value="${customer?.mobile_phone}" id="mobile_no" />
 												</div>
 												<div class="col-sm-2">
 													<label>Email Id</label>
 												</div>
 												<div class="col-sm-2">
-													<input type="email" name="email_id"
+													<input type="email" name="email_address"
 														th:value="${customer?.email_address}" id="email_id" />
 												</div>
 											</div>
@@ -2155,14 +2263,14 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 													<label>Address 1</label>
 												</div>
 												<div class="col-sm-2">
-													<input type="text" name="address_1"
+													<input type="text" name="address_line1"
 														th:value="${customer?.address_line1}" id="address_1" />
 												</div>
 												<div class="col-sm-2">
 													<label>Address 2</label>
 												</div>
 												<div class="col-sm-2">
-													<input type="text" name="address_2"
+													<input type="text" name="address_line2"
 														th:value="${customer?.address_line2}" id="address_2" />
 												</div>
 											</div>
@@ -2210,7 +2318,7 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 													<label>Assigned User</label>
 												</div>
 												<div class="col-sm-2">
-													<input type="text" name="assigned_user"
+													<input type="text" name="assigned_user_key"
 														th:value="${customer?.assigned_user_key}"
 														id="assigned_user" />
 												</div>
@@ -2218,15 +2326,18 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 													<label>As On Date</label>
 												</div>
 												<div class="col-sm-2">
-													<input type="date" name="as_on_date"
-														th:value="${customer?.asondate}" id="as_on_date" />
+													<input type="date" name="asondate"
+														th:value="${customer?.asondate != null ? #dates.format(customer.asondate, 'yyyy-MM-dd') : ''}"
+														id="as_on_date" />
 												</div>
+
 											</div>
 										</div>
 									</fieldset>
 									<div class="card-footer text-center mt-2">
 										<button class="btn btn-primary p-2" onclick="home();">Home</button>
-										<button class="btn btn-primary p-2" th:if="${formmode} == 'modify'" onclick="submit();">submit</button>
+										<button class="btn btn-primary p-2"
+											th:if="${formmode} == 'modify'" onclick="submitForm();">submit</button>
 										<button class="btn btn-primary p-2" onclick="back();">Back</button>
 									</div>
 								</form>
@@ -2236,7 +2347,7 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 
 
 					</div>
-					
+
 					<div th:if="${formmode}=='home'">
 						<div class="card">
 							<div class="card-header"
@@ -2737,8 +2848,7 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 			id="normalalertvalues" tabindex="-1" role="dialog" aria-hidden="true">
 			<div
 				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-				<div class="modal-content"
-					style="width: 120%; height: 30%;">
+				<div class="modal-content" style="width: 120%; height: 30%;">
 					<div class="card">
 						<!-- Header with Alert Message -->
 						<div class="modal-header"

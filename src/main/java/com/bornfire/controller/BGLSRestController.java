@@ -9,9 +9,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -37,6 +35,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -5102,5 +5102,113 @@ public class BGLSRestController {
 		}
 		return BigDecimal.ZERO; // Return 0 instead of throwing an exception
 	}
+    @Autowired
+    private CLIENT_MASTER_REPO clientMasterRepo;
+
+    @PostMapping("/modifySubmit")
+    public ResponseEntity<String> modifySubmit(@ModelAttribute CLIENT_MASTER_ENTITY customer) {
+        try {
+            // Fetch existing customer from the database
+            Optional<CLIENT_MASTER_ENTITY> existingCustomerOpt = clientMasterRepo.findById(customer.getCustomer_id());
+
+            if (existingCustomerOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not found");
+            }
+
+            CLIENT_MASTER_ENTITY existingCustomer = existingCustomerOpt.get();
+//
+//            // Retain existing values if form values are null
+//            customer.setFirst_name(customer.getFirst_name() != null ? customer.getFirst_name() : existingCustomer.getFirst_name());
+//            customer.setLast_name(customer.getLast_name() != null ? customer.getLast_name() : existingCustomer.getLast_name());
+//            customer.setMobile_phone(customer.getMobile_phone() != null ? customer.getMobile_phone() : existingCustomer.getMobile_phone());
+//            customer.setEmail_address(customer.getEmail_address() != null ? customer.getEmail_address() : existingCustomer.getEmail_address());
+//            customer.setPreferred_language(customer.getPreferred_language() != null ? customer.getPreferred_language() : existingCustomer.getPreferred_language());
+//            customer.setBirth_date(customer.getBirth_date() != null ? customer.getBirth_date() : existingCustomer.getBirth_date());
+//            customer.setGender(customer.getGender() != null ? customer.getGender() : existingCustomer.getGender());
+//            customer.setAssigned_branch_key(customer.getAssigned_branch_key() != null ? customer.getAssigned_branch_key() : existingCustomer.getAssigned_branch_key());
+//            customer.setClient_role_key(customer.getClient_role_key() != null ? customer.getClient_role_key() : existingCustomer.getClient_role_key());
+//            customer.setLoan_cycle(customer.getLoan_cycle() != null ? customer.getLoan_cycle() : existingCustomer.getLoan_cycle());
+//            customer.setGroup_loan_cycle(customer.getGroup_loan_cycle() != null ? customer.getGroup_loan_cycle() : existingCustomer.getGroup_loan_cycle());
+//            customer.setAddress_line1(customer.getAddress_line1() != null ? customer.getAddress_line1() : existingCustomer.getAddress_line1());
+//            customer.setAddress_line2(customer.getAddress_line2() != null ? customer.getAddress_line2() : existingCustomer.getAddress_line2());
+//            customer.setAddress_line3(customer.getAddress_line3() != null ? customer.getAddress_line3() : existingCustomer.getAddress_line3());
+//            customer.setCity(customer.getCity() != null ? customer.getCity() : existingCustomer.getCity());
+//            customer.setSuburb(customer.getSuburb() != null ? customer.getSuburb() : existingCustomer.getSuburb());
+//            customer.setAssigned_user_key(customer.getAssigned_user_key() != null ? customer.getAssigned_user_key() : existingCustomer.getAssigned_user_key());
+//            customer.setAsondate(customer.getAsondate() != null ? customer.getAsondate() : existingCustomer.getAsondate());
+//
+//            
+            
+            customer.setEncoded_key(customer.getEncoded_key() != null ? customer.getEncoded_key() : existingCustomer.getEncoded_key());
+            customer.setCustomer_id(customer.getCustomer_id() != null ? customer.getCustomer_id() : existingCustomer.getCustomer_id());
+            customer.setClient_state(customer.getClient_state() != null ? customer.getClient_state() : existingCustomer.getClient_state());
+            customer.setCreation_date(customer.getCreation_date() != null ? customer.getCreation_date() : existingCustomer.getCreation_date());
+            customer.setLast_modified_date(customer.getLast_modified_date() != null ? customer.getLast_modified_date() : existingCustomer.getLast_modified_date());
+            customer.setActivation_date(customer.getActivation_date() != null ? customer.getActivation_date() : existingCustomer.getActivation_date());
+            customer.setApproved_date(customer.getApproved_date() != null ? customer.getApproved_date() : existingCustomer.getApproved_date());
+            customer.setFirst_name(customer.getFirst_name() != null ? customer.getFirst_name() : existingCustomer.getFirst_name());
+            customer.setLast_name(customer.getLast_name() != null ? customer.getLast_name() : existingCustomer.getLast_name());
+            customer.setMobile_phone(customer.getMobile_phone() != null ? customer.getMobile_phone() : existingCustomer.getMobile_phone());
+            customer.setEmail_address(customer.getEmail_address() != null ? customer.getEmail_address() : existingCustomer.getEmail_address());
+            customer.setPreferred_language(customer.getPreferred_language() != null ? customer.getPreferred_language() : existingCustomer.getPreferred_language());
+            customer.setBirth_date(customer.getBirth_date() != null ? customer.getBirth_date() : existingCustomer.getBirth_date());
+            customer.setGender(customer.getGender() != null ? customer.getGender() : existingCustomer.getGender());
+            customer.setAssigned_branch_key(customer.getAssigned_branch_key() != null ? customer.getAssigned_branch_key() : existingCustomer.getAssigned_branch_key());
+            customer.setClient_role_key(customer.getClient_role_key() != null ? customer.getClient_role_key() : existingCustomer.getClient_role_key());
+            customer.setLoan_cycle(customer.getLoan_cycle() != null ? customer.getLoan_cycle() : existingCustomer.getLoan_cycle());
+            customer.setGroup_loan_cycle(customer.getGroup_loan_cycle() != null ? customer.getGroup_loan_cycle() : existingCustomer.getGroup_loan_cycle());
+            customer.setAddress_line1(customer.getAddress_line1() != null ? customer.getAddress_line1() : existingCustomer.getAddress_line1());
+            customer.setAddress_line2(customer.getAddress_line2() != null ? customer.getAddress_line2() : existingCustomer.getAddress_line2());
+            customer.setAddress_line3(customer.getAddress_line3() != null ? customer.getAddress_line3() : existingCustomer.getAddress_line3());
+            customer.setCity(customer.getCity() != null ? customer.getCity() : existingCustomer.getCity());
+            customer.setSuburb(customer.getSuburb() != null ? customer.getSuburb() : existingCustomer.getSuburb());
+            customer.setAssigned_user_key(customer.getAssigned_user_key() != null ? customer.getAssigned_user_key() : existingCustomer.getAssigned_user_key());
+            customer.setAsondate(customer.getAsondate() != null ? customer.getAsondate() : existingCustomer.getAsondate());
+            customer.setModify_flg(customer.getModify_flg() != '\0' ? customer.getModify_flg() : existingCustomer.getModify_flg());
+            customer.setVerify_flg(customer.getVerify_flg() != '\0' ? customer.getVerify_flg() : existingCustomer.getVerify_flg());
+            customer.setDelete_flg(customer.getDelete_flg() != '\0' ? customer.getDelete_flg() : existingCustomer.getDelete_flg());
+
+            // Set modify_flg to 'N' and verify_flg to 'Y'
+            customer.setModify_flg('Y');
+            customer.setVerify_flg('N');
+//            System.out.println(existingCustomer.toString());
+//            
+//            System.out.println("\n\n\n\n\n\n\n");
+//            System.out.println(customer.toString());
+
+            // Save updated customer
+            clientMasterRepo.save(customer);
+
+            return ResponseEntity.ok("Customer updated and verified successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating customer: " + e.getMessage());
+        }
+    }
+
+
+    @PostMapping("/verifyUserById")
+    public ResponseEntity<String> verifyUser(@RequestParam String UserId) {
+        try {
+            // Fetch existing customer from the database using UserId
+            Optional<CLIENT_MASTER_ENTITY> existingCustomerOpt = clientMasterRepo.findById(UserId);
+
+            if (existingCustomerOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not found");
+            }
+
+            CLIENT_MASTER_ENTITY existingCustomer = existingCustomerOpt.get();
+
+            // Set modify_flg to 'N' and verify_flg to 'Y'
+            existingCustomer.setModify_flg('N');
+            existingCustomer.setVerify_flg('Y');
+
+            // Save updated customer
+            clientMasterRepo.save(existingCustomer);
+
+            return ResponseEntity.ok("Customer updated and verified successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating customer: " + e.getMessage());
+        }
+    }
 
 }
