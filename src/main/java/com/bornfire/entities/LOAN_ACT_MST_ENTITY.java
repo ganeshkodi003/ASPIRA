@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name="LOAN_ACCOUNT_MASTER_TBL")
 public class LOAN_ACT_MST_ENTITY {
@@ -19,10 +21,15 @@ public class LOAN_ACT_MST_ENTITY {
 	private String	id;
 	private String	account_holdertype;
 	private String	account_holderkey;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	creation_date;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	approved_date;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	last_modified_date;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	closed_date;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	last_account_appraisaldate;
 	private String	account_state;
 	private String	account_substate;
@@ -50,8 +57,11 @@ public class LOAN_ACT_MST_ENTITY {
 	private BigDecimal	penalty_due;
 	private BigDecimal	penalty_paid;
 	private BigDecimal	penalty_balance;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	expected_disbursementdate;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	disbursement_date;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	first_repaymentdate;
 	private BigDecimal	grace_period;
 	private BigDecimal	repayment_installments;
@@ -75,6 +85,7 @@ public class LOAN_ACT_MST_ENTITY {
 	private String	tureason4;
 	private BigDecimal	disposable_income;
 	private BigDecimal	manualoverride_amount;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	manualoverride_expiry_date;
 	private BigDecimal	cpfees;
 	private BigDecimal	deposit_amount;
@@ -83,8 +94,10 @@ public class LOAN_ACT_MST_ENTITY {
 	private String	retailer_branch;
 	private String	vg_application_id;
 	private String	contract_signed;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	date_of_first_call;
 	private String	last_call_outcome;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	asondate;
 	
 	public String getEncoded_key() {

@@ -9,7 +9,10 @@ import java.security.spec.InvalidKeySpecException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,6 +56,8 @@ import com.bornfire.entities.BGLSAuditTable;
 import com.bornfire.entities.BGLSAuditTable_Rep;
 import com.bornfire.entities.BGLSBusinessTable_Entity;
 import com.bornfire.entities.BGLSBusinessTable_Rep;
+import com.bornfire.entities.CLIENT_MASTER_ENTITY;
+import com.bornfire.entities.CLIENT_MASTER_REPO;
 import com.bornfire.entities.Chart_Acc_Entity;
 import com.bornfire.entities.Chart_Acc_Rep;
 import com.bornfire.entities.CustomerRequest;
@@ -66,6 +71,10 @@ import com.bornfire.entities.Employee_Profile_Rep;
 import com.bornfire.entities.GeneralLedgerEntity;
 import com.bornfire.entities.GeneralLedgerRep;
 import com.bornfire.entities.GeneralLedgerWork_Rep;
+import com.bornfire.entities.LOAN_ACT_MST_ENTITY;
+import com.bornfire.entities.LOAN_ACT_MST_REPO;
+import com.bornfire.entities.LOAN_REPAYMENT_ENTITY;
+import com.bornfire.entities.LOAN_REPAYMENT_REPO;
 import com.bornfire.entities.LeaseData;
 import com.bornfire.entities.Lease_Loan_Master_Entity;
 import com.bornfire.entities.Lease_Loan_Master_Repo;
@@ -211,6 +220,15 @@ public class BGLSRestController {
 
 	@Autowired
 	Transaction_Reversed_Table_Repo transaction_Reversed_Table_Repo;
+	
+	@Autowired
+	CLIENT_MASTER_REPO cLIENT_MASTER_REPO;
+	
+	@Autowired
+	LOAN_ACT_MST_REPO lOAN_ACT_MST_REPO;
+	
+	@Autowired
+	LOAN_REPAYMENT_REPO lOAN_REPAYMENT_REPO;
 
 	/* THANVEER */
 	@RequestMapping(value = "employeeAdd", method = RequestMethod.POST)
@@ -4534,6 +4552,489 @@ public class BGLSRestController {
 		System.out.println("the getting account number is " + accountNum);
 		String acountName = lease_Loan_Master_Repo.accountName(accountNum);
 		return acountName;
+	}
+	
+	@PostMapping("/uploadxmldata1")
+	@ResponseBody
+	public String uploadxmldata1(@RequestParam("file") MultipartFile file, HttpServletRequest req) {
+	    BigDecimal creditSum = BigDecimal.ZERO;
+	    BigDecimal debitSum = BigDecimal.ZERO;
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	    LocalDate localDate = LocalDate.now();
+	    String userId = (String) req.getSession().getAttribute("USERID");
+
+	    LocalDateTime localDateTime = LocalDateTime.now();
+	    java.util.Date utilDate = java.util.Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+	    Date entryDate = new Date(utilDate.getTime());
+	    Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+	    List<CLIENT_MASTER_ENTITY> transactions = new ArrayList<>();
+
+	    try (InputStream inputStream = file.getInputStream(); Workbook workbook = new XSSFWorkbook(inputStream)) {
+	        Sheet sheet = workbook.getSheetAt(0);
+	        
+	        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+	            Row row = sheet.getRow(i);
+	            if (row == null) continue; // Skip null rows
+	            
+	            CLIENT_MASTER_ENTITY transaction = new CLIENT_MASTER_ENTITY();
+
+	            transaction.setEncoded_key(getCellValueAsString(row.getCell(0)));
+	            // Fetch mobile number as a String
+	            String customerid = "";
+	            Cell cell = row.getCell(1);  // Get cell
+
+	            if (cell != null) {
+	                if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+	                    customerid = cell.getStringCellValue().trim();
+	                } else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+	                    customerid = String.format("%.0f", cell.getNumericCellValue()).trim(); // Convert without scientific notation
+	                }
+	            }
+
+	            // Set customer_id as a String
+	            transaction.setCustomer_id(customerid);
+	            
+	            transaction.setClient_state(getCellValueAsString(row.getCell(2)));
+	            
+	            Cell cell31 = row.getCell(3);  // Get cell from column index 24
+	            Date dateValue2 = parseDateCell(cell31);
+	            if (dateValue2 != null) {
+	            	transaction.setCreation_date(new java.sql.Date(dateValue2.getTime()));
+	            }
+	            
+	            Cell cell41 = row.getCell(4);  // Get cell from column index 24
+	            Date dateValue3 = parseDateCell(cell41);
+	            if (dateValue3 != null) {
+	            	transaction.setLast_modified_date(new java.sql.Date(dateValue3.getTime()));
+	            }
+
+	            Cell cell51 = row.getCell(5);  // Get cell from column index 24
+	            Date dateValue4 = parseDateCell(cell41);
+	            if (dateValue4 != null) {
+	            	transaction.setActivation_date(new java.sql.Date(dateValue4.getTime()));
+	            }
+	            
+	            Cell cell61 = row.getCell(5);  // Get cell from column index 24
+	            Date dateValue5 = parseDateCell(cell41);
+	            if (dateValue5 != null) {
+	            	transaction.setApproved_date(new java.sql.Date(dateValue5.getTime()));
+	            }
+
+	            transaction.setFirst_name(getCellValueAsString(row.getCell(7))); // Corrected
+	            transaction.setLast_name(getCellValueAsString(row.getCell(8))); // Corrected
+	            
+	            transaction.setMobile_phone(getCellValueAsString(row.getCell(9)));
+	            transaction.setEmail_address(getCellValueAsString(row.getCell(10)));
+	            transaction.setPreferred_language(getCellValueAsString(row.getCell(11))); // Corrected
+
+	            Cell cell21 = row.getCell(12);  // Get cell from column index 24
+	            Date dateValue1 = parseDateCell(cell21);
+	            if (dateValue1 != null) {
+	            	transaction.setBirth_date(new java.sql.Date(dateValue1.getTime()));
+	            }
+
+	            transaction.setGender(getCellValueAsString(row.getCell(13)));
+	            transaction.setAssigned_branch_key(getCellValueAsString(row.getCell(14)));
+	            transaction.setClient_role_key(getCellValueAsString(row.getCell(15)));
+
+	            transaction.setLoan_cycle(parseBigDecimal(row.getCell(16)));
+	            transaction.setGroup_loan_cycle(parseBigDecimal(row.getCell(17)));
+
+	            transaction.setAddress_line1(getCellValueAsString(row.getCell(18)));
+	            transaction.setAddress_line2(getCellValueAsString(row.getCell(19)));
+	            transaction.setAddress_line3(getCellValueAsString(row.getCell(20)));
+
+	            transaction.setCity(getCellValueAsString(row.getCell(21)));
+	            transaction.setSuburb(getCellValueAsString(row.getCell(22)));
+	            transaction.setAssigned_user_key(getCellValueAsString(row.getCell(23)));
+	            
+	            Cell cell11 = row.getCell(24);  // Get cell from column index 24
+	            Date dateValue = parseDateCell(cell11);
+
+	            if (dateValue != null) {
+	                transaction.setAsondate(new java.sql.Date(dateValue.getTime()));  // Convert to java.sql.Date
+	            }
+
+	            transactions.add(transaction);
+	        }
+
+	        cLIENT_MASTER_REPO.saveAll(transactions); // Ensure `clientMasterRepo` is autowired properly.
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "Error: " + e.getMessage();
+	    }
+	    return userId;
+	}
+	
+	
+	@PostMapping("/uploadxmldata2")
+	@ResponseBody
+	public String uploadxmldata2(@RequestParam("file") MultipartFile file, HttpServletRequest req) {
+	    BigDecimal creditSum = BigDecimal.ZERO;
+	    BigDecimal debitSum = BigDecimal.ZERO;
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	    LocalDate localDate = LocalDate.now();
+	    String userId = (String) req.getSession().getAttribute("USERID");
+
+	    // Check if file is empty
+	    if (file == null || file.isEmpty()) {
+	        return "Error: Uploaded file is empty!";
+	    }
+
+	    // Validate file type (Only .xlsx)
+	    if (!file.getOriginalFilename().endsWith(".xlsx")) {
+	        return "Error: Only .xlsx files are supported!";
+	    }
+	    
+	    System.out.println("THE SECOND FUNCTION WILL BE WORKED "+userId);
+	    LocalDateTime localDateTime = LocalDateTime.now();
+	    java.util.Date utilDate = java.util.Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+	    Date entryDate = new Date(utilDate.getTime());
+	    Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+	    List<LOAN_ACT_MST_ENTITY> transactions = new ArrayList<>();
+
+	    try (InputStream inputStream = file.getInputStream(); Workbook workbook = new XSSFWorkbook(inputStream)) {
+	        Sheet sheet = workbook.getSheetAt(0);
+	        
+	        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+	            Row row = sheet.getRow(i);
+	            if (row == null) continue; // Skip null rows
+	            
+	            LOAN_ACT_MST_ENTITY transaction = new LOAN_ACT_MST_ENTITY();
+
+	            transaction.setEncoded_key(getCellValueAsString(row.getCell(0)));
+	            transaction.setId(getCellValueAsString(row.getCell(1)));
+	            transaction.setAccount_holdertype(getCellValueAsString(row.getCell(2)));
+	            transaction.setAccount_holderkey(getCellValueAsString(row.getCell(3)));
+	            
+	            Cell cell11 = row.getCell(4);  // Get cell from column index 24
+	            Date dateValue = parseDateCell(cell11);
+
+	            if (dateValue != null) {
+	            	transaction.setCreation_date(new java.sql.Date(dateValue.getTime()));
+	            }
+
+	            Cell cell12 = row.getCell(5);  // Get cell from column index 24
+	            Date dateValue1 = parseDateCell(cell12);
+
+	            if (dateValue1 != null) {
+	            	transaction.setApproved_date(new java.sql.Date(dateValue1.getTime()));
+	            }
+	            
+	            Cell cell13 = row.getCell(6);  // Get cell from column index 24
+	            Date dateValue2 = parseDateCell(cell13);
+
+	            if (dateValue2 != null) {
+	            	transaction.setLast_modified_date(new java.sql.Date(dateValue2.getTime()));
+	            }
+	            
+	            Cell cell14 = row.getCell(7);  // Get cell from column index 24
+	            Date dateValue3 = parseDateCell(cell14);
+
+	            if (dateValue3 != null) {
+	            	transaction.setClosed_date(new java.sql.Date(dateValue3.getTime()));
+	            }
+	            
+	            Cell cell15 = row.getCell(8);  // Get cell from column index 24
+	            Date dateValue4 = parseDateCell(cell15);
+
+	            if (dateValue4 != null) {
+	            	transaction.setLast_account_appraisaldate(new java.sql.Date(dateValue4.getTime()));
+	            }
+	            
+	            transaction.setAccount_state(getCellValueAsString(row.getCell(9)));
+	            transaction.setAccount_substate(getCellValueAsString(row.getCell(10)));
+	            transaction.setProduct_typekey(getCellValueAsString(row.getCell(11)));
+	            transaction.setLoan_name(getCellValueAsString(row.getCell(12)));
+	            transaction.setPayment_method(getCellValueAsString(row.getCell(13)));
+	            transaction.setAssigned_branchkey(getCellValueAsString(row.getCell(14)));
+	            transaction.setLoan_amount(parseBigDecimal(row.getCell(15)));
+	            transaction.setInterest_rate(parseBigDecimal(row.getCell(16)));
+	            transaction.setPenalty_rate(parseBigDecimal(row.getCell(17)));
+	            transaction.setAccrued_interest(parseBigDecimal(row.getCell(18)));
+	            transaction.setAccrued_penalty(parseBigDecimal(row.getCell(19)));
+	            transaction.setPrincipal_due(parseBigDecimal(row.getCell(20)));
+	            transaction.setPrincipal_paid(parseBigDecimal(row.getCell(21)));
+	            transaction.setPrincipal_balance(parseBigDecimal(row.getCell(22)));
+	            transaction.setInterest_due(parseBigDecimal(row.getCell(23)));
+	            transaction.setInterest_paid(parseBigDecimal(row.getCell(24)));
+	            transaction.setInterest_balance(parseBigDecimal(row.getCell(25)));
+	            
+	            transaction.setInterest_fromarrearsbalance(parseBigDecimal(row.getCell(26)));
+	            transaction.setInterest_fromarrearsdue(parseBigDecimal(row.getCell(27)));
+	            transaction.setInterest_fromarrearspaid(parseBigDecimal(row.getCell(28)));
+	            transaction.setFees_due(parseBigDecimal(row.getCell(29)));
+	            transaction.setFees_paid(parseBigDecimal(row.getCell(30)));
+	            transaction.setFees_balance(parseBigDecimal(row.getCell(31)));
+	            transaction.setPenalty_due(parseBigDecimal(row.getCell(32)));
+	            transaction.setPenalty_paid(parseBigDecimal(row.getCell(33)));
+	            transaction.setPenalty_balance(parseBigDecimal(row.getCell(34)));
+	            
+	            Cell cell16 = row.getCell(35);  // Get cell from column index 24
+	            Date dateValue5 = parseDateCell(cell16);
+
+	            if (dateValue5 != null) {
+	            	transaction.setExpected_disbursementdate(new java.sql.Date(dateValue5.getTime()));
+	            }
+	            
+	            Cell cell17 = row.getCell(36);  // Get cell from column index 24
+	            Date dateValue6 = parseDateCell(cell17);
+
+	            if (dateValue6 != null) {
+	            	transaction.setDisbursement_date(new java.sql.Date(dateValue6.getTime()));
+	            }
+	            
+	            Cell cell18 = row.getCell(37);  // Get cell from column index 24
+	            Date dateValue7 = parseDateCell(cell18);
+
+	            if (dateValue7 != null) {
+	            	transaction.setFirst_repaymentdate(new java.sql.Date(dateValue7.getTime()));
+	            }
+
+	            transaction.setGrace_period(parseBigDecimal(row.getCell(38)));
+	            transaction.setRepayment_installments(parseBigDecimal(row.getCell(39)));
+	            transaction.setRepayment_periodcount(parseBigDecimal(row.getCell(40)));
+	            transaction.setDays_late(parseBigDecimal(row.getCell(41)));
+	            transaction.setDays_inarrears(parseBigDecimal(row.getCell(42)));
+	            transaction.setRepayment_schedule_method(getCellValueAsString(row.getCell(43)));
+	            transaction.setCurrency_code(getCellValueAsString(row.getCell(44)));
+	            transaction.setSale_processedbyvgid(getCellValueAsString(row.getCell(45)));
+	            transaction.setSale_processedfor(getCellValueAsString(row.getCell(46)));
+	            transaction.setSale_referredby(getCellValueAsString(row.getCell(47)));
+	            transaction.setEmployment_status(getCellValueAsString(row.getCell(48)));
+	            transaction.setJob_title(getCellValueAsString(row.getCell(49)));
+	            transaction.setEmployer_name(getCellValueAsString(row.getCell(50)));
+	            transaction.setTuscore(parseBigDecimal(row.getCell(51)));
+	            transaction.setTuprobability(parseBigDecimal(row.getCell(52)));
+	            transaction.setTufullname(getCellValueAsString(row.getCell(53)));
+	            transaction.setTureason1(getCellValueAsString(row.getCell(54)));
+	            transaction.setTureason2(getCellValueAsString(row.getCell(55)));
+	            transaction.setTureason3(getCellValueAsString(row.getCell(56)));
+	            transaction.setTureason4(getCellValueAsString(row.getCell(57)));
+	            transaction.setDisposable_income(parseBigDecimal(row.getCell(58)));
+	            transaction.setManualoverride_amount(parseBigDecimal(row.getCell(59)));
+	            
+	            Cell cell19 = row.getCell(60);  // Get cell from column index 24
+	            Date dateValue8 = parseDateCell(cell19);
+
+	            if (dateValue8 != null) {
+	            	transaction.setManualoverride_expiry_date(new java.sql.Date(dateValue8.getTime()));
+	            }
+	            
+	            transaction.setCpfees(parseBigDecimal(row.getCell(61)));
+	            transaction.setDeposit_amount(parseBigDecimal(row.getCell(62)));
+	            transaction.setTotal_product_price(parseBigDecimal(row.getCell(63)));
+	            transaction.setRetailer_name(getCellValueAsString(row.getCell(64)));
+	            transaction.setRetailer_branch(getCellValueAsString(row.getCell(65)));
+	            transaction.setVg_application_id(getCellValueAsString(row.getCell(66)));
+	            transaction.setContract_signed(getCellValueAsString(row.getCell(67)));
+	            
+	            Cell cell20 = row.getCell(68);  // Get cell from column index 24
+	            Date dateValue9 = parseDateCell(cell20);
+
+	            if (dateValue9 != null) {
+	            	transaction.setDate_of_first_call(new java.sql.Date(dateValue9.getTime()));
+	            }
+
+	            transaction.setLast_call_outcome(getCellValueAsString(row.getCell(69)));
+	            
+	            Cell cell21 = row.getCell(70);  // Get cell from column index 24
+	            Date dateValue10 = parseDateCell(cell21);
+
+	            if (dateValue10 != null) {
+	            	transaction.setAsondate(new java.sql.Date(dateValue10.getTime()));
+	            }
+
+	            transactions.add(transaction);
+	        }
+
+	        lOAN_ACT_MST_REPO.saveAll(transactions); // Ensure `clientMasterRepo` is autowired properly.
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "Error: " + e.getMessage();
+	    }
+	    return "File uploaded successfully by user: " + userId;
+	}
+	
+	
+	@PostMapping("/uploadxmldata3")
+	@ResponseBody
+	public String uploadxmldata3(@RequestParam("file") MultipartFile file, HttpServletRequest req) {
+	    BigDecimal creditSum = BigDecimal.ZERO;
+	    BigDecimal debitSum = BigDecimal.ZERO;
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	    LocalDate localDate = LocalDate.now();
+	    String userId = (String) req.getSession().getAttribute("USERID");
+
+	    System.out.println("THIRD FUNCTION WILL BE WORKED "+userId);
+	    // Check if file is empty
+	    if (file == null || file.isEmpty()) {
+	        return "Error: Uploaded file is empty!";
+	    }
+
+	    // Validate file type (Only .xlsx)
+	    if (!file.getOriginalFilename().endsWith(".xlsx")) {
+	        return "Error: Only .xlsx files are supported!";
+	    }
+	    
+	    LocalDateTime localDateTime = LocalDateTime.now();
+	    java.util.Date utilDate = java.util.Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+	    Date entryDate = new Date(utilDate.getTime());
+	    Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+	    List<LOAN_REPAYMENT_ENTITY> transactions = new ArrayList<>();
+
+	    try (InputStream inputStream = file.getInputStream(); Workbook workbook = new XSSFWorkbook(inputStream)) {
+	        Sheet sheet = workbook.getSheetAt(0);
+	        
+	        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+	            Row row = sheet.getRow(i);
+	            if (row == null) continue; // Skip null rows
+	            
+	            LOAN_REPAYMENT_ENTITY transaction = new LOAN_REPAYMENT_ENTITY();
+
+	            transaction.setEncoded_key(getCellValueAsString(row.getCell(0)));
+	            transaction.setParent_account_key(getCellValueAsString(row.getCell(1)));
+	            
+	            Cell cell1 = row.getCell(2);  // Get cell from column index 24
+	            Date dateValue1 = parseDateCell(cell1);
+	            if (dateValue1 != null) {
+	            	transaction.setDue_date(new java.sql.Date(dateValue1.getTime()));
+	            }
+	            
+	            Cell cell2 = row.getCell(3);  // Get cell from column index 24
+	            Date dateValue2 = parseDateCell(cell2);
+	            if (dateValue2 != null) {
+	            	transaction.setLast_paid_date(new java.sql.Date(dateValue2.getTime()));
+	            }
+	            
+	            Cell cell3 = row.getCell(4);  // Get cell from column index 24
+	            Date dateValue3 = parseDateCell(cell3);
+	            if (dateValue3 != null) {
+	            	transaction.setRepaid_date(new java.sql.Date(dateValue3.getTime()));
+	            }
+	            
+	            transaction.setPayment_state(getCellValueAsString(row.getCell(5)));
+	            transaction.setIs_payment_holiday(getCellValueAsString(row.getCell(6)));
+	            transaction.setPrincipal_exp(parseBigDecimal(row.getCell(7)));
+	            transaction.setPrincipal_paid(parseBigDecimal(row.getCell(8)));
+	            transaction.setPrincipal_due(parseBigDecimal(row.getCell(9)));
+	            transaction.setInterest_exp(parseBigDecimal(row.getCell(10)));
+	            transaction.setInterest_paid(parseBigDecimal(row.getCell(11)));
+	            transaction.setInterest_due(parseBigDecimal(row.getCell(12)));
+	            transaction.setFee_exp(parseBigDecimal(row.getCell(13)));
+	            transaction.setFee_paid(parseBigDecimal(row.getCell(14)));
+	            transaction.setFee_due(parseBigDecimal(row.getCell(15)));
+	            transaction.setPenalty_exp(parseBigDecimal(row.getCell(16)));
+	            transaction.setPenalty_paid(parseBigDecimal(row.getCell(17)));
+	            transaction.setPenalty_due(parseBigDecimal(row.getCell(18)));
+	            
+	            Cell cell4 = row.getCell(19);  // Get cell from column index 24
+	            Date dateValue4 = parseDateCell(cell4);
+	            if (dateValue4 != null) {
+	            	transaction.setAsondate(new java.sql.Date(dateValue4.getTime()));
+	            }
+	          
+	            transactions.add(transaction);
+	        }
+
+	        lOAN_REPAYMENT_REPO.saveAll(transactions); // Ensure `clientMasterRepo` is autowired properly.
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "Error: " + e.getMessage();
+	    }
+	    return "File uploaded successfully by user: " + userId;
+	}
+
+	
+	private Date parseDateCell(Cell cell) {  
+	    if (cell == null) return null;
+
+	    try {
+	        switch (cell.getCellType()) {
+	            case Cell.CELL_TYPE_NUMERIC:
+	                if (DateUtil.isCellDateFormatted(cell)) {
+	                    return cell.getDateCellValue();  // ✅ Correct
+	                }
+	                break;
+	                
+	            case Cell.CELL_TYPE_STRING:
+	                String dateStr = cell.getStringCellValue().trim();
+	                if (dateStr.isEmpty() || dateStr.equalsIgnoreCase("NULL")) return null;
+
+	                // Date formats to try
+	                String[] dateFormats = {
+	                    "yyyy-MM-dd'T'HH:mm:ssXXX",  // ISO 8601 with timezone
+	                    "yyyy-MM-dd HH:mm:ss",      // Common SQL Server datetime
+	                    "MM/dd/yyyy HH:mm:ss",      // US format with time
+	                    "dd/MM/yyyy HH:mm:ss",      // EU format with time
+	                    "MM/dd/yyyy",               // US format (date only)
+	                    "dd/MM/yyyy",               // EU format (date only)
+	                    "yyyy-MM-dd"                // Simple date format
+	                };
+
+	                for (String format : dateFormats) {
+	                    try {
+	                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+	                        LocalDateTime localDateTime = LocalDateTime.parse(dateStr, formatter);
+
+	                        // Convert LocalDateTime to java.util.Date
+	                        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+	                    } catch (Exception ignored) {
+	                    }
+	                }
+	                break;
+
+	            default:
+	                break;
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
+	
+	private BigDecimal parseBigDecimal(Cell cell) {
+	    try {
+	        if (cell == null || cell.getCellTypeEnum() == CellType.BLANK) {
+	            return BigDecimal.ZERO; // Return 0 if the cell is empty or null
+	        }
+
+	        switch (cell.getCellTypeEnum()) {
+	            case NUMERIC:
+	                return BigDecimal.valueOf(cell.getNumericCellValue());
+
+	            case STRING:
+	                String value = cell.getStringCellValue().trim();
+	                if (!value.isEmpty() && value.matches("-?\\d+(\\.\\d+)?")) { // Validate number format
+	                    return new BigDecimal(value);
+	                }
+	                break;
+
+	            case FORMULA:
+	                try {
+	                    return BigDecimal.valueOf(cell.getNumericCellValue());
+	                } catch (IllegalStateException e) {
+	                    String formulaValue = cell.getStringCellValue().trim();
+	                    if (!formulaValue.isEmpty() && formulaValue.matches("-?\\d+(\\.\\d+)?")) {
+	                        return new BigDecimal(formulaValue);
+	                    }
+	                }
+	                break;
+
+	            default:
+	                break;
+	        }
+	    } catch (Exception e) {
+	        System.err.println("Error parsing BigDecimal from cell at row " + 
+	            cell.getRowIndex() + ", column " + cell.getColumnIndex() + ": " + e.getMessage());
+	    }
+	    return BigDecimal.ZERO; // Return 0 instead of throwing an exception
 	}
 
 }

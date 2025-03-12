@@ -6,6 +6,8 @@ import java.sql.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="CLIENT_MASTER_TBL")
 public class CLIENT_MASTER_ENTITY {
@@ -13,15 +15,20 @@ public class CLIENT_MASTER_ENTITY {
 	@Id
 	private String	customer_id;
 	private String	client_state;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	creation_date;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	last_modified_date;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	activation_date;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	approved_date;
 	private String	first_name;
 	private String	last_name;
-	private BigDecimal	mobile_phone;
+	private String	mobile_phone;
 	private String	email_address;
 	private String	preferred_language;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	birth_date;
 	private String	gender;
 	private String	assigned_branch_key;
@@ -34,6 +41,7 @@ public class CLIENT_MASTER_ENTITY {
 	private String	city;
 	private String	suburb;
 	private String	assigned_user_key;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	asondate;
 	public String getEncoded_key() {
 		return encoded_key;
@@ -89,10 +97,10 @@ public class CLIENT_MASTER_ENTITY {
 	public void setLast_name(String last_name) {
 		this.last_name = last_name;
 	}
-	public BigDecimal getMobile_phone() {
+	public String getMobile_phone() {
 		return mobile_phone;
 	}
-	public void setMobile_phone(BigDecimal mobile_phone) {
+	public void setMobile_phone(String mobile_phone) {
 		this.mobile_phone = mobile_phone;
 	}
 	public String getEmail_address() {
@@ -187,7 +195,7 @@ public class CLIENT_MASTER_ENTITY {
 	}
 	public CLIENT_MASTER_ENTITY(String encoded_key, String customer_id, String client_state, Date creation_date,
 			Date last_modified_date, Date activation_date, Date approved_date, String first_name, String last_name,
-			BigDecimal mobile_phone, String email_address, String preferred_language, Date birth_date, String gender,
+			String mobile_phone, String email_address, String preferred_language, Date birth_date, String gender,
 			String assigned_branch_key, String client_role_key, BigDecimal loan_cycle, BigDecimal group_loan_cycle,
 			String address_line1, String address_line2, String address_line3, String city, String suburb,
 			String assigned_user_key, Date asondate) {

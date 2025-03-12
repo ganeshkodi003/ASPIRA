@@ -7,15 +7,19 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name="LOAN_REPAYMENT_TBL")
-public class LOAN_REPAYMENT_ENTITY 
-{
+public class LOAN_REPAYMENT_ENTITY {
 	@Id
 	private String	encoded_key;
 	private String	parent_account_key;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	due_date;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	last_paid_date;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	repaid_date;
 	private String	payment_state;
 	private String	is_payment_holiday;
@@ -31,6 +35,7 @@ public class LOAN_REPAYMENT_ENTITY
 	private BigDecimal	penalty_exp;
 	private BigDecimal	penalty_paid;
 	private BigDecimal	penalty_due;
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	asondate;
 	public String getEncoded_key() {
 		return encoded_key;
