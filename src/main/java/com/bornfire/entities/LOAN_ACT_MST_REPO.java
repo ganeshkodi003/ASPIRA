@@ -35,5 +35,8 @@ public interface LOAN_ACT_MST_REPO extends JpaRepository<LOAN_ACT_MST_ENTITY, St
 			+ "                JOIN LOAN_REPAYMENT_TBL B ON A.ENCODED_KEY = B.PARENT_ACCOUNT_KEY  \r\n"
 			+ "                WHERE A.ENCODED_KEY = ?1", nativeQuery = true)
 	List<Object> getDues(String encodedKey);
+	
+	@Query(value = "SELECT * FROM LOAN_ACCOUNT_MASTER_TBL where  last_modified_date > approved_date", nativeQuery = true)
+	List<LOAN_ACT_MST_ENTITY> getLoanActFilterUnverified();
 
 }

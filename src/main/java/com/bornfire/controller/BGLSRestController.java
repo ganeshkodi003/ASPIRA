@@ -2657,7 +2657,18 @@ public class BGLSRestController {
 			@RequestParam(required = false) String part_tran_id) {
 		return bACP_CUS_PROFILE_REPO.getnotapproved();
 	}
+	
+	@GetMapping("AllApprovedLoanMain")
+	public List<LOAN_ACT_MST_ENTITY> AllApprovedLoanMain(@RequestParam(required = false) String tran_id,
+			@RequestParam(required = false) String part_tran_id) {
+		return lOAN_ACT_MST_REPO.getLoanActDet();
+	}
 
+	@GetMapping("NotApprovedLoanMain")
+	public List<LOAN_ACT_MST_ENTITY> NotApprovedLoanMain() {
+		return lOAN_ACT_MST_REPO.getLoanActFilterUnverified();
+	}
+	
 	/* praveen */
 	@GetMapping("loanflowDetails")
 	public List<DMD_TABLE> loanflowDetails(
