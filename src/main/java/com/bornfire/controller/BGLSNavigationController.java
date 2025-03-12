@@ -3536,7 +3536,11 @@ public class BGLSNavigationController {
 			System.out.println(holder_key);
 			md.addAttribute("view", LOAN_ACT_MST_REPO.getLoanView(id));
 			md.addAttribute("loan", LOAN_ACT_MST_REPO.getLoanValue(holder_key));
-		} 
+		} else if (formmode.equals("modify")) {
+			md.addAttribute("formmode", "modify");
+			md.addAttribute("view", LOAN_ACT_MST_REPO.getLoanView(id));
+			md.addAttribute("loan", LOAN_ACT_MST_REPO.getLoanValue(holder_key));
+		}
 		return "Loan_Maintenance";
 	}
 
