@@ -3510,18 +3510,7 @@ public class BGLSNavigationController {
 		}
 		return "Loan_Master.html";
 	}
-	@RequestMapping(value = "loanSchedule", method = { RequestMethod.GET, RequestMethod.POST })
-	public String loanSchedule(@RequestParam(required = false) String formmode, Model md,
-			HttpServletRequest req,@RequestParam(required = false) String id,@RequestParam(required = false) String holder_key) {
-
-		List<Object> customerData = Arrays.asList(LOAN_ACT_MST_REPO.getcustomer());
-		List<Object> dues = Arrays.asList(LOAN_ACT_MST_REPO.getDues());
-			md.addAttribute("view", customerData);
-			md.addAttribute("dues", dues);
-
-
-	    return "Loan Schedule";
-	}
+	
 	
 	/* Aishu */
 	@RequestMapping(value = "Loan_Maintenance", method = { RequestMethod.GET, RequestMethod.POST })
@@ -3542,6 +3531,38 @@ public class BGLSNavigationController {
 			md.addAttribute("loan", LOAN_ACT_MST_REPO.getLoanValue(holder_key));
 		}
 		return "Loan_Maintenance";
+	}
+	@RequestMapping(value = "loanSchedule", method = { RequestMethod.GET, RequestMethod.POST })
+	public String loanSchedule(
+	        @RequestParam(required = false) String formmode,
+	        @RequestParam(required = false) String customer_id,
+	        @RequestParam(required = false) String id,
+	        @RequestParam(required = false) String holder_key,
+	        @RequestParam(required = false) String encodedKey,
+	        Model model,
+	        HttpServletRequest request) {
+
+	    String user = (String) request.getSession().getAttribute("USERID");
+
+	    if (formmode == null || "viewloanschedule".equals(formmode)) {
+	        model.addAttribute("formmode", "viewloanschedule");
+
+	    } else if ("viewloanschedule1".equals(formmode)) {
+	        model.addAttribute("formmode", "viewloanschedule1");
+
+	        model.addAttribute("view", LOAN_ACT_MST_REPO.getcustomer(holder_key));
+	        model.addAttribute("dues", LOAN_ACT_MST_REPO.getDues(encodedKey));
+
+	        System.out.println("Encoded Key: " + encodedKey);
+
+	    } else if ("listschedule".equals(formmode)) {
+	        model.addAttribute("formmode", "listschedule");
+	        model.addAttribute("list", LOAN_ACT_MST_REPO.getLoanActDet());
+
+	        System.out.println("Listing Loan Schedules");
+	    }
+
+	    return "Loan_Schedule";
 	}
 
 }
