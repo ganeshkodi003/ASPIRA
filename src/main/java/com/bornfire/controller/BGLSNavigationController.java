@@ -95,6 +95,7 @@ import com.bornfire.entities.GeneralLedgerWork_Entity;
 import com.bornfire.entities.GeneralLedgerWork_Rep;
 import com.bornfire.entities.HolidayMaster_Entity;
 import com.bornfire.entities.HolidayMaster_Rep;
+import com.bornfire.entities.LOAN_ACT_MST_ENTITY;
 import com.bornfire.entities.LOAN_ACT_MST_REPO;
 import com.bornfire.entities.Lease_Loan_Master_Entity;
 import com.bornfire.entities.Lease_Loan_Master_Repo;
@@ -141,6 +142,12 @@ public class BGLSNavigationController {
 
 	@Autowired
 	DataSource srcdataSource;
+	
+	@Autowired
+	LOAN_ACT_MST_REPO loan_act_mst_repo;
+	
+	@Autowired
+	CLIENT_MASTER_REPO client_mst_repo;
 
 	@Autowired
 	Chart_Acc_Rep chart_Acc_Rep;
@@ -3558,6 +3565,31 @@ System.out.println(encodedKey);
 	    }
 
 	    return "Loan_Schedule";
+	}
+	
+	/* Aishu */
+	@PostMapping(value = "Modifyloanmain")
+	@ResponseBody
+	public String Modifyloanmain(@RequestParam(required = false) String id, 
+			Model md, HttpServletRequest rq, @ModelAttribute LOAN_ACT_MST_ENTITY loan_act_mst_entity , @ModelAttribute CLIENT_MASTER_ENTITY client_mst_entity ) {
+		 //String userID = (String) rq.getSession().getAttribute("USERID");
+		 // loan_act_mst_entity.setModify_flg("Y");
+		 //loan_act_mst_entity.setEntity_flg("N");
+		 //loan_act_mst_entity.setVerify_flg("N");
+		 // loan_act_mst_entity.setModify_user(userID);
+		LOAN_ACT_MST_ENTITY up = loan_act_mst_entity; 
+		up.setAccount_holdertype(up.getAccount_holdertype());
+		up.setLoan_name(up.getLoan_name());
+		up.setId(up.getId());
+		
+		CLIENT_MASTER_ENTITY up1 = client_mst_entity;
+		System.out.println(loan_act_mst_entity.getRepayment_installments());
+		 loan_act_mst_entity.setLast_modified_date(new Date());
+		 
+		loan_act_mst_repo.save(up);
+		//client_mst_repo.save(up1);
+		System.out.println(id);
+		return "Modified Successfully";
 	}
 
 }

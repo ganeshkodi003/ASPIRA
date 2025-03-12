@@ -25,56 +25,7 @@
 <script src="js/ResponisiveHeight.js"></script>
 <script src="js/bootstrap411.js"></script>
 <style>
-.modal {
-	display: none;
-	/* Hidden by default */
-	position: absolute;
-	/* Stay in place */
-	z-index: 1;
-	/* Sit on top */
-	padding-top: 100px;
-	/* Location of the box */
-	left: 0;
-	top: 0;
-	width: 100%;
-	/* Full width */
-	height: 100%;
-	/* Full height */
-	overflow: auto;
-	/* Enable scroll if needed */
-	background-color: rgb(0, 0, 0);
-	/* Fallback color */
-	background-color: rgba(0, 0, 0, 0.4);
-	/* Black w/ opacity */
-}
-.modal-header {
-	padding: 2px 16px;
-	background-color: #BBC3CB;
-	color: balck;
-}
-.modal-body {
-	padding: 2px 16px;
-}
-.modal-footer {
-	padding: 2px 16px;
-	background-color: #BBC3CB;
-	color: black;
-}
-/* Modal Content */
-.modal-content {
-	background-color: #fefefe;
-	margin: auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 80%;
-	height: 0%;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
-		rgba(0, 0, 0, 0.19);
-	-webkit-animation-name: animatetop;
-	-webkit-animation-duration: 0.4s;
-	animation-name: animatetop;
-	animation-duration: 0.4s
-}
+
 body {
 	font-size: 0.8rem;
 }
@@ -253,14 +204,35 @@ function viewscreen(a) {
 <script>
 function modifyscreen(a) {
 	event.preventDefault();
-//	var id = document.getElementById("customer_id").value;
-	//var holder_key = document.getElementById("account_holderkey").value;
 	var id = a.getAttribute("data-id");
 	alert(id);
 	var holder_key = a.getAttribute("data-account_holderkey");
 	alert(holder_key);
-	location.href = 'Loan_Maintenance?formmode=view&id=' + id  +'&holder_key=' +holder_key;
 	location.href = 'Loan_Maintenance?formmode=modify&id=' + id  +'&holder_key=' +holder_key;
+}
+function submitformmodify() {
+	event.preventDefault();
+	 // Remove commas from disposable income field before submitting the form
+   ["disposable_income", "interest_paid","loan_amount","manualoverride_amount","principal_balance","principal_paid","total_product_price"].forEach(function (fieldId) {
+		var field = document.getElementById(fieldId);
+		if (field) {
+			field.value = field.value.replace(/,/g, "");
+		}
+	});
+	var id = document.getElementById("customer_id").value;
+	alert(id);
+	$.ajax({
+		url: './Modifyloanmain' ,
+		data: $("#loanmain").serialize(),
+		type: 'post', // Note: 'post' should be in lowercase
+		success: function (response) {
+			alert("modified");
+		},
+		error: function (error) {
+		console.error("Error: " + error.responseText);
+		alert("Please fill the mandatory feilds");
+		}
+	});
 }
 </script>
 </head>
@@ -325,7 +297,7 @@ function modifyscreen(a) {
 			</div>
 		</div>
 		<div class="card-body">
-			<form action="#" th:object="${drawDownDetails}" method="post" id="drawDownDetailsAdd" autocomplete="off"
+			<form action="#" th:object="${drawDownDetails}" method="post" id="loanmain" autocomplete="off"
 				name="drawDownDetailsData" th:fragment="finuserapply">
 <!-------------------------------------------------------------------------- LOAN DETAILS ------------------------------------------------------------>
 <div>
@@ -338,7 +310,7 @@ function modifyscreen(a) {
 		</div>
 		<div class="col-sm-2">
 			<input type="text" th:value="${loan[0][0]}" name="customer_id" id="customer_id" th:if="${formmode}=='view'" readonly />
-			<input type="text" th:value="${loan[0][0]}" th:if="${formmode}=='modify'" name="customer_id" id="customer_id" />
+			<input type="text" th:value="${loan[0][0]}" th:if="${formmode}=='modify'" name="customer_id" id="customer_id" readonly/>
 		</div>
 		<div class="col-sm-2">
 			<label>Customer Name</label>
@@ -353,7 +325,6 @@ function modifyscreen(a) {
 		<div class="col-sm-2">
 			<input type="text" name="account_holdertype" id="account_holdertype" th:value="${view?.account_holdertype}" th:if="${formmode}=='view'" readonly />
 			<input type="text" name="account_holdertype" id="account_holdertype" th:value="${view?.account_holdertype}" th:if="${formmode}=='modify'" />
-			<input type="text" name="account_holderkey" id="account_holderkey" th:value="${view?.account_holderkey}" readonly  HIDDEN/>
 		</div>
 	</div>
 
@@ -363,7 +334,7 @@ function modifyscreen(a) {
 		</div>
 		<div class="col-sm-2">
 			<input type="text" th:value="${view?.loan_name}" name="loan_name" id="loan_name" th:if="${formmode}=='view'" readonly />
-			<input type="text" th:value="${view?.loan_name}" name="loan_name" id="loan_name" th:if="${formmode}=='modify'" />
+			<input type="text" th:value="${view?.loan_name}" name="loan_name" id="loan_name" th:if="${formmode}=='modify'" readonly/>
 		</div>
 		<div class="col-sm-2">
 			<label>Account No</label>
@@ -518,7 +489,7 @@ function modifyscreen(a) {
 		</div>
 		<div class="col-sm-2">
 			<input type="text" id="repayment_installments" th:value="${view?.repayment_installments}" readonly name="repayment_installments" th:if="${formmode}=='view'"/>
-			<input type="text" id="repayment_installments" th:value="${view?.repayment_installments}" readonly name="repayment_installments" th:if="${formmode}=='modify'" />
+			<input type="text" id="repayment_installments" th:value="${view?.repayment_installments}" name="repayment_installments" th:if="${formmode}=='modify'" />
 		</div>
 		<div class="col-sm-2">
 			<label>Remarks 2</label>
@@ -927,7 +898,7 @@ function modifyscreen(a) {
 <div class="card-footer text-center mt-4">
 	<button class="btn btn-primary p-2"  >Home</button>
 	<button class="btn btn-primary p-2"  th:attr="data-id=${view?.id}, data-account_holderkey=${view?.account_holderkey}" th:if="${formmode}=='view'" onclick="modifyscreen(this);">Modify</button>
-	<button class="btn btn-primary p-2" onclick="modifyloan();">Submit</button>
+	<button type="button" class="btn btn-primary p-2" th:if="${formmode}=='modify'"  data-dismiss="modal" onclick="submitformmodify(this);">Submit</button>
 	<button class="btn btn-primary p-2" onclick="back();">Back</button>
 </div>
 <!-------------------------------------------------------------------------- footer ------------------------------------------------------------>
@@ -980,9 +951,21 @@ function modifyscreen(a) {
 </div>
 </div>
 </div>
-<!--------------------------------------------------------------------------end------------------------------------------------------------>
+<!--------------------------------------------------------------------footer end------------------------------------------------------------>
 		</div>
 	</div>
 </div>
+<!----------------------------------------------------------------------- Modal ------------------------------------------------------------>
+<div class="modal" id="alert">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+		<div class="modal-content" style="background-color: #e3e3e4;">
+			<div class="modal-body" style="text-align: center">
+				<p style="color: #000;" id="alertmsg"></p>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="back();">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--------------------------------------------------------------------------end------------------------------------------------------------>
 </body>
 </html>
