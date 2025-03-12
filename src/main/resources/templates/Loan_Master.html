@@ -95,8 +95,7 @@
 	margin: auto;
 	padding: 20px;
 	border: 1px solid #888;
-	width: 80%;
-	height: 0%;
+	width: 100%;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
 		rgba(0, 0, 0, 0.19);
 	-webkit-animation-name: animatetop;
@@ -364,15 +363,13 @@ input:hover+.password-info {
 </script>
 </head>
 <title>ASPIRA</title>
-
 <body>
 	<div class="col-sm-2">
 		<div th:insert="BGLSHeaderMenu :: header"></div>
 	</div>
 	<div class="container-manager">
 		<div class="row">
-
-			<div class="col-sm-11 ml-5 mt-3" style="font-size: 0.8rem;">
+			<div class="col-sm-11 ml-5 mt-3">
 				<div th:if="${formmode}=='list'">
 					<div class="card">
 						<div class="card-header"
@@ -995,66 +992,60 @@ input:hover+.password-info {
 										<input type="text" name=" " id=" " readonly />
 									</div>
 								</div>
-
-								<div class="card-footer text-center mt-4">
-									<button class="btn btn-primary p-2" onclick="Homeln();">Home</button>
-
-									<button class="btn btn-primary p-2" onclick="back();">Back</button>
-								</div>
-								<table
-									Style="border: 1px solid #ccc; width: 100%; max-width: 100%; margin: 0 auto; box-sizing: border-box;">
-									<tr>
-										<td class="col-sm-2" style="text-align: center;"><font
-											size="2"><B>Entry User :</B></font></td>
-										<td class="col-sm-2" style="width: 112px; margin-right: 20px;"><input
-											type="text" id="entryuser" name="ub.entryuser" value="System"
-											style="border: none; outline: none; background-color: transparent; font-size: 12px;"
-											readonly></td>
-										<td class="col-sm-2" style="text-align: center;"><font
-											size="2"><B>Modify User :</B></font></td>
-										<td class="col-sm-2" style="width: 112px;"><input
-											type="text" id="modifyuser" name="ub.modifyuser"
-											value="System"
-											style="border: none; outline: none; background-color: transparent; font-size: 12px;"
-											readonly></td>
-										<td class="col-sm-2" style="text-align: center;"><font
-											size="2"><B>Verify User :</B></font></td>
-										<td class="col-sm-2" style="width: 112px;"><input
-											type="text" id="verifyuser" name="ub.verifyuser"
-											value="System"
-											style="border: none; outline: none; background-color: transparent; font-size: 12px;"
-											readonly></td>
-									</tr>
-									<tr>
-										<td style="text-align: center;"><font size="2"><B>Entry
-													Time :</B></font></td>
-										<td style="width: 112px"><input type="text"
-											id="entrytime" name="ub.entrytime"
-											th:value="${#dates.format(view?.creation_date, 'dd-MM-yyyy HH:mm:ss')}"
-											readonly
-											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;">
-										</td>
-										<td style="text-align: center;"><font size="2"><B>Modify
-													Time :</B></font></td>
-										<td style="width: 112px"><input type="text"
-											id="modifytime" name="ub.modifytime"
-											th:value="${#dates.format(view?.last_modified_date, 'dd-MM-yyyy HH:mm:ss')}"
-											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
-											readonly></td>
-										<td style="text-align: center; font-size: 15px;"><font
-											size="2"><B>Verify Time :</B></font></td>
-										<td style="width: 112px"><input type="text"
-											id="verifytime" name="ub.verifytime"
-											th:value="${#dates.format(view?.approved_date, 'dd-MM-yyyy HH:mm:ss')}"
-											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
-											readonly></td>
-									</tr>
-								</table>
-
-
-
 							</form>
 						</div>
+						<div class="card-footer text-center mt-4">
+							<button class="btn btn-primary p-2" onclick="Homeln();">Home</button>
+
+							<button class="btn btn-primary p-2" onclick="back();">Back</button>
+						</div>
+						<table
+							Style="border: 1px solid #ccc; width: 100%; max-width: 100%; margin: 0 auto; box-sizing: border-box;">
+							<tr>
+								<td class="col-sm-2" style="text-align: center;"><font
+									size="2"><B>Entry User :</B></font></td>
+								<td class="col-sm-2" style="width: 112px; margin-right: 20px;"><input
+									type="text" id="entryuser" name="ub.entryuser" value="System"
+									style="border: none; outline: none; background-color: transparent; font-size: 12px;"
+									readonly></td>
+								<td class="col-sm-2" style="text-align: center;"><font
+									size="2"><B>Modify User :</B></font></td>
+								<td class="col-sm-2" style="width: 112px;"><input
+									type="text" id="modifyuser" name="ub.modifyuser" value="System"
+									style="border: none; outline: none; background-color: transparent; font-size: 12px;"
+									readonly></td>
+								<td class="col-sm-2" style="text-align: center;"><font
+									size="2"><B>Verify User :</B></font></td>
+								<td class="col-sm-2" style="width: 112px;"><input
+									type="text" id="verifyuser" name="ub.verifyuser" value="System"
+									style="border: none; outline: none; background-color: transparent; font-size: 12px;"
+									readonly></td>
+							</tr>
+							<tr>
+								<td style="text-align: center;"><font size="2"><B>Entry
+											Time :</B></font></td>
+								<td style="width: 112px"><input type="text" id="entrytime"
+									name="ub.entrytime"
+									th:value="${#dates.format(view?.creation_date, 'dd-MM-yyyy HH:mm:ss')}"
+									readonly
+									style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;">
+								</td>
+								<td style="text-align: center;"><font size="2"><B>Modify
+											Time :</B></font></td>
+								<td style="width: 112px"><input type="text" id="modifytime"
+									name="ub.modifytime"
+									th:value="${#dates.format(view?.last_modified_date, 'dd-MM-yyyy HH:mm:ss')}"
+									style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
+									readonly></td>
+								<td style="text-align: center; font-size: 15px;"><font
+									size="2"><B>Verify Time :</B></font></td>
+								<td style="width: 112px"><input type="text" id="verifytime"
+									name="ub.verifytime"
+									th:value="${#dates.format(view?.approved_date, 'dd-MM-yyyy HH:mm:ss')}"
+									style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
+									readonly></td>
+							</tr>
+						</table>
 					</div>
 				</div>
 
@@ -1581,64 +1572,60 @@ input:hover+.password-info {
 										<input type="text" name=" " id=" " readonly />
 									</div>
 								</div>
-
-								<div class="card-footer text-center mt-4">
-									<button class="btn btn-primary p-2" onclick="Homeln();">Home</button>
-
-									<button class="btn btn-primary p-2" onclick="back();">Back</button>
-								</div>
-								<table
-									Style="border: 1px solid #ccc; width: 100%; max-width: 100%; margin: 0 auto; box-sizing: border-box;">
-									<tr>
-										<td class="col-sm-2" style="text-align: center;"><font
-											size="2"><B>Entry User :</B></font></td>
-										<td class="col-sm-2" style="width: 112px; margin-right: 20px;"><input
-											type="text" id="entryuser" name="ub.entryuser"
-											style="border: none; outline: none; background-color: transparent; font-size: 12px;"
-											readonly></td>
-										<td class="col-sm-2" style="text-align: center;"><font
-											size="2"><B>Modify User :</B></font></td>
-										<td class="col-sm-2" style="width: 112px;"><input
-											type="text" id="modifyuser" name="ub.modifyuser"
-											style="border: none; outline: none; background-color: transparent; font-size: 12px;"
-											readonly></td>
-										<td class="col-sm-2" style="text-align: center;"><font
-											size="2"><B>Verify User :</B></font></td>
-										<td class="col-sm-2" style="width: 112px;"><input
-											type="text" id="verifyuser" name="ub.verifyuser"
-											style="border: none; outline: none; background-color: transparent; font-size: 12px;"
-											readonly></td>
-									</tr>
-									<tr>
-										<td style="text-align: center;"><font size="2"><B>Entry
-													Time :</B></font></td>
-										<td style="width: 112px"><input type="text"
-											id="entrytime" name="ub.entrytime"
-											th:value="${#dates.format(view?.creation_date, 'dd-MM-yyyy HH:mm:ss')}"
-											readonly
-											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;">
-										</td>
-										<td style="text-align: center;"><font size="2"><B>Modify
-													Time :</B></font></td>
-										<td style="width: 112px"><input type="text"
-											id="modifytime" name="ub.modifytime"
-											th:value="${#dates.format(view?.last_modified_date, 'dd-MM-yyyy HH:mm:ss')}"
-											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
-											readonly></td>
-										<td style="text-align: center; font-size: 15px;"><font
-											size="2"><B>Verify Time :</B></font></td>
-										<td style="width: 112px"><input type="text"
-											id="verifytime" name="ub.verifytime"
-											th:value="${#dates.format(view?.approved_date, 'dd-MM-yyyy HH:mm:ss')}"
-											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
-											readonly></td>
-									</tr>
-								</table>
-
-
-
 							</form>
 						</div>
+						<div class="card-footer text-center mt-4">
+							<button class="btn btn-primary p-2" onclick="Homeln();">Home</button>
+
+							<button class="btn btn-primary p-2" onclick="back();">Back</button>
+						</div>
+						<table
+							Style="border: 1px solid #ccc; width: 100%; max-width: 100%; margin: 0 auto; box-sizing: border-box;">
+							<tr>
+								<td class="col-sm-2" style="text-align: center;"><font
+									size="2"><B>Entry User :</B></font></td>
+								<td class="col-sm-2" style="width: 112px; margin-right: 20px;"><input
+									type="text" id="entryuser" name="ub.entryuser"
+									style="border: none; outline: none; background-color: transparent; font-size: 12px;"
+									readonly></td>
+								<td class="col-sm-2" style="text-align: center;"><font
+									size="2"><B>Modify User :</B></font></td>
+								<td class="col-sm-2" style="width: 112px;"><input
+									type="text" id="modifyuser" name="ub.modifyuser"
+									style="border: none; outline: none; background-color: transparent; font-size: 12px;"
+									readonly></td>
+								<td class="col-sm-2" style="text-align: center;"><font
+									size="2"><B>Verify User :</B></font></td>
+								<td class="col-sm-2" style="width: 112px;"><input
+									type="text" id="verifyuser" name="ub.verifyuser"
+									style="border: none; outline: none; background-color: transparent; font-size: 12px;"
+									readonly></td>
+							</tr>
+							<tr>
+								<td style="text-align: center;"><font size="2"><B>Entry
+											Time :</B></font></td>
+								<td style="width: 112px"><input type="text" id="entrytime"
+									name="ub.entrytime"
+									th:value="${#dates.format(view?.creation_date, 'dd-MM-yyyy HH:mm:ss')}"
+									readonly
+									style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;">
+								</td>
+								<td style="text-align: center;"><font size="2"><B>Modify
+											Time :</B></font></td>
+								<td style="width: 112px"><input type="text" id="modifytime"
+									name="ub.modifytime"
+									th:value="${#dates.format(view?.last_modified_date, 'dd-MM-yyyy HH:mm:ss')}"
+									style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
+									readonly></td>
+								<td style="text-align: center; font-size: 15px;"><font
+									size="2"><B>Verify Time :</B></font></td>
+								<td style="width: 112px"><input type="text" id="verifytime"
+									name="ub.verifytime"
+									th:value="${#dates.format(view?.approved_date, 'dd-MM-yyyy HH:mm:ss')}"
+									style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
+									readonly></td>
+							</tr>
+						</table>
 					</div>
 				</div>
 
@@ -1917,7 +1904,6 @@ input:hover+.password-info {
 			</div>
 		</div>
 	</div>
-
 
 	<div class="modal fade" data-bs-backdrop="false"
 		data-bs-keyboard="false" id="normalalertvalues" tabindex="-1"
