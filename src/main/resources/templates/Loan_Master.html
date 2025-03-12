@@ -286,939 +286,19 @@ input:hover+.password-info {
 	visibility: visible;
 	opacity: 0.8;
 }
-</style>
+</style> 
+  
 <script>
-		$(document).ready(function () {
-			$('.dropdown-toggle').dropdown();
-		});
-	</script>
-
-<script th:inline="javascript">
-//Global variables to store the current customer account type and ID
-var currentAcctType = '';
-var currentCustomerId = '';
-
-function confirmAndOpenTab(evt, tabName) {
-    var ca_acct_type = document.getElementById('ca_acct_type').value;
-    var customerId = document.getElementById('customer_id').value;
-
-    if (!ca_acct_type || !customerId) {
-      //  alert("Please select customer ID");
-        $("#alertmsg").text("Please select customer ID");
-		$('#alert').modal("toggle");
-    } else {
-        // Check if the account type or customer ID has changed
-        if (ca_acct_type !== currentAcctType || customerId !== currentCustomerId) {
-            // Show the confirmation dialog
-            var confirmation = confirm("Do you want to open this DOCUMENT MASTER Tab?");
-            if (confirmation) {
-                currentAcctType = ca_acct_type; // Update the current account type
-                currentCustomerId = customerId; // Update the current customer ID
-                openTabAndShowTable(evt, tabName, ca_acct_type);
-            }
-        } else {
-            openTabAndShowTable(evt, tabName, ca_acct_type);
-        }
-    }
-}
-
-function openTabAndShowTable(evt, tabName, ca_acct_type) {
-    if (ca_acct_type === "INDIVIDUAL" || ca_acct_type === "JOINT ACCOUNT") {
-        document.getElementById("individualTable").style.display = "block";
-        document.getElementById("corporateTable").style.display = "none";
-    } else {
-        document.getElementById("individualTable").style.display = "none";
-        document.getElementById("corporateTable").style.display = "block";
-    }
-    openTab(evt, tabName);
-}
-
-function openTab(evt, tabName) {
-    evt.preventDefault(); // Prevent default action
-    hideAllTabs(); // Hide all tabs
-    document.getElementById(tabName).style.display = 'block'; // Show the selected tab
-    const tablinks = document.getElementsByClassName("tablinks");
-    for (let i = 0; i < tablinks.length; i++) {
-        tablinks[i].classList.remove("active"); // Remove the active class from all tabs
-    }
-    evt.currentTarget.classList.add("active"); // Add active class to the clicked tab
-    currentTab = tabName; // Update the currentTab variable
-}
-
-function hideAllTabs() {
-    const tabContents = document.getElementsByClassName('tabcontent');
-    for (let i = 0; i < tabContents.length; i++) {
-        tabContents[i].style.display = 'none'; // Hide all tab content
-    }
-}
-
-// Initialize the first tab as active
-document.addEventListener("DOMContentLoaded", function () {
-    hideAllTabs();
-    document.getElementById('tab1').style.display = 'block';
-});
-
-		function home() {
-			location.href = 'LSDB/Dashboard';
-		}
-
-		function refreshPage1() {
-			event.preventDefault();
-			location.href = 'drawDownLoan?formmode=add';
-		}
-
-		function listPage() {
-			event.preventDefault();
-			location.href = 'drawDownLoanMaintanace?formmode=list';
-		}
-
-
-
-
-	</script>
-<script>
-	var mrowCount = 1;
-	var mrowCountcor =3;
-	function rowadd() {  
-		 if (mrowCountcor < 6) {
-				
-				var table = document.getElementById("click1"); 
-				var row = table.insertRow(); 
-				//var cell1 = row.insertCell(); 
-				var cell2 = row.insertCell(); 
-				var cell3 = row.insertCell(); 
-				var cell4 = row.insertCell(); 
-				var cell5 = row.insertCell(); 
-				var cell6 = row.insertCell(); 
-				var cell7 = row.insertCell(); 
-				var cell8 = row.insertCell();  
-				var cell9 = row.insertCell(); 
-				 
-				//cell1.innerHTML = '<input type="checkbox"' + mrowCount + '">'; 
-			 cell2.innerHTML = '<select name="docType" id="docType' + mrowCountcor + '"  class="uniform-input pl-2" style="height: 24px" onchange="last_change_re(' + mrowCountcor + ')" >' +
-	      '<option>SELECT</option>' +
-	      '<option value="NIC">CUSTOMER-RETAIL-NIC</option>' +
-	      '<option value="PSP">CUSTOMER-RETAIL-PSP</option>' +
-	      '<option value="AGM">CUSTOMER-RETAIL-AGM</option>' +
-	      '<option value="DOC">CUSTOMER-RETAIL-DOC</option>' +
-	      '</select>';		
-	      cell3.innerHTML = '<input type="text"  name="docCode" id="docCode' + mrowCountcor + '" class="uniform-input pl-2" autocomplete="off" style="height: 24px" readonly>';
-	     
-	    //  cell3.innerHTML = '<input type="text" name="docCode" id="docCode1' + mrowCount + '" class="uniform-input pl-2" autocomplete="off" onkeyup="this.value = this.value.toUpperCase(); handleIn(this)">';
-				cell4.innerHTML = '<input type="text" name="docDesc" id="docDesc' + mrowCountcor + '" class="uniform-input pl-2" autocomplete="off" onkeyup="this.value = this.value.toUpperCase(); handleIn(this)" readonly>'; 
-				cell5.innerHTML = '<input type="text" name="uniqId" id="uniqId1' + mrowCount + '" class="uniform-input pl-2" autocomplete="off" onkeyup="this.value = this.value.toUpperCase(); handleIn(this)">'; 
-				cell6.innerHTML = '<input type="text" name="docIssPlace" id="docIssPlace1' + mrowCount + '" class="uniform-input pl-2" autocomplete="off" onkeyup="this.value = this.value.toUpperCase(); handleIn(this)">'; 
-				cell7.innerHTML = '<input type="date" name="docIssDate"   id="docIssDate1' + mrowCount + '" class="uniform-input pl-2" autocomplete="off" onkeyup="this.value = this.value.toUpperCase(); handleIn(this)">';  
-				cell8.innerHTML = '<input type="date" name="docExpDate"  id="docExpDate1' + mrowCount + '" class="uniform-input pl-2" autocomplete="off" autocomplete="off" onkeyup="this.value = this.value.toUpperCase(); handleIn(this)">'; 
-				cell9.innerHTML = '<input type="file" name="docExpDate" id="file' + mrowCount + '">'; 
-		        mrowCountcor++;
-				 mrowCount++;
-				 }else{ 
-					   alert("You can only add up to 5 rows.");
-				 }
-		 }
-	
-	function rowdelete(ele) { 
-		var table = $('#click1')[0]; 
-		var rowCount = table.rows.length; 
-		console.log(rowCount); 
-		if (rowCount <= 1) { 
-			//alert("There is no row available to delete!"); 
-			return; 
-		} 
-		if (ele) { 
-			$(ele).parent().parent().remove(); 
-		} 
-		else { 
-			table.deleteRow(rowCount - 1);  
-		} 
-	}
-	function rowdeletecor(ele) { 
-		var table = $('#click2')[0]; 
-		var rowCount = table.rows.length; 
-		console.log(rowCount); 
-		if (rowCount <= 1) { 
-			//alert("There is no row available to delete!"); 
-			return; 
-		} 
-		if (ele) { 
-			$(ele).parent().parent().remove(); 
-		} 
-		else { 
-			table.deleteRow(rowCount - 1);  
-		} 
-	}
-	
-	function submitfile() {
-		var cif_id =document.getElementById("customer_id").value;
-	    var rec_no = document.getElementById('rec_no').value;
-	    var appl_ref_no =document.getElementById("appl_ref_no").value
-		    const dynamicValues = []; // Initialize the array here
-
-		    // Loop through each row in the tbody with id "click1"
-		    $("#click1 tr").each(function() {
-		        var row = {}; // Create an object to hold the data for this row
-
-		        // Get values from the current row
-		        row.doctype = $(this).find("select[name='docType']").val(); // Use select directly
-		        row.doccode = $(this).find("input[name='docCode']").val();
-		        row.doctypesesc = $(this).find("input[name='docDesc']").val();
-		        row.uniqueid = $(this).find("input[name='uniqId']").val();
-		        row.placeofissue = $(this).find("input[name='docIssPlace']").val();
-		        row.issuedate = $(this).find("input[name='docIssDate']").val();
-		        row.exprydate = $(this).find("input[name='docExpDate']").val();
-
-		        // Get the file input and extract the filename
-		        const fileInput = $(this).find("input[type='file']"); // Adjust selector as necessary
-		        if (fileInput.length > 0 && fileInput[0].files.length > 0) {
-		            const file = fileInput[0].files[0]; // Get the file object
-		            row.file = file; // Set the file object in the row
-		            row.filename = file.name; // Get the filename directly from the file object
-		        }
-
-		        if (row.doctype || row.doccode || row.doctypesesc || row.uniqueid || row.placeofissue || row.issuedate || row.exprydate || row.filename) {
-		            dynamicValues.push(row); // Push the row object to the dynamicValues array
-		        } // Push the row object to the dynamicValues array
-		    });
-
-		    console.log(dynamicValues);
-
-		    // AJAX request to submit data
-		  $.ajax({
-		        url: '/ASPIRA/multiline?appl_ref_no=' +  appl_ref_no + "&rec_no=" + rec_no + "&cif_id=" + cif_id,
-		        data: JSON.stringify(dynamicValues),
-		        type: 'POST',
-		        contentType: 'application/json',
-		        success: function(data) {
-		            imageuploadFunction(data, dynamicValues, appl_ref_no);
-		           
-		        }
-		    });
-	}
-	function zeroth_change(){
-		
-		var docType0 = document.getElementById("docType00").value;
-		if(docType0 === 'BRN'){
-			$('#docCode00').val("BRN");
-			$('#docDesc00').val("BUSINESS REGISTRATION NO");
-			
-		}else if(docType0 === 'COI'){
-			$('#docCode00').val("COI");
-			$('#docDesc00').val("CERTIFICATE OF REGISTRATION");
-		}else if(docType0 === 'AGM'){
-			$('#docCode00').val("AGM");
-			$('#docDesc00').val("AGREEMENT");
-		}else if(docType0 === 'DOC'){
-			$('#docCode00').val("DOC");
-			$('#docDesc00').val("DOCUMENT");
-		}
-		
-	}
-	function first_change(){
-		var docType1 = document.getElementById("docType11").value;
-		if(docType1 === 'BRN'){
-			$('#docCode11').val("BRN");
-			$('#docDesc11').val("BUSINESS REGISTRATION NO");
-			
-		}else if(docType1 === 'COI'){
-			$('#docCode11').val("COI");
-			$('#docDesc11').val("CERTIFICATE OF REGISTRATION");
-		}else if(docType1 === 'AGM'){
-			$('#docCode11').val("AGM");
-			$('#docDesc11').val("AGREEMENT");
-		}else if(docType1 === 'DOC'){
-			$('#docCode11').val("DOC");
-			$('#docDesc11').val("DOCUMENT");
-		}
-	}
-
-	function zeroth_change_re(){
-		var docType0 = document.getElementById("docType0").value;
-		if(docType0 === 'NIC'){
-			$('#docCode0').val("NIC");
-			$('#docDesc0').val("NATIONAL ID CARD");
-		}else if(docType0 === 'PSP'){
-			$('#docCode0').val("PSP");
-			$('#docDesc0').val("PASSPORT NO");
-		}else if(docType0 === 'AGM'){
-			$('#docCode0').val("AGM");
-			$('#docDesc0').val("AGREEMENT");
-		}else if(docType0 === 'DOC'){
-			$('#docCode0').val("DOC");
-			$('#docDesc0').val("DOCUMENT");
-		}
-	}
-	function first_change_re(){
-		var docType1 = document.getElementById("docType1").value;
-		if(docType1 === 'NIC'){
-			$('#docCode1').val("NIC");
-			$('#docDesc1').val("NATIONAL ID CARD");
-			
-		}else if(docType1 === 'PSP'){
-			$('#docCode1').val("PSP");
-			$('#docDesc1').val("PASSPORT NO");
-		}else if(docType1 === 'AGM'){
-			$('#docCode1').val("AGM");
-			$('#docDesc1').val("AGREEMENT");
-		}else if(docType1 === 'DOC'){
-			$('#docCode1').val("DOC");
-			$('#docDesc1').val("DOCUMENT");
-		}
-	}
-
-
-
-	function last_change(rowCount) {
- // This will display when the function is triggered
-
-	    // Get the values of the document type and dynamically change the docCode and docDesc values.
-	    var docType = document.getElementById("docType2" + rowCount).value;
-
-	    // Create the dynamic IDs for docCode and docDesc
-	    var docDesc = '#docDesc2' + rowCount;
-	    var docCode = '#docCode2' + rowCount;
-
-	    // Change values based on the selected docType
-	    if (docType === 'BRN') {
-	        $(docCode).val("BRN");
-	        $(docDesc).val("BUSINESS REGISTRATION NO");
-	    } else if (docType === 'COI') {
-	        $(docCode).val("COI");
-	        $(docDesc).val("CERTIFICATE OF REGISTRATION");
-	    } else if (docType === 'AGM') {
-	        $(docCode).val("AGM");
-	        $(docDesc).val("AGREEMENT");
-	    } else if (docType === 'DOC') {
-	        $(docCode).val("DOC");
-	        $(docDesc).val("DOCUMENT");
-	    }
-	}
-
-
-	function last_change_re(rowCount) {
-
-		 var docType = document.getElementById("docType" + rowCount).value;
-
-		    var docDesc = '#docDesc' + rowCount;
-		    var docCode = '#docCode' +rowCount;
-
-		    if (docType === 'NIC') {
-		    	 $(docCode).val("NIC");
-		        $(docDesc).val("BUSINESS REGISTRATION NO");
-		    } else if (docType === 'PSP') {
-		    	$(docCode).val("PSP");
-		        $(docDesc).val("PASSPORT NO");
-		    } else if (docType === 'AGM') {
-		    	$(docCode).val("AGM");
-		        $(docDesc).val("AGREEMENT");
-		    } else if (docType === 'DOC') {
-		    	$(docCode).val("DOC");
-		        $(docDesc).val("DOCUMENT");
-		    }
-	}
-	function readURL(input) {
-		var Thisinput = $(input)
-		if (input.files && input.files[0]) {
-
-			var reader = new FileReader();
-
-			reader.onload = function (e) {
-				Thisinput.closest('.file-uploadone').find('.image-upload-wrap')
-					.hide();
-
-				Thisinput.closest('.file-uploadone').find('.file-upload-image')
-					.attr('src', e.target.result);
-				Thisinput.closest('.file-uploadone').find('.file-upload-content')
-					.show();
-
-				Thisinput.closest('.file-uploadone').find('.image-title').html(
-					input.files[0].name);
-			};
-
-			reader.readAsDataURL(input.files[0]);
-
-		} else {
-			removeUpload();
-		}
-	}
-	 
-	function handleIn(input) {
-		// Remove special characters using regex
-		input.value = input.value.replace(/[^\w\s]/gi, '').toUpperCase();
-	}
-	function submitfileCorporate() {
-		var rec_no = document.getElementById("rec_no").value;
-		var cif_id =document.getElementById("customer_id").value;
-		var appl_ref_no = document.getElementById("appl_ref_no").value;
-		    
-		    const dynamicValues = []; // Initialize the array here
-
-		    // Loop through each row in the tbody with id "click1"
-		    $("#click2 tr").each(function() {
-		        var row = {}; // Create an object to hold the data for this row
-
-		        // Get values from the current row
-		        row.doctype = $(this).find("select[name='docType']").val(); // Use select directly
-		        row.doccode = $(this).find("input[name='docCode']").val();
-		        row.doctypesesc = $(this).find("input[name='docDesc']").val();
-		        row.uniqueid = $(this).find("input[name='uniqId']").val();
-		        row.placeofissue = $(this).find("input[name='docIssPlace']").val();
-		        row.issuedate = $(this).find("input[name='docIssDate']").val();
-		        row.exprydate = $(this).find("input[name='docExpDate']").val();
-
-		        // Get the file input and extract the filename
-		        const fileInput = $(this).find("input[type='file']"); // Adjust selector as necessary
-		        if (fileInput.length > 0 && fileInput[0].files.length > 0) {
-		            const file = fileInput[0].files[0]; // Get the file object
-		            row.file = file; // Set the file object in the row
-		            row.filename = file.name; // Get the filename directly from the file object
-		        }
-
-		        if (row.doctype || row.doccode || row.doctypesesc || row.uniqueid || row.placeofissue || row.issuedate || row.exprydate || row.filename) {
-		            dynamicValues.push(row); // Push the row object to the dynamicValues array
-		        }  // Push the row object to the dynamicValues array
-		    });
-
-		    console.log(dynamicValues);
-		    console.log(cif_id);
-		    // AJAX request to submit data
-		  $.ajax({
-		        url: '/ASPIRA/multiline?appl_ref_no=' + appl_ref_no + "&rec_no=" + rec_no + "&cif_id="+ cif_id,
-		        data: JSON.stringify(dynamicValues),
-		        type: 'POST',
-		        contentType: 'application/json',
-		        success: function(data) {
-		            imageuploadFunction(data, dynamicValues, appl_ref_no);
-		           
-		        }
-		    }); 
-	}
-	</script>
-<script>
-		function back() {
-
+		function back() { 
 			event.preventDefault();
 			window.history.back();
 		}
-	</script>
-<script>
-var mrowCount1cor1 = 3; // Assuming you start at row 3, you can adjust this
-var maxRows = 5; // Maximum number of rows allowed
-
-function rowadddcorporate() {
-    // Check if the number of rows is less than the maximum allowed
-    if (mrowCount1cor1 <= maxRows) {
-        var table = document.getElementById("click2");
-        var row = table.insertRow();
-        
-        // Create cells
-        var cell2 = row.insertCell();
-        var cell3 = row.insertCell();
-        var cell4 = row.insertCell();
-        var cell5 = row.insertCell();
-        var cell6 = row.insertCell();
-        var cell7 = row.insertCell();
-        var cell8 = row.insertCell();
-        var cell9 = row.insertCell();
-
-        // Populate cells with HTML content
-        cell2.innerHTML = `<select name="docType" id="docType2${mrowCount1cor1}" class="uniform-input pl-2" style="height: 24px" onchange="last_change(${mrowCount1cor1})">
-            <option>SELECT</option>
-            <option value="BRN">CUSTOMER-CORPORATE-BRN</option>
-            <option value="COI">CUSTOMER-CORPORATE-COI</option>
-            <option value="AGM">CUSTOMER-CORPORATE-AGM</option>
-            <option value="DOC">CUSTOMER-CORPORATE-DOC</option>
-        </select>`;
-        
-        cell3.innerHTML = `<input type="text" name="docCode" id="docCode2${mrowCount1cor1}" class="uniform-input pl-2" autocomplete="off" style="height: 24px" readonly>`;
-        
-        cell4.innerHTML = `<input type="text" name="docDesc" id="docDesc2${mrowCount1cor1}" class="uniform-input pl-2" autocomplete="off" onkeyup="this.value = this.value.toUpperCase(); handleIn(this)" readonly>`;
-        
-        cell5.innerHTML = `<input type="text" name="uniqId" id="uniqId2${mrowCount1cor1}" class="uniform-input pl-2" autocomplete="off" onkeyup="this.value = this.value.toUpperCase(); handleIn(this)">`;
-        
-        cell6.innerHTML = `<input type="text" name="docIssPlace" id="docIssPlace2${mrowCount1cor1}" class="uniform-input pl-2" autocomplete="off" onkeyup="this.value = this.value.toUpperCase(); handleIn(this)">`;
-        
-        cell7.innerHTML = `<input type="date" name="docIssDate" id="docIssDate2${mrowCount1cor1}" class="uniform-input pl-2" autocomplete="off" onkeyup="this.value = this.value.toUpperCase(); handleIn(this)">`;
-        
-        cell8.innerHTML = `<input type="date" name="docExpDate" id="docExpDate2${mrowCount1cor1}" class="uniform-input pl-2" autocomplete="off" onkeyup="this.value = this.value.toUpperCase(); handleIn(this)">`;
-        
-        cell9.innerHTML = `<input type="file" name="docExpDate" id="file2${mrowCount1cor1}">`;
-        
-        // Increment the row count
-        mrowCount1cor1++;
-    } else {
-        alert("You can only add up to 5 rows.");
-    }
-}
-
-</script>
-
-<script>
-
-		//Next Tab 
-		function submitparam() {
-			event.preventDefault();
-
-			document.getElementById("tab1").style.display = "none";
-			document.getElementById("tab2").style.display = "block";
-			$("#smooth1").removeClass("active");
-			$("#smooth2").addClass("active");
-		}
-
-
-		function submitparam1() {
-			event.preventDefault();
-
-			document.getElementById("tab2").style.display = "none";
-			document.getElementById("tab3").style.display = "block";
-			$("#smooth2").removeClass("active");
-			$("#smooth3").addClass("active");
-		}
-
-
-		function submitparam2() {
-			event.preventDefault();
-
-			document.getElementById("tab3").style.display = "none";
-			document.getElementById("tab4").style.display = "block";
-			$("#smooth3").removeClass("active");
-			$("#smooth4").addClass("active");
-		}
-
-
-
-		function updateCheckboxValue() {
-			var checkbox = document.getElementById("record_flag");
-			checkbox.value = checkbox.checked ? "Y" : "N";
-		}
-
-		function updateCheckboxValue1() {
-			var checkbox = document.getElementById("record_flag_1");
-			checkbox.value = checkbox.checked ? "Y" : "N";
-		}
-
-		function refreshPage() {
-			window.location.reload();
-		}
-
-		function formatDateToYYYYMMDD(date) {
-			if (!date || !(date instanceof Date)) {
-				return '';
-			}
-			const year = date.getFullYear();
-			const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero-based
-			const day = ('0' + date.getDate()).slice(-2);
-			return `${day}-${month}-${year}`;
-		}
 		
-		
-		function imageuploadFunction(Responcedata, dynamicvalues, appl_ref_no) {
-		    var formData = new FormData(); 
-		    formData.append("unique", Responcedata);
+		function Homeln() {
 
-		    // Show the loader before starting the image processing
-		    $('#loader2').show();
-
-		    // Function to process a file and return a promise
-		    function processFile(value) {
-		        return new Promise((resolve, reject) => {
-		            if (!value.file) {
-		                console.error("File object is invalid:", value);
-		                return reject("Invalid file");
-		            }
-
-		            // Determine the file type (image, excel, pdf, etc.)
-		            const fileType = value.file.type;
-
-		            if (fileType.startsWith('image/')) {
-		                // Process image file (JPEG, PNG, etc.)
-		                var canvas = document.createElement('canvas');
-		                var ctx = canvas.getContext('2d');
-		                var img = new Image();
-
-		                img.src = URL.createObjectURL(value.file);
-		                img.onload = function () {
-		                    canvas.width = img.width;
-		                    canvas.height = img.height;
-		                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-		                    var dataURL = canvas.toDataURL('image/jpeg');
-
-		                    resolve({ file: value.file, dataURL: dataURL });
-		                };
-
-		                img.onerror = function (error) {
-		                    console.error("Error loading image:", error);
-		                    reject(error);
-		                };
-		            } else {
-		                // For non-image files, bypass canvas and directly resolve
-		                resolve({ file: value.file, dataURL: null });
-		            }
-		        });
-		    }
-
-		    // Process all files
-		    Promise.all(dynamicvalues.map(processFile)).then((results) => {
-		        results.forEach((result) => {
-		            formData.append("files", result.file); // Append the original file
-		            if (result.dataURL) {
-		                formData.append("dataURL", result.dataURL); // Append dataURL for images
-		            } else {
-		                formData.append("dataURL", ""); // Placeholder for non-image files
-		            }
-		        });
-
-		        formData.append("appl_ref_no", appl_ref_no);
-
-		        // Make a single AJAX call
-		        $.ajax({
-		            url: '/ASPIRA/imageupload11',
-		            type: 'POST',
-		            data: formData,
-		            processData: false,
-		            contentType: false,
-		            success: function (response) {
-		            	$("#alertmsg").text(response);
-						$('#alert').modal("toggle");
-		                window.location.reload();
-		            },
-		            error: function(xhr, status, error) {
-		                console.error("Error during image upload:", status, error);
-		                // Optionally show an error message to the user
-		                alert("An error occurred while uploading the images.");
-		            },
-		            complete: function() {
-		                // Hide the loader regardless of success or error
-		             //   $('#loader2').hide();
-		            }
-		        });
-		    }).catch((error) => {
-		        console.error('Error processing files:', error);
-		        // Ensure the loader is hidden if thereâ€™s an error during file processing
-		        $('#loader').hide();
-		    });
+			location.href = 'Dashboard';
 		}
-
-
-	</script>
-<script>
-		function addscreen() {
-			location.href = 'drawDownLoan?formmode=add';
-		}
-
-		function inquaryeditlistz(a) {
-			event.preventDefault();
-			var loan_accountno = a.getAttribute("data-loan_accountno");
-
-			location.href = 'drawDownLoanMaintanace?formmode=view&loan_accountno='
-				+ loan_accountno;
-		}
-
-		function verifyeditlistz(a) {
-			event.preventDefault();
-			var loan_accountno = a.getAttribute("data-loan_accountno");
-
-			location.href = 'drawDownLoanMaintanace?formmode=verify&loan_accountno='
-				+ loan_accountno;
-		}
-
-		function modifyeditview(a) {
-			event.preventDefault();
-			var dd_notice_ref = a.getAttribute("data-dd_notice_ref");
-			location.href = 'LSDBDDNoticeDetails?formmode=modify&dd_notice_ref='
-				+ dd_notice_ref;
-		}
-
-		function modifyeditview1(a) {
-			event.preventDefault();
-			var dd_notice_ref = a.getAttribute("data-dd_notice_ref");
-			location.href = 'LSDBDDNoticeDetails?formmode=modify1&dd_notice_ref='
-				+ dd_notice_ref;
-		}
-
-		//deleteUnverified (Praveen)
-		function deleteUnverified(a) {
-			var dd_notice_ref = a.getAttribute('data-dd_notice_ref');
-			//location.href = 'DrawDownSyndicatedLoan?formmode=view&drawDownId='+ drawId;
-			console.log(dd_notice_ref);
-			$.ajax({
-				url: './deleteUnverifiedRecordsDDN?dd_notice_ref=' + dd_notice_ref,
-				type: 'POST',
-				success: function (responseText, statusText, xhr, $form) {
-					console.log(responseText);
-					$("#alertmsg").text(responseText);
-					$('#alert').modal("toggle");
-				},
-				error: function (error) {
-					console.log("Error fetching data: ", error);
-				}
-
-			});
-
-		}
-
-
-
-		function getRepaymentDetails(a) {
-			event.preventDefault();
-
-			var principleAmount = document.getElementById("loan_sanctioned").value.replace(/,/g, '');
-			var santionedDate = changeDateFormat(document.getElementById("date_of_loan").value);
-			var interestRate = document.getElementById("effective_interest_rate").value.replace(/,/g, '');
-
-			var installID = $("#inst_id").val();
-			var installStartDate = changeDateFormat(document.getElementById("inst_start_dt").value);
-			var pricipleFreq = document.getElementById("inst_freq").value;
-			var noOfInstallment = document.getElementById("no_of_inst").value;
-			var installAmount = document.getElementById("inst_amount").value.replace(/,/g, '');
-			var interestFreq = document.getElementById("interest_frequency").value;
-
-			console.log(principleAmount + " " + santionedDate + " " + interestRate + " " + installID + " " + installStartDate + " "
-				+ pricipleFreq + " " + noOfInstallment + " " + installAmount + " " + interestFreq);
-			$
-				.ajax({
-					type: "GET",
-					url: "./getInterestDetails?creation_Date=" + santionedDate
-						+ "&start_date=" + installStartDate + "&Product_value=" + principleAmount
-						+ "&principle_frequency=" + pricipleFreq + "&int_rate=" + interestRate
-						+ "&no_of_inst=" + noOfInstallment + "&int_amt="
-						+ installAmount + "&interestFrequency=" + interestFreq,
-					success: function (data) {
-						console.log(data);
-						var trHTML = '';
-						$
-							.each(
-								data,
-								function (index, entity) {
-
-									var no_of_instalment = entity.no_of_instalment;
-									var from_date = formatDate(entity.from_date);
-									var installment_date = formatDate(entity.installment_date);
-									var installment_description = entity.installment_description;
-									var installment_amt = formatNumber(entity.installment_amt);
-									var principal_amt = formatNumber(entity.principal_amt);
-									var interest_amt = formatNumber(entity.interest_amt);
-									var charges_amt = formatNumber(entity.charges_amt);
-									var principal_outstanding = formatNumber(entity.principal_outstanding);
-
-
-
-									trHTML += '<tr id="sechduleRow">'
-										+ '<td>' + no_of_instalment + '</td>'
-										+ '<td>' + installment_date + '</td>'
-										+ '<td>' + installment_description + '</td>'
-										+ '<td class="text-right">' + installment_amt + '</td>'
-										+ '<td class="text-right">' + principal_amt + '</td>'
-										+ '<td class="text-right">' + interest_amt + '</td>'
-										+ '<td class="text-right">' + charges_amt + '</td>'
-										+ '<td class="text-right">' + principal_outstanding + '</td>'
-										+ '</tr>';
-
-								});
-						$('#repaymentDet').empty().append(trHTML);
-						$('#demandtable').removeClass('d-none');
-						$('#demandtable1').addClass('d-none');
-
-
-					},
-					error: function (error) {
-						console.error(error);
-					}
-				});
-		}
-
-		function getFlowDetails(a) {
-			event.preventDefault();
-
-			var principleAmount = document.getElementById("loan_sanctioned").value.replace(/,/g, '');
-			var santionedDate = changeDateFormat(document.getElementById("date_of_loan").value);
-			var interestRate = document.getElementById("effective_interest_rate").value.replace(/,/g, '');
-
-			var installID = $("#inst_id").val();
-			var installStartDate = changeDateFormat(document.getElementById("inst_start_dt").value);
-			var pricipleFreq = document.getElementById("inst_freq").value;
-			var noOfInstallment = document.getElementById("no_of_inst").value;
-			var installAmount = document.getElementById("inst_amount").value.replace(/,/g, '');
-			var interestFreq = document.getElementById("interest_frequency").value;
-
-			console.log(principleAmount + " " + santionedDate + " " + interestRate + " " + installID + " " + installStartDate + " "
-				+ pricipleFreq + " " + noOfInstallment + " " + installAmount + " " + interestFreq);
-			$
-				.ajax({
-					type: "GET",
-					url: "./getFlowDetails?creation_Date=" + santionedDate
-						+ "&start_date=" + installStartDate + "&Product_value=" + principleAmount
-						+ "&principle_frequency=" + pricipleFreq + "&int_rate=" + interestRate
-						+ "&no_of_inst=" + noOfInstallment + "&int_amt="
-						+ installAmount + "&interestFrequency=" + interestFreq,
-					success: function (data) {
-						console.log(data);
-						var trHTML = '';
-						$
-							.each(
-								data,
-								function (index, entity) {
-
-
-									var flow_id = entity.flow_id;
-									var flow_date = formatDate(entity.flow_date);
-									var flow_code = entity.flow_code;
-									var flow_frq = entity.flow_frq ? entity.flow_frq : "";
-									var flow_amt = formatNumber(entity.flow_amt);
-
-
-									trHTML += '<tr id="sechduleRow">'
-
-										+ '<td>' + flow_date + '</td>'
-										+ '<td>' + flow_code + '</td>'
-										+ '<td>' + flow_frq + '</td>'
-										+ '<td class="text-right">' + flow_amt + '</td>'
-										+ '</tr>';
-
-
-
-								});
-						$('#repaymentDet1').empty().append(trHTML);
-						$('#demandtable1').removeClass('d-none');
-						$('#demandtable').addClass('d-none');
-
-					},
-					error: function (error) {
-						console.error(error);
-					}
-				});
-		}
-
-		function updateCheckboxValue() {
-			var checkbox = document.getElementById("record_flag");
-			checkbox.value = checkbox.checked ? "Y" : "N";
-		}
-
-		function updateCheckboxValue1() {
-			var checkbox = document.getElementById("record_flag_1");
-			checkbox.value = checkbox.checked ? "Y" : "N";
-		}
-
-		function refreshPage() {
-			window.location.reload();
-		}
-
-
-	</script>
-<script>
-		function SubmitVerify(a) {
-
-			event.preventDefault();
-			/*var button = document.getElementById('verifyButton');
-			button.disabled = true;*/
-			var accountNo = a.getAttribute('data-loan_accountno');
-			var customer_id = a.getAttribute('data-customer_id');
-			console.log(customer_id+" "+accountNo);
-			
-			location.href='ApprovalFromLease?formmode=view&customer_id='+customer_id+'&loanAcctNo='+accountNo;
-
-
-
-		}
-		
-		function viewCustomerMaster(a) {
-
-			event.preventDefault();
-			/*var button = document.getElementById('verifyButton');
-			button.disabled = true;*/
-			var accountNo = a.getAttribute('data-loan_accountno');
-			var customer_id = a.getAttribute('data-customer_id');
-			
-			console.log(customer_id+" "+accountNo);
-			
-			location.href='CustomerMaintenanceFromLease?formmode=viewCust&customer_id='+customer_id+'&loanAcctNo='+accountNo;
-			
-		}
-		
-		function viewLoanMaster(a){
-			event.preventDefault();
-			var accountNo = a.getAttribute('data-loan_accountno');
-			location.href='drawDownLoanMaintanace?formmode=view&loan_accountno='+accountNo;
-		}
-		
-
-		function formatNumber(number) {
-			return Number(number).toLocaleString('en-US', {
-				minimumFractionDigits: 2,
-				maximumFractionDigits: 2
-			});
-		}
-
-		// filter
-
-		function filterSyncRec() {
-			var filterInputSyncNo = document.getElementById("filterInputSyncNo").value
-				.toUpperCase();
-			var filterInputBorrName = document
-				.getElementById("filterInputBorrName").value.toUpperCase();
-			var table = document.getElementById("usertableSyncTab");
-			var tr = table.getElementsByTagName("tr");
-			for (var i = 0; i < tr.length; i++) {
-				var tdSyncNo = tr[i].getElementsByTagName("td")[0];
-				var tdCustomerName = tr[i].getElementsByTagName("td")[1];
-				if (tdSyncNo && tdCustomerName) {
-					var cifIdMatches = tdSyncNo.textContent.toUpperCase().indexOf(
-						filterInputSyncNo) > -1;
-					var customerNameMatches = tdCustomerName.textContent
-						.toUpperCase().indexOf(filterInputBorrName) > -1;
-					if (cifIdMatches && customerNameMatches) {
-						tr[i].style.display = "";
-					} else {
-						tr[i].style.display = "none";
-					}
-				}
-			}
-		}
-
-		function filterTranRec() {
-			var filterInputSyncNo = document.getElementById("filterInputSynNum").value
-				.toUpperCase();
-			var filterInputBorrName = document
-				.getElementById("filterInputBorrName").value.toUpperCase();
-			var filterInputTranRef = document.getElementById("filterInputTranRef").value
-				.toUpperCase();
-			var table = document.getElementById("usertableTranDet");
-			var tr = table.getElementsByTagName("tr");
-			for (var i = 0; i < tr.length; i++) {
-				var tdSyncNo = tr[i].getElementsByTagName("td")[0];
-				var tdTran = tr[i].getElementsByTagName("td")[1];
-				var tdCustomerName = tr[i].getElementsByTagName("td")[2];
-				if (tdSyncNo && tdTran && tdCustomerName) {
-					var syncMatch = tdSyncNo.textContent.toUpperCase().indexOf(
-						filterInputSyncNo) > -1;
-					var BorNameMatch = tdCustomerName.textContent.toUpperCase()
-						.indexOf(filterInputBorrName) > -1;
-					var tranMatch = tdTran.textContent.toUpperCase().indexOf(
-						filterInputTranRef) > -1;
-					if (syncMatch && BorNameMatch && tranMatch) {
-						tr[i].style.display = "";
-					} else {
-						tr[i].style.display = "none";
-					}
-				}
-			}
-		}
-	</script>
-
-<script>
-
-
-		function downloadFile() {
-			alert("cc");
-			$.ajax({
-				type: "POST",
-				url: "./downloadFile",
-				success: function (data) {
-					console.log(data);
-				}
-			})
-		}
-	</script>
+	</script>  
 
 
 <script type="text/javascript">
@@ -1233,632 +313,26 @@ function rowadddcorporate() {
 			inputElement.value = inputElement.value.replace(/\D/g, '');
 		}
 
-		function setOutstanding(inputElement) {
-			var loan_outstanding = document.getElementById('loan_outstanding');
-			loan_outstanding.value = inputElement.value.replace(/\D/g, '');
-		}
-
-		function calculateDrawingLimit() {
-			var marginLimit = document.getElementById('margin_limit').value;
-			var loanSanctioned = document.getElementById('loan_sanctioned').value;
-
-			// Validate the inputs
-			if (marginLimit === "" || isNaN(marginLimit)) {
-				document.getElementById('drawing_limit').value = "";
-				return;
-			}
-
-			if (loanSanctioned === "" || isNaN(loanSanctioned)) {
-				document.getElementById('drawing_limit').value = "";
-				return;
-			}
-
-
-			var drawingLimit = (parseFloat(marginLimit) / 100) * parseFloat(loanSanctioned);
-
-			// Set the calculated drawing limit
-			document.getElementById('drawing_limit').value = drawingLimit.toFixed(2);
+		 
+		function handleIn(input) {
+			// Remove special characters using regex
+			input.value = input.value.replace(/[^\w\s]/gi, '').toUpperCase();
 		}
 
 
-
-	</script>
+	</script>    
 <script>
-		function changeDateFormat(dateString) {
-
-			var parts = dateString.split('-');
-
-			return parts[2] + '-' + parts[1] + '-' + parts[0];
-		}
-
-		function formatDate(dateString) {
-
-			var date = new Date(dateString);
-
-
-			var day = date.getDate();
-			var month = date.getMonth() + 1;
-			var year = date.getFullYear();
-
-
-			if (day < 10) {
-				day = '0' + day;
-			}
-			if (month < 10) {
-				month = '0' + month;
-			}
-
-			return day + '-' + month + '-' + year;
-		}
-
-		//number input
-		function formatNumberWithCommas(number) {
-
-			if (!number && number !== 0) return '';
-			console.log("number : " + number);
-			let numberString = number.toString();
-			console.log("numberString : " + numberString);
-
-			let [integerPart, decimalPart] = numberString.split('.');
-
-			let lastThreeDigits = integerPart.slice(-3);
-			let otherDigits = integerPart.slice(0, -3);
-
-			if (otherDigits !== '') {
-				lastThreeDigits = ',' + lastThreeDigits;
-			}
-
-			let formattedIntegerPart = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + lastThreeDigits;
-
-			if (!decimalPart) {
-				decimalPart = '00';
-			}
-			let formattedNumber = formattedIntegerPart + '.' + decimalPart;
-			console.log("formattedIntegerPart : " + formattedIntegerPart);
-			console.log("decimalPart : " + decimalPart);
-
-			return formattedNumber;
-		}
-	</script>
-
-<script>
-		//Sehdule View
-		function sechduleView(a) {
-
-			var accountNo = a.getAttribute('data-loan_accountno');
-			console.log(accountNo);
-
-			$
-				.ajax({
-					type: "GET",
-					url: "./getInterestDetailsView?accountNo=" + accountNo,
-					success: function (data) {
-						console.log(data);
-						var trHTML = '';
-						$
-							.each(
-								data,
-								function (index, entity) {
-
-									var no_of_instalment = entity.no_of_instalment;
-									var from_date = formatDate(entity.from_date);
-									var installment_date = formatDate(entity.installment_date);
-									var installment_description = entity.installment_description;
-									var installment_amt = formatNumber(entity.installment_amt);
-									var principal_amt = formatNumber(entity.principal_amt);
-									var interest_amt = formatNumber(entity.interest_amt);
-									var charges_amt = formatNumber(entity.charges_amt);
-									var principal_outstanding = formatNumber(entity.principal_outstanding);
-
-
-
-									trHTML += '<tr id="sechduleRow">'
-										+ '<td>' + no_of_instalment + '</td>'
-										+ '<td>' + installment_date + '</td>'
-										+ '<td>' + installment_description + '</td>'
-										+ '<td class="text-right">' + installment_amt + '</td>'
-										+ '<td class="text-right">' + principal_amt + '</td>'
-										+ '<td class="text-right">' + interest_amt + '</td>'
-										+ '<td class="text-right">' + charges_amt + '</td>'
-										+ '<td class="text-right">' + principal_outstanding + '</td>'
-										+ '</tr>';
-
-								});
-						$('#repaymentDet').empty().append(trHTML);
-						$('#demandtable').removeClass('d-none');
-
-
-					},
-					error: function (error) {
-						console.error(error);
-					}
-				});
-		}
-
-
-		function sechduleView1(a) {
-
-			var accountNo = a.getAttribute('data-loan_accountno');
-			console.log(accountNo);
-
-			$
-				.ajax({
-					type: "GET",
-					url: "./getdemandflow?accountNo=" + accountNo,
-					success: function (data) {
-						console.log(data);
-						var trHTML = '';
-						$
-							.each(
-								data,
-								function (index, entity) {
-
-
-									var flow_id = entity.flow_id;
-									var flow_date = formatDate(entity.flow_date);
-
-									var flow_code = entity.flow_code;
-									var flow_frq = entity.flow_frq ? entity.flow_frq : "";
-									var flow_amt = formatNumber(entity.flow_amt);
-
-
-
-
-									trHTML += '<tr id="sechduleRow">'
-										+ '<td>' + flow_date + '</td>'
-										+ '<td>' + flow_code + '</td>'
-										+ '<td>' + flow_frq + '</td>'
-										+ '<td class="text-right">' + flow_amt + '</td>'
-										+ '</tr>';
-
-								});
-						$('#repaymentDet1').empty().append(trHTML);
-						$('#demandtable1').removeClass('d-none');
-
-
-					},
-					error: function (error) {
-						console.error(error);
-					}
-				});
-		}
-
-
-		function handleRadioClick(selectedRadio) {
-			var installmentAmt = selectedRadio.getAttribute("data-installment-amt");
-			var accountValue = document.getElementById("loan_accountno").value;
-			var accountName = document.getElementById("customer_name").value;
-			var loancurrency = document.getElementById("loan_currency").value;
-
-			// Redirect to the journalEntries add page with query parameters
-			var url = 'journalEntries?formmode=add'
-				+ '&flow_amount=' + encodeURIComponent(installmentAmt)
-				+ '&account_no=' + encodeURIComponent(accountValue)
-				+ '&accountName=' + encodeURIComponent(accountName)
-				+ '&currency=' + encodeURIComponent(loancurrency);
-			location.href = url;
-		}
-
-	</script>
-<script>
-		//Mandatory Fields Working (Praveen)
-		function commanValues() {
-			console.log("common values check");
-
-			var syn_fac_ref = $('#synd_fac_ref').val();
-			var tran_ref = $('#trnc_desc').val();
-			var notice_ref = $('#dd_notice_ref').val();
-
-			var value;
-
-			if (syn_fac_ref === "") {
-				$("#Normalalertmsg").text("Fill Syndication ref");
-				$('#normalAlert').modal("toggle");
-				value = false;
-			}
-			else if (tran_ref === "") {
-				$("#Normalalertmsg").text("Fill Tranche Ref ");
-				$('#normalAlert').modal("toggle");
-				value = false;
-			}
-			else if (notice_ref === "") {
-				$("#Normalalertmsg").text("Fill Draw Down Ref ");
-				$('#normalAlert').modal("toggle");
-				value = false;
-			}
-			else {
-				value = true;
-			}
-
-			return value;
-
-		}
-
-
-		function tab1Value() {
-
-			console.log("tab1 values check");
-
-			var notice_date = $('#dd_notice_date').val();
-			var value_date = $('#dd_value_date').val();
-			var expiry_date = $('#dd_notice_exp_date').val();
-
-
-			var value;
-
-			if (notice_date === "") {
-				$("#Normalalertmsg").text("Fill Tranche Reference");
-				$('#normalAlert').modal("toggle");
-				value = false;
-				openTab(event, 'tab1');
-			}
-			else if (value_date === "") {
-				$("#Normalalertmsg").text("Fill Role");
-				$('#normalAlert').modal("toggle");
-				value = false;
-				openTab(event, 'tab1');
-			}
-			else if (expiry_date === "") {
-				$("#Normalalertmsg").text("Fill Tranche Creation Date");
-				$('#normalAlert').modal("toggle");
-				value = false;
-				openTab(event, 'tab1');
-			}
-			else {
-				value = true;
-			}
-			return value;
-		}
-
-
-
-
-	</script>
-
-<script>
-		function calculatePercentage(a) {
-			event.preventDefault();
-			var loanPeriod = document.getElementById('loan_period').value;
-			var loansanctioned = document.getElementById('loan_sanctioned').value;
-			var date_of_loan = document.getElementById('date_of_loan').value;
-			var expiryDateElement = document.getElementById('expiry_date');
-
-			var total;
-
-			if (loansanctioned === "") {
-
-				document.getElementById('loan_period').value = "";
-				$("#Normalalertmsg").text("Choose Santioned Amount First");
-				$('#normalAlert').modal("show");
-
-			}
-			else if (date_of_loan === "") {
-
-				document.getElementById('loan_period').value = "";
-				$("#Normalalertmsg").text("Choose Date of loan");
-				$('#normalAlert').modal("show");
-
-			}
-
-			else {
-				var amount = (loansanctioned / loanPeriod);
-				document.getElementById('inst_amount').value = amount.toFixed(2);
-
-
-				var percentage = (loansanctioned / 100);
-				total = percentage;
-				var totals = (amount / total);
-
-				document.getElementById('inst_pct').value = totals.toFixed(0);
-				document.getElementById('no_of_inst').value = loanPeriod;
-				document.getElementById('inst_id').value = '1';
-
-				var loanDate = new Date(date_of_loan);
-				loanDate.setMonth(loanDate.getMonth() + parseInt(loanPeriod));
-
-				var day = loanDate.getDate();
-				var month = (loanDate.getMonth() + 1).toString().padStart(2, '0');
-				var year = loanDate.getFullYear();
-
-				var formattedExpiryDate = day.toString().padStart(2, '0') + '-' + month + '-' + year;
-				expiryDateElement.value = formattedExpiryDate;
-
-			}
-
-
-		}
-
-		function custid() {
-			const selectedValue = $('#customer_id').val();
-
-
-			$.ajax({
-				url: './getCustId',
-				type: 'GET',
-				data: {
-					custId: selectedValue,
-
-				},
-				success: function (data) {
-					if (data && data.length > 0) {
-						console.log(data)
-						$('#branch_id').val(data[0][0] || '');
-
-						$('#branch_name').val(data[0][1] || '');
-						$('#customer_name').val(data[0][2] || '');
-
-						$('#gl_code').val(data[0][3] || '');
-						$('#gl_desc').val(data[0][4] || '');
-						$('#glsh_code').val(data[0][5] || '');
-						$('#glsh_desc').val(data[0][6] || '');
-						$('#ca_acct_type').val(data[0][7] || '');
-						$('#appl_ref_no').val(data[0][8] || '');
-						$('#rec_no').val(data[0][9] || '');
-						
-					} else {
-						console.error("No data received or data is empty");
-					}
-
-				}
-
-			});
-
-		}
-
-		function addRecords(evt, tabName) {
-
-			event.preventDefault();
-
-			var leaseData = {
-
-				loanDetails: {
-					customer_id: $(
-						"select[name='customer_id']")
-						.val(),
-					customer_name: $("input[name='customer_name']").val(),
-					branch_name: $("input[name='branch_name']")
-						.val(),
-					branch_id: $(
-						"input[name='branch_id']").val(),
-					loan_type: $("select[name='loan_type']")
-						.val(),
-					gl_code: $(
-						"input[name='gl_code']").val(),
-					gl_desc: $(
-						"input[name='gl_desc']").val(),
-					glsh_code: $(
-						"input[name='glsh_code']").val(),
-					gl_desc: $(
-						"input[name='gl_desc']").val(),
-					scheme_type: $(
-						"input[name='scheme_type']").val(),
-					scheme_code: $(
-						"input[name='scheme_code']").val(),
-					loan_accountno: $("input[name='loan_accountno']")
-						.val(),
-					date_of_loan: $("input[name='date_of_loan']")
-						.val(),
-					loan_sanctioned: $("input[name='loan_sanctioned']").val().replace(/,/g, ''),
-					margin_limit: $("input[name='margin_limit']").val().replace(/,/g, ''),
-					drawing_limit: $("input[name='drawing_limit']").val().replace(/,/g, ''),
-					loan_currency: $("input[name='loan_currency']")
-						.val(),
-					disbursement: $("input[name='disbursement']").val().replace(/,/g, ''),
-					loan_outstanding: $(
-						"input[name='loan_outstanding']").val().replace(/,/g, ''),
-					loan_period: $("input[name='loan_period']").val().replace(/,/g, ''),
-					expiry_date: changeDateFormat($("input[name='expiry_date']")
-						.val()),
-					repayment_terms: $("input[name='repayment_terms']")
-						.val(),
-					recovery_method: $(
-						"select[name='recovery_method']").val(),
-					effective_interest_rate: $(
-						"input[name='effective_interest_rate']").val()
-				},
-				repaymentDetails: {
-					customer_id: $(
-						"select[name='customer_id']")
-						.val(),
-					branch_id: $("input[name='branch_id']").val(),
-					account_no: $("input[name='loan_accountno']")
-						.val(),
-					acid: $("input[name='loan_accountno']")
-						.val(),
-					inst_id: $("input[name='inst_id']")
-						.val(),
-					inst_start_dt: $("input[name='inst_start_dt']")
-						.val(),
-					inst_freq: $("select[name='inst_freq']").val(),
-					inst_amount: $("input[name='inst_amount']").val().replace(/,/g, ''),
-					no_of_inst: $("input[name='no_of_inst']").val(),
-					inst_pct: $("input[name='inst_pct']").val().replace(/%/g, ''),
-					interest_frequency: $("select[name='interest_frequency']")
-						.val(),
-					maturity_flg: 'N'
-				}
-			};
-
-			console.log(leaseData);
-
-			$.ajax({
-				type: "POST",
-				contentType: "application/json",
-				url: './addLeaseAccount',
-				data: JSON.stringify(leaseData),
-				success: function (responseText, statusText, xhr, $form) {
-					 confirmAndOpenTab(evt, tabName); 
-					$("#alertmsg").text(responseText);
-					$('#alert').modal("toggle");
-				},
-				error: function (error) {
-					console.error(error);
-				}
-			});
-		}
-	</script>
-<script>
-
-		function openAccountledger(a) {
-			event.preventDefault();
-			var accountNo = a.getAttribute('data-loan_accountno');
-			console.log(accountNo);
-			location.href = 'accountLedger2?formmode=view&acct_num=' + accountNo;
-		}
-		
-		function getLoanPosition(a) {
-			event.preventDefault();
-			var accountNum = a.getAttribute('data-loan_accountno');
-
-			console.log(accountNum);
-
-			/*for loan position get*/
-			$.ajax({
-				type: 'GET',
-				url: './getLoanPosition',
-				data: {
-					accountNum: accountNum
-				},
-				success: function (data) {
-					console.log(data);
-
-					var tHTML = '';
-					var tempData = [];
-					var totalFlowAmt = 0;
-					var totalAdjAmt = 0;
-					var totalOverdueAmt = 0;
-
-					if (data.length > 0) {
-						$.each(data, function (index, entity) {
-							var flow_date = entity.flow_date !== null ? formatDate(entity.flow_date) : "";
-							var flow_code = entity.flow_code !== null ? entity.flow_code : "";
-							var flow_amt = entity.flow_amt !== null ? parseFloat(entity.flow_amt) : 0.00;
-							var adj_amt = entity.adj_amt !== null ? parseFloat(entity.adj_amt) : 0.00;
-							var adj_dt = entity.adj_dt !== null ? formatDate(entity.adj_dt) : "";
-
-							var overdue_amt = (adj_amt - flow_amt) < 0 ? (flow_amt - adj_amt).toFixed(2) : "0.00";
-
-							// Store data in an array for potential combination logic
-							tempData.push({flow_date, flow_code, flow_amt, adj_amt, adj_dt, overdue_amt});
-
-							totalFlowAmt += flow_amt;
-							totalAdjAmt += adj_amt;
-							totalOverdueAmt += parseFloat(overdue_amt);
-						});
-
-						// Total row
-						tHTML += "<tr class='total-row'>"
-							+ "<td></td>"
-							+ "<td><strong>Total</strong></td>"
-							+ "<td class='text-right'><strong>" + formatNumberWithCommas(totalFlowAmt.toFixed(2)) + "</strong></td>"
-							+ "<td class='text-right'><strong>" + formatNumberWithCommas(totalAdjAmt.toFixed(2)) + "</strong></td>"
-							+ "<td></td>"
-							+ "<td class='text-right'><strong>" + formatNumberWithCommas(totalOverdueAmt.toFixed(2)) + "</strong></td>"
-							+ "</tr>";
-
-						// Generate the combined and individual rows in the same tbody
-						for (let i = 0; i < tempData.length; i++) {
-							if (i < tempData.length - 1 &&
-								tempData[i].flow_date === tempData[i + 1].flow_date &&
-								tempData[i].adj_dt === tempData[i + 1].adj_dt) {
-
-								// Combine current and next record
-								var combinedFlowAmt = (tempData[i].flow_amt + tempData[i + 1].flow_amt).toFixed(2);
-								var combinedAdjAmt = (tempData[i].adj_amt + tempData[i + 1].adj_amt).toFixed(2);
-								var combinedOverdueAmt = (parseFloat(combinedAdjAmt) - parseFloat(combinedFlowAmt) < 0) ?
-									(parseFloat(combinedFlowAmt) - parseFloat(combinedAdjAmt)).toFixed(2) : "0.00";
-
-								// Combined row with 'RIDEM' (clickable to show details)
-								tHTML += "<tr class='ridem-row' style='cursor: pointer;' onclick='toggleDetails(" + i + ")'>"
-									+ '<td>' + tempData[i].flow_date + '</td>'
-									+ '<td>RIDEM</td>'
-									+ '<td class="text-right">' + formatNumberWithCommas(combinedFlowAmt) + '</td>'
-									+ '<td class="text-right">' + formatNumberWithCommas(combinedAdjAmt) + '</td>'
-									+ '<td>' + tempData[i].adj_dt + '</td>'
-									+ '<td class="text-right">' + formatNumberWithCommas(combinedOverdueAmt) + '</td>'
-									+ "</tr>";
-
-								// Detail rows (initially hidden) for expanded view
-								tHTML += "<tr class='details-row' id='details-" + i + "-1' style='display: none;'>"
-									+ '<td >'
-									+ tempData[i].flow_date + '</td>'
-									+ '<td>' + tempData[i].flow_code + '</td>'
-									+ '<td class="text-right">' + formatNumberWithCommas(tempData[i].flow_amt) + '</td>'
-									+ '<td class="text-right">' + formatNumberWithCommas(tempData[i].adj_amt) + '</td>'
-									+ '<td>' + tempData[i].adj_dt + '</td>'
-									+ '<td class="text-right">' + formatNumberWithCommas(tempData[i].overdue_amt) + '</td>'
-									+ "</tr>";
-
-								tHTML += "<tr class='details-row' id='details-" + i + "-2' style='display: none;'>"
-									+ '<td >'
-									+ tempData[i + 1].flow_date + '</td>'
-									+ '<td>' + tempData[i + 1].flow_code + '</td>'
-									+ '<td class="text-right">' + formatNumberWithCommas(tempData[i + 1].flow_amt) + '</td>'
-									+ '<td class="text-right">' + formatNumberWithCommas(tempData[i + 1].adj_amt) + '</td>'
-									+ '<td>' + tempData[i + 1].adj_dt + '</td>'
-									+ '<td class="text-right">' + formatNumberWithCommas(tempData[i + 1].overdue_amt) + '</td>'
-									+ "</tr>";
-
-
-
-								// Skip the next item since it's already combined
-								i++;
-							} else {
-								// Add individual record if no combination
-								tHTML += "<tr>"
-									+ '<td>' + tempData[i].flow_date + '</td>'
-									+ '<td>' + tempData[i].flow_code + '</td>'
-									+ '<td class="text-right">' + formatNumberWithCommas(tempData[i].flow_amt) + '</td>'
-									+ '<td class="text-right">' + formatNumberWithCommas(tempData[i].adj_amt) + '</td>'
-									+ '<td>' + tempData[i].adj_dt + '</td>'
-									+ '<td class="text-right">' + formatNumberWithCommas(tempData[i].overdue_amt) + '</td>'
-									+ "</tr>";
-							}
-						}
-					} else {
-						tHTML = "<tr><td colspan='9'>No records available</td></tr>";
-					}
-
-					// Append all rows to a single tbody
-					$("#positionTableBody").empty().append(tHTML);
-
-				},
-				error: function () {
-					$('#errorMessage').text('Error fetching data');
-					$('#errorModal').modal('show');
-				}
-			});
-
-
-
-		}
-
-		function toggleDetails(index) {
-			const detailRow1 = document.getElementById('details-' + index + '-1');
-			const detailRow2 = document.getElementById('details-' + index + '-2');
-			const isAlreadyOpen = detailRow1.style.display !== 'none';
-
-			// Hide all other open rows first
-			const openRows = document.querySelectorAll('.details-row');
-			openRows.forEach(row => {
-				row.style.display = 'none';
-				row.style.backgroundColor = 'transparent';
-			});
-
-			// Toggle the clicked row: show if it was closed, hide if it was already open
-			if (!isAlreadyOpen) {
-				// Show rows with highlight
-				detailRow1.style.display = '';
-				detailRow2.style.display = '';
-				detailRow1.style.backgroundColor = '#f0f8ff'; // Light blue highlight
-				detailRow2.style.backgroundColor = '#f0f8ff';
-			}
-		}
+ 
 		function ClickId(a) {
 			var id = a.getAttribute("data-id");
 			var holder_key = a.getAttribute("data-account_holderkey");
 			location.href = 'loanMaster?formmode=viewloan&id=' + id  +'&holder_key=' +holder_key;
 		}
+		
+		function ListLoan() {  
+		    location.href = 'loanMaster?formmode=list';
+		}
+
 	</script>
 
 </head>
@@ -1871,13 +345,13 @@ function rowadddcorporate() {
 	<div class="container-manager">
 		<div class="row">
 
-			<div class="col-sm-11 ml-5" style="font-size: 0.8rem;">
+			<div class="col-sm-11 ml-5 mt-3" style="font-size: 0.8rem;">
 				<div th:if="${formmode}=='list'">
 					<div class="card">
 						<div class="card-header"
 							style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
-								<h6 style="font-size: 1.2rem;">ASPIRA LOAN - LIST</h6>
+								<h6 style="font-size: 1.2rem;">LOAN MASTER - LIST</h6>
 							</div>
 							<!--<div class="btn-group nav-buttons float-right">
 							<button type="button" class="btn btn-primary p-2" id="btnAdd"
@@ -1917,7 +391,7 @@ function rowadddcorporate() {
 							</div>
 						</div>
 						<div class="card-footer text-center">
-							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
+							<button class="btn btn-primary p-2" onclick="Homeln();">Home</button>
 							<button class="btn btn-primary p-2" onclick="back()">Back</button>
 						</div>
 					</div>
@@ -1929,12 +403,8 @@ function rowadddcorporate() {
 						<div class="card-header"
 							style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
-								<h6 style="font-size: 1.2rem;" class="ml-3">ACCOUNT PROFILE</h6>
-							</div>
-							<div class="btn-group nav-buttons float-right">
-								<button class="btn btn-primary p-2" onclick="Uploadloan();">Upload</button>
-
-							</div>
+								<h6 style="font-size: 1.2rem;" class="ml-4">LOAN MASTER - VIEW</h6>
+							</div> 
 						</div>
 						<div class="card-body">
 							<form action="#" th:object="${drawDownDetails}" method="post"
@@ -2048,15 +518,7 @@ function rowadddcorporate() {
 												name="account_state" id="account_state" readonly />
 										</div>
 									</div>
-									<div class="row formline  ml-2  mt-1">
-										<div class="col-sm-2">
-											<label>Sub Status</label>
-										</div>
-										<div class="col-sm-2">
-											<input type="text" th:value="${view?.account_substate}"
-												name="account_substate" id="account_substate" readonly />
-										</div>
-
+									<div class="row formline  ml-2  mt-1"> 
 										<div class="col-sm-2">
 											<label>Currency Code</label>
 										</div>
@@ -2070,8 +532,14 @@ function rowadddcorporate() {
 										<div class="col-sm-2">
 											<input type="text" name="loan_amount"
 											th:value="${view?.loan_amount == 0 ? '0.00' :#numbers.formatDecimal(view?.loan_amount, 0, 'COMMA', 2, 'POINT')}"
-												 id="loan_amount" readonly />
-
+												 id="loan_amount" readonly /> 
+										</div>
+										<div class="col-sm-2">
+											<label>Sub Status</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" th:value="${view?.account_substate}"
+												name="account_substate" id="account_substate" readonly />
 										</div>
 									</div>
 									<div class="row formline ml-2  mt-1">
@@ -2508,7 +976,7 @@ function rowadddcorporate() {
 								</div>
 
 								<div class="card-footer text-center mt-4">
-									<button class="btn btn-primary p-2" onclick="home();">Home</button>
+									<button class="btn btn-primary p-2" onclick="Homeln();">Home</button>
 
 									<button class="btn btn-primary p-2" onclick="back();">Back</button>
 								</div>
@@ -2569,7 +1037,608 @@ function rowadddcorporate() {
 					</div>
 				</div>
 
-				
+				<div th:if="${formmode}=='loanscrn'" class="mt-3">
+
+					<div class="card">
+						<div class="card-header"
+							style="background-color: #e9ecef; height: 50px">
+							<div class="float-left">
+								<h6 style="font-size: 1.2rem;" class="ml-4">LOAN MASTER</h6>
+							</div>
+							<div class="btn-group nav-buttons float-right">
+							<button class="btn btn-primary p-2" onclick="ListLoan();">List</button>
+								<button class="btn btn-primary p-2 ml-1" onclick="Uploadloan();">Upload</button> 
+							</div>
+						</div>
+						<div class="card-body">
+							<form action="#" th:object="${drawDownDetails}" method="post"
+								id="drawDownDetailsAdd" autocomplete="off"
+								name="drawDownDetailsData" th:fragment="finuserapply">
+
+								<div class="">
+									<div class="ml-4">
+										<h6 style="font-size: 1.0rem; font-weight: bold;">LOAN
+											DETAILS</h6>
+									</div>
+									<div class="row formline mt-2  ml-2">
+										<div class="col-sm-2">
+											<label>Customer Id</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" 
+												name="customer_id" id="customer_id" readonly />
+										</div>
+										<div class="col-sm-2">
+											<label>Customer Name</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text"  
+												name="employer_name" id="employer_name" readonly />
+										</div>
+
+										<div class="col-sm-2">
+											<label>Account Type</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" name="account_holdertype"
+												id="account_holdertype"
+												  readonly />
+										</div>
+									</div>
+									<div class="row formline  ml-2 mt-1">
+
+										<div class="col-sm-2">
+											<label>Account Name</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text"  
+												name="loan_name" id="loan_name" readonly />
+										</div>
+										<div class="col-sm-2">
+											<label>Account No</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text"  name="id" id="id"
+												readonly />
+										</div>
+
+										<div class="col-sm-2">
+											<label>Loan Name</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text"  
+												name="loan_name" id="loan_name" readonly />
+										</div>
+									</div>
+									<div class="row formline  ml-2 mt-1">
+
+										<div class="col-sm-2">
+											<label>Assigned Branch</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" name="assigned_branchkey"
+												id="assigned_branchkey" readonly />
+										</div>
+										<div class="col-sm-2">
+											<label>Open Date</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text"
+										 
+												name="creation_date" id="creation_date" readonly />
+										</div>
+
+										<div class="col-sm-2">
+											<label> Approval Date</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" name="approved_date" id="approved_date"
+											 
+											  readonly />
+										</div>
+									</div>
+									<div class="row formline  ml-2 mt-1">
+
+										<div class="col-sm-2">
+											<label>Last Modified Date</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text"  
+												name="last_modified_date" id="last_modified_date" readonly />
+										</div>
+										<div class="col-sm-2">
+											<label>Last Review Date</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" 
+												name="closed_date" id="closed_date" readonly />
+										</div>
+
+										<div class="col-sm-2">
+											<label> Account Status </label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" 
+												name="account_state" id="account_state" readonly />
+										</div>
+									</div>
+									<div class="row formline  ml-2  mt-1"> 
+										<div class="col-sm-2">
+											<label>Currency Code</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" name="currency_code" id="currency_code"
+												  readonly />
+										</div>
+										<div class="col-sm-2">
+											<label>Loan Amount</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" name="loan_amount"
+											  id="loan_amount" readonly /> 
+										</div>
+										<div class="col-sm-2">
+											<label>Sub Status</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text"  
+												name="account_substate" id="account_substate" readonly />
+										</div>
+									</div>
+									<div class="row formline ml-2  mt-1">
+										<div class="col-sm-2">
+											<label>Payment Method</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" name="payment_method"
+												  id="payment_method"
+												readonly />
+										</div>
+											<div class="col-sm-2">
+											<label>Penalty Rate</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" name="penalty_rate" id="penalty_rate"
+												 oninput="numberOnly(this);"
+												readonly />
+										</div>
+										
+										<div class="col-sm-2">
+											<label>Rate of Interest</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" name="interest_rate" id="interest_rate"
+												 
+												oninput="numberOnly(this);" readonly />
+
+										</div>
+									</div>
+									<div class="row formline ml-2  mt-1"> 
+										<div class="col-sm-2 ">
+											<label>Disbursement Date</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" id="disbursement_date" 
+												 name="disbursement_date" readonly />
+										</div>
+										<div class="col-sm-2">
+											<label>First Payment Date</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" id="first_repaymentdate"
+												 name="first_repaymentdate" readonly />
+										</div>
+										<div class="col-sm-2">
+											<label>Remarks 1</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" id=" "
+												  readonly
+												name=" " />
+										</div>
+									</div>
+									<div class="row formline ml-2  mt-1">
+										<div class="col-sm-2">
+											<label>Repayment Method</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" name="repayment_schedule_method"
+												 id="repayment_schedule_method" readonly />
+										</div>
+										<div class="col-sm-2 ">
+											<label>Repayment Instalments</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" id="repayment_installments"
+												  readonly
+												name="repayment_installments" />
+										</div>
+										<div class="col-sm-2">
+											<label>Remarks 2</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" id=" "
+												  readonly
+												name=" " />
+										</div>
+									</div>
+							  
+
+	<div class="row formline ml-2  mt-1">
+									<div class="col-sm-2">
+											<label>Principal Due</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" id="principal_due"
+										  readonly name="principal_due" />
+										</div>
+									<div class="col-sm-2">
+											<label>Principal Paid</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text"  
+											 name="principal_paid" id="principal_paid" readonly />
+										</div>
+										<div class="col-sm-2">
+											<label>Principal Balance</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" id="principal_balance"
+										  readonly name="principal_balance" />
+										</div>
+									</div>
+									<div class="row formline ml-2  mt-1">
+										<div class="col-sm-2 ">
+											<label>Interest Due</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" id="interest_due"
+										  name="interest_due" readonly />
+										</div>
+										<div class="col-sm-2">
+											<label>Interest Paid</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" id="interest_paid"
+										   name="interest_paid" readonly />
+										</div>
+										<div class="col-sm-2">
+											<label>Interest Balance</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" id="interest_balance"
+										  name="interest_balance" 	readonly />
+										</div>
+									</div>
+									<div class="row formline ml-2  mt-1">
+										<div class="col-sm-2">
+											<label>Fee Due</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" name="fees_due" id="fees_due"
+											  readonly />
+										</div>
+										<div class="col-sm-2 ">
+											<label>Fee Paid</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" id="fees_paid"
+										  name="fees_paid" 	readonly />
+										</div>
+										<div class="col-sm-2">
+											<label>Fee Balance</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" id="fees_balance"
+											 name="fees_balance" readonly />
+										</div>
+									</div>
+										<div class="row formline ml-2  mt-1">
+										<div class="col-sm-2">
+											<label>Penalty Due</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" id="penalty_due"
+										   name="penalty_due" readonly />
+										</div>
+									<div class="col-sm-2">
+											<label>Penalty Paid</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" name="penalty_paid" id="penalty_paid"
+										   readonly />
+										</div>
+										<div class="col-sm-2">
+											<label>Penalty Balance</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" id="penalty_balance"
+											  name="penalty_balance" readonly />
+										</div>
+									</div>
+								</div>
+								<div class="">
+									<div class="ml-4 mt-2">
+										<h6 style="font-size: 1.0rem; font-weight: bold;">ADDITIONAL
+											DETAILS</h6>
+									</div>
+									<div class="row formline mt-2  ml-2">
+										<div class="col-sm-2">
+											<label>Sales Processed By VGID</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text"  
+												name="sale_processedbyvgid" id="sale_processedbyvgid"
+												readonly />
+										</div>
+										<div class="col-sm-2">
+											<label>Sales Processed For</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text"  
+												name="sale_processedfor" id="sale_processedfor" readonly />
+										</div>
+
+										<div class="col-sm-2">
+											<label>Sales Referred By</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text"  
+												name="sale_referredby" id="sale_referredby" readonly />
+										</div>
+									</div>
+									<div class="row formline  ml-2 mt-1">
+
+										<div class="col-sm-2">
+											<label>Employment Status</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" name="employment_status"
+											 id="employment_status" readonly />
+										</div>
+										<div class="col-sm-2">
+											<label>Job Title</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" name="job_title" id="job_title" readonly />
+										</div>
+
+										<div class="col-sm-2">
+											<label>Employer Name</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" name="employer_name"  id="employer_name"
+												readonly />
+										</div>
+									</div>
+									<div class="row formline  ml-2 mt-1">
+
+										<div class="col-sm-2">
+											<label>TU Core</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text"   name="tuscore"
+												id="tuscore" readonly />
+										</div>
+										<div class="col-sm-2">
+											<label>TU Probability</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text"  
+												name="tuprobability" id="tuprobability" readonly />
+										</div>
+
+										<div class="col-sm-2">
+											<label>TU Full Name</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" name="tufullname" id="tufullname" readonly />
+										</div>
+									</div>
+									<div class="row formline  ml-2 mt-1">
+
+										<div class="col-sm-2">
+											<label>TU Reasons</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text"  
+												name="tufullname" id="tufullname" readonly />
+										</div>
+										<div class="col-sm-2">
+											<label>Tureason 1</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" id="tureason1"  name="tureason1" readonly />
+										</div>
+										<div class="col-sm-2">
+											<label>Tureason 2</label>
+										</div>
+										<div class="col-sm-2">
+											<input type="text" id="tureason2"  name="tureason2" readonly />
+										</div>
+									</div>
+
+								</div>
+								<div class="row formline mt-1  ml-2">
+									<div class="col-sm-2">
+										<label>Disposable Income</label>
+									</div>
+									<div class="col-sm-2">
+
+										<input type="text" name="disposable_income"
+											id="disposable_income"  readonly />
+									</div>
+									<div class="col-sm-2">
+										<label>Manual Override Amount</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text" 
+									 name="manualoverride_amount" id="manualoverride_amount"
+											readonly />
+									</div>
+
+									<div class="col-sm-2">
+										<label>Manual Override Expiry Date</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text"  name="manualoverride_expiry_date"
+											id="manualoverride_expiry_date" readonly />
+									</div>
+								</div>
+								<div class="row formline  ml-2 mt-1">
+
+									<div class="col-sm-2">
+										<label>CP Fees</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text" name="cpfees"  id="cpfees" readonly />
+									</div>
+									<div class="col-sm-2">
+										<label>Deposit Amount</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text" name="deposit_amount" id="deposit_amount" readonly />
+									</div>
+
+									<div class="col-sm-2">
+										<label>Total Product Price</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text" name="total_product_price"
+											id="total_product_price"  readonly />
+									</div>
+								</div>
+								<div class="row formline  ml-2 mt-1">
+
+									<div class="col-sm-2">
+										<label>Retailer Name</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text"  
+											name="retailer_name" id="retailer_name" readonly />
+									</div>
+									<div class="col-sm-2">
+										<label>Retailer Branch</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text" 
+											name="retailer_branch" id="retailer_branch" readonly />
+									</div>
+
+									<div class="col-sm-2">
+										<label>VG Application Id</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text"  
+											name="vg_application_id" id="vg_application_id" readonly />
+									</div>
+								</div>
+								<div class="row formline  ml-2 mt-1">
+
+									<div class="col-sm-2">
+										<label>Contract Signed</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text"  
+											name="contract_signed" id="contract_signed" readonly />
+									</div>
+									<div class="col-sm-2">
+										<label>Date of First Call</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text" name="date_of_first_call"
+									 id="date_of_first_call" readonly />
+									</div>
+
+									<div class="col-sm-2">
+										<label>Last Call Outcome</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text"  
+											name="last_call_outcome" id="last_call_outcome" readonly />
+									</div>
+								</div>
+								<div class="row formline  ml-2  mt-1">
+									<div class="col-sm-2">
+										<label>As On Date</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text" 	 
+											name="asondate" id="asondate" readonly />
+									</div>
+									<div class="col-sm-2">
+										<label>Remarks 1</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text" name=" " id=" " readonly />
+									</div>
+									<div class="col-sm-2">
+										<label>Remarks 2</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="text" name=" " id=" " readonly />
+									</div>
+								</div>
+
+								<div class="card-footer text-center mt-4">
+									<button class="btn btn-primary p-2" onclick="Homeln();">Home</button>
+
+									<button class="btn btn-primary p-2" onclick="back();">Back</button>
+								</div>
+								<table
+									Style="border: 1px solid #ccc; width: 100%; max-width: 100%; margin: 0 auto; box-sizing: border-box;">
+									<tr>
+										<td class="col-sm-2" style="text-align: center;"><font
+											size="2"><B>Entry User :</B></font></td>
+										<td class="col-sm-2" style="width: 112px; margin-right: 20px;"><input
+											type="text" id="entryuser" name="ub.entryuser"  
+											style="border: none; outline: none; background-color: transparent; font-size: 12px;"
+											readonly></td>
+										<td class="col-sm-2" style="text-align: center;"><font
+											size="2"><B>Modify User :</B></font></td>
+										<td class="col-sm-2" style="width: 112px;"><input
+											type="text" id="modifyuser" name="ub.modifyuser" 
+											style="border: none; outline: none; background-color: transparent; font-size: 12px;"
+											readonly></td>
+										<td class="col-sm-2" style="text-align: center;"><font
+											size="2"><B>Verify User :</B></font></td>
+										<td class="col-sm-2" style="width: 112px;"><input
+											type="text" id="verifyuser" name="ub.verifyuser" 
+											style="border: none; outline: none; background-color: transparent; font-size: 12px;"
+											readonly></td>
+									</tr>
+									<tr>
+										<td style="text-align: center;"><font size="2"><B>Entry
+													Time :</B></font></td>
+										<td style="width: 112px"><input type="text"
+											id="entrytime" name="ub.entrytime"
+											th:value="${#dates.format(view?.creation_date, 'dd-MM-yyyy HH:mm:ss')}"
+											readonly
+											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;">
+										</td>
+										<td style="text-align: center;"><font size="2"><B>Modify
+													Time :</B></font></td>
+										<td style="width: 112px"><input type="text"
+											id="modifytime" name="ub.modifytime"
+											th:value="${#dates.format(view?.last_modified_date, 'dd-MM-yyyy HH:mm:ss')}"
+											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
+											readonly></td>
+										<td style="text-align: center; font-size: 15px;"><font
+											size="2"><B>Verify Time :</B></font></td>
+										<td style="width: 112px"><input type="text"
+											id="verifytime" name="ub.verifytime"
+											th:value="${#dates.format(view?.approved_date, 'dd-MM-yyyy HH:mm:ss')}"
+											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
+											readonly></td>
+									</tr>
+								</table>
+
+
+
+							</form>
+						</div>
+					</div>
+				</div>
 
 			
 			</div>
