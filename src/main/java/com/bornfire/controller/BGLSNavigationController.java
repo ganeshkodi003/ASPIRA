@@ -3453,7 +3453,7 @@ public class BGLSNavigationController {
 	    private CLIENT_MASTER_REPO clientMasterRepo;
 	
 	@RequestMapping(value = "customerMaster", method = { RequestMethod.GET, RequestMethod.POST })
-	public String customerMaster(@RequestParam(required = false) String formmode, Model md,
+	public String customerMaster(@RequestParam(required = false) String formmode, Model md, boolean modify,
 			HttpServletRequest req, @RequestParam(required = false) String id,
 			@RequestParam(required = false) String synd_fac_ref) {
 
@@ -3461,11 +3461,15 @@ public class BGLSNavigationController {
 		Date TRANDATE = (Date) req.getSession().getAttribute("TRANDATE");
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String formattedDate = dateFormat.format(TRANDATE);		
+		String formattedDate = dateFormat.format(TRANDATE);
+		System.out.println(modify);	
 		if (formmode == null) {
+
 			md.addAttribute("formmode", "home");
+			
 		}
 		else if (formmode.equals("list")) {
+			System.out.println(modify);
 			md.addAttribute("formmode", "list"); 
 			md.addAttribute("list", clientMasterRepo.getLoanActDet());
 	
@@ -3474,6 +3478,7 @@ public class BGLSNavigationController {
 			CLIENT_MASTER_ENTITY client = clientMasterRepo.getClientView(id);
 			md.addAttribute("customer", client);
 		}
+			md.addAttribute("modify", modify);
 			md.addAttribute("currentDate", TRANDATE);
 			md.addAttribute("ConDate", formattedDate);
 			md.addAttribute("user", user);
@@ -3483,12 +3488,16 @@ public class BGLSNavigationController {
 	}
 	
 	@RequestMapping(value = "loanMaster", method = { RequestMethod.GET, RequestMethod.POST })
-	public String loanMaster(@RequestParam(required = false) String formmode, Model model, String customer_id, Model md,
+	public String loanMaster(@RequestParam(required = false) String formmode, Model model, String customer_id, Model md, 
 			HttpServletRequest request,@RequestParam(required = false) String id,@RequestParam(required = false) String holder_key) {
 		String user = (String) request.getSession().getAttribute("USERID");
 		
-		if (formmode == null || formmode.equals("loanscrn")) {
-			model.addAttribute("formmode", "loanscrn");  
+		if (formmode == null || formmode.equals("list")) {
+
+
+			model.addAttribute("formmode", "list"); 
+			md.addAttribute("list", LOAN_ACT_MST_REPO.getLoanActDet());
+			md.addAttribute("user", user);
 		} else if (formmode.equals("viewloan")) {
 			model.addAttribute("formmode", "viewloan");
 			md.addAttribute("user", user);
