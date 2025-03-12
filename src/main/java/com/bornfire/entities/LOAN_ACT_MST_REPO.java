@@ -23,8 +23,8 @@ public interface LOAN_ACT_MST_REPO extends JpaRepository<LOAN_ACT_MST_ENTITY, St
 	@Query(value = "SELECT a.CUSTOMER_ID, b.employer_name, b.CREATION_DATE, b.ID, b.INTEREST_RATE,  "
 			+ "b.DISBURSEMENT_DATE, b.REPAYMENT_INSTALLMENTS, b.LOAN_AMOUNT,  " + "b.LOAN_NAME  "
 			+ "FROM CLIENT_MASTER_TBL a  "
-			+ "JOIN LOAN_ACCOUNT_MASTER_TBL b ON a.ENCODED_KEY = b.ACCOUNT_HOLDERKEY WHERE A.ENCODED_KEY = ?1", nativeQuery = true)
-	Object[] getcustomer(String holder_key);
+			+ "JOIN LOAN_ACCOUNT_MASTER_TBL b ON a.ENCODED_KEY = b.ACCOUNT_HOLDERKEY WHERE A.ENCODED_KEY = ?1 and b.id = ?2", nativeQuery = true)
+	Object[] getcustomer(String holder_key, String id);
 
 	@Query(value = "SELECT a.ENCODED_KEY,B.DUE_DATE as dueDate, B.REPAID_DATE as repaidDate,  \r\n"
 			+ "                       B.PRINCIPAL_EXP as principalExp, B.PRINCIPAL_PAID as principalPaid, B.PRINCIPAL_DUE as principalDue,  \r\n"

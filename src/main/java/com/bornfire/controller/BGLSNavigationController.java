@@ -3545,12 +3545,11 @@ public class BGLSNavigationController {
 
 	    } else if ("viewloanschedule1".equals(formmode)) {
 	        model.addAttribute("formmode", "viewloanschedule1");
-
-	        model.addAttribute("view", LOAN_ACT_MST_REPO.getcustomer(holder_key));
+System.out.println(encodedKey);
+	        model.addAttribute("view", LOAN_ACT_MST_REPO.getcustomer(holder_key, id));
 	        model.addAttribute("dues", LOAN_ACT_MST_REPO.getDues(encodedKey));
 
-	        System.out.println("Encoded Key: " + encodedKey);
-
+	       
 	    } else if ("listschedule".equals(formmode)) {
 	        model.addAttribute("formmode", "listschedule");
 	        model.addAttribute("list", LOAN_ACT_MST_REPO.getLoanActDet());

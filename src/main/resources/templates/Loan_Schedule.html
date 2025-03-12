@@ -1,225 +1,233 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
-		th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
-	<link rel="stylesheet" type="text/css" href="/webjars/font-awesome/5.9.0/css/all.min.css"
-		th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
-	<link rel="stylesheet" type="text/css" href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
-		th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
-	<link rel="stylesheet" type="text/css" href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
-		th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
-	<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
-	<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-	<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
-		th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-	<script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-	<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
-		th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
-	<script src="/webjars/jquery/3.4.1/jquery.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
-	<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
-		th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script class="jsbin"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
 
-	<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
-		th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
 
-	<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
-		th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
 
-	<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
-		th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
-	<script src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
-		th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
-
-
-
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
 
 
-	<style>
-		body {
-			font-size: 0.8rem;
-		}
 
-		.btn {
-			line-height: 0.5rem;
-		}
 
-		.table-bordered td,
-		.table-bordered th {
-			font-size: medium;
-		}
 
-		.container-manager {
-			width: 83.5%;
-			padding-right: 15px;
-			padding-left: 15px;
-			margin-right: auto;
-			margin-left: 17.3%;
-			margin-top: 80px;
-			margin-top: 80px;
-		}
+<style>
+body {
+	font-size: 0.8rem;
+}
 
-		.table .thead-light th {
-			color: #495057;
-			background-color: #e9ecef;
-			border-color: #dee2e6;
-			width: 23px;
-		}
+.btn {
+	line-height: 0.5rem;
+}
 
-		.scroll {
-			max-height: 60vh;
-			overflow-y: scroll;
-			overflow-x: hidden;
-		}
+.table-bordered td, .table-bordered th {
+	font-size: medium;
+}
 
-		.tablinks {
-			background-color: #f1f1f1;
-			/* Default background color */
-			border: none;
-			color: black;
-			padding: 10px 20px;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-			font-size: 16px;
-			transition: background-color 0.3s;
-		}
+.container-manager {
+	width: 83.5%;
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: 17.3%;
+	margin-top: 80px;
+	margin-top: 80px;
+}
 
-		.tablinks.active {
-			background-color: #2084a9;
-			color: white;
-		}
+.table .thead-light th {
+	color: #495057;
+	background-color: #e9ecef;
+	border-color: #dee2e6;
+	width: 23px;
+}
 
-		.tab {
-			overflow: hidden;
-			border: 1px solid #ccc;
-			background-color: #f2f2f2;
-		}
+.scroll {
+	max-height: 60vh;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
 
-		.tab button {
-			background-color: inherit;
-			float: left;
-			border: none;
-			outline: none;
-			cursor: pointer;
-			padding: 14px 56px;
-			transition: 0.3s;
-			font-size: 17px;
-		}
+.tablinks {
+	background-color: #f1f1f1;
+	/* Default background color */
+	border: none;
+	color: black;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	transition: background-color 0.3s;
+}
 
-		.tab button:hover {
-			background-color: #ddd;
-		}
+.tablinks.active {
+	background-color: #2084a9;
+	color: white;
+}
 
-		.tabcontent {
-			display: none;
-			padding: 0px;
-			border-top: 1px solid #ccc;
-		}
+.tab {
+	overflow: hidden;
+	border: 1px solid #ccc;
+	background-color: #f2f2f2;
+}
 
-		.active {
-			background-color: #2084a9;
-		}
+.tab button {
+	background-color: inherit;
+	float: left;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	padding: 14px 56px;
+	transition: 0.3s;
+	font-size: 17px;
+}
 
-		#myPieChart {
-			width: 100px;
-			height: 100px;
-		}
-	</style>
-	<style>
-		.modal {
-			display: none;
-			/* Hidden by default */
-			position: absolute;
-			/* Stay in place */
-			z-index: 1;
-			/* Location of the box */
-			left: 0;
-			top: 0;
-			width: 100%;
-			/* Full width */
-			height: 100%;
-			/* Full height */
-			overflow: auto;
-			/* Enable scroll if needed */
-			background-color: rgb(0, 0, 0);
-			/* Fallback color */
-			background-color: rgba(0, 0, 0, 0.4);
-			/* Black w/ opacity */
-		}
+.tab button:hover {
+	background-color: #ddd;
+}
 
-		/* Modal Content */
-		.modal-content {
-			background-color: #fefefe;
-			margin: auto;
-			padding: 20px;
-			border: 1px solid #888;
-			width: 100%;
-			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-			-webkit-animation-name: animatetop;
-			-webkit-animation-duration: 0.4s;
-			animation-name: animatetop;
-			animation-duration: 0.4s
-		}
+.tabcontent {
+	display: none;
+	padding: 0px;
+	border-top: 1px solid #ccc;
+}
 
-		.modal-pass {
-			background-color: #fefefe;
-			margin: 15% auto;
-			padding: 20px;
-			border: 1px solid #888;
-			width: 40%;
-			height: 25%;
-			margin-left: 400PX;
-			margin-right: auto;
-			border-radius: 10px;
-			box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
-			font-family: Arial, sans-serif;
-		}
+.active {
+	background-color: #2084a9;
+}
 
-		.close {
-			color: red;
-			font-size: 28px;
-			font-weight: bold;
-		}
+#myPieChart {
+	width: 100px;
+	height: 100px;
+}
+</style>
+<style>
+.modal {
+	display: none;
+	/* Hidden by default */
+	position: absolute;
+	/* Stay in place */
+	z-index: 1;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
 
-		.close:hover,
-		.close:focus {
-			color: black;
-			text-decoration: none;
-			cursor: pointer;
-		}
-	</style>
-	<style>
-		.password-info {
-			visibility: hidden;
-			width: 320px;
-			background-color: #333;
-			color: #fff;
-			text-align: left;
-			border-radius: 10px;
-			padding: 10px;
-			position: absolute;
-			z-index: 1;
-			top: calc(100% + 10px);
-			left: 50%;
-			transform: translateX(-50%);
-			opacity: 0;
-			transition: opacity 0.3s;
-		}
+/* Modal Content */
+.modal-content {
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 100%;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
+		rgba(0, 0, 0, 0.19);
+	-webkit-animation-name: animatetop;
+	-webkit-animation-duration: 0.4s;
+	animation-name: animatetop;
+	animation-duration: 0.4s
+}
 
-		input:hover+.password-info {
-			visibility: visible;
-			opacity: 0.8;
-		}
-	</style>
+.modal-pass {
+	background-color: #fefefe;
+	margin: 15% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 40%;
+	height: 25%;
+	margin-left: 400PX;
+	margin-right: auto;
+	border-radius: 10px;
+	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+	font-family: Arial, sans-serif;
+}
 
-	<script>
+.close {
+	color: red;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover, .close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+</style>
+<style>
+.password-info {
+	visibility: hidden;
+	width: 320px;
+	background-color: #333;
+	color: #fff;
+	text-align: left;
+	border-radius: 10px;
+	padding: 10px;
+	position: absolute;
+	z-index: 1;
+	top: calc(100% + 10px);
+	left: 50%;
+	transform: translateX(-50%);
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+input:hover+.password-info {
+	visibility: visible;
+	opacity: 0.8;
+}
+</style>
+
+<script>
 		function Home() {
 
 			location.href = 'Dashboard';
@@ -499,88 +507,6 @@
 
 
 
-<script th:inline="javascript">
-	/*<![CDATA[*/
-	var dues = [[${dues}]]; // Thymeleaf data injected into JavaScript
-
-	console.log("Dues Data:", dues); // Debugging: check if data is available
-
-	function renderTable(data) {
-		console.log("renderTable function called!"); // Debug message
-		if (!data || data.length === 0) {
-			console.warn("No data available to render.");
-			return;
-		}
-
-		let tbody = document.getElementById("repaymentDet");
-		if (!tbody) {
-			console.error("Table body element not found!");
-			return;
-		}
-
-		tbody.innerHTML = ""; // Clear existing rows before rendering
-
-		data.forEach((dueList, index) => {
-			if (!Array.isArray(dueList)) {
-				console.warn(`Skipping invalid entry at index ${index}:`, dueList);
-				return;
-			}
-
-			dueList.forEach(due => {
-				let row = document.createElement("tr");
-
-				row.innerHTML = `
-				<td style="text-align: right;">
-				  ${new Intl.NumberFormat('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(due[3] || 0)}
-				</td>
-				<td style="text-align: right;">
-				  ${new Intl.NumberFormat('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(due[5] || 0)}
-				</td> <!-- Principal Due (Due Date) -->
-				<td style="text-align: right;">
-				  ${new Intl.NumberFormat('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(due[6] || 0)}
-				</td> <!-- INTEREST Expenses -->
-				<td style="text-align: right;">
-				  ${new Intl.NumberFormat('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(due[8] || 0)}
-				</td> <!-- INTEREST Due -->
-				<td style="text-align: right;">
-				  ${new Intl.NumberFormat('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(due[9] || 0)}
-				</td> <!-- Fee Expenses -->
-				<td style="text-align: right;">
-				  ${new Intl.NumberFormat('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(due[11] || 0)}
-				</td> <!-- Fee Due -->
-				<td style="text-align: right;">
-				  ${new Intl.NumberFormat('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(due[12] || 0)}
-				</td> <!-- Penalty Expenses -->
-				<td style="text-align: right;">
-				  ${new Intl.NumberFormat('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(due[14] || 0)}
-				</td> <!-- Penalty Due -->
-				<td style="text-align: right;">
-				  ${due[2] ? new Date(due[2]).toISOString().split('T')[0].split('-').reverse().join('-') : ''}
-				</td> <!-- Due Date -->
-				<td style="text-align: right;">
-				  ${due[3] ? new Date(due[3]).toISOString().split('T')[0].split('-').reverse().join('-') : ''}
-				</td> <!-- Repaid Date -->
-				<td style="text-align: right;">
-				  ${new Intl.NumberFormat('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(due[4] || 0)}
-				</td> <!-- Repaid Amount -->
-
-
-                `;
-				tbody.appendChild(row);
-			});
-		});
-
-		console.log("Table successfully rendered!");
-	}
-
-	// Ensure the function runs after DOM loads
-	document.addEventListener("DOMContentLoaded", function () {
-		console.log("DOM fully loaded. Calling renderTable...");
-		renderTable(dues);
-	});
-
-	/*]]>*/
-</script>
 
 <script>
 	function switchToList() {
@@ -590,6 +516,7 @@
 		var id = a.getAttribute("data-id");
 		var holder_key = a.getAttribute("data-account_holderkey");
 		var encoded_key = a.getAttribute("data-encoded_key");
+	 alert(encoded_key);
 		location.href = 'loanSchedule?formmode=viewloanschedule1&id=' + id +
 			'&holder_key=' + holder_key +
 			'&encodedKey=' + encoded_key;
@@ -614,25 +541,21 @@
 						<div class="col-sm-12">
 							<div class="card" style="border-radius: 2px">
 								<!-- Card Header -->
-								<div class="card-header" style="background-color: #e9ecef; height: 50px">
+								<div class="card-header"
+									style="background-color: #e9ecef; height: 50px">
 									<h6 class="float-left" style="font-size: 1.2rem; color: black;">LOAN
 										SCHEDULE</h6>
 
 									<div class="btn-group nav-buttons float-right">
 										<button class="btn btn-primary p-2" onclick="switchToList();">List</button>
-										<button class="btn btn-primary p-2 ml-1" onclick="Uploadloan();">Upload</button>
+										<button class="btn btn-primary p-2 ml-1"
+											onclick="Uploadloan();">Upload</button>
 									</div>
 
 								</div>
 
-								<!-- Loan Details Section -->
-								<div class="tab mt-2"
-									style="padding: 4px; display: flex; justify-content: space-around; margin-top: 10px; width: 100%; height: 43px">
-									<h6 class="float-left" style="font-size: 1.2rem; color: black;">ASPIRA
-										LOAN DETAILS</h6>
-								</div>
-
-								<form action="#" method="post" id="employeeForm" autocomplete="off">
+								<form action="#" method="post" id="employeeForm"
+									autocomplete="off">
 									<div id="tab1" class="tabcontent" style="display: block">
 										<div class="card-body">
 											<div class="border border-secondary">
@@ -700,7 +623,8 @@
 									</div>
 									<div class="tab mt-2"
 										style="padding: 4px; display: flex; justify-content: space-around; margin-top: 10px; width: 100%; height: 43px">
-										<h6 class="float-left" style="font-size: 1.2rem; color: black;">
+										<h6 class="float-left"
+											style="font-size: 1.2rem; color: black;">
 											DEMAND-COLLECTION-OVERDUE</h6>
 									</div>
 
@@ -732,16 +656,18 @@
 
 				<div th:if="${formmode}=='listschedule'">
 					<div class="card">
-						<div class="card-header" style="background-color: #e9ecef; height: 50px">
+						<div class="card-header"
+							style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
-								<h6 style="font-size: 1.2rem;">ASPIRA LOAN - LIST</h6>
+								<h6 style="font-size: 1.2rem;">LOAN SCHEDULE - LIST</h6>
 							</div>
 							<!--<div class="btn-group nav-buttons float-right">
 											<button type="button" class="btn btn-primary p-2" id="btnAdd"
 												onclick="addscreen();">ADD</button>
 										</div>-->
 						</div>
-						<div class="card-body" style="overflow-y: auto; border: 1px solid #ddd;">
+						<div class="card-body"
+							style="overflow-y: auto; border: 1px solid #ddd;">
 							<div class="table-responsive" id="cardBody">
 								<table class="table  table-bordered  table-hover table-sm"
 									style="margin-bottom: 0px; font-size: initial;" id="usertable">
@@ -764,7 +690,8 @@
 												th:text="${list?.id}" onclick="ClickId(this);"></td>
 											<td style="font-size: 14px" th:text="${list?.loan_name}"></td>
 											<td style="font-size: 14px" th:text="${list?.retailer_name}">TEST</td>
-											<td style="font-size: 14px" th:text="${list?.retailer_branch}">TEST</td>
+											<td style="font-size: 14px"
+												th:text="${list?.retailer_branch}">TEST</td>
 											<td style="font-size: 14px" th:text="${list?.account_state}">TEST</td>
 										</tr>
 									</tbody>
@@ -783,19 +710,17 @@
 						<div class="col-sm-12">
 							<div class="card" style="border-radius: 2px">
 								<!-- Card Header -->
-								<div class="card-header" style="background-color: #e9ecef; height: 50px">
+								<div class="card-header"
+									style="background-color: #e9ecef; height: 50px">
 									<h6 class="float-left" style="font-size: 1.2rem; color: black;">LOAN
-										SCHEDULE</h6>
+										SCHEDULE -VIEW</h6>
 								</div>
 
 								<!-- Loan Details Section -->
-								<div class="tab mt-2"
-									style="padding: 4px; display: flex; justify-content: space-around; margin-top: 10px; width: 100%; height: 43px">
-									<h6 class="float-left" style="font-size: 1.2rem; color: black;">ASPIRA
-										LOAN DETAILS</h6>
-								</div>
 
-								<form action="#" method="post" id="employeeForm" autocomplete="off">
+
+								<form action="#" method="post" id="employeeForm"
+									autocomplete="off">
 									<div id="tab1" class="tabcontent" style="display: block">
 										<div class="card-body">
 											<div class="border border-secondary">
@@ -869,7 +794,8 @@
 									</div>
 									<div class="tab mt-2"
 										style="padding: 4px; display: flex; justify-content: space-around; margin-top: 10px; width: 100%; height: 43px">
-										<h6 class="float-left" style="font-size: 1.2rem; color: black;">
+										<h6 class="float-left"
+											style="font-size: 1.2rem; color: black;">
 											DEMAND-COLLECTION-OVERDUE</h6>
 									</div>
 
@@ -890,7 +816,35 @@
 												<th style="text-align: left;">Repaid Amount</th>
 											</tr>
 										</thead>
-										<tbody id="repaymentDet"></tbody>
+										<tbody>
+											<tr th:each="list : ${dues}" class="userlist text-right">
+
+												<td style="font-size: 14px"
+													th:text="${#numbers.formatDecimal(list[3], 1, 'COMMA', 2, 'POINT')}"></td>
+												<td style="font-size: 14px"
+													th:text="${#numbers.formatDecimal(list[5], 1, 'COMMA', 2, 'POINT')}"></td>
+												<td style="font-size: 14px"
+													th:text="${#numbers.formatDecimal(list[6], 1, 'COMMA', 2, 'POINT')}"></td>
+												<td style="font-size: 14px"
+													th:text="${#numbers.formatDecimal(list[8], 1, 'COMMA', 2, 'POINT')}"></td>
+												<td style="font-size: 14px"
+													th:text="${#numbers.formatDecimal(list[6], 1, 'COMMA', 2, 'POINT')}"></td>
+												<td style="font-size: 14px"
+													th:text="${#numbers.formatDecimal(list[11], 1, 'COMMA', 2, 'POINT')}"></td>
+												<td style="font-size: 14px"
+													th:text="${#numbers.formatDecimal(list[12], 1, 'COMMA', 2, 'POINT')}"></td>
+												<td style="font-size: 14px"
+													th:text="${#numbers.formatDecimal(list[14], 1, 'COMMA', 2, 'POINT')}"></td>
+
+												<td style="font-size: 14px"
+													th:text="${#dates.format(list[1], 'dd-MM-yyyy')}">TEST</td>
+												<td style="font-size: 14px"
+													th:text="${#dates.format(list[2], 'dd-MM-yyyy')}">TEST</td>
+
+												<td style="font-size: 14px"
+													th:text="${#numbers.formatDecimal(list[3], 1, 'COMMA', 2, 'POINT')}">TEST</td>
+											</tr>
+										</tbody>
 									</table>
 
 								</form>
@@ -910,13 +864,15 @@
 
 
 	<!-- Alert Modal -->
-	<div class="modal fade" data-backdrop="false" data-keyboard="false" id="alert" tabindex="-1" role="dialog"
-		aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+	<div class="modal fade" data-backdrop="false" data-keyboard="false"
+		id="alert" tabindex="-1" role="dialog" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
 				<div class="modal-body text-center">
 					<h6 id="alertmsg"></h6>
-					<button type="button" class="btn btn-primary" onclick="depositsopen()">Close</button>
+					<button type="button" class="btn btn-primary"
+						onclick="depositsopen()">Close</button>
 				</div>
 			</div>
 		</div>
