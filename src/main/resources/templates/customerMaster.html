@@ -2257,13 +2257,13 @@ $(document)
 									<h6 style="font-size: 1.2rem;" th:if="${formmode}=='list' and ${module == 'module2'}" >CUSTOMER MAINTENANCE - LIST</h6>
 								</div>
 								<button class="btn btn-primary btn-filter float-right">Filter</button>
-					<div class="float-right" th:style="${module == 'module2'} ? 'display:block;' : 'display:none;'">
+					<div class="float-right mr-4" th:style="${module == 'module2'} ? 'display:block;' : 'display:none;'">
    
-						<select class="form-control-sm bg-white mr-2"
+						<select class="form-control-sm bg-white ml-2 w-100"
         id="approvedfilter" onchange="handleFilterChange()"
-        style="background-color: #e3e3e4;">
+        style="background-color: #e3e3e4; width: ">
         <option value="ALL">All</option>
-        <option value="NOTAPPROVED" selected>Un Verified</option>
+        <option value="NOTAPPROVED" selected>UnVerified</option>
     </select>
 </div>
  
@@ -2341,6 +2341,7 @@ $(document)
 							<div class="card-header"
 								style="background-color: #e9ecef; height: 50px">
 								<div class="float-left">
+								<h6 style="font-size: 1.2rem;" th:if="${formmode}=='view' and ${module == 'null'}" >CUSTOMER MASTER - VIEW</h6>
 									<h6 style="font-size: 1.2rem;" th:if="${formmode}=='view' and ${module == 'module1'}" >CUSTOMER MASTER - VIEW</h6>
 									<h6 style="font-size: 1.2rem;" th:if="${formmode}=='view' and ${module == 'module2'}" >CUSTOMER MAINTENANCE - VIEW</h6>
 									<h6 style="font-size: 1.2rem;" th:if="${formmode}=='verify' and ${module == 'module2'}" >CUSTOMER MAINTENANCE - VERIFY </h6>

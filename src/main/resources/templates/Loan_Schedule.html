@@ -550,6 +550,7 @@
 		var id = a.getAttribute("data-id");
 		var holder_key = a.getAttribute("data-account_holderkey");
 		var encoded_key = a.getAttribute("data-encoded_key");
+		alert(encoded_key);
 		location.href = 'loanSchedule?formmode=viewloanschedule1&id=' + id +
 			'&holder_key=' + holder_key +
 			'&encodedKey=' + encoded_key;
@@ -810,7 +811,7 @@
 											<tr th:each="list, iterator : ${list}" class="userlist">
 												<td style="font-size: 14px" th:text="${iterator.index +1}"></td>
 												<td style="font-size: 14px" class="text-primary"
-													th:attr="data-id=${list?.id}, data-account_holderkey=${list?.account_holderkey}"
+													th:attr="data-id=${list?.id}, data-account_holderkey=${list?.account_holderkey} ,data-encoded_key =${list?.encoded_key}"
 													th:text="${list?.id}" onclick="ClickId(this);"></td>
 												<td style="font-size: 14px" th:text="${list?.loan_name}"></td>
 												<td style="font-size: 14px" th:text="${list?.retailer_name}">TEST</td>

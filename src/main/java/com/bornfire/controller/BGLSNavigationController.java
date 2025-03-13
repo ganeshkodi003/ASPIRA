@@ -3573,7 +3573,7 @@ System.out.println(encodedKey);
 	       
 	    } else if ("listschedule".equals(formmode)) {
 	        model.addAttribute("formmode", "listschedule");
-	        model.addAttribute("list", LOAN_ACT_MST_REPO.getLoanActDet());
+	        model.addAttribute("list", LOAN_ACT_MST_REPO.getLoanActScd());
 
 	        System.out.println("Listing Loan Schedules");
 	    }

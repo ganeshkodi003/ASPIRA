@@ -11,6 +11,15 @@ public interface LOAN_ACT_MST_REPO extends JpaRepository<LOAN_ACT_MST_ENTITY, St
 	@Query(value = "SELECT * FROM LOAN_ACCOUNT_MASTER_TBL", nativeQuery = true)
 	List<LOAN_ACT_MST_ENTITY> getLoanActDet();
 
+	@Query(value = "SELECT * \r\n" + 
+			"FROM LOAN_ACCOUNT_MASTER_TBL \r\n" + 
+			"WHERE ENCODED_KEY IN (\r\n" + 
+			"    SELECT PARENT_ACCOUNT_KEY \r\n" + 
+			"    FROM LOAN_REPAYMENT_TBL \r\n" + 
+			"    WHERE PARENT_ACCOUNT_KEY IS NOT NULL\r\n" + 
+			")", nativeQuery = true)
+	List<LOAN_ACT_MST_ENTITY> getLoanActScd();
+	
 	@Query(value = "SELECT * FROM LOAN_ACCOUNT_MASTER_TBL WHERE ID =?1", nativeQuery = true)
 	LOAN_ACT_MST_ENTITY getLoanView(String id);
 
