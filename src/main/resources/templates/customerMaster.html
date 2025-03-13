@@ -2004,6 +2004,41 @@ function verifyUser(userId) {
     });
 }
 
+
+document.addEventListener("DOMContentLoaded", function () {
+    let form = document.getElementById("drawDownDetailsAdd");
+
+    if (form) {
+        let dateInputs = form.querySelectorAll("input[type='date']");
+
+        dateInputs.forEach(input => {
+            if (!input.value) {
+                changeToTextField(input);
+            }
+
+            input.addEventListener("focus", function () {
+                changeToDateField(input);
+            });
+
+            input.addEventListener("blur", function () {
+                if (!input.value) {
+                    changeToTextField(input);
+                }
+            });
+        });
+
+        function changeToTextField(input) {
+            input.type = "text";
+            input.placeholder = "";
+        }
+
+        function changeToDateField(input) {
+            input.type = "date";
+        }
+    }
+});
+
+
 function viewscreen(a) {	
 	var id = a.getAttribute("data-id");
 	var holder_key = a.getAttribute("data-account_holderkey");
@@ -2691,7 +2726,7 @@ $(document)
 												<label>Date of Birth</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="date" name="dob" />
+												<input type="text" name="dob" />
 											</div>
 										</div>
 
@@ -2718,13 +2753,13 @@ $(document)
 												<label>Creation Date</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="date" name="creation_date" />
+												<input type="text" name="creation_date" />
 											</div>
 											<div class="col-sm-2">
 												<label>Approval Date</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="date" name="approval_date" />
+												<input type="text" name="approval_date" />
 											</div>
 										</div>
 
@@ -2734,14 +2769,14 @@ $(document)
 												<label>Last Modification Date</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="date" name="modification_date"
+												<input type="text" name="modification_date"
 													id="modification_date" />
 											</div>
 											<div class="col-sm-2">
 												<label>Activation Date</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="date" name="activation_date"
+												<input type="text" name="activation_date"
 													id="activation_date" />
 											</div>
 										</div>
@@ -2823,7 +2858,7 @@ $(document)
 												<label>As On Date</label>
 											</div>
 											<div class="col-sm-2">
-												<input type="date" name="as_on_date" id="as_on_date" />
+												<input type="text" name="as_on_date" id="as_on_date" />
 											</div>
 										</div>
 									</div>
