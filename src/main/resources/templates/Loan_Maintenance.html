@@ -201,9 +201,10 @@ function viewscreen(a) {
 	location.href = 'Loan_Maintenance?formmode=view&id=' + id  +'&holder_key=' +holder_key;
 }
 function verifyscreen(a) {
+	event.preventDefault();
 	var id = a.getAttribute("data-id");
-	var holder_key = a.getAttribute("data-account_holderkey");
-	location.href = 'Loan_Maintenance?formmode=verify&id=' + id  +'&holder_key=' +holder_key;
+ 
+	location.href = 'Loan_Maintenance?formmode=verify&id=' + id ;
 }
 </script>
 <script>
@@ -239,6 +240,27 @@ function submitformmodify() {
 		}
 	});
 }
+
+
+
+function submitformverify() {
+	event.preventDefault();
+	
+	var id = document.getElementById("id").value;
+	alert(id);
+	$.ajax({
+		url: './Verifyloanmain?id=' +id ,
+		type: 'POST', // Note: 'post' should be in lowercase
+		success: function (response) {
+			alert("verified");
+		},
+		error: function (error) {
+		console.error("Error: " + error.responseText);
+		alert("Please fill the mandatory feilds");
+		}
+	});
+}
+
 </script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function() {
@@ -334,7 +356,7 @@ function updateTable(data) {
 									style="background-color: #e3e3e4;">
 
 									<option value="ALL">All</option>
-									<option value="NOTAPPROVED" selected>NOT APPROVED</option>
+									<option value="NOTAPPROVED" selected>UnVerified</option>
 								</select>
 								 
 							</div>
@@ -984,9 +1006,18 @@ function updateTable(data) {
 </div>
 <div class="card-footer text-center mt-4">
 	<button class="btn btn-primary p-2"  >Home</button>
-	<button class="btn btn-primary p-2"  th:attr="data-id=${view?.id}, data-account_holderkey=${view?.account_holderkey}" th:if="${formmode}=='view'" onclick="modifyscreen(this);">Modify</button>
-	<button class="btn btn-primary p-2"  th:attr="data-id=${view?.id}, data-account_holderkey=${view?.account_holderkey}" th:if="${formmode}=='view'" onclick="verifyscreen(this);">Verify</button>
-	<button type="button" class="btn btn-primary p-2" th:if="${formmode}=='modify'"  data-dismiss="modal" onclick="submitformmodify(this);">Submit</button>
+	<button class="btn btn-primary p-2" th:if="${Boolean} and ${formmode}=='view'" 
+        th:attr="data-id=${view?.id}" 
+        onclick="verifyscreen(this);">
+    Verify
+</button>
+
+<!-- Submit Button (Shown when Boolean is false) -->
+<button type="button" class="btn btn-primary p-2" th:if="!${Boolean} and ${formmode}=='view'"  
+        data-dismiss="modal" 
+        onclick="submitformmodify(this);">
+    Submit
+</button>
 	<button class="btn btn-primary p-2" onclick="back();">Back</button>
 </div>
 <!-------------------------------------------------------------------------- footer ------------------------------------------------------------>

@@ -3533,6 +3533,9 @@ public class BGLSNavigationController {
 			System.out.println(holder_key);
 			md.addAttribute("view", LOAN_ACT_MST_REPO.getLoanView(id));
 			md.addAttribute("loan", LOAN_ACT_MST_REPO.getLoanValue(holder_key));
+			Integer unverifiedStatus = LOAN_ACT_MST_REPO.getUnverifiedStatus(id);
+			Boolean isUnverified = unverifiedStatus != null && unverifiedStatus == 1;
+			md.addAttribute("Boolean", isUnverified);
 		} else if (formmode.equals("modify")) {
 			md.addAttribute("formmode", "modify");
 			md.addAttribute("view", LOAN_ACT_MST_REPO.getLoanView(id));
@@ -3621,5 +3624,17 @@ System.out.println(encodedKey);
 		System.out.println(id);
 		return "Modified Successfully";
 	}
-
+	@PostMapping(value = "Verifyloanmain")
+	@ResponseBody
+	public String Verifyloanmain(@RequestParam(required = false) String id, 
+			Model md, HttpServletRequest rq ) {
+	System.out.println(id);
+		LOAN_ACT_MST_ENTITY verify = loan_act_mst_repo.getLoanView(id);
+		verify.setApproved_date(new Date());
+		
+		loan_act_mst_repo.save(verify);
+		//client_mst_repo.save(up1);
+		System.out.println(id);
+		return "Veified Successfully";
+	}
 }

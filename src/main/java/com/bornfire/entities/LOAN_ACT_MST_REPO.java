@@ -38,5 +38,10 @@ public interface LOAN_ACT_MST_REPO extends JpaRepository<LOAN_ACT_MST_ENTITY, St
 	
 	@Query(value = "SELECT * FROM LOAN_ACCOUNT_MASTER_TBL where  last_modified_date > approved_date", nativeQuery = true)
 	List<LOAN_ACT_MST_ENTITY> getLoanActFilterUnverified();
+	
+	@Query(value = "SELECT CASE WHEN last_modified_date > approved_date THEN 1 ELSE 0 END " +
+            "FROM LOAN_ACCOUNT_MASTER_TBL WHERE id = ?1", nativeQuery = true)
+Integer getUnverifiedStatus(String id);
+
 
 }
