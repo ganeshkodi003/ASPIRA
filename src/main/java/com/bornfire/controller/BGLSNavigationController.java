@@ -3595,6 +3595,7 @@ System.out.println(encodedKey);
 	    if (up != null) {
 	        // Update only the fields that need modification
 	        up.setAssigned_branchkey(loan_act_mst_entity.getAssigned_branchkey());
+	        up.setCreation_date(loan_act_mst_entity.getCreation_date());
 	        up.setAccount_substate(loan_act_mst_entity.getAccount_substate());
 	        up.setLoan_amount(loan_act_mst_entity.getLoan_amount());
 	        up.setPayment_method(loan_act_mst_entity.getPayment_method());

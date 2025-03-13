@@ -475,6 +475,13 @@ function (e) {
 	});
 });
 </script>
+<script>
+$(function () {
+	 $("#creation_date, #approved_date").datepicker({
+			dateFormat: "dd-mm-yy"
+		});
+});
+</script>
 </head>
 <title>ASPIRA</title>
 <body>
@@ -601,7 +608,7 @@ function (e) {
 												th:if="${formmode}=='view'" readonly /> <input type="text"
 												name="account_state" id="account_state"
 												th:value="${view?.account_state}"
-												th:if="${formmode}=='modify'" />
+												th:if="${formmode}=='modify'" readonly/>
 										</div>
 									</div>
 
@@ -622,7 +629,7 @@ function (e) {
 											<input type="text" th:value="${view?.id}" name="id" id="id"
 												th:if="${formmode}=='view'" readonly /> <input type="text"
 												th:value="${view?.id}" name="id" id="id"
-												th:if="${formmode}=='modify'" />
+												th:if="${formmode}=='modify'"/>
 										</div>
 										<div class="col-sm-2">
 											<label>Loan Name</label>
@@ -653,7 +660,7 @@ function (e) {
 											<input type="text"
 												th:value="${#dates.format(view?.creation_date, 'dd-MM-yyyy')}"
 												name="creation_date" id="creation_date"
-												th:if="${formmode}=='view'" readonly /> <input type="text"
+												th:if="${formmode}=='view'" disabled /><input type="text"
 												th:value="${#dates.format(view?.creation_date, 'dd-MM-yyyy')}"
 												name="creation_date" id="creation_date"
 												th:if="${formmode}=='modify'" />
@@ -704,7 +711,7 @@ function (e) {
 												name="account_state" id="account_state"
 												th:if="${formmode}=='view'" readonly /> <input type="text"
 												th:value="${view?.account_state}" name="account_state"
-												id="account_state" th:if="${formmode}=='modify'" />
+												id="account_state" th:if="${formmode}=='modify'" readonly/>
 										</div>
 									</div>
 
