@@ -1927,7 +1927,7 @@ function submitForm() {
         type: 'POST',
         data: $.param(formData),
         success: function(response) {
-            console.log('Form submitted successfully!');
+            alert('Form submitted successfully!');
             window.location.href = "./customerMaster?formmode=list&module=module2";
 
         },
