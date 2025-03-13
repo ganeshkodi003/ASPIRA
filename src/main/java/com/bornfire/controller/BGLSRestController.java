@@ -5161,13 +5161,7 @@ public class BGLSRestController {
             customer.setSuburb(customer.getSuburb() != null ? customer.getSuburb() : existingCustomer.getSuburb());
             customer.setAssigned_user_key(customer.getAssigned_user_key() != null ? customer.getAssigned_user_key() : existingCustomer.getAssigned_user_key());
             customer.setAsondate(customer.getAsondate() != null ? customer.getAsondate() : existingCustomer.getAsondate());
-            customer.setModify_flg(customer.getModify_flg() != '\0' ? customer.getModify_flg() : existingCustomer.getModify_flg());
-            customer.setVerify_flg(customer.getVerify_flg() != '\0' ? customer.getVerify_flg() : existingCustomer.getVerify_flg());
-            customer.setDelete_flg(customer.getDelete_flg() != '\0' ? customer.getDelete_flg() : existingCustomer.getDelete_flg());
-
-            // Set modify_flg to 'N' and verify_flg to 'Y'
-            customer.setModify_flg('Y');
-            customer.setVerify_flg('N');
+           
 //            System.out.println(existingCustomer.toString());
 //            
 //            System.out.println("\n\n\n\n\n\n\n");
@@ -5191,9 +5185,7 @@ public class BGLSRestController {
 
             CLIENT_MASTER_ENTITY existingCustomer = existingCustomerOpt.get();
 						existingCustomer.setApproved_date(new Date());
-            // Set modify_flg to 'N' and verify_flg to 'Y'
-            existingCustomer.setModify_flg('N');
-            existingCustomer.setVerify_flg('Y');
+    
 
             // Save updated customer
             clientMasterRepo.save(existingCustomer);

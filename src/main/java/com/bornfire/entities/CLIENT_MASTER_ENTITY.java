@@ -43,27 +43,6 @@ public class CLIENT_MASTER_ENTITY {
 	private String	assigned_user_key;
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	asondate;
-	private char modify_flg; // 'N' for modify flag
-	public char getModify_flg() {
-		return modify_flg;
-	}
-	public void setModify_flg(char modify_flg) {
-		this.modify_flg = modify_flg;
-	}
-	public char getVerify_flg() {
-		return verify_flg;
-	}
-	public void setVerify_flg(char verify_flg) {
-		this.verify_flg = verify_flg;
-	}
-	public char getDelete_flg() {
-		return delete_flg;
-	}
-	public void setDelete_flg(char delete_flg) {
-		this.delete_flg = delete_flg;
-	}
-	private char verify_flg; // 'Y' for verify flag
-	private char delete_flg; // 'N' for delete flag
 	public String getEncoded_key() {
 		return encoded_key;
 	}
@@ -219,7 +198,7 @@ public class CLIENT_MASTER_ENTITY {
 			String mobile_phone, String email_address, String preferred_language, Date birth_date, String gender,
 			String assigned_branch_key, String client_role_key, BigDecimal loan_cycle, BigDecimal group_loan_cycle,
 			String address_line1, String address_line2, String address_line3, String city, String suburb,
-			String assigned_user_key, Date asondate, char modify_flg, char verify_flg, char delete_flg) {
+			String assigned_user_key, Date asondate) {
 		super();
 		this.encoded_key = encoded_key;
 		this.customer_id = customer_id;
@@ -246,11 +225,7 @@ public class CLIENT_MASTER_ENTITY {
 		this.suburb = suburb;
 		this.assigned_user_key = assigned_user_key;
 		this.asondate = asondate;
-		this.modify_flg = modify_flg;
-		this.verify_flg = verify_flg;
-		this.delete_flg = delete_flg;
 	}
-	
 	public CLIENT_MASTER_ENTITY() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -266,22 +241,9 @@ public class CLIENT_MASTER_ENTITY {
 				+ client_role_key + ", loan_cycle=" + loan_cycle + ", group_loan_cycle=" + group_loan_cycle
 				+ ", address_line1=" + address_line1 + ", address_line2=" + address_line2 + ", address_line3="
 				+ address_line3 + ", city=" + city + ", suburb=" + suburb + ", assigned_user_key=" + assigned_user_key
-				+ ", asondate=" + asondate + ", modify_flg=" + modify_flg + ", verify_flg=" + verify_flg
-				+ ", delete_flg=" + delete_flg + ", getEncoded_key()=" + getEncoded_key() + ", getCustomer_id()="
-				+ getCustomer_id() + ", getClient_state()=" + getClient_state() + ", getCreation_date()="
-				+ getCreation_date() + ", getLast_modified_date()=" + getLast_modified_date()
-				+ ", getActivation_date()=" + getActivation_date() + ", getApproved_date()=" + getApproved_date()
-				+ ", getFirst_name()=" + getFirst_name() + ", getLast_name()=" + getLast_name() + ", getMobile_phone()="
-				+ getMobile_phone() + ", getEmail_address()=" + getEmail_address() + ", getPreferred_language()="
-				+ getPreferred_language() + ", getBirth_date()=" + getBirth_date() + ", getGender()=" + getGender()
-				+ ", getAssigned_branch_key()=" + getAssigned_branch_key() + ", getClient_role_key()="
-				+ getClient_role_key() + ", getLoan_cycle()=" + getLoan_cycle() + ", getGroup_loan_cycle()="
-				+ getGroup_loan_cycle() + ", getAddress_line1()=" + getAddress_line1() + ", getAddress_line2()="
-				+ getAddress_line2() + ", getAddress_line3()=" + getAddress_line3() + ", getCity()=" + getCity()
-				+ ", getSuburb()=" + getSuburb() + ", getAssigned_user_key()=" + getAssigned_user_key()
-				+ ", getAsondate()=" + getAsondate() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ ", toString()=" + super.toString() + "]";
+				+ ", asondate=" + asondate + "]";
 	}
+	 
 	
 	
 
