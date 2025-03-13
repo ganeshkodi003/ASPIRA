@@ -405,52 +405,76 @@ a {
 
 
 			<li class="nav-item"><a class="nav-link nav-link-collapse pl-3"
-				href="#" id="adminMenu" data-toggle="collapse"
-				data-target="#collapseAdmin" aria-controls="collapseAdmin"
+				href="#" id="hasSubItems" data-toggle="collapse"
+				data-target="#collapseSubItems1" aria-controls="collapseSubItems1"
 				aria-expanded="false">Admin</a>
 
-				<ul class="nav-second-level collapse" id="collapseAdmin"
+				<ul class="nav-second-level collapse" id="collapseSubItems1"
 					data-parent="#navAccordion">
 
-					<!-- Other Admin Links -->
+
+
 					<li class="nav-item"><a class="nav-link"
 						id="organizationDetails" href="#" onclick="contentLoad(this)">Organization
-							Details</a></li>
-					<li class="nav-item"><a class="nav-link" id="userControl"
+							Details </a></li>
+					<li class="nav-item"><a class="nav-link" id="userProfile"
 						href="#" onclick="contentLoad(this)">User Control</a></li>
-					<li class="nav-item"><a class="nav-link" id="parameters"
+					<!--<li class="nav-item"><a class="nav-link" id="employeeProfile"
+						href="#" onclick="contentLoad(this)">Employee Profile</a></li>-->
+
+					<li class="nav-item"><a class="nav-link" id="refCodeMain"
 						href="#" onclick="contentLoad(this)">Parameters</a></li>
-					<li class="nav-item"><a class="nav-link" id="auditTrail"
-						href="#" onclick="contentLoad(this)">Audit Trail</a></li>
+					<!--<li class="nav-item"><a class="nav-link" id="chartOfAccounts"
+						href="#" onclick="contentLoad(this)">Chart of Accounts</a></li>
+
+					<li class="nav-item"><a class="nav-link" id="accountLedger"
+						href="#" onclick="contentLoad(this)">Account ledger</a></li>-->
+					<!--<li class="nav-item"><a class="nav-link" id="Parameter" href="#"
+							onclick="contentLoad(this)">Parameters</a></li>-->
+
+					<!-- <li class="nav-item"><a class="nav-link" id="calendermaintenance"
+						href="#" onclick="contentLoad(this)">Calender Maintenance</a></li> -->
+
+					<li class="nav-item"><a class="nav-link"
+						id="audittraildetails" href="#" onclick="contentLoad(this)">
+							Audit Trail </a></li>
+
+					<!-- <li class="nav-item"><a class="nav-link"
+						id="budgetMaintanance" href="#" onclick="contentLoad(this)">Budget
+							Control</a></li>
+
+					<li class="nav-item"><a class="nav-link" id="documentManager"
+						href="#" onclick="contentLoad(this)">Document Manager</a></li>
+ -->
 
 				</ul></li>
 
 			<!-- Migration Menu -->
 			<li class="nav-item"><a class="nav-link nav-link-collapse pl-3"
 				href="#" id="migrationMenu" data-toggle="collapse"
-				data-target="#collapseMigration" aria-controls="collapseMigration"
+				data-target="#collapseMigration1" aria-controls="collapseMigration"
 				aria-expanded="false">Migration</a>
 
-				<ul class="nav-second-level collapse" id="collapseMigration"
-					data-parent="#collapseAdmin">
+				<ul class="nav-second-level collapse" id="collapseMigration1">
 					<li class="nav-item"><a class="nav-link p-1"
-						
-							id="customerMaster?module=module1" href="#" onclick="contentLoad(this)">Customer
-							Master</a></li>
-												<li class="nav-item"><a class="nav-link p-1" id="loanMaster"
+						id="customerMaster?formmode=list&module=module1" href="#"
+						onclick="contentLoad(this)">Customer Master</a></li>
+					<li class="nav-item"><a class="nav-link p-1" id="loanMaster"
 						href="#" onclick="contentLoad(this)">Loan Master</a></li>
 					<li class="nav-item"><a class="nav-link p-1" id="loanSchedule"
 						href="#" onclick="contentLoad(this)">Loan Schedule</a></li>
 				</ul></li>
 
+
 			<li class="nav-item"><a class="nav-link nav-link-collapse pl-3 "
 				id="day_end_operation" href="#" onclick="contentLoad(this)"> Day
 					End Operation </a></li>
-<li class="nav-item"><a class="nav-link nav-link-collapse pl-3 " 
-					id="customerMaster?formmode=list&module=module2" href="#" onclick="contentLoad(this)"> Customer Master </a></li>
+			<li class="nav-item"><a class="nav-link nav-link-collapse pl-3 "
+				id="customerMaster?formmode=list&module=module2" href="#"
+				onclick="contentLoad(this)"> Customer Master </a></li>
 
 
-		<!--	<li class="nav-item"><a class="nav-link nav-link-collapse pl-3"
+			<!--	<li class="nav-item"><a class="nav-link nav-link-collapse pl-3"
 				href="#" id="hasSubItems" data-toggle="collapse"
 				data-target="#collapseSubItems2" aria-controls="collapseSubItems2"
 				aria-expanded="false">Customer Onboarding</a>
@@ -506,9 +530,10 @@ a {
 					<li class="nav-item"><a class="nav-link" id="CustMaint"
 						href="#" onclick="contentLoad(this)">Customer Maintenance </a></li>
 				</ul></li>-->
-				
-				<li class="nav-item"><a class="nav-link nav-link-collapse pl-3 "
-				id="Loan_Maintenance" href="#" onclick="contentLoad(this)">Loan Maintenance</a></li>
+
+			<li class="nav-item"><a class="nav-link nav-link-collapse pl-3 "
+				id="Loan_Maintenance" href="#" onclick="contentLoad(this)">Loan
+					Maintenance</a></li>
 
 			<li class="nav-item"><a class="nav-link nav-link-collapse pl-3"
 				href="#" id="hasSubItems" data-toggle="collapse"
