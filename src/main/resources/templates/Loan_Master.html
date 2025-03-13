@@ -224,7 +224,6 @@ button:focus {
 	height: 100%;
 	overflow: auto;
 	background-color: rgba(0, 0, 0, 0.4);
-	margin-left: 350px;
 }
 
 .modal-content {
@@ -350,7 +349,6 @@ input:hover+.password-info {
 	}
 
 	function thirdexceldownload() {
-		alert("secondexceldownload function worked ");
 		$("#alert53").modal("show");
 	}
 </script>
@@ -1941,48 +1939,29 @@ function (e) {
 	</div>
 
 	<div class="modal fade" data-backdrop="false" data-keyboard="false"
-		id="alert53" tabindex="-1" role="dialog" aria-hidden="true">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-			<div class="modal-content" style="width: 120%; height: 25%;">
-				<div class="card">
-					<!-- Header with Alert Message -->
-					<div class="modal-header"
-						style="justify-content: center; width: 100%;">
-						<h5 class="modal-title" id="popupAlert" style="font-size: 18px;">Upload
-							Files - Account Datas</h5>
-						<!-- Alert message will appear here -->
-					</div>
-
-					<!-- Body with Response -->
-					<div class="modal-body"
-						style="text-align: center; display: flex; flex-direction: column; align-items: center; height: 100px; overflow-y: auto; font-weight: bold; font-size: 15px;">
-						<div class="row formline">
-							<div class="col-sm-6">Upload File :</div>
-							<div class="col-sm-6">
-								<form action="#" th:object="${reportform}" method="post"
-									enctype="multipart/form-data" id="reportform2">
-									<input type="file" name="file" id="fileInput"
-										class="form-control form-control-sm bg-white border border-dark"
-										accept=".xml, .xls, .xlsx" />
-									<button type="button" class="btn btn-primary"
-										onclick="submitdatas2()">Submit</button>
-								</form>
+		tabindex="-1" role="dialog" aria-hidden="true" id="alert53">
+		<form action="#" th:object="${reportform}" method="post"
+			enctype="multipart/form-data" id="reportform2">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content w-100">
+					<div class="modal-body" style="text-align: center">
+					<div class="d-flex align-items-center">
+					<p  class="mb-0 me-2 mr-2">Upload File</p>
+						<input type="file" name="file" id="fileInput"
+							class="form-control form-control-sm bg-white border border-dark"
+							accept=".xml, .xls, .xlsx" />
 							</div>
+						<div class="mt-5 text-right">
+							<button type="button" class="btn btn-primary"
+								onclick="submitdatas2()">Submit</button>
+							<button type="button" class="btn btn-primary"
+								data-dismiss="modal" onclick="refreshPage()">Close</button>
 						</div>
 					</div>
-
-
-					<!-- Footer with Close Button -->
-					<div class="modal-footer"
-						style="justify-content: center; width: 100%;">
-						<button type="button" class="btn btn-primary" data-dismiss="modal"
-							onclick="refreshPage()">Close</button>
-					</div>
-
 				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 
 	<div class="modal fade" data-bs-backdrop="false"
