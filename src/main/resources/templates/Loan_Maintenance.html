@@ -244,6 +244,15 @@ function back() {
 	event.preventDefault();
 	window.history.back();
 }
+function schedule() {
+	event.preventDefault();
+	var id = document.getElementById("id").value;
+	var holder_key = document.getElementById("account_holderkey").value;
+	var encodedKey = document.getElementById("encoded_key").value;
+	location.href = 'loanSchedule?formmode=viewloanschedule1&id=' + id +
+			'&holder_key=' + holder_key +
+			'&encodedKey=' + encodedKey;
+}
 function listPage() {
 	event.preventDefault();
 	location.href = 'drawDownLoanMaintanace?formmode=list';
@@ -256,7 +265,6 @@ function viewscreen(a) {
 function verifyscreen(a) {
 	event.preventDefault();
 	var id = a.getAttribute("data-id");
- 
 	location.href = 'Loan_Maintenance?formmode=verify&id=' + id ;
 }
 </script>
@@ -475,6 +483,20 @@ function (e) {
 	});
 });
 </script>
+<script type="text/javascript">
+function viewcustid(element) { 
+    var id = element.getAttribute("data-id");
+    var holder_key = element.getAttribute("data-account_holderkey");
+    location.href = `./customerMaster?formmode=view&module=${dues}&id=` + id; 
+}
+</script>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
+// Thymeleaf data injected into JavaScript
+
+	/*]]>*/
+</script>
 <script>
 $(function () {
 	 $("#creation_date, #approved_date").datepicker({
@@ -566,6 +588,9 @@ $(function () {
 								<h6 style="font-size: 1.2rem;" class="ml-3"
 									th:if="${formmode}=='modify'">LOAN MAINTENANCE - MODIFY</h6>
 							</div>
+							<div class="float-right">
+								<button class="tablinks" onclick="schedule()">SCHEDULE</button>
+							</div>
 						</div>
 						<div class="card-body">
 							<form action="#" th:object="${drawDownDetails}" method="post"
@@ -581,21 +606,23 @@ $(function () {
 										<div class="col-sm-2">
 											<label>Customer Id</label>
 										</div>
-										<div class="col-sm-2">
-											<input type="text" th:value="${loan[0][0]}"
-												name="customer_id" id="customer_id"
-												th:if="${formmode}=='view'" readonly /> <input type="text"
-												th:value="${loan[0][0]}" th:if="${formmode}=='modify'"
-												name="customer_id" id="customer_id" readonly />
+										<div class="col-sm-2 d-flex align-items-center">
+											<input type="text" th:value="${loan[0]}"
+												name="customer_id" id="customer_id" readonly /> <img
+												th:src="@{/images/info.png}"
+												style="width: 25px; height: 25px; margin-left: 5px;"
+												onclick="viewcustid(this)" id="openModaldoc"
+												data-toggle="modal" data-target=".bd-example-modal-lg"
+												th:attr="data-id=${loan[0]}, data-account_holderkey=${view?.account_holderkey}">
 										</div>
 										<div class="col-sm-2">
 											<label>Customer Name</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${loan[0][1]}"
+											<input type="text" th:value="${view?.employer_name}"
 												name="employer_name" id="employer_name"
 												th:if="${formmode}=='view'" readonly /> <input type="text"
-												th:value="${loan[0][1]}" name="employer_name"
+												th:value="${view?.employer_name}" name="employer_name"
 												id="employer_name" th:if="${formmode}=='modify'" />
 										</div>
 										<div class="col-sm-2">
@@ -621,6 +648,8 @@ $(function () {
 												readonly /> <input type="text" name="account_holdertype"
 												th:value="${view?.account_holdertype}"
 												id="account_holdertype" th:if="${formmode}=='modify'" />
+												<input type="text" name="account_holderkey" id="account_holderkey" th:value="${view?.account_holderkey}" readonly hidden />
+                                                <input type="text" name="encoded_key" id="encoded_key" th:value="${view?.encoded_key}" readonly hidden />
 										</div>
 										<div class="col-sm-2">
 											<label>Loan No</label>
@@ -1441,9 +1470,9 @@ $(function () {
 										<div class="col-sm-2">
 											<input type="text" name="account_holdertype"
 												id="account_holdertype"
-												th:value="${view?.account_holdertype}" readonly /> <input
-												type="text" name="account_holderkey" id="account_holderkey"
-												th:value="${view?.account_holderkey}" readonly hidden />
+												th:value="${view?.account_holdertype}" readonly />
+												<input type="text" name="account_holderkey" id="account_holderkey" th:value="${view?.account_holderkey}" readonly hidden />
+                                                <input type="text" name="encoded_key" id="encoded_key" th:value="${view?.encoded_key}" readonly hidden />
 										</div>
 										<div class="col-sm-2">
 											<label>Loan No</label>
