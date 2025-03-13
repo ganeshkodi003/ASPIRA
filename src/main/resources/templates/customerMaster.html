@@ -2201,7 +2201,7 @@ function updateTable(data) {
 								</div>
 								<div class="btn-group nav-buttons float-right">
 									<button class="btn btn-primary p-2 "
-										th:if="${module} == 'module1'" onclick="Uploadloan();">Upload</button>
+										th:if="${module} == 'module1'  and ${formmode}==''" onclick="Uploadloan();">Upload</button>
 									<button th:if="${module} == 'module2' and ${formmode}=='view' and !${Boolean}"
 										class="btn ml-2 btn-primary p-2" th:value =${Boolean}
 										onclick="ClickId(null, 'modify')">Modify</button>
