@@ -1965,6 +1965,7 @@ function verifyUser(userId) {
     .then(data => {
         
         window.location.href = "./customerMaster?formmode=list&module=module2";
+				alert("verified SuccesFully")
     })
     .catch(error => {
         console.error("Error verifying user:", error);
@@ -2065,7 +2066,11 @@ function updateTable(data) {
     // Iterate over the data if available
     data.forEach((item, index) => {
         // Format the date manually since JavaScript does not support Thymeleaf
-        let birthDate = item?.birth_date ? new Date(item.birth_date).toLocaleDateString('en-GB') : 'TEST';
+    let birthDate = item?.birth_date 
+    ? new Date(item.birth_date).toLocaleDateString('en-GB', { 
+        day: '2-digit', month: '2-digit', year: 'numeric' 
+      }).replace(/\//g, '-')  // Replace '/' with '-'
+    : '05-12-1920';
 
         const row = `
             <tr style="font-size:14px" class="userlist">
@@ -2078,8 +2083,8 @@ function updateTable(data) {
                 </td>
                 <td>${(item?.first_name || '') + ' ' + (item?.last_name || '')}</td>
                 <td>${birthDate}</td>
-                <td>${item?.assigned_branch_key || 'TEST'}</td>
-                <td>${item?.client_state || 'TEST'}</td>
+                <td>${item?.assigned_branch_key || ''}</td>
+                <td>${item?.client_state || ''}</td>
             </tr>
         `;
 
@@ -2137,7 +2142,7 @@ function updateTable(data) {
 								style="overflow-y: auto; border: 1px solid #ddd;">
 								<div class="table-responsive" id="cardBody">
 									<table class="table  table-bordered  table-hover table-sm"
-										style="margin-bottom: 0px; font-size: initial;" id="usertable">
+										style="margin-bottom: 0px; font-size: initial;" >
 										<thead class="thead-light"
 											style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 1;">
 											<tr class="filters">
@@ -2151,7 +2156,7 @@ function updateTable(data) {
 											</tr>
 										</thead>
 									
-										<tbody>
+										<tbody id="usertable">
 											<!-- <tr th:each="list, iterator : ${list}" class="userlist">
 												<td style="font-size: 14px" th:text="${iterator.index +1}"></td>
 
