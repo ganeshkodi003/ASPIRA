@@ -3585,69 +3585,63 @@ System.out.println(encodedKey);
 	@PostMapping(value = "Modifyloanmain")
 	@ResponseBody
 	public String Modifyloanmain(@RequestParam(required = false) String id, 
-			Model md, HttpServletRequest rq, @ModelAttribute LOAN_ACT_MST_ENTITY loan_act_mst_entity , @ModelAttribute CLIENT_MASTER_ENTITY client_mst_entity ) {
+	        Model md, HttpServletRequest rq, @ModelAttribute LOAN_ACT_MST_ENTITY loan_act_mst_entity) {
 
-		System.out.println(id);
-		LOAN_ACT_MST_ENTITY up = loan_act_mst_repo.getLoanView(loan_act_mst_entity.getId());
-		
-		up.setAccount_holdertype(up.getAccount_holdertype());
-		up.setLoan_name(up.getLoan_name());
-		up.setId(up.getId());
-		up.setAssigned_branchkey(up.getAssigned_branchkey());
-		up.setCreation_date(up.getCreation_date());
-		up.setApproved_date(up.getApproved_date());
-		up.setLast_modified_date(up.getLast_modified_date());
-		up.setClosed_date(up.getClosed_date());
-		up.setAccount_state(up.getAccount_state());
-		up.setAccount_substate(up.getAccount_substate());
-		up.setLoan_amount(up.getLoan_amount());
-		up.setPayment_method(up.getPayment_method());
-		up.setPenalty_rate(up.getPenalty_rate());
-		up.setInterest_rate(up.getInterest_rate());
-		up.setExpected_disbursementdate(up.getExpected_disbursementdate());
-		up.setFirst_repaymentdate(up.getFirst_repaymentdate());
-		up.setRepayment_installments(up.getRepayment_installments());
-		up.setPrincipal_due(up.getPrincipal_due());
-		up.setPrincipal_paid(up.getPrincipal_paid());
-		up.setPrincipal_balance(up.getPrincipal_balance());
-		up.setInterest_due(up.getInterest_due());
-		up.setInterest_paid(up.getInterest_paid());
-		up.setInterest_balance(up.getInterest_balance());
-		up.setFees_due(up.getFees_due());
-		up.setFees_paid(up.getFees_paid());
-		up.setFees_balance(up.getFees_balance());
-		up.setPenalty_paid(up.getPenalty_paid());
-		up.setPenalty_due(up.getPenalty_due());
-		up.setPenalty_balance(up.getPenalty_balance());
-		up.setSale_processedbyvgid(up.getSale_processedbyvgid());
-		up.setSale_processedfor(up.getSale_processedfor());
-		up.setSale_referredby(up.getSale_referredby());
-		up.setEmployment_status(up.getEmployment_status());
-		up.setJob_title(up.getJob_title());
-		up.setEmployer_name(up.getEmployer_name());
-		up.setTuscore(up.getTuscore());
-		up.setTuprobability(up.getTuprobability());
-		up.setTufullname(up.getTufullname());
-		up.setTureason1(up.getTureason1());
-		up.setTureason2(up.getTureason2());
-		up.setDisposable_income(up.getDisposable_income());
-		up.setManualoverride_amount(up.getManualoverride_amount());
-		up.setManualoverride_expiry_date(up.getManualoverride_expiry_date());
-		up.setCpfees(up.getCpfees());
-		up.setDeposit_amount(up.getDeposit_amount());
-		up.setTotal_product_price(up.getTotal_product_price());
-		up.setRetailer_name(up.getRetailer_name());
-		up.setRetailer_branch(up.getRetailer_branch());
-		up.setVg_application_id(up.getVg_application_id());
-		up.setContract_signed(up.getContract_signed());
-		up.setDate_of_first_call(up.getDate_of_first_call());
-		up.setLast_call_outcome(up.getLast_call_outcome());
-		up.setAsondate(up.getAsondate());
-		up.setLast_modified_date(new Date());
-		
-		loan_act_mst_repo.save(up);
-		return "Modified Successfully";
+	    System.out.println(id);
+	    
+	    LOAN_ACT_MST_ENTITY up = loan_act_mst_repo.getLoanView(loan_act_mst_entity.getId());
+	    System.out.println(loan_act_mst_entity.getLoan_name());
+	    
+	    if (up != null) {
+	        // Update only the fields that need modification
+	        up.setAssigned_branchkey(loan_act_mst_entity.getAssigned_branchkey());
+	        up.setAccount_state(loan_act_mst_entity.getAccount_state());
+	        up.setAccount_substate(loan_act_mst_entity.getAccount_substate());
+	        up.setLoan_amount(loan_act_mst_entity.getLoan_amount());
+	        up.setPayment_method(loan_act_mst_entity.getPayment_method());
+	        up.setPenalty_rate(loan_act_mst_entity.getPenalty_rate());
+	        up.setInterest_rate(loan_act_mst_entity.getInterest_rate());
+	        up.setExpected_disbursementdate(loan_act_mst_entity.getExpected_disbursementdate());
+	        up.setFirst_repaymentdate(loan_act_mst_entity.getFirst_repaymentdate());
+	        up.setRepayment_installments(loan_act_mst_entity.getRepayment_installments());
+	        up.setPrincipal_due(loan_act_mst_entity.getPrincipal_due());
+	        up.setPrincipal_paid(loan_act_mst_entity.getPrincipal_paid());
+	        up.setPrincipal_balance(loan_act_mst_entity.getPrincipal_balance());
+	        up.setInterest_due(loan_act_mst_entity.getInterest_due());
+	        up.setInterest_paid(loan_act_mst_entity.getInterest_paid());
+	        up.setInterest_balance(loan_act_mst_entity.getInterest_balance());
+	        up.setFees_due(loan_act_mst_entity.getFees_due());
+	        up.setFees_paid(loan_act_mst_entity.getFees_paid());
+	        up.setFees_balance(loan_act_mst_entity.getFees_balance());
+	        up.setPenalty_paid(loan_act_mst_entity.getPenalty_paid());
+	        up.setPenalty_due(loan_act_mst_entity.getPenalty_due());
+	        up.setPenalty_balance(loan_act_mst_entity.getPenalty_balance());
+	        up.setDisposable_income(loan_act_mst_entity.getDisposable_income());
+	        up.setManualoverride_amount(loan_act_mst_entity.getManualoverride_amount());
+	        up.setManualoverride_expiry_date(loan_act_mst_entity.getManualoverride_expiry_date());
+	        up.setCpfees(loan_act_mst_entity.getCpfees());
+	        up.setDeposit_amount(loan_act_mst_entity.getDeposit_amount());
+	        up.setTotal_product_price(loan_act_mst_entity.getTotal_product_price());
+	        up.setRetailer_name(loan_act_mst_entity.getRetailer_name());
+	        up.setRetailer_branch(loan_act_mst_entity.getRetailer_branch());
+	        up.setVg_application_id(loan_act_mst_entity.getVg_application_id());
+	        up.setContract_signed(loan_act_mst_entity.getContract_signed());
+	        up.setDate_of_first_call(loan_act_mst_entity.getDate_of_first_call());
+	        up.setLast_call_outcome(loan_act_mst_entity.getLast_call_outcome());
+	        up.setAsondate(loan_act_mst_entity.getAsondate());
+
+	        // Update last modified date
+	        up.setLast_modified_date(new Date());
+
+	        // Save updated entity
+	        loan_act_mst_repo.save(up);
+
+	        return "Modified Successfully";
+	    } else {
+	        return "Loan record not found";
+	    }
 	}
+
 	@PostMapping(value = "Verifyloanmain")
 	@ResponseBody
 	public String Verifyloanmain(@RequestParam(required = false) String id, 

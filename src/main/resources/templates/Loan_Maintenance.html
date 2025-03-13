@@ -245,15 +245,9 @@ function verifyscreen(a) {
 function modifyscreen(a) {
 	event.preventDefault();
 	var id = a.getAttribute("data-id");
-	alert(id);
 	var holder_key = a.getAttribute("data-account_holderkey");
-	alert(holder_key);
 	location.href = 'Loan_Maintenance?formmode=modify&id=' + id  +'&holder_key=' +holder_key;
 }
-
-
-
-
 function submitformverify() {
 	event.preventDefault();
 	
@@ -262,8 +256,7 @@ function submitformverify() {
 	$.ajax({
 		url: './Verifyloanmain?id=' +id ,
 		type: 'POST', // Note: 'post' should be in lowercase
-		success: function (response) {
-			   
+		success: function (response) {		   
                $('#mypopup22').modal('show'); 
                $("#popupmsg_body").html(response); 
 		},
@@ -280,67 +273,65 @@ function submitformverify() {
 
 </script>
 <script>
-function submitformmodify() {
-	event.preventDefault();
+	function submitformmodify() {
+		event.preventDefault();
 
-// Remove commas and format dates BEFORE serializing
-["disposable_income", "interest_paid","interest_due","interest_balance","loan_amount", "manualoverride_amount", "cpfees","fees_balance","fees_paid",
- "principal_balance", "principal_paid", "total_product_price","principal_due","fees_due","penalty_due","penalty_paid","penalty_balance","deposit_amount"]
-.forEach(function (fieldId) {
-    var field = document.getElementById(fieldId);
-    if (field && field.value) {
-        field.value = field.value.replace(/,/g, ""); // Remove commas
-    }
-});
+		// Remove commas and format dates BEFORE serializing
+		["disposable_income", "interest_paid", "interest_due", "interest_balance", "loan_amount", "manualoverride_amount", "cpfees", "fees_balance", "fees_paid",
+			"principal_balance", "principal_paid", "total_product_price", "principal_due", "fees_due", "penalty_due", "penalty_paid", "penalty_balance", "deposit_amount"]
+			.forEach(function (fieldId) {
+				var field = document.getElementById(fieldId);
+				if (field && field.value) {
+					field.value = field.value.replace(/,/g, ""); // Remove commas
+				}
+			});
 
-// Serialize the updated form data
-var formData = $("#loanmain").serializeArray();
+		// Serialize the updated form data
+		var formData = $("#loanmain").serializeArray();
 
-// Format date fields correctly
-formData.forEach(function (field) {
-    if (isDateField(field.name) && field.value.trim() !== "") {
-        let date = new Date(field.value);
-        field.value = formatDateWithMidnight(date);
-    }
-});
+		// Format date fields correctly
+		formData.forEach(function (field) {
+			if (isDateField(field.name) && field.value.trim() !== "") {
+				let date = new Date(field.value);
+				field.value = formatDateWithMidnight(date);
+			}
+		});
 
-var id = document.getElementById("id").value;
-alert(id);
+		$.ajax({
+			url: './Modifyloanmain',
+			data: $.param(formData),
+			type: 'post',
+			success: function (response) {
+			$('#mypopup22').modal('show'); 
+            $("#popupmsg_body").html(response); 
+			},
+			error: function (error) {
+				console.error("Error: " + error.responseText);
+				alert("Please fill the mandatory fields");
+			}
+		});
+	}
 
-$.ajax({
-    url: './Modifyloanmain',
-    data: $.param(formData),
-    type: 'post',
-    success: function (response) {
-        alert("modified");
-    },
-    error: function (error) {
-        console.error("Error: " + error.responseText);
-        alert("Please fill the mandatory fields");
-    }
-});
-}
+	// Function to check if a field is a date field
+	function isDateField(fieldName) {
+		return [
+			"creation_date", "last_modified_date", "closed_date", "approved_date", "first_repaymentdate",
+			"date_of_first_call", "disbursement_date", "asondate", "manualoverride_expiry_date"
+		].includes(fieldName);
+	}
 
-// Function to check if a field is a date field
-function isDateField(fieldName) {
-    return [
-        "creation_date", "last_modified_date", "closed_date", "approved_date", "first_repaymentdate",
-        "date_of_first_call", "disbursement_date","asondate","manualoverride_expiry_date"
-    ].includes(fieldName);
-}
-
-// Function to format date as "dd-MM-yyyy 00:00:00"
-function formatDateWithMidnight(date) {
-    if (isNaN(date.getTime())) {
-        return ""; // Return an empty string if the date is invalid
-    }
-    let dd = String(date.getDate()).padStart(2, '0');
-    let MM = String(date.getMonth() + 1).padStart(2, '0');
-    let yyyy = date.getFullYear();
-    return `${dd}-${MM}-${yyyy} 00:00:00`;
-}
+	// Function to format date as "dd-MM-yyyy 00:00:00"
+	function formatDateWithMidnight(date) {
+		if (isNaN(date.getTime())) {
+			return ""; // Return an empty string if the date is invalid
+		}
+		let dd = String(date.getDate()).padStart(2, '0');
+		let MM = String(date.getMonth() + 1).padStart(2, '0');
+		let yyyy = date.getFullYear();
+		return `${dd}-${MM}-${yyyy} 00:00:00`;
+	}
 </script>
-<script type="text/javascript">
+<script>
 document.addEventListener('DOMContentLoaded', function() {
     handleFilterChange(); // Automatically apply the filter on page load
 });
@@ -380,6 +371,7 @@ function updateTable(data) {
     $('#loanfilterbody').empty();
     
     if (data.length === 0) {
+		 $('#loanfilterbody').empty();
         // If no data is returned, append a row with "No data available"
         const noDataRow = `
             <tr style="font-size:14px">
@@ -544,9 +536,9 @@ function updateTable(data) {
 										</div>
 										<div class="col-sm-2">
 											<input type="text" th:value="${view?.loan_name}"
-												name="loan_name" id="loan_name" th:if="${formmode}=='view'"
+												name="" id="loan_name" th:if="${formmode}=='view'"
 												readonly /> <input type="text"
-												th:value="${view?.loan_name}" name="loan_name"
+												th:value="${view?.loan_name}" name=""
 												id="loan_name" th:if="${formmode}=='modify'" readonly />
 										</div>
 										<div class="col-sm-2">
@@ -563,10 +555,10 @@ function updateTable(data) {
 										</div>
 										<div class="col-sm-2">
 											<input type="text" th:value="${view?.loan_name}"
-												name="loan_name" id="loan_name" th:if="${formmode}=='view'"
+												name="" id="loan_name" th:if="${formmode}=='view'"
 												readonly /> <input type="text"
-												th:value="${view?.loan_name}" name="loan_name"
-												id="loan_name" th:if="${formmode}=='modify'" />
+												th:value="${view?.loan_name}" name=""
+												id="loan_name" th:if="${formmode}=='modify'" readonly/>
 										</div>
 									</div>
 
