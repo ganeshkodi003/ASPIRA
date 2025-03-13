@@ -126,10 +126,10 @@ button:focus {
 	left: 0;
 	top: 0;
 	width: 100%;
-	height: 100%;
+	
 	overflow: auto;
 	background-color: rgba(0, 0, 0, 0.4);
-	margin-left: 350px;
+
 }
 .modal-content {
 	background-color: #fefefe;
@@ -137,7 +137,7 @@ button:focus {
 	padding: 20px;
 	border: 1px solid #888;
 	width: 70%;
-	height: 20%;
+	height: 14%;
 	margin-left: 200px;
 }
 .modal-pass {
@@ -247,14 +247,14 @@ function submitformverify() {
 	event.preventDefault();
 	
 	var id = document.getElementById("id").value;
-	alert(id);
+ 
 	$.ajax({
 		url: './Verifyloanmain?id=' +id ,
 		type: 'POST', // Note: 'post' should be in lowercase
 		success: function (response) {
-			   var formattedResponse = response.message;
+			   
                $('#mypopup22').modal('show'); 
-               $("#popupmsg_body").html(formattedResponse); 
+               $("#popupmsg_body").html(response); 
 		},
 		error: function (error) {
 		console.error("Error: " + error.responseText);
@@ -1020,10 +1020,11 @@ function updateTable(data) {
 
 <!-- Submit Button (Shown when Boolean is false) -->
 <button type="button" class="btn btn-primary p-2" th:if="!${Boolean} and ${formmode}=='view'"  
-        data-dismiss="modal" 
-        onclick="submitformmodify(this);">
+        data-dismiss="modal"  th:attr="data-id=${view?.id}, data-account_holderkey=${view?.account_holderkey}"
+        onclick="modifyscreen(this);">
     Modify
 </button>
+<button type="button" class="btn btn-primary p-2" th:if="${formmode}=='modify'"  data-dismiss="modal" onclick="submitformmodify(this);">Submit</button>
 	<button class="btn btn-primary p-2" onclick="back();">Back</button>
 </div>
 <!-------------------------------------------------------------------------- footer ------------------------------------------------------------>
@@ -1667,9 +1668,9 @@ function updateTable(data) {
 <!----------------------------------------------------------------------- Modal ------------------------------------------------------------>
 <div class="modal fade" data-backdrop="false" data-keyboard="false"
 	tabindex="-1" role="dialog" aria-hidden="true"
-	style="padding-left: 10%" id="mypopup22">
+	  id="mypopup22">
 	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-		style="height: 20%">
+	 >
 		<div class="modal-content">
 			<div class="modal-body" style="text-align: center">
 				<p id="popupmsg_body"></p>

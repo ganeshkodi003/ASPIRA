@@ -3633,8 +3633,7 @@ System.out.println(encodedKey);
 		verify.setApproved_date(new Date());
 		
 		loan_act_mst_repo.save(verify);
-		//client_mst_repo.save(up1);
-		System.out.println(id);
+	 
 		return "Veified Successfully";
 	}
 }
