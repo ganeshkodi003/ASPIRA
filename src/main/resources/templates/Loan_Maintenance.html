@@ -252,7 +252,9 @@ function submitformverify() {
 		url: './Verifyloanmain?id=' +id ,
 		type: 'POST', // Note: 'post' should be in lowercase
 		success: function (response) {
-			alert("verified");
+			   var formattedResponse = response.message;
+               $('#mypopup22').modal('show'); 
+               $("#popupmsg_body").html(formattedResponse); 
 		},
 		error: function (error) {
 		console.error("Error: " + error.responseText);
@@ -260,6 +262,10 @@ function submitformverify() {
 		}
 	});
 }
+
+ function BackToLoanMaint(){
+	 location.href = 'Loan_Maintenance?formmode=list';
+ }
 
 </script>
 <script type="text/javascript">
@@ -1016,7 +1022,7 @@ function updateTable(data) {
 <button type="button" class="btn btn-primary p-2" th:if="!${Boolean} and ${formmode}=='view'"  
         data-dismiss="modal" 
         onclick="submitformmodify(this);">
-    Submit
+    Modify
 </button>
 	<button class="btn btn-primary p-2" onclick="back();">Back</button>
 </div>
@@ -1659,12 +1665,16 @@ function updateTable(data) {
 	</div>
 </div>
 <!----------------------------------------------------------------------- Modal ------------------------------------------------------------>
-<div class="modal" id="alert">
-	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-		<div class="modal-content" style="background-color: #e3e3e4;">
+<div class="modal fade" data-backdrop="false" data-keyboard="false"
+	tabindex="-1" role="dialog" aria-hidden="true"
+	style="padding-left: 10%" id="mypopup22">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+		style="height: 20%">
+		<div class="modal-content">
 			<div class="modal-body" style="text-align: center">
-				<p style="color: #000;" id="alertmsg"></p>
-				<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="back();">Close</button>
+				<p id="popupmsg_body"></p>
+				<button type="button" class="btn btn-primary" data-dismiss="modal"
+					onclick="BackToLoanMaint();">Close</button>
 			</div>
 		</div>
 	</div>
