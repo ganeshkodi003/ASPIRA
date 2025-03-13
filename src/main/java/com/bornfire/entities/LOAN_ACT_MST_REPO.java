@@ -26,15 +26,17 @@ public interface LOAN_ACT_MST_REPO extends JpaRepository<LOAN_ACT_MST_ENTITY, St
 			+ "JOIN LOAN_ACCOUNT_MASTER_TBL b ON a.ENCODED_KEY = b.ACCOUNT_HOLDERKEY WHERE A.ENCODED_KEY = ?1 and b.id = ?2", nativeQuery = true)
 	Object[] getcustomer(String holder_key, String id);
 
-	@Query(value = "SELECT a.ENCODED_KEY,B.DUE_DATE as dueDate, B.REPAID_DATE as repaidDate,  \r\n"
-			+ "                       B.PRINCIPAL_EXP as principalExp, B.PRINCIPAL_PAID as principalPaid, B.PRINCIPAL_DUE as principalDue,  \r\n"
-			+ "                       B.INTEREST_EXP as interestExp, B.INTEREST_PAID as interestPaid, B.INTEREST_DUE as interestDue,  \r\n"
-			+ "                       B.FEE_EXP as feeExp, B.FEE_PAID as feePaid, B.FEE_DUE as feeDue,  \r\n"
-			+ "                       B.PENALTY_EXP as penaltyExp, B.PENALTY_PAID as penaltyPaid, B.PENALTY_DUE as penaltyDue  \r\n"
-			+ "                FROM LOAN_ACCOUNT_MASTER_TBL A  \r\n"
-			+ "                JOIN LOAN_REPAYMENT_TBL B ON A.ENCODED_KEY = B.PARENT_ACCOUNT_KEY  \r\n"
-			+ "                WHERE A.ENCODED_KEY = ?1", nativeQuery = true)
-	List<Object> getDues(String encodedKey);
+	@Query(value = "SELECT a.ENCODED_KEY, B.DUE_DATE as dueDate, B.REPAID_DATE as repaidDate, " +  
+            "B.PRINCIPAL_EXP as principalExp, B.PRINCIPAL_PAID as principalPaid, B.PRINCIPAL_DUE as principalDue, " +  
+            "B.INTEREST_EXP as interestExp, B.INTEREST_PAID as interestPaid, B.INTEREST_DUE as interestDue, " +  
+            "B.FEE_EXP as feeExp, B.FEE_PAID as feePaid, B.FEE_DUE as feeDue, " +  
+            "B.PENALTY_EXP as penaltyExp, B.PENALTY_PAID as penaltyPaid, B.PENALTY_DUE as penaltyDue " +  
+            "FROM LOAN_ACCOUNT_MASTER_TBL A " +  
+            "JOIN LOAN_REPAYMENT_TBL B ON A.ENCODED_KEY = B.PARENT_ACCOUNT_KEY " +  
+            "WHERE A.ENCODED_KEY = ?1 " +  
+            "ORDER BY B.DUE_DATE ASC", nativeQuery = true)
+List<Object> getDues(String encodedKey);
+
 	
 	@Query(value = "SELECT * FROM LOAN_ACCOUNT_MASTER_TBL where  last_modified_date > approved_date", nativeQuery = true)
 	List<LOAN_ACT_MST_ENTITY> getLoanActFilterUnverified();

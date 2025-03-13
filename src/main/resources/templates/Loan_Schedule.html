@@ -862,38 +862,50 @@
 											<tbody>
 												<tr th:each="list : ${dues}" class="userlist text-right">
 													<td style="font-size: 14px; text-align: left;"
-														th:text="${#dates.format(list[1], 'dd-MM-yyyy')}"></td>
-													<td style="font-size: 14px;"
-														th:text="${#numbers.formatDecimal(list[3], 1, 'COMMA', 2, 'POINT')}">
+														th:text="${list[1] != null ? #dates.format(list[1], 'dd-MM-yyyy') : ''}">
 													</td>
 													<td style="font-size: 14px;"
-														th:text="${#numbers.formatDecimal(list[6], 1, 'COMMA', 2, 'POINT')}">
+														th:text="${list[3] != null ? #numbers.formatDecimal(list[3], 1, 'COMMA', 2, 'POINT') : '0.00'}">
 													</td>
 													<td style="font-size: 14px;"
-														th:text="${#numbers.formatDecimal(list[9], 1, 'COMMA', 2, 'POINT')}">
+														th:text="${list[6] != null ? #numbers.formatDecimal(list[6], 1, 'COMMA', 2, 'POINT') : '0.00'}">
 													</td>
 													<td style="font-size: 14px;"
-														th:text="${#numbers.formatDecimal(list[12], 1, 'COMMA', 2, 'POINT')}">
+														th:text="${list[9] != null ? #numbers.formatDecimal(list[9], 1, 'COMMA', 2, 'POINT') : '0.00'}">
+													</td>
+													<td style="font-size: 14px;"
+														th:text="${list[12] != null ? #numbers.formatDecimal(list[12], 1, 'COMMA', 2, 'POINT') : '0.00'}">
 													</td>
 													<td style="font-size: 14px; text-align: left;"
-														th:text="${#dates.format(list[2], 'dd-MM-yyyy')}"></td>
-													<td style="font-size: 14px;"
-														th:text="${#numbers.formatDecimal(list[4], 1, 'COMMA', 2, 'POINT')}">
+														th:text="${list[2] != null ? #dates.format(list[2], 'dd-MM-yyyy') : ''}">
 													</td>
 													<td style="font-size: 14px;"
-														th:text="${#numbers.formatDecimal(list[7], 1, 'COMMA', 2, 'POINT')}">
+														th:text="${list[4] != null ? #numbers.formatDecimal(list[4], 1, 'COMMA', 2, 'POINT') : '0.00'}">
 													</td>
 													<td style="font-size: 14px;"
-														th:text="${#numbers.formatDecimal(list[10], 1, 'COMMA', 2, 'POINT')}">
+														th:text="${list[7] != null ? #numbers.formatDecimal(list[7], 1, 'COMMA', 2, 'POINT') : '0.00'}">
 													</td>
 													<td style="font-size: 14px;"
-														th:text="${#numbers.formatDecimal(list[13], 1, 'COMMA', 2, 'POINT')}">
+														th:text="${list[10] != null ? #numbers.formatDecimal(list[10], 1, 'COMMA', 2, 'POINT') : '0.00'}">
 													</td>
 													<td style="font-size: 14px;"
-														th:text="${#numbers.formatDecimal(list[5] + list[8] + list[11] + list[14], 1, 'COMMA', 2, 'POINT')}">
+														th:text="${list[13] != null ? #numbers.formatDecimal(list[13], 1, 'COMMA', 2, 'POINT') : '0.00'}">
 													</td>
-
+													<td style="font-size: 14px;" th:text="${
+												            (list[5] != null ? list[5] : 0) + 
+												            (list[8] != null ? list[8] : 0) + 
+												            (list[11] != null ? list[11] : 0) + 
+												            (list[14] != null ? list[14] : 0) != null 
+												            ? #numbers.formatDecimal(
+												                (list[5] != null ? list[5] : 0) + 
+												                (list[8] != null ? list[8] : 0) + 
+												                (list[11] != null ? list[11] : 0) + 
+												                (list[14] != null ? list[14] : 0), 
+												                1, 'COMMA', 2, 'POINT') 
+												            : '0.00'}">
+													</td>
 												</tr>
+
 
 											</tbody>
 										</table>
