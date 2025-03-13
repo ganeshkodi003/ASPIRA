@@ -2628,19 +2628,30 @@ $(document)
 										</td>
 										<td style="text-align: center;"><font size="2"><B>Modify
 													Time :</B></font></td>
+													<!-- th:value="${#dates.format(#dates.createNow(), 'dd-MM-yyyy HH:mm:ss')}" -->
 									 
-										<td style="width: 112px" ><input
-											type="text" id="modifytime" name="ub.modifytime"
+										<td style="width: 112px" th:if="${formmode != 'modify'}"><input
+											type="text" id="modifytime" name="ub.modifytime" 
 											th:value="${#dates.format(customer?.last_modified_date, 'dd-MM-yyyy HH:mm:ss')}"
+											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
+											readonly></td>
+												<td style="width: 112px"  th:if="${formmode == 'modify'}" ><input
+											type="text" id="modifytime" name="ub.modifytime"
+											th:value="${#dates.format(#dates.createNow(), 'dd-MM-yyyy HH:mm:ss')}"
 											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
 											readonly></td>
 									
 											
 										<td style="text-align: center; font-size: 15px;"><font
 											size="2"><B>Verify Time :</B></font></td>
-										<td style="width: 112px"><input type="text"
+										<td style="width: 112px"  th:if="${formmode != 'verify'}"><input type="text"
 											id="verifytime" name="ub.verifytime"
 											th:value="${#dates.format(customer?.approved_date, 'dd-MM-yyyy HH:mm:ss')}"
+											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
+											readonly></td>
+											<td style="width: 112px"  th:if="${formmode == 'verify'}"><input type="text"
+											id="verifytime" name="ub.verifytime"
+											th:value="${#dates.format(#dates.createNow(), 'dd-MM-yyyy HH:mm:ss')}"
 											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
 											readonly></td>
 
