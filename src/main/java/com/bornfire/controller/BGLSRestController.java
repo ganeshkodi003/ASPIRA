@@ -5111,10 +5111,6 @@ public class BGLSRestController {
             // Fetch existing customer from the database
             Optional<CLIENT_MASTER_ENTITY> existingCustomerOpt = clientMasterRepo.findById(customer.getCustomer_id());
 
-            if (existingCustomerOpt.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not found");
-            }
-
             CLIENT_MASTER_ENTITY existingCustomer = existingCustomerOpt.get();
 //
 //            // Retain existing values if form values are null
@@ -5138,14 +5134,15 @@ public class BGLSRestController {
 //            customer.setAsondate(customer.getAsondate() != null ? customer.getAsondate() : existingCustomer.getAsondate());
 //
 //            
-            
+            customer.setLast_modified_date(new Date());
             customer.setEncoded_key(customer.getEncoded_key() != null ? customer.getEncoded_key() : existingCustomer.getEncoded_key());
             customer.setCustomer_id(customer.getCustomer_id() != null ? customer.getCustomer_id() : existingCustomer.getCustomer_id());
             customer.setClient_state(customer.getClient_state() != null ? customer.getClient_state() : existingCustomer.getClient_state());
-            customer.setCreation_date(customer.getCreation_date() != null ? customer.getCreation_date() : existingCustomer.getCreation_date());
-            customer.setLast_modified_date(customer.getLast_modified_date() != null ? customer.getLast_modified_date() : existingCustomer.getLast_modified_date());
+						customer.setCreation_date(customer.getCreation_date() != null ? customer.getCreation_date()
+								: existingCustomer.getCreation_date());
+						customer.setApproved_date(customer.getApproved_date() != null ? customer.getApproved_date()
+								: existingCustomer.getApproved_date());
             customer.setActivation_date(customer.getActivation_date() != null ? customer.getActivation_date() : existingCustomer.getActivation_date());
-            customer.setApproved_date(customer.getApproved_date() != null ? customer.getApproved_date() : existingCustomer.getApproved_date());
             customer.setFirst_name(customer.getFirst_name() != null ? customer.getFirst_name() : existingCustomer.getFirst_name());
             customer.setLast_name(customer.getLast_name() != null ? customer.getLast_name() : existingCustomer.getLast_name());
             customer.setMobile_phone(customer.getMobile_phone() != null ? customer.getMobile_phone() : existingCustomer.getMobile_phone());
@@ -5192,12 +5189,8 @@ public class BGLSRestController {
             // Fetch existing customer from the database using UserId
             Optional<CLIENT_MASTER_ENTITY> existingCustomerOpt = clientMasterRepo.findById(UserId);
 
-            if (existingCustomerOpt.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not found");
-            }
-
             CLIENT_MASTER_ENTITY existingCustomer = existingCustomerOpt.get();
-
+						existingCustomer.setApproved_date(new Date());
             // Set modify_flg to 'N' and verify_flg to 'Y'
             existingCustomer.setModify_flg('N');
             existingCustomer.setVerify_flg('Y');
@@ -5210,5 +5203,16 @@ public class BGLSRestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating customer: " + e.getMessage());
         }
     }
+		
+		@GetMapping("AllApprovedCust")
+		public List<CLIENT_MASTER_ENTITY> AllApprovedCust(@RequestParam(required = false) String tran_id,
+				@RequestParam(required = false) String part_tran_id) {
+			return clientMasterRepo.getLoanActDet();
+		}
+
+		@GetMapping("NotApprovedCust")
+		public List<CLIENT_MASTER_ENTITY> NotApprovedCust() {
+			return clientMasterRepo.getLoanActFilterUnverified();
+		}
 
 }

@@ -1894,7 +1894,6 @@ function ClickId(a, mode = 'view') {
     	  id = a ? a.getAttribute("data-id") : null;
     }
 
-    alert("Selected ID: " + id); // Debugging alert
 
     // Construct the URL based on whether ID exists
     let url = id && id !== "" 
@@ -1915,6 +1914,7 @@ function submitForm() {
 
     formData.forEach(function (field) {
         if (isDateField(field.name) && field.value) {
+					
             let date = new Date(field.value);
             field.value = formatDateWithMidnight(date); // Ensure correct format
         }
@@ -1927,12 +1927,12 @@ function submitForm() {
         type: 'POST',
         data: $.param(formData),
         success: function(response) {
-            alert('Form submitted successfully!');
+            console.log('Form submitted successfully!');
             window.location.href = "./customerMaster?formmode=list&module=module2";
 
         },
         error: function(xhr, status, error) {
-            alert('Error: ' + xhr.responseText);
+            console.log('Error: ' + xhr.responseText);
         }
     });
 }
@@ -1953,7 +1953,6 @@ function formatDateWithMidnight(date) {
     return `${dd}-${MM}-${yyyy} 00:00:00`;
 }
 function verifyUser(userId) {
-	alert(userId)
 
     fetch('./verifyUserById', {
         method: 'POST',
@@ -1964,7 +1963,7 @@ function verifyUser(userId) {
     })
     .then(response => response.text())
     .then(data => {
-        alert(data); // Show success or error message
+        
         window.location.href = "./customerMaster?formmode=list&module=module2";
     })
     .catch(error => {
@@ -1973,6 +1972,11 @@ function verifyUser(userId) {
     });
 }
 
+function viewscreen(a) {
+	var id = a.getAttribute("data-id");
+	var holder_key = a.getAttribute("data-account_holderkey");
+	location.href = './customerMaster?formmode=view&module=module2&id=' + id  ;
+}
 
 </script>
 <script th:inline="javascript">
@@ -2009,6 +2013,88 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 		$('#normalalertvalues').modal("toggle");
 	}
 </script>
+
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function() {
+    handleFilterChange(); // Automatically apply the filter on page load
+});
+
+function handleFilterChange(){
+    var a = document.getElementById('approvedfilter').value;
+    
+    if (a === 'ALL') {
+        $.ajax({
+            url: './AllApprovedCust',
+            type: 'GET',
+            success: function(data) {
+               updateTable(data); 
+								console.log("data"+data);
+            },
+            error: function(err) {
+                console.error('Error fetching data:', err);
+            }
+        });
+    } else if (a === 'NOTAPPROVED') {
+        $.ajax({
+            url: './NotApprovedCust',
+            type: 'GET',
+            success: function(data) {
+                updateTable(data);
+								console.log("data"+data);
+            },
+            error: function(err) {
+                console.error('Error fetching data:', err);
+            }
+        });
+    }
+}
+
+function updateTable(data) {
+    // Clear the table body before appending new rows
+    $('#usertable').empty();
+    
+    if (data.length === 0) {
+        // If no data is returned, append a row with "No data available"
+        const noDataRow = `
+            <tr style="font-size:14px">
+                <td colspan="6" style="text-align:center; color: red;">No data available</td>
+            </tr>
+        `;
+        $('#usertable').append(noDataRow);
+    }else {
+    // Iterate over the data if available
+    data.forEach((item, index) => {
+        // Format the date manually since JavaScript does not support Thymeleaf
+        let birthDate = item?.birth_date ? new Date(item.birth_date).toLocaleDateString('en-GB') : 'TEST';
+
+        const row = `
+            <tr style="font-size:14px" class="userlist">
+                <td>${index + 1}</td>
+                <td class="text-primary"
+                    data-id="${item?.customer_id || ''}"
+                    data-account_holderkey="${item?.customer_id || ''}"
+                    onclick="viewscreen(this);">
+                    ${item?.customer_id || ''}
+                </td>
+                <td>${(item?.first_name || '') + ' ' + (item?.last_name || '')}</td>
+                <td>${birthDate}</td>
+                <td>${item?.assigned_branch_key || 'TEST'}</td>
+                <td>${item?.client_state || 'TEST'}</td>
+            </tr>
+        `;
+
+        // Append the new row to the table body
+        $('#usertable').append(row);
+    });
+}
+
+}
+</script>
+
+
+
+
+
 </head>
 <title>ASPIRA</title>
 
@@ -2030,6 +2116,18 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 								<div class="float-left">
 									<h6 style="font-size: 1.2rem;">CUSTOMER MAINTENANCE - LIST</h6>
 								</div>
+								<div class="float-right">
+								<!-- <button type="button" class="btn btn-xs btn-primary btns p-2"
+										onclick="Home(this)">DashBoard</button> -->
+								<select class="form-control-sm bg-white mr-2"
+									id="approvedfilter" onchange="handleFilterChange()"
+									style="background-color: #e3e3e4;">
+
+									<option value="ALL">All</option>
+									<option value="NOTAPPROVED" selected>NOT APPROVED</option>
+								</select>
+								 
+							</div>
 								<!--<div class="btn-group nav-buttons float-right">
 							<button type="button" class="btn btn-primary p-2" id="btnAdd"
 								onclick="addscreen();">ADD</button>
@@ -2049,14 +2147,15 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 												<th>DOB</th>
 												<th>BRANCH ID</th>
 												<th style="width: 10%;">STATUS</th>
-												<th>VERIFY STATUS</th>
+											
 											</tr>
 										</thead>
+									
 										<tbody>
-											<tr th:each="list, iterator : ${list}" class="userlist">
+											<!-- <tr th:each="list, iterator : ${list}" class="userlist">
 												<td style="font-size: 14px" th:text="${iterator.index +1}"></td>
 
-												<!-- Removed id="customerId" to avoid duplicates -->
+											
 												<td style="font-size: 14px" class="text-primary"
 													th:attr="data-id=${list?.customer_id}"
 													th:text="${list?.customer_id}" onclick="ClickId(this);">
@@ -2070,12 +2169,8 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 													th:text="${list?.assigned_branch_key}"></td>
 												<td style="font-size: 14px" th:text="${list?.client_state}"></td>
 
-												<td style="font-size: 14px; font-weight: bold;"
-													th:style="${#strings.trim(list?.verify_flg) == 'Y' ? 'color: green;' : 'color: red;'}"
-													th:text="${#strings.trim(list?.verify_flg) == 'Y' ? 'Verified' : 'Not Verified'}"
-													th:attr="data-id=${list?.customer_id}"
-													onclick="ClickId(this, 'verify')"></td>
-											</tr>
+												
+											</tr> -->
 										</tbody>
 
 									</table>
@@ -2101,11 +2196,11 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 								<div class="btn-group nav-buttons float-right">
 									<button class="btn btn-primary p-2 "
 										th:if="${module} == 'module1'" onclick="Uploadloan();">Upload</button>
-									<button th:if="${module} == 'module2' and ${formmode}=='view'"
-										class="btn ml-2 btn-primary p-2"
+									<button th:if="${module} == 'module2' and ${formmode}=='view' and !${Boolean}"
+										class="btn ml-2 btn-primary p-2" th:value =${Boolean}
 										onclick="ClickId(null, 'modify')">Modify</button>
 									<button
-										th:if="${module} == 'module2' and ${formmode}=='verify' and ${#strings.trim(list?.verify_flg) == 'N'}" 
+										th:if="${module} == 'module2' and ${Boolean} and ${formmode}=='view'" 
 										class="btn ml-2 btn-primary p-2" th:onclick="verifyUser([[${customer?.customer_id}]])">verify</button>
 
 								</div>
