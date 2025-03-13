@@ -641,9 +641,9 @@ function (e) {
 											<label>Assigned Branch</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" value="5792" name="assigned_branchkey"
+											<input type="text" th:value="${view?.assigned_branchkey}" name="assigned_branchkey"
 												id="assigned_branchkey" th:if="${formmode}=='view'" readonly />
-											<input type="text" value="5792" name="assigned_branchkey"
+											<input type="text" th:value="${view?.assigned_branchkey}" name="assigned_branchkey"
 												id="assigned_branchkey" th:if="${formmode}=='modify'" />
 										</div>
 										<div class="col-sm-2">
@@ -1459,7 +1459,7 @@ function (e) {
 											<label>Assigned Branch</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" value="5792" name="assigned_branchkey"
+											<input type="text" th:value="${view?.assigned_branchkey}" name="assigned_branchkey"
 												id="assigned_branchkey" readonly />
 										</div>
 										<div class="col-sm-2">
