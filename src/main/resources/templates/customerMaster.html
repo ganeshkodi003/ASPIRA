@@ -131,7 +131,6 @@ body {
 	margin-right: auto;
 	margin-left: 17.3%;
 	margin-top: 80px;
-	margin-top: 80px;
 }
 
 .table .thead-light th {
@@ -232,7 +231,7 @@ button:focus {
 	height: 100%;
 	overflow: auto;
 	background-color: rgba(0, 0, 0, 0.4);
-	margin-left: 350px;
+ 
 }
 
 .modal-content {
@@ -293,6 +292,30 @@ input:hover+.password-info {
 	visibility: visible;
 	opacity: 0.8;
 }
+
+.filterable .filters input[disabled] {
+	background-color: transparent;
+	border: none;
+	cursor: auto;
+	box-shadow: none;
+	padding: 0;
+	height: auto;
+}
+
+.filterable .filters input[disabled]::-webkit-input-placeholder {
+	color: #333;
+}
+
+.filterable .filters input[disabled]::-moz-placeholder {
+	color: #333;
+}
+
+.filterable .filters input[disabled]:-ms-input-placeholder {
+	color: #333;
+}
+
+
+
 </style>
 <script>
 		$(document).ready(function () {
@@ -754,7 +777,7 @@ function rowadddcorporate() {
         // Increment the row count
         mrowCount1cor1++;
     } else {
-        alert("You can only add up to 5 rows.");
+       // alert("You can only add up to 5 rows.");
     }
 }
 
@@ -892,7 +915,7 @@ function rowadddcorporate() {
 		            error: function(xhr, status, error) {
 		                console.error("Error during image upload:", status, error);
 		                // Optionally show an error message to the user
-		                alert("An error occurred while uploading the images.");
+		                //alert("An error occurred while uploading the images.");
 		            },
 		            complete: function() {
 		                // Hide the loader regardless of success or error
@@ -1216,7 +1239,7 @@ function rowadddcorporate() {
 
 
 		function downloadFile() {
-			alert("cc");
+			//alert("cc");
 			$.ajax({
 				type: "POST",
 				url: "./downloadFile",
@@ -1862,19 +1885,19 @@ function ClickId(a, modify = false) {
 }
 
 function firstexceldownload() {
-	alert("firstexceldownload function worked ");
+	//alert("firstexceldownload function worked ");
 	// Show the Bootstrap modal
 	$("#alert33").modal("show");
 }
 
 function ClickId(a, mode = 'view') {
+	event.preventDefault();
     let id = null;
 
     if (a) {
         console.log("Customer ID Text Content:", a.textContent.trim());
         console.log("Customer ID Data Attribute:", a.getAttribute("data-id"));
     }
-
     // Check mode and get ID accordingly
     if (mode === 'modify') {
         id = document.getElementById("customer_id") 
@@ -1888,18 +1911,15 @@ function ClickId(a, mode = 'view') {
         }
         id = a ? a.getAttribute("data-id") : null;
     }
-
     // If mode is "verify", get the ID from customerId (fixed)
     if (mode === 'verify' && !id) {
-    	  id = a ? a.getAttribute("data-id") : null;
+    	  id = document.getElementById('customer_id').value;
     }
-
-
     // Construct the URL based on whether ID exists
     let url = id && id !== "" 
         ? `customerMaster?formmode=${mode}&id=${id}&module=${dues}`
         : `customerMaster?formmode=list&module=${dues}`;
-
+				//alert(url)
     location.href = url; // Redirect to the appropriate page
 }
 
@@ -1927,8 +1947,8 @@ function submitForm() {
         type: 'POST',
         data: $.param(formData),
         success: function(response) {
-            alert('Form submitted successfully!');
-            window.location.href = "./customerMaster?formmode=list&module=module2";
+           $("#popupmsg_body").text("Form submitted successfully!");
+            $("#mypopup22").modal("show");
 
         },
         error: function(xhr, status, error) {
@@ -1936,7 +1956,10 @@ function submitForm() {
         }
     });
 }
-
+function BackToLoanMaint() {
+	
+    window.location.href = "./customerMaster?formmode=list&module=module2";
+}
 // Function to check if a field is a date field
 function isDateField(fieldName) {
     return [
@@ -1952,8 +1975,13 @@ function formatDateWithMidnight(date) {
     let yyyy = date.getFullYear();
     return `${dd}-${MM}-${yyyy} 00:00:00`;
 }
-function verifyUser(userId) {
 
+function gotoverify(){
+
+	location.href='./customerMaster?formmode=verify&module=module2'
+}
+function verifyUser(userId) {
+	event.preventDefault();
     fetch('./verifyUserById', {
         method: 'POST',
         headers: {
@@ -1963,14 +1991,16 @@ function verifyUser(userId) {
     })
     .then(response => response.text())
     .then(data => {
-        
-        window.location.href = "./customerMaster?formmode=list&module=module2";
-				alert("verified SuccesFully")
+        $("#popupmsg_body").text("Verified successfully!");
+            $("#mypopup22").modal("show");
+
+
+			//	alert("verified SuccesFully")
     })
     .catch(error => {
         console.error("Error verifying user:", error);
-       alert("verified SuccesFully")
-			 window.location.href = "./customerMaster?formmode=list&module=module2";
+       
+			 
     });
 }
 
@@ -2096,8 +2126,75 @@ function updateTable(data) {
 
 }
 </script>
+<script>
+$(document)
+.ready(
+		function() {
+			$('.filterable .btn-filter')
+					.click(
+							function() {
+								var $panel = $(this).parents(
+										'.filterable'), $filters = $panel
+										.find('.filters input'), $tbody = $panel
+										.find('.table tbody');
+								if ($filters.prop('disabled') == true) {
+									$filters
+											.prop('disabled', false);
+									$filters.first().focus();
+								} else {
+									$filters.val('').prop(
+											'disabled', true);
+									$tbody.find('.no-result')
+											.remove();
+									$tbody.find('tr').show();
+								}
+							});
 
-
+			$('.filterable .filters input')
+					.keyup(
+							function(e) {
+								/* Ignore tab key */
+								var code = e.keyCode || e.which;
+								if (code == '9')
+									return;
+								/* Useful DOM data and selectors */
+								var $input = $(this), inputContent = $input
+										.val().toLowerCase(), $panel = $input
+										.parents('.filterable'), column = $panel
+										.find('.filters th')
+										.index($input.parents('th')), $table = $panel
+										.find('.table'), $rows = $table
+										.find('tbody tr');
+								/* Dirtiest filter function ever ;) */
+								var $filteredRows = $rows
+										.filter(function() {
+											var value = $(this)
+													.find('td').eq(
+															column)
+													.text()
+													.toLowerCase();
+											return value
+													.indexOf(inputContent) === -1;
+										});
+								/* Clean previous no-result if exist */
+								$table.find('tbody .no-result')
+										.remove();
+								/* Show all rows, hide filtered ones (never do that outside of a demo ! xD) */
+								$rows.show();
+								$filteredRows.hide();
+								/* Prepend no-result row if all rows are filtered */
+								if ($filteredRows.length === $rows.length) {
+									$table
+											.find('tbody')
+											.prepend(
+													$('<tr class="no-result text-center"><td colspan="'
+															+ $table
+																	.find('.filters th').length
+															+ '">No result found</td></tr>'));
+								}
+							});
+		});
+</script>
 
 
 
@@ -2114,26 +2211,27 @@ function updateTable(data) {
 			<div class="col-sm-11 ml-5" style="font-size: 0.8rem;">
 
 
-				<div class="mt-5">
+				<div class="">
 					<div th:if="${formmode}=='list'">
-						<div class="card">
+						<div class="card w-100 border panel panel-primary filterable">
 							<div class="card-header"
 								style="background-color: #e9ecef; height: 50px">
 								<div class="float-left">
-									<h6 style="font-size: 1.2rem;">CUSTOMER MAINTENANCE - LIST</h6>
+									<!-- <h6 style="font-size: 1.2rem;">CUSTOMER MAINTENANCE - LIST</h6> -->
+										<h6 style="font-size: 1.2rem;" th:if="${formmode}=='list' and ${module == 'module1'}" >CUSTOMER MASTER - LIST</h6>
+									<h6 style="font-size: 1.2rem;" th:if="${formmode}=='list' and ${module == 'module2'}" >CUSTOMER MAINTENANCE - LIST</h6>
 								</div>
-								<div class="float-right"  >
-								<!-- <button type="button" class="btn btn-xs btn-primary btns p-2"
-										onclick="Home(this)">DashBoard</button> -->
-								<select class="form-control-sm bg-white mr-2"
-									id="approvedfilter" onchange="handleFilterChange()"
-									style="background-color: #e3e3e4;">
-
-									<option value="ALL">All</option>
-									<option value="NOTAPPROVED" selected>NOT APPROVED</option>
-								</select>
-								 
-							</div>
+								<button class="btn btn-primary btn-filter float-right">Filter</button>
+					<div class="float-right" th:style="${module == 'module2'} ? 'display:block;' : 'display:none;'">
+   
+						<select class="form-control-sm bg-white mr-2"
+        id="approvedfilter" onchange="handleFilterChange()"
+        style="background-color: #e3e3e4;">
+        <option value="ALL">All</option>
+        <option value="NOTAPPROVED" selected>Un Verified</option>
+    </select>
+</div>
+ 
 								<!--<div class="btn-group nav-buttons float-right">
 							<button type="button" class="btn btn-primary p-2" id="btnAdd"
 								onclick="addscreen();">ADD</button>
@@ -2147,14 +2245,26 @@ function updateTable(data) {
 										<thead class="thead-light"
 											style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 1;">
 											<tr class="filters">
-												<th style="width: 8%;">S.NO</th>
+												<th style="width: 5%"><input type="text"
+										class="form-control" placeholder="S.NO" disabled></th>
+										<th style="width: 5%"><input type="text"
+										class="form-control" placeholder="CUSTOMER ID" disabled></th>
+										<th style="width: 5%"><input type="text"
+										class="form-control" placeholder="CUSTOMER NAME" disabled></th>
+										<th style="width: 5%"><input type="text"
+										class="form-control" placeholder="DOB" disabled></th>
+										<th style="width: 5%"><input type="text"
+										class="form-control" placeholder="BRANCH ID" disabled></th>
+										<th style="width: 5%"><input type="text"
+										class="form-control" placeholder="STATUS" disabled></th>
+												<!-- <th style="width: 8%;">S.NO</th>
 												<th style="width: 10%;">CUSTOMER ID</th>
 												<th>CUSTOMER NAME</th>
 												<th>DOB</th>
 												<th>BRANCH ID</th>
-												<th style="width: 10%;">STATUS</th>
+												<th style="width: 10%;">STATUS</th> -->
 											
-											</tr>
+											</tr>	
 										</thead>
 									
 										<tbody id="usertable">
@@ -2196,22 +2306,22 @@ function updateTable(data) {
 							<div class="card-header"
 								style="background-color: #e9ecef; height: 50px">
 								<div class="float-left">
-									<h6 style="font-size: 1.2rem;" class="ml-3">CUSTOMER
-										MAINTENANCE</h6>
+									<h6 style="font-size: 1.2rem;" th:if="${formmode}=='view' and ${module == 'module1'}" >CUSTOMER MASTER - VIEW</h6>
+									<h6 style="font-size: 1.2rem;" th:if="${formmode}=='view' and ${module == 'module2'}" >CUSTOMER MAINTENANCE - VIEW</h6>
+									<h6 style="font-size: 1.2rem;" th:if="${formmode}=='verify' and ${module == 'module2'}" >CUSTOMER MAINTENANCE - VERIFY </h6>
+									<h6 style="font-size: 1.2rem;" th:if="${formmode}=='modify' and ${module == 'module2'}" >CUSTOMER MAINTENANCE - MODIFY </h6>
 								</div>
 								<div class="btn-group nav-buttons float-right">
 									<button class="btn btn-primary p-2 "
 										th:if="${module} == 'module1'  and ${formmode}==''" onclick="Uploadloan();">Upload</button>
-									<button th:if="${module} == 'module2' and ${formmode}=='view' and !${Boolean}"
-										class="btn ml-2 btn-primary p-2" th:value =${Boolean}
-										onclick="ClickId(null, 'modify')">Modify</button>
+							
 									
 
 								</div>
 
 
 							</div>
-							<div class="card-body">
+							<div class="card-body p-0">
 
 								<form action="#" method="post" id="drawDownDetailsAdd"
 									autocomplete="off" name="drawDownDetailsData"
@@ -2433,14 +2543,75 @@ function updateTable(data) {
 									</fieldset>
 									<div class="card-footer text-center mt-2">
 										<button class="btn btn-primary p-2" onclick="home();">Home</button>
-										<button
-										th:if="${module} == 'module2' and ${Boolean} and ${formmode}=='view'" 
-										class="btn ml-2 btn-primary p-2" th:onclick="verifyUser([[${customer?.customer_id}]])">verify</button>
+										
+										 <button
+										th:if="${module} == 'module2'   and ${formmode}=='verify'" 
+										class="btn ml-2 btn-primary p-2" th:onclick="verifyUser([[${customer?.customer_id}]])">Submit</button> 
+												<button th:if="${module} == 'module2' and ${formmode}=='view' and !${Boolean}"
+										class="btn ml-2 btn-primary p-2" th:value =${Boolean}
+										onclick="ClickId(null, 'modify')">Modify</button>
+										<button class="btn btn-primary p-2"
+
+											 onclick="ClickId(null,'verify');" th:if="${module} == 'module2' and ${Boolean} and ${formmode}=='view'">Verify</button>
 										<button class="btn btn-primary p-2"
 
 											th:if="${formmode} == 'modify'" onclick="submitForm();">submit</button>
 										<button class="btn btn-primary p-2" onclick="back();">Back</button>
 									</div>
+										<table
+									Style="border: 1px solid #ccc; width: 100%; max-width: 100%; margin: 0 auto; box-sizing: border-box;">
+									<tr>
+										<td class="col-sm-2" style="text-align: center;"><font
+											size="2"><B>Entry User :</B></font></td>
+										<td class="col-sm-2" style="width: 112px; margin-right: 20px;"><input
+											type="text" id="entryuser" name="ub.entryuser" value="System"
+											style="border: none; outline: none; background-color: transparent; font-size: 12px;"
+											readonly></td>
+										<td class="col-sm-2" style="text-align: center;"><font
+											size="2"><B>Modify User :</B></font></td>
+										<td class="col-sm-2" style="width: 112px;"><input
+											type="text" id="modifyuser" name="ub.modifyuser"
+											value="System"
+											style="border: none; outline: none; background-color: transparent; font-size: 12px;"
+											readonly></td>
+										<td class="col-sm-2" style="text-align: center;"><font
+											size="2"><B>Verify User :</B></font></td>
+										<td class="col-sm-2" style="width: 112px;"><input
+											type="text" id="verifyuser" name="ub.verifyuser"
+											value="System"
+											style="border: none; outline: none; background-color: transparent; font-size: 12px;"
+											readonly></td>
+									</tr>
+									<tr>
+										<td style="text-align: center;"><font size="2"><B>Entry
+													Time :</B></font></td>
+										<td style="width: 112px"><input type="text"
+											id="entrytime" name="ub.entrytime"
+											th:value="${#dates.format(customer?.creation_date, 'dd-MM-yyyy HH:mm:ss')}"
+											readonly	
+											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;">
+										</td>
+										<td style="text-align: center;"><font size="2"><B>Modify
+													Time :</B></font></td>
+									 
+										<td style="width: 112px" ><input
+											type="text" id="modifytime" name="ub.modifytime"
+											th:value="${#dates.format(customer?.last_modified_date, 'dd-MM-yyyy HH:mm:ss')}"
+											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
+											readonly></td>
+									
+											
+										<td style="text-align: center; font-size: 15px;"><font
+											size="2"><B>Verify Time :</B></font></td>
+										<td style="width: 112px"><input type="text"
+											id="verifytime" name="ub.verifytime"
+											th:value="${#dates.format(customer?.approved_date, 'dd-MM-yyyy HH:mm:ss')}"
+											style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
+											readonly></td>
+
+									</tr>
+								</table>
+
 								</form>
 
 							</div>
@@ -2672,6 +2843,37 @@ function updateTable(data) {
 		<!-- Model Boxes -->
 
 
+
+
+
+	<div class="modal fade" data-backdrop="false" data-keyboard="false"
+		tabindex="-1" role="dialog" aria-hidden="true" id="mypopup22">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="popupmsg_body"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						onclick="BackToLoanMaint();">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		<div class="modal fade" data-backdrop="false" data-keyboard="false"
 			style="padding-right: 850px" id="alert">
 			<div
@@ -2679,8 +2881,6 @@ function updateTable(data) {
 				<div class="modal-content">
 					<div class="modal-body" style="text-align: center">
 						<p id="alertmsg"></p>
-						<button type="button" class="btn btn-primary" data-dismiss="modal"
-							onclick="refreshPage1()">Ok</button>
 					</div>
 				</div>
 			</div>
@@ -2899,50 +3099,36 @@ function updateTable(data) {
 		</div>
 
 
+		
+
+
+
 		<div class="modal fade" data-backdrop="false" data-keyboard="false"
-			id="alert33" tabindex="-1" role="dialog" aria-hidden="true">
+		tabindex="-1" role="dialog" aria-hidden="true" id="alert33">
+		<form action="#" th:object="${reportform}" method="post"
+			enctype="multipart/form-data" id="reportform">
 			<div
 				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-				<div class="modal-content" style="width: 120%; height: 25%;">
-					<div class="card">
-						<!-- Header with Alert Message -->
-						<div class="modal-header"
-							style="justify-content: center; width: 100%;">
-							<h5 class="modal-title" id="popupAlert" style="font-size: 18px;">Upload
-								Files - Client Data</h5>
-							<!-- Alert message will appear here -->
-						</div>
-
-						<!-- Body with Response -->
-						<div class="modal-body"
-							style="text-align: center; display: flex; flex-direction: column; align-items: center; height: 100px; overflow-y: auto; font-weight: bold; font-size: 15px;">
-							<div class="row formline">
-								<div class="col-sm-6">Upload File :</div>
-								<div class="col-sm-6">
-									<form action="#" th:object="${reportform}" method="post"
-										enctype="multipart/form-data" id="reportform">
-										<input type="file" name="file" id="fileInput"
-											class="form-control form-control-sm bg-white border border-dark"
-											accept=".xml, .xls, .xlsx" />
-										<button type="button" class="btn btn-primary"
-											onclick="submitdatas()">Submit</button>
-									</form>
-								</div>
+				<div class="modal-content w-100">
+					<div class="modal-body" style="text-align: center">
+					<div class="d-flex align-items-center">
+					<p  class="mb-0 me-2 mr-2">Upload File</p>
+						<input type="file" name="file" id="fileInput"
+							class="form-control form-control-sm bg-white border border-dark"
+							accept=".xml, .xls, .xlsx" />
 							</div>
-						</div>
-
-
-						<!-- Footer with Close Button -->
-						<div class="modal-footer"
-							style="justify-content: center; width: 100%;">
+						<div class="mt-5 text-right">
+							<button type="button" class="btn btn-primary"
+								onclick="submitdatas()">Submit</button>
 							<button type="button" class="btn btn-primary"
 								data-dismiss="modal" onclick="refreshPage()">Close</button>
 						</div>
-
 					</div>
 				</div>
 			</div>
-		</div>
+		</form>
+	</div>
+
 
 		<div class="modal fade" data-backdrop="false" data-keyboard="false"
 			id="normalalertvalues" tabindex="-1" role="dialog" aria-hidden="true">
