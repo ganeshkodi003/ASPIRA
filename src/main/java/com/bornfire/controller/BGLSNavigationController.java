@@ -3530,7 +3530,6 @@ public class BGLSNavigationController {
 			md.addAttribute("list", LOAN_ACT_MST_REPO.getLoanActDet());
 		} else if (formmode.equals("view")) {
 			md.addAttribute("formmode", "view");
-			System.out.println(holder_key);
 			md.addAttribute("view", LOAN_ACT_MST_REPO.getLoanView(id));
 			md.addAttribute("loan", LOAN_ACT_MST_REPO.getLoanValue(holder_key));
 			Integer unverifiedStatus = LOAN_ACT_MST_REPO.getUnverifiedStatus(id);
@@ -3584,12 +3583,10 @@ System.out.println(encodedKey);
 	@ResponseBody
 	public String Modifyloanmain(@RequestParam(required = false) String id, 
 			Model md, HttpServletRequest rq, @ModelAttribute LOAN_ACT_MST_ENTITY loan_act_mst_entity , @ModelAttribute CLIENT_MASTER_ENTITY client_mst_entity ) {
-		 //String userID = (String) rq.getSession().getAttribute("USERID");
-		 // loan_act_mst_entity.setModify_flg("Y");
-		 //loan_act_mst_entity.setEntity_flg("N");
-		 //loan_act_mst_entity.setVerify_flg("N");
-		 // loan_act_mst_entity.setModify_user(userID);
-		LOAN_ACT_MST_ENTITY up = loan_act_mst_entity; 
+
+		System.out.println(id);
+		LOAN_ACT_MST_ENTITY up = loan_act_mst_repo.getLoanView(loan_act_mst_entity.getId());
+		
 		up.setAccount_holdertype(up.getAccount_holdertype());
 		up.setLoan_name(up.getLoan_name());
 		up.setId(up.getId());
@@ -3613,15 +3610,39 @@ System.out.println(encodedKey);
 		up.setInterest_due(up.getInterest_due());
 		up.setInterest_paid(up.getInterest_paid());
 		up.setInterest_balance(up.getInterest_balance());
+		up.setFees_due(up.getFees_due());
+		up.setFees_paid(up.getFees_paid());
+		up.setFees_balance(up.getFees_balance());
+		up.setPenalty_paid(up.getPenalty_paid());
+		up.setPenalty_due(up.getPenalty_due());
+		up.setPenalty_balance(up.getPenalty_balance());
+		up.setSale_processedbyvgid(up.getSale_processedbyvgid());
+		up.setSale_processedfor(up.getSale_processedfor());
+		up.setSale_referredby(up.getSale_referredby());
+		up.setEmployment_status(up.getEmployment_status());
+		up.setJob_title(up.getJob_title());
+		up.setEmployer_name(up.getEmployer_name());
+		up.setTuscore(up.getTuscore());
+		up.setTuprobability(up.getTuprobability());
+		up.setTufullname(up.getTufullname());
+		up.setTureason1(up.getTureason1());
+		up.setTureason2(up.getTureason2());
+		up.setDisposable_income(up.getDisposable_income());
+		up.setManualoverride_amount(up.getManualoverride_amount());
+		up.setManualoverride_expiry_date(up.getManualoverride_expiry_date());
+		up.setCpfees(up.getCpfees());
+		up.setDeposit_amount(up.getDeposit_amount());
+		up.setTotal_product_price(up.getTotal_product_price());
+		up.setRetailer_name(up.getRetailer_name());
+		up.setRetailer_branch(up.getRetailer_branch());
+		up.setVg_application_id(up.getVg_application_id());
+		up.setContract_signed(up.getContract_signed());
+		up.setDate_of_first_call(up.getDate_of_first_call());
+		up.setLast_call_outcome(up.getLast_call_outcome());
+		up.setAsondate(up.getAsondate());
+		up.setLast_modified_date(new Date());
 		
-		
-		CLIENT_MASTER_ENTITY up1 = client_mst_entity;
-		System.out.println(loan_act_mst_entity.getRepayment_installments());
-		 loan_act_mst_entity.setLast_modified_date(new Date());
-		 
 		loan_act_mst_repo.save(up);
-		//client_mst_repo.save(up1);
-		System.out.println(id);
 		return "Modified Successfully";
 	}
 	@PostMapping(value = "Verifyloanmain")
