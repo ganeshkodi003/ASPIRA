@@ -341,8 +341,7 @@ function submitformverify() {
 
 	// Function to check if a field is a date field
 	function isDateField(fieldName) {
-		return [
-			"creation_date", "last_modified_date", "closed_date", "approved_date", "first_repaymentdate",
+		return ["creation_date", "last_modified_date", "closed_date", "approved_date", "first_repaymentdate",
 			"date_of_first_call", "disbursement_date", "asondate", "manualoverride_expiry_date"
 		].includes(fieldName);
 	}
@@ -492,9 +491,9 @@ function viewcustid(element) {
 </script> 
 <script>
 $(function () {
-	 $("#creation_date, #approved_date").datepicker({
-			dateFormat: "dd-mm-yy"
-		});
+    $("#creation_date, #last_modified_date, #closed_date, #approved_date, #first_repaymentdate, #date_of_first_call, #disbursement_date, #asondate, #manualoverride_expiry_date").datepicker({
+        dateFormat: "dd-mm-yy"
+    });
 });
 </script>
 </head>
