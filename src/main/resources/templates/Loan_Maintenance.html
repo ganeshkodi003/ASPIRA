@@ -487,16 +487,9 @@ function (e) {
 function viewcustid(element) { 
     var id = element.getAttribute("data-id");
     var holder_key = element.getAttribute("data-account_holderkey");
-    location.href = `./customerMaster?formmode=view&module=${dues}&id=` + id; 
+    location.href = `./customerMaster?formmode=view&module=module1&id=` + id; 
 }
-</script>
-<script th:inline="javascript">
-	/*<![CDATA[*/
-var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
-// Thymeleaf data injected into JavaScript
-
-	/*]]>*/
-</script>
+</script> 
 <script>
 $(function () {
 	 $("#creation_date, #approved_date").datepicker({
