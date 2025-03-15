@@ -253,6 +253,12 @@ function schedule() {
 			'&holder_key=' + holder_key +
 			'&encodedKey=' + encodedKey;
 }
+function ledger() {
+	event.preventDefault();
+	var id = document.getElementById("id").value;
+	location.href = 'accountLedger2?formmode=view&acct_num='
+				+ id;
+}
 function listPage() {
 	event.preventDefault();
 	location.href = 'drawDownLoanMaintanace?formmode=list';
@@ -582,6 +588,7 @@ $(function () {
 							</div>
 							<div class="float-right">
 								<button class="tablinks" onclick="schedule()">SCHEDULE</button>
+								<button class="tablinks" onclick="ledger()">LEDGER</button>
 							</div>
 						</div>
 						<div class="card-body">
