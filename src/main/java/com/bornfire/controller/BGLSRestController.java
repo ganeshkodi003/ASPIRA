@@ -3704,7 +3704,7 @@ public class BGLSRestController {
 				System.out.println("FEES FLOW_AMOUNT " + fees_flow_code);
 				System.out.println("FEES FLOW_CODE " + fees_due_amt);
 
-				String tranParticularsvalue2 = "Service Charges Recovered";
+				String tranParticularsvalue2 = "Fees Charges Recovered";
 
 				TRAN_MAIN_TRM_WRK_ENTITY creditTrm2 = new TRAN_MAIN_TRM_WRK_ENTITY();
 				creditTrm2.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
