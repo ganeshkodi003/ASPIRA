@@ -2942,12 +2942,11 @@ public class BGLSNavigationController {
 		if (formmode == null || formmode.equals("list")) {
 			md.addAttribute("formmode", "list");
 			md.addAttribute("TRANDATE", TRANDATE);
-			md.addAttribute("booking", lease_Loan_Work_Repo.getActNo());
+			md.addAttribute("booking", LOAN_ACT_MST_REPO.getActNo());
 			md.addAttribute("booking1", depositRep.getexistingData());
 
 		} else if (formmode.equals("view")) {
 			md.addAttribute("formmode", "view");
-
 		}
 		return "InterestBatchJob";
 	}
@@ -3073,7 +3072,6 @@ public class BGLSNavigationController {
 		} else {
 			return "File has not been successfully uploaded. Requires less than 128 KB size.";
 		}
-
 	}
 
 	@RequestMapping(value = "getrecordfromcoa", method = { RequestMethod.GET, RequestMethod.POST })

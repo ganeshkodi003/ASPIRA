@@ -53,5 +53,10 @@ List<Object> getDues(String encodedKey);
             "FROM LOAN_ACCOUNT_MASTER_TBL WHERE id = ?1", nativeQuery = true)
 Integer getUnverifiedStatus(String id);
 
+	@Query(value = "select id,loan_name,encoded_key from LOAN_ACCOUNT_MASTER_TBL order by id", nativeQuery = true)
+	List<Object[]> getActNo();
+	
+	@Query(value = "SELECT encoded_key FROM LOAN_ACCOUNT_MASTER_TBL WHERE ID =?1", nativeQuery = true)
+	String getLoanViewdatas(String id);
 
 }
