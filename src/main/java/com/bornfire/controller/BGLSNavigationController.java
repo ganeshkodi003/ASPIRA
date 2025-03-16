@@ -3652,4 +3652,38 @@ System.out.println(encodedKey);
 	 
 		return "Veified Successfully";
 	}
+	
+	@RequestMapping(value = "loanOperation", method = { RequestMethod.GET, RequestMethod.POST })
+	public String loanOperation(@RequestParam(required = false) String formmode, Model md, HttpServletRequest req) {
+
+		Date TRANDATE = (Date) req.getSession().getAttribute("TRANDATE");
+		if (formmode == null || formmode.equals("list")) {
+			md.addAttribute("formmode", "list");
+			md.addAttribute("TRANDATE", TRANDATE);
+			md.addAttribute("booking", lease_Loan_Work_Repo.getActNo());
+			md.addAttribute("booking1", depositRep.getexistingData());
+
+		} else if (formmode.equals("view")) {
+			md.addAttribute("formmode", "view");
+
+		}
+		return "LoanOperation";
+	}
+	
+	@RequestMapping(value = "loanClosure", method = { RequestMethod.GET, RequestMethod.POST })
+	public String loanClosure(@RequestParam(required = false) String formmode, Model md, HttpServletRequest req) {
+
+		Date TRANDATE = (Date) req.getSession().getAttribute("TRANDATE");
+		if (formmode == null || formmode.equals("list")) {
+			md.addAttribute("formmode", "list");
+			md.addAttribute("TRANDATE", TRANDATE);
+			md.addAttribute("booking", lease_Loan_Work_Repo.getActNo());
+			md.addAttribute("booking1", depositRep.getexistingData());
+
+		} else if (formmode.equals("view")) {
+			md.addAttribute("formmode", "view");
+
+		}
+		return "LoanClosure";
+	}
 }
