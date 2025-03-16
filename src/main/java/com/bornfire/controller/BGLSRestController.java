@@ -5350,5 +5350,19 @@ public class BGLSRestController {
 		return formattedRecords;
 	}
 
+	@GetMapping("fetchacctbalance")
+	public ResponseEntity<String> fetchacctbalance(@RequestParam String acctnum) {
+	    System.out.println("Fetching account balance for: " + acctnum);
+
+	    Object balanceObj = chart_Acc_Rep.getaccbal(acctnum);
+	    
+	    if (balanceObj == null) {
+	        return ResponseEntity.notFound().build(); // Return 404 if no balance found
+	    }
+
+	    String balance = balanceObj.toString(); // Convert Object to String
+	    return ResponseEntity.ok(balance);
+	}
+
 
 }

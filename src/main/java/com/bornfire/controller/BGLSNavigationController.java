@@ -3660,7 +3660,7 @@ System.out.println(encodedKey);
 		if (formmode == null || formmode.equals("list")) {
 			md.addAttribute("formmode", "list");
 			md.addAttribute("TRANDATE", TRANDATE);
-			md.addAttribute("booking", lease_Loan_Work_Repo.getActNo());
+			md.addAttribute("booking", LOAN_ACT_MST_REPO.getActNo());
 			md.addAttribute("booking1", depositRep.getexistingData());
 
 		} else if (formmode.equals("view")) {
@@ -3677,9 +3677,9 @@ System.out.println(encodedKey);
 		if (formmode == null || formmode.equals("list")) {
 			md.addAttribute("formmode", "list");
 			md.addAttribute("TRANDATE", TRANDATE);
-			md.addAttribute("booking", lease_Loan_Work_Repo.getActNo());
+			md.addAttribute("booking", LOAN_ACT_MST_REPO.getActNo());
 			md.addAttribute("booking1", depositRep.getexistingData());
-
+			md.addAttribute("chartaccount", chart_Acc_Rep.getListoffice());
 		} else if (formmode.equals("view")) {
 			md.addAttribute("formmode", "view");
 

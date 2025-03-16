@@ -104,5 +104,12 @@ public interface Chart_Acc_Rep extends JpaRepository<Chart_Acc_Entity, String> {
 
 	@Query(value = "SELECT add_det_flg FROM COA WHERE ACCT_NUM=?1", nativeQuery = true)
 	String getpointingDetail(String accountNum);
+	
+	@Query(value = "SELECT * FROM BGLS_CHART_OF_ACCOUNTS WHERE del_flg='N' AND ACCT_NUM =?1 ", nativeQuery = true)
+	String getloanbal(String accountNum);
+	
+	@Query(value = "SELECT ACCT_BAL FROM BGLS_CHART_OF_ACCOUNTS WHERE ACCT_NUM=?1", nativeQuery = true)
+	BigDecimal getaccountbal(String acc_num);
+
 
 }

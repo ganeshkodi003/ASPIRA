@@ -1408,6 +1408,90 @@ input:hover+.password-info {
 
 
 	</script>
+<script>
+    function updateAccountName(selectElement) {
+        // Get the selected option
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
+        
+        // Retrieve the account name from data attribute
+        var accountName = selectedOption.getAttribute("data-acct-name") || "";
+
+        // Set the account name in the input field
+        document.getElementById("acct_name").value = accountName;
+    }
+    
+    function fetchacctnum() {
+        var acctnum = document.getElementById("acct_num1234").value;
+        
+        $.ajax({
+            type: 'GET',
+            url: './fetchacctbalance',
+            data: { acctnum: acctnum },
+            success: function (data) {
+                console.log("Raw Account Balance:", data);
+                
+                // Convert to a number and format with two decimal places
+                var formattedBalance = parseFloat(data).toLocaleString('en-US', { 
+                    minimumFractionDigits: 2, 
+                    maximumFractionDigits: 2 
+                });
+
+                document.getElementById("loan_bal").value = formattedBalance; // Set formatted balance
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching balance:", error);
+                document.getElementById("loan_bal").value = ""; // Clear field on error
+            }
+        });
+    }
+
+
+</script>
+<script type="text/javascript">
+//Function to add a new row
+function addloanRow() {
+    let table = document.getElementById("flowIdTbodynew"); // Get the table body
+    let rowCount = table.rows.length; // Count current rows
+
+    let newRow = table.insertRow(); // Insert a new row
+
+    // Define cell content
+    newRow.innerHTML = `
+        <td><input type="date" name="flow_date" class="border-0"></td>
+        <td><input type="text" name="flow_id" value="${rowCount + 1}" class="border-0" readonly /></td>
+        <td><input type="text" name="flow_code" value="BCDEM - FEES" class="border-0" readonly /></td>
+        <td><input type="text" name="flow_amt" class="border-0" /></td>
+        <td><input type="text" name="loan_acct_no" class="border-0" readonly /></td>
+        <td><input type="text" name="acct_name" class="border-0" readonly /></td>
+        <td style="text-align: center;" class="align-middle">
+            <input type="radio" onclick="handleRadioClickInterestdatas(this)" />
+        </td>
+    `;
+}
+
+// Function to delete the last row
+function deleteloanRow() {
+    let table = document.getElementById("flowIdTbodynew");
+    let rowCount = table.rows.length;
+
+    if (rowCount <= 2) {
+        alert("At least 2 rows must remain.");
+        return;
+    }
+
+    table.deleteRow(rowCount - 1); // Remove the last row
+
+    // Reorder flow_id values after deletion
+    let rows = table.getElementsByTagName("tr");
+    for (let i = 0; i < rows.length; i++) {
+        let flowIdInput = rows[i].querySelector("input[name='flow_id']");
+        if (flowIdInput) {
+            flowIdInput.value = i + 1;
+        }
+    }
+}
+
+</script>
 </head>
 <body>
 
@@ -1425,7 +1509,8 @@ input:hover+.password-info {
 						style="background-color: #e9ecef; HEIGHT: 50px; padding-left: 5px;">
 
 						<div class="float-left">
-							<h6 style="font-size: 1.2rem; color: black;" class="ml-4">LOAN CLOSURE</h6>
+							<h6 style="font-size: 1.2rem; color: black;" class="ml-4">LOAN
+								CLOSURE</h6>
 						</div>
 
 
@@ -1434,50 +1519,42 @@ input:hover+.password-info {
 					<div class="card-body border">
 
 						<!-- Main Row for Transaction Type and Account Type Sections in a Single Row -->
-		 
 
-			 
-		 
 
-						<!-- Section Heading: Date Range --> 
+
+
+
+						<!-- Section Heading: Date Range -->
 						<div class="row formline mt-3 " id="fromtovalues"
 							style="padding-left: 20px;">
 							<!-- From Date -->
 							<div class="col-sm-1">Account No</div>
-							
 							<div class="col-sm-2">
-
-								<select class=" " name="acct_num" id="acct_num1"
-									 placeholder="select">
+								<select name="acct_num" id="acct_num1234"
+									onchange="updateAccountName(this);fetchacctnum()">
 									<option th:selected="${empty == ''}" value="">select</option>
 									<option th:each="ref : ${booking}" th:value="${ref[0]}"
-										th:attr="title=${ref[1]}" th:text="${ref[0]}"></option>
-
-								</select> <select class=" d-none" name="acct_num" id="acct_num2"
-									 placeholder="select">
-									<option th:selected="${empty == ''}" value="">select</option>
-									<option th:each="ref : ${booking1}" th:value="${ref}"
-										th:text="${ref}"></option>
-
+										th:attr="data-acct-name=${ref[1]}" th:text="${ref[0]}">
+									</option>
 								</select>
-
 							</div>
- 
+
 							<div class="col-sm-1">Account Name</div>
 							<div class="col-sm-2">
 								<input type="text" name="acct_name" id="acct_name"
-								 autocomplete="off"/>
+									autocomplete="off" />
 							</div>
 
 							<div class="col-sm-1">Date of Closure</div>
 							<div class="col-sm-2">
 								<input type="date" name="date_closure" id="date_closure" />
 							</div>
-							
+
 							<div class="col-sm-1">Loan Balance</div>
 							<div class="col-sm-2">
-								<input type="text" name="loan_bal" id="loan_bal"
-									 autocomplete="off"/>
+								<input type="text" name="loan_bal" id="loan_bal" 
+								
+									autocomplete="off" />
 							</div>
 						</div>
 
@@ -1504,8 +1581,17 @@ input:hover+.password-info {
 							</tbody>
 						</table>
 
+						<div class="mt-4"
+							style="display: flex; justify-content: right; margin-bottom: 10px;">
+							<img th:src="@{/images/add.png}" aria-hidden="true"
+								style="cursor: pointer; width: 20px; height: 20px; margin-right: 10px;"
+								onclick="addloanRow()" alt="Add"> <img
+								th:src="@{/images/MinusIcon.png}" aria-hidden="true"
+								style="cursor: pointer; width: 20px; height: 20px;"
+								onclick="deleteloanRow()" alt="Remove">
+						</div>
 
-						<table class="table table-bordered table-sm mt-4"
+						<table class="table table-bordered table-sm mt-2"
 							style="margin-bottom: 0px; font-size: initial;"
 							id="serviceflowIdTable">
 							<thead class="thead-light">
@@ -1520,7 +1606,7 @@ input:hover+.password-info {
 								</tr>
 							</thead>
 
-							<tbody id="flowIdTbody">
+							<tbody id="flowIdTbodynew">
 								<tr>
 									<td><input type="date" name="flow_date" class="border-0"
 										id="flowDateInput"></td>
