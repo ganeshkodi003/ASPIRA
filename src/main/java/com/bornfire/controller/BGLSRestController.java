@@ -3778,21 +3778,23 @@ public class BGLSRestController {
 				debitTrm.setEntry_time(flow_date);
 				debitTrm.setDel_flg("N");
 				tRAN_MAIN_TRM_WRK_REP.save(debitTrm);
+				
+				
+				LOAN_REPAYMENT_ENTITY demandRecordsvaldatas1 = lOAN_REPAYMENT_REPO.getLoanFlowsValueDatas(encodedkey,
+						formattedDate);
 
-				/*
-				 * update demand table interest tran details DMD_TABLE demandRecords =
-				 * dMD_TABLE_REPO.getDemandData(account_no, flow_code, flow_id);
-				 * 
-				 * demandRecords.setAdj_dt(flow_date); demandRecords.setAdj_amt(new
-				 * BigDecimal(flow_amount)); demandRecords.setTran_amt(new
-				 * BigDecimal(flow_amount)); demandRecords.setTran_date(flow_date);
-				 * demandRecords.setTran_id(tranId); demandRecords.setPart_tran_type("Credit");
-				 * demandRecords.setPart_tran_id(partTranId1);
-				 * demandRecords.setModify_time(flow_date); demandRecords.setModify_flg("Y");
-				 * demandRecords.setModify_user(user);
-				 * 
-				 * dMD_TABLE_REPO.save(demandRecords);
-				 */
+				demandRecordsvaldatas1.setPrincipal_paid(principle_due_amt);
+				demandRecordsvaldatas1.setPrincipal_due(BigDecimal.ZERO);
+				demandRecordsvaldatas1.setInterest_paid(intrest_due_amt);
+				demandRecordsvaldatas1.setInterest_due(BigDecimal.ZERO);
+				demandRecordsvaldatas1.setFee_paid(fees_due_amt);
+				demandRecordsvaldatas1.setFee_due(BigDecimal.ZERO);
+				LocalDate localDate = LocalDate.now();
+				Date currentDate = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+				demandRecordsvaldatas1.setRepaid_date(currentDate);
+				
+				lOAN_REPAYMENT_REPO.save(demandRecordsvaldatas1);
 
 			} else {
 
