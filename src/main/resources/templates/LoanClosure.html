@@ -1439,9 +1439,7 @@ input:hover+.password-info {
 			 
 		 
 
-						<!-- Section Heading: Date Range -->
-						<h6 class="mt-3 " id="operationtype"
-							style="padding-left: 20px;">OPERATION DATE</h6>
+						<!-- Section Heading: Date Range --> 
 						<div class="row formline mt-3 " id="fromtovalues"
 							style="padding-left: 20px;">
 							<!-- From Date -->
@@ -1450,13 +1448,13 @@ input:hover+.password-info {
 							<div class="col-sm-2">
 
 								<select class=" " name="acct_num" id="acct_num1"
-									onchange="callflowDetails()" placeholder="select">
+									 placeholder="select">
 									<option th:selected="${empty == ''}" value="">select</option>
 									<option th:each="ref : ${booking}" th:value="${ref[0]}"
 										th:attr="title=${ref[1]}" th:text="${ref[0]}"></option>
 
 								</select> <select class=" d-none" name="acct_num" id="acct_num2"
-									onchange="callflowDetails()" placeholder="select">
+									 placeholder="select">
 									<option th:selected="${empty == ''}" value="">select</option>
 									<option th:each="ref : ${booking1}" th:value="${ref}"
 										th:text="${ref}"></option>
@@ -1464,17 +1462,22 @@ input:hover+.password-info {
 								</select>
 
 							</div>
-
-							<!-- To Date -->
+ 
 							<div class="col-sm-1">Account Name</div>
 							<div class="col-sm-2">
 								<input type="text" name="acct_name" id="acct_name"
-									onchange="callflowDetails();" autocomplete="off"/>
+								 autocomplete="off"/>
 							</div>
 
 							<div class="col-sm-1">Date of Closure</div>
 							<div class="col-sm-2">
 								<input type="date" name="date_closure" id="date_closure" />
+							</div>
+							
+							<div class="col-sm-1">Loan Balance</div>
+							<div class="col-sm-2">
+								<input type="text" name="loan_bal" id="loan_bal"
+									 autocomplete="off"/>
 							</div>
 						</div>
 
