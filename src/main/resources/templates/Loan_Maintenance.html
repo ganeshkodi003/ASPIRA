@@ -239,11 +239,18 @@ input:hover+.password-info {
 	color: #333;
 }
 </style>
+<script>
+function home() {
+	location.href = 'Dashboard';
+}
+</script>
 <script> 
 function back() {
 	event.preventDefault();
 	window.history.back();
 }
+
+
 function schedule() {
 	event.preventDefault();
 	var id = document.getElementById("id").value;
@@ -568,7 +575,7 @@ $(function () {
 							</div>
 						</div>
 						<div class="card-footer text-center">
-							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
+							<button class="btn btn-primary p-2" onclick="home()">Home</button>
 							<button class="btn btn-primary p-2" onclick="back()">Back</button>
 						</div>
 					</div>
