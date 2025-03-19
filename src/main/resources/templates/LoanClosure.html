@@ -251,6 +251,16 @@ input:hover+.password-info {
 			window.history.back();
 		}
 
+        function preclosure() {
+
+			location.href = './loanClosure?formmode=preclosure';
+
+		}
+		function closure() {
+
+			location.href = './loanClosure?formmode=closure';
+
+		}
 		function add() {
 
 			location.href = './deposits?formmode=add';
@@ -1550,139 +1560,228 @@ function deleteloanRow() {
 }
 </script>
 <script>
+    function opentab(evt, cityName) {
+        var i, tabcontent, tablinks;
 
+        // Hide all tab content
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Remove "active" class from all tab buttons
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the selected tab content
+        document.getElementById(cityName).style.display = "block";
+        
+        // Add "active" class to the clicked tab button
+        evt.currentTarget.className += " active";
+    }
+
+    // Ensure "PRE - CLOSURE" tab is active by default when page loads
+    window.onload = function () {
+        document.getElementById("preclose").style.display = "block"; // Show the pre-closure tab
+        document.getElementById("firstbutton").classList.add("active"); // Add active class to button
+    };
 </script>
 </head>
 <body>
-
-	<div class="col-sm-2">
-		<div th:insert="BGLSHeaderMenu :: header"></div>
-	</div>
-	<!---------------------User List Starts------------------------------------------------------->
-	<!-- Start Content-->
-	<div class="container-manager">
-		<div class="row">
-			<div class="col-sm-11 ml-5 mt-2">
-
-				<div th:if="${formmode}=='list'">
-					<div class="card-header "
-						style="background-color: #e9ecef; HEIGHT: 50px; padding-left: 5px;">
-
-						<div class="float-left">
-							<h6 style="font-size: 1.2rem; color: black;" class="ml-4">LOAN
-								CLOSURE</h6>
-						</div>
-
-						<input type="hidden" id="hidden_acct_name" value=""
-							style="display: none;">
-
+<div class="col-sm-2">
+	<div th:insert="BGLSHeaderMenu :: header"></div>
+</div>
+<!---------------------------------------------------------------------------------User List Starts------------------------------------------------------------------>
+<!-- Start Content-->
+<div class="container-manager">
+	<div class="row">
+		<div class="col-sm-11 ml-5 mt-2">
+			<div th:if="${formmode}=='list'">
+				<div class="card-header " style="background-color: #e9ecef; HEIGHT: 50px; padding-left: 5px;">
+					<div class="float-left">
+						<h6 style="font-size: 1.2rem; color: black;" class="ml-4">LOAN CLOSURE</h6>
 					</div>
-
-					<div class="card-body border">
-
-						<!-- Main Row for Transaction Type and Account Type Sections in a Single Row -->
-
-
-
-
-
-						<!-- Section Heading: Date Range -->
-						<div class="row formline mt-3 " id="fromtovalues"
-							style="padding-left: 20px;">
-							<!-- From Date -->
-							<div class="col-sm-1">Account No</div>
-							<div class="col-sm-2">
-								<select name="acct_num" id="acct_num1234"
-									onchange="updateAccountName(this); fetchacctnum();">
-									<option th:selected="${empty == ''}" value="">Select</option>
-									<option th:each="ref : ${booking}" th:value="${ref[0]}"
-										th:attr="data-acct-name=${ref[2]}, data-acct-namevalues=${ref[1]}"
-										th:text="${ref[0]}"></option>
-								</select>
-							</div>
-
-							<div class="col-sm-1">Account Name</div>
-							<div class="col-sm-2">
-								<input type="text" name="acct_name" id="acct_name"
-									autocomplete="off" />
-							</div>
-
-							<div class="col-sm-1">Date of Closure</div>
-							<div class="col-sm-2">
-								<input type="date" name="date_closure" id="date_closure" />
-							</div>
-
-							<div class="col-sm-1">Loan Balance</div>
-							<div class="col-sm-2">
-								<input type="text" name="loan_bal" id="loan_bal"
-									autocomplete="off" />
-							</div>
-						</div>
-
-						<!-- Table -->
-						<table class="table table-bordered table-sm mt-4  d-none"
-							style="margin-bottom: 0px; font-size: initial;" id="flowIdTable">
-							<thead class="thead-light">
-								<tr>
-									<th>Flow Date</th>
-									<th>Flow ID</th>
-									<th>Flow Code</th>
-									<th>Flow Amt</th>
-									<th>Acct No</th>
-									<th>Acct Name</th>
-									<th>Select</th>
-								</tr>
-							</thead>
-
-							<tbody id="flowIdTbody">
-								<tr>
-									<td colspan="7" style="text-align: center;">No records
-										available</td>
-								</tr>
-							</tbody>
-						</table>
-
-						<div class="mt-4"
-							style="display: flex; justify-content: right; margin-bottom: 10px;">
-							<img th:src="@{/images/add.png}" aria-hidden="true"
-								style="cursor: pointer; width: 20px; height: 20px; margin-right: 10px;"
-								onclick="addloanRow()" alt="Add"> <img
-								th:src="@{/images/MinusIcon.png}" aria-hidden="true"
-								style="cursor: pointer; width: 20px; height: 20px;"
-								onclick="deleteloanRow()" alt="Remove">
-						</div>
-
-						<table class="table table-bordered table-sm mt-2"
-							style="margin-bottom: 0px; font-size: initial;"
-							id="serviceflowIdTable">
-							<thead class="thead-light">
-								<tr>
-									<th>Flow Date</th>
-									<th>Flow ID</th>
-									<th>Flow Code</th>
-									<th>Flow Amt</th>
-									<th>Acct No</th>
-									<th>Acct Name</th>
-									<th>Select</th>
-								</tr>
-							</thead>
-
-							<tbody id="flowIdTbodynew">
-
-							</tbody>
-						</table>
-					</div>
-
-					<div class="card-footer text-center"
-						style="background-color: #e9ecef;">
-						<button class="btn btn-primary P-2" onclick="Home();">Home</button>
-						<button class="btn btn-primary P-2" onclick="back();">Back</button>
-					</div>
+					<input type="hidden" id="hidden_acct_name" value="" style="display: none;">
 				</div>
+				<div class="tab" style="display: flex; justify-content: center; gap: 60px;">
+					<button class="tablinks active" style="width: 260px; text-transform: uppercase;"
+						onclick="opentab(event, 'preclose')" id="firstbutton">PRE - CLOSURE</button>
+					<button class="tablinks" style="width: 290px; text-transform: uppercase;"
+						onclick="opentab(event, 'close')">CLOSURE</button>
+				</div>
+				<div class="card-body border">
+					<!-- Main Row for Transaction Type and Account Type Sections in a Single Row -->
+					<!-- Section Heading: Date Range -->
+<!-----------------------------------------------------------------------------------------preclosure-------------------------------------------------------------->	
+					<div id="preclose" class="tabcontent" style="display: none;">
+					<div class="row formline mt-3 " id="fromtovalues" style="padding-left: 20px;">
+						<!-- From Date -->
+						<div class="col-sm-1">Account No</div>
+						<div class="col-sm-2">
+							<select name="acct_num" id="acct_num1234"
+								onchange="updateAccountName(this); fetchacctnum();">
+								<option th:selected="${empty == ''}" value="">Select</option>
+								<option th:each="ref : ${booking}" th:value="${ref[0]}"
+									th:attr="data-acct-name=${ref[2]}, data-acct-namevalues=${ref[1]}"
+									th:text="${ref[0]}"></option>
+							</select>
+						</div>
+
+						<div class="col-sm-1">Account Name</div>
+						<div class="col-sm-2">
+							<input type="text" name="acct_name" id="acct_name" autocomplete="off" />
+						</div>
+
+						<div class="col-sm-1">Date of Closure</div>
+						<div class="col-sm-2">
+							<input type="date" name="date_closure" id="date_closure" />
+						</div>
+
+						<div class="col-sm-1">Loan Balance</div>
+						<div class="col-sm-2">
+							<input type="text" name="loan_bal" id="loan_bal" autocomplete="off" />
+						</div>
+					</div>
+
+					<!-- Table -->
+					<table class="table table-bordered table-sm mt-4  d-none"
+						style="margin-bottom: 0px; font-size: initial;" id="flowIdTable">
+						<thead class="thead-light">
+							<tr>
+								<th>Flow Date</th>
+								<th>Flow ID</th>
+								<th>Flow Code</th>
+								<th>Flow Amt</th>
+								<th>Acct No</th>
+								<th>Acct Name</th>
+								<th>Select</th>
+							</tr>
+						</thead>
+
+						<tbody id="flowIdTbody">
+							<tr>
+								<td colspan="7" style="text-align: center;">No records
+									available</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div class="mt-4" style="display: flex; justify-content: right; margin-bottom: 10px;">
+						<img th:src="@{/images/add.png}" aria-hidden="true"
+							style="cursor: pointer; width: 20px; height: 20px; margin-right: 10px;"
+							onclick="addloanRow()" alt="Add"> <img th:src="@{/images/MinusIcon.png}" aria-hidden="true"
+							style="cursor: pointer; width: 20px; height: 20px;" onclick="deleteloanRow()" alt="Remove">
+					</div>
+
+					<table class="table table-bordered table-sm mt-2" style="margin-bottom: 0px; font-size: initial;"
+						id="serviceflowIdTable">
+						<thead class="thead-light">
+							<tr>
+								<th>Flow Date</th>
+								<th>Flow ID</th>
+								<th>Flow Code</th>
+								<th>Flow Amt</th>
+								<th>Acct No</th>
+								<th>Acct Name</th>
+								<th>Select</th>
+							</tr>
+						</thead>
+						<tbody id="flowIdTbodynew">
+						</tbody>
+					</table>
+				</div>
+<!-----------------------------------------------------------------------------------------closure-------------------------------------------------------------->					
+					<div id="close" class="tabcontent" style="display: none">
+					<div class="row formline mt-3 " id="fromtovalues" style="padding-left: 20px;">
+						<!-- From Date -->
+						<div class="col-sm-1">Account No</div>
+						<div class="col-sm-2">
+							<select name="acct_num" id="acct_num1234"
+								onchange="updateAccountName(this); fetchacctnum();">
+								<option th:selected="${empty == ''}" value="">Select</option>
+								<option th:each="ref : ${booking}" th:value="${ref[0]}"
+									th:attr="data-acct-name=${ref[2]}, data-acct-namevalues=${ref[1]}"
+									th:text="${ref[0]}"></option>
+							</select>
+						</div>
+
+						<div class="col-sm-1">Account Name</div>
+						<div class="col-sm-2">
+							<input type="text" name="acct_name" id="acct_name" autocomplete="off" />
+						</div>
+
+						<div class="col-sm-1">Date of Closure</div>
+						<div class="col-sm-2">
+							<input type="date" name="date_closure" id="date_closure" />
+						</div>
+
+						<div class="col-sm-1">Loan Balance</div>
+						<div class="col-sm-2">
+							<input type="text" name="loan_bal" id="loan_bal" autocomplete="off" />
+						</div>
+					</div>
+
+					<!-- Table -->
+					<table class="table table-bordered table-sm mt-4  d-none"
+						style="margin-bottom: 0px; font-size: initial;" id="flowIdTable">
+						<thead class="thead-light">
+							<tr>
+								<th>Flow Date</th>
+								<th>Flow ID</th>
+								<th>Flow Code</th>
+								<th>Flow Amt</th>
+								<th>Acct No</th>
+								<th>Acct Name</th>
+								<th>Select</th>
+							</tr>
+						</thead>
+
+						<tbody id="flowIdTbody">
+							<tr>
+								<td colspan="7" style="text-align: center;">No records
+									available</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div class="mt-4" style="display: flex; justify-content: right; margin-bottom: 10px;">
+						<img th:src="@{/images/add.png}" aria-hidden="true"
+							style="cursor: pointer; width: 20px; height: 20px; margin-right: 10px;"
+							onclick="addloanRow()" alt="Add"> <img th:src="@{/images/MinusIcon.png}" aria-hidden="true"
+							style="cursor: pointer; width: 20px; height: 20px;" onclick="deleteloanRow()" alt="Remove">
+					</div>
+
+					<table class="table table-bordered table-sm mt-2" style="margin-bottom: 0px; font-size: initial;"
+						id="serviceflowIdTable">
+						<thead class="thead-light">
+							<tr>
+								<th>Flow Date</th>
+								<th>Flow ID</th>
+								<th>Flow Code</th>
+								<th>Flow Amt</th>
+								<th>Acct No</th>
+								<th>Acct Name</th>
+								<th>Select</th>
+							</tr>
+						</thead>
+						<tbody id="flowIdTbodynew">
+						</tbody>
+					</table>
+				</div>
+<!-----------------------------------------------------------------------------------------footer-------------------------------------------------------------->	
+			</div>
+				<div class="card-footer text-center" style="background-color: #e9ecef;">
+					<button class="btn btn-primary P-2" onclick="Home();">Home</button>
+					<button class="btn btn-primary P-2" onclick="back();">Back</button>
+				</div>
+			</div>
+<!-----------------------------------------------------------------------------------------end-------------------------------------------------------------->	
 			</div>
 		</div>
 	</div>
-
+<!-----------------------------------------------------------------------------------------modal-------------------------------------------------------------->	
 	<div class="modal fade" id="alertERE">
 		<div
 			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -1720,9 +1819,6 @@ function deleteloanRow() {
 			</div>
 		</div>
 	</div>
+<!-----------------------------------------------------------------------------------------end-------------------------------------------------------------->	
 </body>
-
-
-
-
 </html>
