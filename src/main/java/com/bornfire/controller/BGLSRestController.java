@@ -19,11 +19,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -5651,18 +5653,33 @@ public class BGLSRestController {
 
 		BigDecimal partTranId = BigDecimal.valueOf(1); // Start from 1 and increment
 
-		BigDecimal totalPrdem = BigDecimal.ZERO;
-		BigDecimal totalIndem = BigDecimal.ZERO;
-		BigDecimal totalFeedem = BigDecimal.ZERO;
-		
+		// Initialize maps to store totals based on flow_date
+		Map<String, BigDecimal> totalPrdem = new HashMap<>();
+		Map<String, BigDecimal> totalIndem = new HashMap<>();
+		Map<String, BigDecimal> totalFeedem = new HashMap<>();
+
 		String FLOW_DATES = transactions.get(0).get("flow_date");
+
+		if (FLOW_DATES != null && !FLOW_DATES.trim().isEmpty()) {
+			SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd-MM-yyyy"); // Expected input format
+			SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd"); // SQL format
+
+			try {
+				Date parsedDate = inputDateFormat.parse(FLOW_DATES);
+				String formattedDate = outputDateFormat.format(parsedDate);
+				System.out.println("Formatted Flow Date: " + formattedDate);
+			} catch (ParseException e) {
+				System.out.println("Error parsing date: " + FLOW_DATES);
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("Invalid flow_date: " + FLOW_DATES);
+		}
 
 		// ✅ Format flowDate once before loop
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		Date flowDate = dateFormat.parse(transactions.get(0).get("flow_date")); // Use first transaction's flow_date
 		System.out.println("Formatted Flow Date: " + dateFormat.format(flowDate));
-
-
 
 		String encodedKey = transactions.get(0).get("encoded_key");
 		System.out.println("Encoded Key: " + encodedKey);
@@ -5670,18 +5687,62 @@ public class BGLSRestController {
 		// ✅ Extract from_date and to_date safely
 		String fromDate = transactions.get(0).get("from_date");
 		String toDate = transactions.get(0).get("to_date");
+
 		System.out.println("before date convertion to date " + toDate);
 		// ✅ Check for null values before parsing
 		if (toDate == null || toDate.trim().isEmpty()) {
 			throw new IllegalArgumentException("Invalid request: to_date is missing or empty");
 		}
 
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date transactionDate = formatter.parse(toDate);
+
+		System.out.println("th formated transaction date is here " + transactionDate);
+
+		// Step 1: Extract unique flow_date values
+		Set<String> uniqueFlowDates = new HashSet<>();
+		for (Map<String, String> transaction : transactions) {
+			uniqueFlowDates.add(transaction.get("flow_date"));
+		}
+
+		// Define date formats
+		SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		// Step 2: Convert flow_date values into SQL format
+		List<String> formattedFlowDates = new ArrayList<>();
+
+		for (String flowDateKey : uniqueFlowDates) {
+			System.out.println("Flow Date: " + flowDateKey); // ✅ Corrected variable name
+			System.out.println("  Principal Recovered: " + totalPrdem.getOrDefault(flowDateKey, BigDecimal.ZERO)); // ✅
+																													// Use
+																													// flowDateKey
+			System.out.println("  Interest Recovered: " + totalIndem.getOrDefault(flowDateKey, BigDecimal.ZERO));
+			System.out.println("  Fees Recovered: " + totalFeedem.getOrDefault(flowDateKey, BigDecimal.ZERO));
+			System.out.println("-----------------------------------");
+
+			try {
+				if (flowDateKey != null && !flowDateKey.trim().isEmpty()) {
+					// Parse input date (dd-MM-yyyy format)
+					Date parsedDate = inputDateFormat.parse(flowDateKey);
+
+					// Convert to SQL-compatible format (yyyy-MM-dd HH:mm:ss)
+					formattedFlowDates.add(sqlDateFormat.format(parsedDate));
+				} else {
+					System.out.println("Warning: Skipping null or empty flow_date value.");
+				}
+			} catch (ParseException e) {
+				System.out.println("Error parsing date: " + flowDateKey + ". Expected format: dd-MM-yyyy");
+				e.printStackTrace();
+			}
+		}
+
+		// Step 3: Fetch all demand records for the multiple flow dates
+		List<LOAN_REPAYMENT_ENTITY> demandRecordsList = lOAN_REPAYMENT_REPO.getLoanFlowsValueDatas1(encodedKey,
+				formattedFlowDates);
 
 		for (Map<String, String> transaction : transactions) {
 			System.out.println("Processing Transaction: " + transaction);
-
 			System.out.println("Received from_date: " + transaction.get("from_date"));
 			System.out.println("Received to_date: " + transaction.get("to_date"));
 
@@ -5724,25 +5785,39 @@ public class BGLSRestController {
 			creditTrm.setEntry_time(flowDate);
 			creditTrm.setDel_flg("N");
 
+			// Extract flow_date for tracking
+			String flowDateKey = transaction.get("flow_date");
+
 			// Assign transaction particulars based on flow code
+			String tran_particular = "";
+			String tran_remarks = "";
+
 			switch (flowCode) {
 			case "PRDEM":
-				creditTrm.setTran_particular("Principal Installment Recovered");
-				creditTrm.setTran_remarks("Principal Installment Recovered");
-				totalPrdem = totalPrdem.add(tranAmt);
+				totalPrdem.merge(flowDateKey, tranAmt, BigDecimal::add);
+				tran_particular = "Principal Recovery";
+				tran_remarks = "Principal amount recovered on " + flowDateKey;
 				break;
 			case "INDEM":
-				creditTrm.setTran_particular("Interest Installment Recovered");
-				creditTrm.setTran_remarks("Interest Installment Recovered");
-				totalIndem = totalIndem.add(tranAmt);
+				totalIndem.merge(flowDateKey, tranAmt, BigDecimal::add);
+				tran_particular = "Interest Recovery";
+				tran_remarks = "Interest amount recovered on " + flowDateKey;
 				break;
 			case "FEEDEM":
-				creditTrm.setTran_particular("Fees Charges Recovered");
-				creditTrm.setTran_remarks("Fees Charges Recovered");
-				totalFeedem = totalFeedem.add(tranAmt);
+				totalFeedem.merge(flowDateKey, tranAmt, BigDecimal::add);
+				tran_particular = "Fees Recovery";
+				tran_remarks = "Fees amount recovered on " + flowDateKey;
 				break;
+			default:
+				tran_particular = "Unknown Transaction";
+				tran_remarks = "Unrecognized transaction type for " + flowDateKey;
 			}
 
+			// ✅ Set transaction particulars and remarks in the entity
+			creditTrm.setTran_particular(loanDetails.getId() + " " + tran_particular);
+			creditTrm.setTran_remarks(tran_remarks);
+
+			// ✅ Save the transaction record
 			tRAN_MAIN_TRM_WRK_REP.save(creditTrm);
 
 			// Increment partTranId for next transaction
@@ -5752,9 +5827,12 @@ public class BGLSRestController {
 		// Office Loan Account Debit (second transaction)
 		String acct_num = "2700002750";
 		Chart_Acc_Entity leasydebit = chart_Acc_Rep.getaedit(acct_num);
-		LOAN_ACT_MST_ENTITY loanDetails1 = lOAN_ACT_MST_REPO.getLoanView(transactions.get(0).get("loan_acct_no")); 
-		
-		BigDecimal tran_amt = totalPrdem.add(totalIndem).add(totalFeedem);
+		LOAN_ACT_MST_ENTITY loanDetails1 = lOAN_ACT_MST_REPO.getLoanView(transactions.get(0).get("loan_acct_no"));
+		// Calculate total transaction amount by summing all values from the maps
+		BigDecimal tran_amt = totalPrdem.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add)
+				.add(totalIndem.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add))
+				.add(totalFeedem.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add));
+
 		TRAN_MAIN_TRM_WRK_ENTITY debitTrm = new TRAN_MAIN_TRM_WRK_ENTITY();
 
 		debitTrm.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
@@ -5782,56 +5860,80 @@ public class BGLSRestController {
 		System.out.println("THE GETTING ENCODED CODE IS " + encodedKey);
 		System.out.println("THE GETTING FROMDATE CODE IS " + FLOW_DATES);
 
-		// ✅ Use formatted flowDate for Loan Repayment Update
-		LOAN_REPAYMENT_ENTITY demandRecords = lOAN_REPAYMENT_REPO.getLoanFlowsValueDatas(encodedKey, FLOW_DATES);
+		// Step 5: Process and update repayment records for each flow_date
+		for (LOAN_REPAYMENT_ENTITY demandRecord : demandRecordsList) {
+			String dueDate = new SimpleDateFormat("dd-MM-yyyy").format(demandRecord.getDue_date());
 
-		System.out.println("Demand Records: " + demandRecords);
-		System.out.println("PRINCIPLE_DUE: " + demandRecords.getPrincipal_due());
-		System.out.println("INTRST_DUE: " + demandRecords.getInterest_due());
-		System.out.println("FEES_DUE: " + demandRecords.getFee_due());
-		System.out.println("FLOW_DATE: " + demandRecords.getPenalty_due()); // Verify date format
+			// Extract due amounts from the backend record
+			BigDecimal principalDue = demandRecord.getPrincipal_due();
+			BigDecimal interestDue = demandRecord.getInterest_due();
+			BigDecimal feeDue = demandRecord.getFee_due();
 
-		System.out.println("totalPrdem: " + totalPrdem);
-		System.out.println("totalIndem: " + totalIndem);
-		System.out.println("totalFeedem: " + totalFeedem); // Verify date format
-		
-		// Update demand record with paid amounts
-		demandRecords.setPrincipal_paid(totalPrdem);
-		demandRecords.setInterest_paid(totalIndem);
-		demandRecords.setFee_paid(totalFeedem);
+			// Extract paid amounts from transactions
+			BigDecimal principalPaid = totalPrdem.getOrDefault(dueDate, BigDecimal.ZERO);
+			BigDecimal interestPaid = totalIndem.getOrDefault(dueDate, BigDecimal.ZERO);
+			BigDecimal feePaid = totalFeedem.getOrDefault(dueDate, BigDecimal.ZERO);
 
-		// Fetch existing due amounts
-		BigDecimal existingPrincipalDue = demandRecords.getPrincipal_due();
-		BigDecimal existingInterestDue = demandRecords.getInterest_due();
-		BigDecimal existingFeeDue = demandRecords.getFee_due();
+			System.out.println("Flow Date: " + dueDate);
+			System.out.println("Before Update - Principal Due: " + principalDue + ", Interest Due: " + interestDue
+					+ ", Fee Due: " + feeDue);
+			System.out.println("Principal Paid: " + principalPaid + ", Interest Paid: " + interestPaid + ", Fees Paid: "
+					+ feePaid);
 
-		// ✅ Subtract paid amounts from due amounts but ensure due amounts never go
-		// negative
-		BigDecimal updatedPrincipalDue = existingPrincipalDue.subtract(totalPrdem).max(BigDecimal.ZERO);
-		BigDecimal updatedInterestDue = existingInterestDue.subtract(totalIndem).max(BigDecimal.ZERO);
-		BigDecimal updatedFeeDue = existingFeeDue.subtract(totalFeedem).max(BigDecimal.ZERO);
+			// Condition 1: Check if backend values match provided values
+			boolean isPrincipalMatch = principalPaid.compareTo(principalDue) == 0;
+			boolean isInterestMatch = interestPaid.compareTo(interestDue) == 0;
+			boolean isFeeMatch = feePaid.compareTo(feeDue) == 0;
 
-		// ✅ Check if all due amounts are fully paid
-		boolean isFullyPaid = updatedPrincipalDue.compareTo(BigDecimal.ZERO) == 0
-				&& updatedInterestDue.compareTo(BigDecimal.ZERO) == 0 && updatedFeeDue.compareTo(BigDecimal.ZERO) == 0;
+			// ✅ If all match, proceed with full update
+			if (isPrincipalMatch && isInterestMatch && isFeeMatch) {
+				demandRecord.setPrincipal_paid(principalPaid);
+				demandRecord.setPrincipal_due(BigDecimal.ZERO); // Set principal_due to 0
+				demandRecord.setInterest_paid(interestPaid);
+				demandRecord.setInterest_due(BigDecimal.ZERO);
+				demandRecord.setFee_paid(feePaid);
+				demandRecord.setFee_due(BigDecimal.ZERO);
+				demandRecord.setPayment_state("PAID");
+				demandRecord.setRepaid_date(transactionDate);
 
-		// ✅ Set payment status based on the remaining balance
-		if (isFullyPaid) {
-			demandRecords.setPayment_state("PAID");
-		} else {
-			demandRecords.setPayment_state("PARTIALLY_PAID");
+				System.out.println("✅ Full amount matched. Updating Loan Repayment Record for flow_date: " + dueDate);
+			}
+			// ❌ Else, handle partial payments
+			else {
+				// Calculate remaining balances
+				BigDecimal remainingPrincipal = principalDue.subtract(principalPaid).max(BigDecimal.ZERO);
+				BigDecimal remainingInterest = interestDue.subtract(interestPaid).max(BigDecimal.ZERO);
+				BigDecimal remainingFee = feeDue.subtract(feePaid).max(BigDecimal.ZERO);
+
+				// ✅ Update Due & Paid amounts correctly
+				demandRecord.setPrincipal_due(remainingPrincipal);
+				demandRecord.setPrincipal_paid(principalPaid);
+
+				demandRecord.setInterest_due(remainingInterest);
+				demandRecord.setInterest_paid(interestPaid);
+
+				demandRecord.setFee_due(remainingFee);
+				demandRecord.setFee_paid(feePaid);
+
+				// ✅ Set repaid date only if any payment was made
+				if (principalPaid.compareTo(BigDecimal.ZERO) > 0 || interestPaid.compareTo(BigDecimal.ZERO) > 0
+						|| feePaid.compareTo(BigDecimal.ZERO) > 0) {
+					demandRecord.setRepaid_date(transactionDate);
+				}
+
+				// ✅ Print the updated details
+				System.out.println("✅ Loan Repayment Record Updated for flow_date: " + dueDate);
+				System.out.println("Updated Remaining Balance - Principal Due: " + demandRecord.getPrincipal_due()
+						+ ", Interest Due: " + demandRecord.getInterest_due() + ", Fee Due: "
+						+ demandRecord.getFee_due());
+				System.out.println("Updated Paid Amounts - Principal Paid: " + demandRecord.getPrincipal_paid()
+						+ ", Interest Paid: " + demandRecord.getInterest_paid() + ", Fee Paid: "
+						+ demandRecord.getFee_paid());
+			}
+
+			lOAN_REPAYMENT_REPO.save(demandRecord);
+
 		}
-
-		// ✅ Update remaining due amounts
-		demandRecords.setPrincipal_due(updatedPrincipalDue);
-		demandRecords.setInterest_due(updatedInterestDue);
-		demandRecords.setFee_due(updatedFeeDue);
-
-		// Update repaid date
-		demandRecords.setRepaid_date(transactionDate);
-
-		// ✅ Save updated demand record
-		lOAN_REPAYMENT_REPO.save(demandRecords);
 
 		return tranId;
 	}
