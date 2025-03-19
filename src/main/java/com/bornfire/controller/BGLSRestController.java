@@ -5937,5 +5937,14 @@ public class BGLSRestController {
 
 		return tranId;
 	}
+	@RequestMapping(value = "FetchLoanDetails", method = RequestMethod.GET)
+	@ResponseBody
+	public LOAN_ACT_MST_ENTITY FetchLoanDetails(Model md, HttpServletRequest rq, 
+			@RequestParam(required = false) String id) {
+ 
+		LOAN_ACT_MST_ENTITY loandetails = lOAN_ACT_MST_REPO.getLoanView(id);
 
+		return loandetails;
+
+	}
 }
