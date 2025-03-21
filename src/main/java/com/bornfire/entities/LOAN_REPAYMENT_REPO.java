@@ -145,4 +145,57 @@ public interface LOAN_REPAYMENT_REPO extends JpaRepository<LOAN_REPAYMENT_ENTITY
 	@Query(value = "SELECT * FROM LOAN_REPAYMENT_TBL WHERE PARENT_ACCOUNT_KEY = ?1 AND DUE_DATE =?2", nativeQuery = true)
 	LOAN_REPAYMENT_ENTITY getLoanFlowsValueDatas11(String encodedkey, String flow_date);
 
+
+	@Query(value = "SELECT\r\n" + //
+				"    U.due_date,\r\n" + //
+				"    CASE\r\n" + //
+				"        WHEN U.flow_type = 'FEE_EXP' THEN '1'         -- Fees First\r\n" + //
+				"        WHEN U.flow_type = 'INTEREST_EXP' THEN '2'    -- Interest Second\r\n" + //
+				"        WHEN U.flow_type = 'PRINCIPAL_EXP' THEN '3'   -- Principal Third\r\n" + //
+				"        WHEN U.flow_type = 'PENALTY_EXP' THEN '4'     -- Penalty Last\r\n" + //
+				"    END AS flow_id,\r\n" + //
+				"    CASE\r\n" + //
+				"        WHEN U.flow_type = 'FEE_EXP' THEN 'FEEDEM'\r\n" + //
+				"        WHEN U.flow_type = 'INTEREST_EXP' THEN 'INDEM'\r\n" + //
+				"        WHEN U.flow_type = 'PRINCIPAL_EXP' THEN 'PRDEM'\r\n" + //
+				"        WHEN U.flow_type = 'PENALTY_EXP' THEN 'PENALTY'\r\n" + //
+				"    END AS flow_code,\r\n" + //
+				"    U.flow_amt,\r\n" + //
+				"    U.loan_acct_no,\r\n" + //
+				"    U.acct_name,\r\n" + //
+				"    U.encoded_key\r\n" + //
+				"FROM (\r\n" + //
+				"    SELECT\r\n" + //
+				"        B.due_date,\r\n" + //
+				"        A.ID AS loan_acct_no,\r\n" + //
+				"        A.LOAN_NAME AS acct_name,\r\n" + //
+				"        A.ENCODED_KEY,\r\n" + //
+				"        -- Calculate remaining due amount\r\n" + //
+				"        B.PRINCIPAL_EXP - B.PRINCIPAL_PAID AS PRINCIPAL_EXP,\r\n" + //
+				"        B.INTEREST_EXP - B.INTEREST_PAID AS INTEREST_EXP,\r\n" + //
+				"        B.FEE_EXP - B.FEE_PAID AS FEE_EXP,\r\n" + //
+				"        B.PENALTY_EXP - B.PENALTY_PAID AS PENALTY_EXP\r\n" + //
+				"    FROM LOAN_ACCOUNT_MASTER_TBL A\r\n" + //
+				"    JOIN LOAN_REPAYMENT_TBL B\r\n" + //
+				"        ON A.ENCODED_KEY = B.PARENT_ACCOUNT_KEY\r\n" + //
+				"    WHERE\r\n" + //
+				"         B.PARENT_ACCOUNT_KEY = ?1 \r\n" + //
+				"        AND B.payment_state = 'PENDING'\r\n" + //
+				") P\r\n" + //
+				"UNPIVOT (\r\n" + //
+				"    flow_amt FOR flow_type IN (PRINCIPAL_EXP, INTEREST_EXP, FEE_EXP, PENALTY_EXP)\r\n" + //
+				") AS U\r\n" + //
+				"-- Only show amounts where remaining due > 0\r\n" + //
+				"WHERE U.flow_amt > 0\r\n" + //
+				"ORDER BY U.due_date,\r\n" + //
+				"         CASE\r\n" + //
+				"            WHEN U.flow_type = 'FEE_EXP' THEN 1\r\n" + //
+				"            WHEN U.flow_type = 'INTEREST_EXP' THEN 2\r\n" + //
+				"            WHEN U.flow_type = 'PRINCIPAL_EXP' THEN 3\r\n" + //
+				"            WHEN U.flow_type = 'PENALTY_EXP' THEN 4\r\n" + //
+				"         END\r\n" + //
+				"", nativeQuery = true)
+	List<Object[]> getloanupdateList(String accountNum);
+
+
 }

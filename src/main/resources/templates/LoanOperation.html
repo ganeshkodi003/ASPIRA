@@ -317,7 +317,7 @@ input:hover+.password-info {
 		}
 
 
-		function getflowDetails() {
+		function getflowDetails() {	
 			event.preventDefault();
 
 			var fromdate = $('#fromdate').val();
@@ -1662,56 +1662,167 @@ $(document).ready(function () {
 <script>
 function updateTableValueSequentially() {
     let balanceValue = parseFloat(document.getElementById("acct_balancedatas").value.replace(/,/g, '')) || 0;
+    let flowAmtFields = document.getElementsByName("flow_amt");
     let tranAmtFields = document.getElementsByName("tran_amt");
     let remainingBalance = balanceValue;
     let stopIndex = -1;
-    let carryForwardBalance = 0;
 
     console.log("Initial Balance: " + balanceValue.toLocaleString());
 
     for (let i = 0; i < tranAmtFields.length; i++) {
-        let field = tranAmtFields[i];
-        let currentValue = parseFloat(field.value.replace(/,/g, '')) || 0; 
+        let flowField = flowAmtFields[i];
+        let tranField = tranAmtFields[i];
+        
+        // Get flow amount and convert to number
+        let flowValue = parseFloat(flowField.value.replace(/,/g, '')) || 0;
 
-        if (currentValue < 0) {
+        if (flowValue < 0) {
             console.error(`Error: Row ${i + 1} has a negative amount! Setting it to 0.`);
-            field.value = "0.00";
-            continue; 
+            tranField.value = "0.00";
+            continue;
         }
 
-        console.log(`Processing Row ${i + 1} | Value: ${currentValue.toLocaleString()} | Remaining Balance: ${remainingBalance.toLocaleString()}`);
+        console.log(`Processing Row ${i + 1} | Flow Value: ${flowValue.toLocaleString()} | Remaining Balance: ${remainingBalance.toLocaleString()}`);
 
+        // Stop if no balance left
         if (remainingBalance <= 0) {
             stopIndex = i;
             break;
         }
 
-        if (currentValue > remainingBalance) {
-            // Apply remaining balance partially
-            carryForwardBalance = remainingBalance;
-            field.value = carryForwardBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        // Deduct from balance and update tran_amt
+        if (flowValue > remainingBalance) {
+            tranField.value = remainingBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             remainingBalance = 0;
             stopIndex = i;
             break;
         } else {
-            remainingBalance -= currentValue;
-            field.value = currentValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            tranField.value = flowValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            remainingBalance -= flowValue;
         }
     }
 
-    // Step 2: Set remaining rows to "0.00" AFTER the stopping row
+		if(remainingBalance<=0){
+    // Log and update remaining rows to 0.00 if necessary
     for (let i = stopIndex + 1; i < tranAmtFields.length; i++) {
         tranAmtFields[i].value = "0.00";
         console.log(`Row ${i + 1} set to 0.00`);
     }
+	}
 
-    // Step 3: Update the balance display
+    // Update the remaining balance display
     let balanceDisplay = document.getElementById("remaining_balance");
     if (balanceDisplay) {
-        balanceDisplay.textContent = "Remaining Balance: 0.00";
-        console.log("Final Remaining Balance: 0.00");
+        balanceDisplay.textContent = `Remaining Balance: ${remainingBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        console.log(`Final Remaining Balance: ${remainingBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
     }
+
+if (remainingBalance > 0) {
+   // alert(typeof balanceValue);
+	 					var operationType = "CollectionRouting";
+					console.log("officeRouting option is checked.");
+					
+				
+						var acct_num = $("#acct_num123").val();
+				        var selectElement = document.getElementById("acct_num123");
+				        var selectedOption = selectElement.options[selectElement.selectedIndex];
+				        var acctName = selectedOption.getAttribute("data-acct-name") || ""; // Correctly fetch the account name
+				        
+
+    $.ajax({
+        type: 'GET',
+        url: './loanflowDetailsupdate', // Correct endpoint name
+        data: {
+            id: acct_num,
+            amount: balanceValue // Corrected parameter usage
+        },
+        success: function (data) {
+           // console.log("Received data:", data);
+            var tHTML = "";
+						
+
+            // 🔹 Add "Tran Amt" column if missing at the correct 5th position
+            if ($("#flowIdTable thead tr th").length === 7) {
+                $("#flowIdTable thead tr th").eq(3).after("<th style='text-align:center;'>Tran Amt</th>");
+            }
+
+            // Ensure data.loanFlowDetails is an array before iterating
+            if (Array.isArray(data.loanFlowDetails) && data.loanFlowDetails.length > 0) {
+                $.each(data.loanFlowDetails, function (index, entity) {
+                    var flowDate = entity.flow_date ? formatDate(entity.flow_date) : "";
+                    var flowId = entity.flow_id ? entity.flow_id : "";
+                    var flowCode = entity.flow_code ? entity.flow_code : "";
+                    var flowAmount = entity.flow_amt ? formatNumberWithCommas(entity.flow_amt) : "0.00";
+                    var tranAmount = entity.tran_amt ? formatNumberWithCommas(entity.tran_amt) : "0.00";
+                    var acctNo = entity.loan_acct_no ? entity.loan_acct_no : "";
+                    var acctName = entity.acct_name ? entity.acct_name : "";
+                    var encodedKey = entity.encoded_key ? entity.encoded_key : "";
+
+                    tHTML += "<tr>"
+                        + "<td><input type='text' name='flow_date' value='" + flowDate + "' class='border-0 p-0 m-0' style='width:100%;' readonly /></td>"
+                        + "<td><input type='text' name='flow_id' value='" + flowId + "' class='border-0 p-0 m-0' style='width:100%;' readonly /></td>"
+                        + "<td><input type='text' name='flow_code' value='" + flowCode + "' class='border-0 p-0 m-0' style='width:100%;' readonly /></td>"
+                        + "<td><input type='text' name='flow_amt' value='" + flowAmount + "' class='border-0 p-0 m-0' style='width:100%; text-align:right;' readonly /></td>"
+                        + "<td><input type='text' name='tran_amt' value='" + tranAmount + "' class='border-0 p-0 m-0' style='width:100%; text-align:right;' oninput='calculateRemainingAmount(this)' readonly /></td>"
+                        + "<td><input type='text' name='loan_acct_no' value='" + acctNo + "' class='border-0 p-0 m-0' style='width:100%;' readonly /></td>"
+                        + "<td><input type='text' name='acct_name' value='" + acctName + "' class='border-0 p-0 m-0' style='width:100%;' readonly /></td>"
+                        + "<td style='text-align:center; padding:0; margin:0;'>"
+                        + "<input type='radio' name='und_pct_radio' " // Use name attribute correctly for multiple rows
+                        + "data-operation='" + operationType + "' "
+                        + "data-encoded_key='" + encodedKey + "' "
+                        + (parseFloat(tranAmount) > 0 ? " checked='checked'" : "") // Correctly apply checked attribute
+                        + " onclick='handleCheckboxClickCollectiondata()' />"
+                        + "</td>"
+                        + "</tr>";
+                });
+								//console.log(tHTML);
+            } else {
+                tHTML += "<tr><td colspan='8'>No records available</td></tr>"; // Updated colspan to 8
+            }
+
+            // Update table content
+            $("#flowIdTbody").empty().append(tHTML);
+
+            // ✅ If acctName is not empty, make the second AJAX request to fetch balance
+            if (acctName && acctName.trim() !== "") {
+                console.log("Fetching account balance for:", acctName);
+
+                $.ajax({
+                    type: 'GET',
+                    url: './fetchacctbalance',
+                    data: { acctnum: acctName }, // Use account name correctly
+                    success: function (balanceData) {
+                        console.log("Raw Account Balance:", balanceData);
+
+                        var balance = parseFloat(balanceData);
+                        var formattedBalance = isNaN(balance) ? "0.00" : balance.toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        });
+
+                        document.getElementById("acct_balance").value = formattedBalance;
+                    },
+                    error: function (error) {
+                        console.error("Error fetching account balance:", error);
+                    }
+                });
+            } else {
+                console.log("No valid account name found. Skipping balance fetch.");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Error occurred:", error);
+        }
+    });
 }
+
+
+
+	}
+
+    // Extra message if balance is not fully utilized
+   
+
 
 </script>
 </head>

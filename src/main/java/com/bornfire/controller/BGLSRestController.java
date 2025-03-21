@@ -5609,7 +5609,7 @@ public class BGLSRestController {
 
 		// Fetch loan flow records
 		List<Object[]> loanFlowRecords = lOAN_REPAYMENT_REPO.getloanflowsvaluedats(todate, accountNumber);
-
+	
 		// Initialize total sum
 		double totalFlowAmount = 0.0;
 
@@ -5994,4 +5994,61 @@ public class BGLSRestController {
 		return loandetails;
 
 	}
+	
+
+	
+	@GetMapping("loanflowDetailsupdate")
+	public Map<String, Object> loanflowDetailsupdate(
+			@RequestParam(required = false) String id, int amount) {
+
+		System.out.println("Amount to process: " + amount);
+
+		// Fetch loan flow records
+		List<Object[]> loanFlowRecords = lOAN_REPAYMENT_REPO.getloanupdateList(id);
+
+		// Convert List<Object[]> to List<Map<String, Object>>
+		List<Map<String, Object>> formattedRecords = new ArrayList<>();
+
+		// Running sum to track the cumulative flow amount
+		double runningSum = 0;
+
+		for (Object[] record : loanFlowRecords) {
+			double flowAmt = ((Number) record[3]).doubleValue(); // Flow Amount as double
+			double remainingAmt = amount - runningSum;
+
+			// Check if the running sum already meets or exceeds the target amount
+			if (runningSum >= amount) {
+				break; // Stop adding records if the condition is met
+			}
+
+			// Create map to hold current record data
+			Map<String, Object> map = new HashMap<>();
+			map.put("flow_date", record[0]); // Due Date
+			map.put("flow_id", record[1]); // Flow ID
+			map.put("flow_code", record[2]); // Flow Code
+
+			// If the remaining amount is less than the flow amount, adjust the transaction
+			// amount
+			double tranAmt = (flowAmt > remainingAmt) ? remainingAmt : flowAmt;
+			map.put("flow_amt", flowAmt);
+			map.put("tran_amt", tranAmt); // Transaction amount to be considered
+
+			map.put("loan_acct_no", record[4]); // Loan Account ID
+			map.put("acct_name", record[5]); // Loan Name
+			map.put("encoded_key", record[6]); // Encoded Key
+
+			// Add record to the list
+			formattedRecords.add(map);
+
+			// Update the running sum with the amount added
+			runningSum += tranAmt;
+		}
+
+		// Wrap the list inside a map
+		Map<String, Object> result = new HashMap<>();
+		result.put("loanFlowDetails", formattedRecords);
+
+		return result;
+	}
+
 }
