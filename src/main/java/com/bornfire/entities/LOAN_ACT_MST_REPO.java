@@ -41,7 +41,7 @@ public interface LOAN_ACT_MST_REPO extends JpaRepository<LOAN_ACT_MST_ENTITY, St
             "B.PENALTY_EXP as penaltyExp, B.PENALTY_PAID as penaltyPaid, B.PENALTY_DUE as penaltyDue " +  
             "FROM LOAN_ACCOUNT_MASTER_TBL A " +  
             "JOIN LOAN_REPAYMENT_TBL B ON A.ENCODED_KEY = B.PARENT_ACCOUNT_KEY " +  
-            "WHERE A.ENCODED_KEY = ?1 " +  
+            "WHERE A.ENCODED_KEY = ?1 AND DEL_FLG = 'N'" +  
             "ORDER BY B.DUE_DATE ASC", nativeQuery = true)
 List<Object> getDues(String encodedKey);
 

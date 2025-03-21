@@ -37,132 +37,181 @@ public class LOAN_REPAYMENT_ENTITY {
 	private BigDecimal	penalty_due;
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	asondate;
+	private String del_flg;
+	
 	public String getEncoded_key() {
 		return encoded_key;
 	}
+
 	public void setEncoded_key(String encoded_key) {
 		this.encoded_key = encoded_key;
 	}
+
 	public String getParent_account_key() {
 		return parent_account_key;
 	}
+
 	public void setParent_account_key(String parent_account_key) {
 		this.parent_account_key = parent_account_key;
 	}
+
 	public Date getDue_date() {
 		return due_date;
 	}
+
 	public void setDue_date(Date due_date) {
 		this.due_date = due_date;
 	}
+
 	public Date getLast_paid_date() {
 		return last_paid_date;
 	}
+
 	public void setLast_paid_date(Date last_paid_date) {
 		this.last_paid_date = last_paid_date;
 	}
+
 	public Date getRepaid_date() {
 		return repaid_date;
 	}
+
 	public void setRepaid_date(Date repaid_date) {
 		this.repaid_date = repaid_date;
 	}
+
 	public String getPayment_state() {
 		return payment_state;
 	}
+
 	public void setPayment_state(String payment_state) {
 		this.payment_state = payment_state;
 	}
+
 	public String getIs_payment_holiday() {
 		return is_payment_holiday;
 	}
+
 	public void setIs_payment_holiday(String is_payment_holiday) {
 		this.is_payment_holiday = is_payment_holiday;
 	}
+
 	public BigDecimal getPrincipal_exp() {
 		return principal_exp;
 	}
+
 	public void setPrincipal_exp(BigDecimal principal_exp) {
 		this.principal_exp = principal_exp;
 	}
+
 	public BigDecimal getPrincipal_paid() {
 		return principal_paid;
 	}
+
 	public void setPrincipal_paid(BigDecimal principal_paid) {
 		this.principal_paid = principal_paid;
 	}
+
 	public BigDecimal getPrincipal_due() {
 		return principal_due;
 	}
+
 	public void setPrincipal_due(BigDecimal principal_due) {
 		this.principal_due = principal_due;
 	}
+
 	public BigDecimal getInterest_exp() {
 		return interest_exp;
 	}
+
 	public void setInterest_exp(BigDecimal interest_exp) {
 		this.interest_exp = interest_exp;
 	}
+
 	public BigDecimal getInterest_paid() {
 		return interest_paid;
 	}
+
 	public void setInterest_paid(BigDecimal interest_paid) {
 		this.interest_paid = interest_paid;
 	}
+
 	public BigDecimal getInterest_due() {
 		return interest_due;
 	}
+
 	public void setInterest_due(BigDecimal interest_due) {
 		this.interest_due = interest_due;
 	}
+
 	public BigDecimal getFee_exp() {
 		return fee_exp;
 	}
+
 	public void setFee_exp(BigDecimal fee_exp) {
 		this.fee_exp = fee_exp;
 	}
+
 	public BigDecimal getFee_paid() {
 		return fee_paid;
 	}
+
 	public void setFee_paid(BigDecimal fee_paid) {
 		this.fee_paid = fee_paid;
 	}
+
 	public BigDecimal getFee_due() {
 		return fee_due;
 	}
+
 	public void setFee_due(BigDecimal fee_due) {
 		this.fee_due = fee_due;
 	}
+
 	public BigDecimal getPenalty_exp() {
 		return penalty_exp;
 	}
+
 	public void setPenalty_exp(BigDecimal penalty_exp) {
 		this.penalty_exp = penalty_exp;
 	}
+
 	public BigDecimal getPenalty_paid() {
 		return penalty_paid;
 	}
+
 	public void setPenalty_paid(BigDecimal penalty_paid) {
 		this.penalty_paid = penalty_paid;
 	}
+
 	public BigDecimal getPenalty_due() {
 		return penalty_due;
 	}
+
 	public void setPenalty_due(BigDecimal penalty_due) {
 		this.penalty_due = penalty_due;
 	}
+
 	public Date getAsondate() {
 		return asondate;
 	}
+
 	public void setAsondate(Date asondate) {
 		this.asondate = asondate;
 	}
-	
+
+	public String getDel_flg() {
+		return del_flg;
+	}
+
+	public void setDel_flg(String del_flg) {
+		this.del_flg = del_flg;
+	}
+
 	public LOAN_REPAYMENT_ENTITY(String encoded_key, String parent_account_key, Date due_date, Date last_paid_date,
 			Date repaid_date, String payment_state, String is_payment_holiday, BigDecimal principal_exp,
 			BigDecimal principal_paid, BigDecimal principal_due, BigDecimal interest_exp, BigDecimal interest_paid,
 			BigDecimal interest_due, BigDecimal fee_exp, BigDecimal fee_paid, BigDecimal fee_due,
-			BigDecimal penalty_exp, BigDecimal penalty_paid, BigDecimal penalty_due, Date asondate) {
+			BigDecimal penalty_exp, BigDecimal penalty_paid, BigDecimal penalty_due, Date asondate, String del_flg) {
 		super();
 		this.encoded_key = encoded_key;
 		this.parent_account_key = parent_account_key;
@@ -184,7 +233,9 @@ public class LOAN_REPAYMENT_ENTITY {
 		this.penalty_paid = penalty_paid;
 		this.penalty_due = penalty_due;
 		this.asondate = asondate;
+		this.del_flg = del_flg;
 	}
+
 	public LOAN_REPAYMENT_ENTITY() {
 		super();
 		// TODO Auto-generated constructor stub
