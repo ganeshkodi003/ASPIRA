@@ -1245,16 +1245,41 @@
 
 		/*Praveen*/
 		function amountInput(input) {
+				// Remove non-numeric characters except the decimal point
+				var cleanValue = input.value.replace(/[^0-9.]/g, '');
 
-			var cleanValue = input.value.replace(/[^0-9.]/g, '');
+				// Ensure only one decimal point
+				var parts = cleanValue.split('.');
+				if (parts.length > 2) {
+					cleanValue = parts[0] + '.' + parts.slice(1).join('');
+				}
 
-			// Only allow one decimal point in the input
-			if (cleanValue.indexOf('.') !== cleanValue.lastIndexOf('.')) {
-				cleanValue = cleanValue.substring(0, cleanValue.lastIndexOf('.'));
+				// Convert to number and format with two decimal places
+				var numValue = parseFloat(cleanValue);
+
+				// Handle empty or invalid input
+				if (isNaN(numValue)) {
+					input.value = '0.00';
+					return;
+				}
+
+				// Format number with comma as thousand separator and two decimal places
+				input.value = numValue.toLocaleString('en-US', {
+					minimumFractionDigits: 2,
+					maximumFractionDigits: 2
+				});
 			}
 
-			input.value = cleanValue;
-		}
+			// ✅ Apply formatting on page load for multiple input fields
+			document.addEventListener("DOMContentLoaded", function () {
+				let inputFields = document.querySelectorAll("#tran_amt, #rate, #ref_crncy_amt");
+
+				inputFields.forEach(function (field) {
+					if (field.value.trim() !== "") {
+						setTimeout(() => amountInput(field), 100);
+					}
+				});
+			});
 
 		/*Praveen*/
 		function valueCheck() {
@@ -2699,7 +2724,7 @@
 									<div class="col-sm-2">Tran Amt</div>
 									<div class="col-sm-2">
 										<input type="text" name="tran_amt" id="tran_amt"
-											oninput="amountInput(this);calculateTotal(this);" th:value=${flowamount}
+											oninput="amountInput(this);" th:value=${flowamount}
 											class="tran_amt form-control form-control-sm bg-white border border-dark" />
 									</div>
 									<div class="col-sm-2"></div>
@@ -3287,7 +3312,7 @@
 									<div class="col-sm-2">
 
 										<input type="text" name="tran_amt" id="tran_amt" oninput="amountInput(this);"
-											th:value="${ledgervalues.tran_amt}"
+											th:value="${ledgervalues.tran_amt}" 
 											class="form-control form-control-sm bg-white border border-dark" readonly />
 
 									</div>
@@ -3326,7 +3351,7 @@
 
 									<div class="col-sm-2">
 										<input type="text" name="flow_code" id="gst_amount"
-											th:value="${ledgervalues.flow_code}" oninput="amountInput(this);"
+											th:value="${ledgervalues.flow_code}"
 											class="form-control form-control-sm bg-white border border-dark" readonly />
 
 									</div>
@@ -3981,7 +4006,7 @@
 
 										<div class="col-sm-2">
 											<input type="text" name="flow_code" id="gst_amount"
-												th:value="${ledgervalues.flow_code}" oninput="amountInput(this);"
+												th:value="${ledgervalues.flow_code}"
 												class="form-control form-control-sm bg-white border border-dark" />
 
 										</div>
