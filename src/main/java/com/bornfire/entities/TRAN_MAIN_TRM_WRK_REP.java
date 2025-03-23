@@ -434,4 +434,7 @@ Object[] getcheck1();
 	
 	@Query(value = "SELECT TOP 1 TRAN_DATE FROM BGLS_TRM_WRK_TRANSACTIONS WHERE ACCT_NUM = ?1 ORDER BY FLOW_DATE DESC", nativeQuery = true)
 	Object[] getLatestAccountBalanceAndType(String accNum);
+	
+	@Query(value = "SELECT TOP 1 * FROM BGLS_TRM_WRK_TRANSACTIONS WHERE ACCT_NUM = :accountNo ORDER BY tran_id DESC", nativeQuery = true)
+	TRAN_MAIN_TRM_WRK_ENTITY getLastTransactionByAccount(@Param("accountNo") String accountNo);
 }
