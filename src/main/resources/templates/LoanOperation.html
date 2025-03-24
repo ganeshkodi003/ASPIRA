@@ -380,7 +380,7 @@ input:hover+.password-info {
 						                    + "<td><input type='text' name='loan_acct_no' value='" + acctNo + "' class='border-0' readonly  /></td>"
 						                    + "<td><input type='text' name='acct_name' value='" + acctName + "' class='border-0' readonly  /></td>"
 
-						                    + "<td><input type='radio' onclick='handleRadioClickInterest(this);' "
+						                    + "<td><input type='radio' onclick='handleRadioClickInterest1(this);' "
 						                    + "data-flow_code='" + flowCode + "' "
 						                    + "data-loan_acct_no='" + acctNo + "' "
 						                    + "data-flow_amt='" + flowAmount + "' "
@@ -1238,6 +1238,66 @@ input:hover+.password-info {
 			$.ajax({
 				type: 'GET',
 				url: './transactionInterest',
+				data: {
+					flow_amount: flow_amt,
+					flow_code: flow_code,
+					flow_date: flow_date,
+					account_no: loan_acct_no,
+					accountName: acct_name,
+					flow_id: flow_id,
+					operation: operation
+
+
+				},
+				success: function (data) {
+					console.log(data);
+
+					var tranId = data.trim();
+					var parttranid = "1";
+
+
+					var url = 'accountLedgerPost?formmode=verify' +
+						'&acct_num=' + encodeURIComponent(loan_acct_no) +
+						'&tran_id=' + encodeURIComponent(tranId) +
+						'&part_tran_id=' + encodeURIComponent(parttranid);  // Include tranId in the URL
+
+					// Redirect to the constructed URL
+					location.href = url;
+
+
+
+				},
+				error: function () {
+					$('#errorMessage').text('Error fetching data');
+					$('#errorModal').modal('show');
+				}
+			});
+		}
+		
+		function handleRadioClickInterest1(selectedRadio) {
+			var flow_amt = selectedRadio.getAttribute("data-flow_amt").replace(/,/g, '');
+			var flow_code = selectedRadio.getAttribute("data-flow_code");
+			var flow_id = selectedRadio.getAttribute("data-flow_id");
+			var flow_date = selectedRadio.getAttribute("data-flow_date");
+			var loan_acct_no = selectedRadio.getAttribute("data-loan_acct_no");
+			var acct_name = selectedRadio.getAttribute("data-acct_name");
+			var operation = selectedRadio.getAttribute("data-operation");
+			
+			var message = "Flow Amount: " + flow_amt + "\n"
+            + "Flow Code: " + flow_code + "\n"
+            + "Flow ID: " + flow_id + "\n"
+            + "Flow Date: " + flow_date + "\n"
+            + "Loan Account No: " + loan_acct_no + "\n"
+            + "Account Name: " + acct_name + "\n"
+            + "Operation: " + operation;
+
+            alert(message);
+
+			console.log(flow_amt + " " + flow_code + " " + loan_acct_no + " " + acct_name + " " + flow_date);
+
+			$.ajax({
+				type: 'GET',
+				url: './transactionInterest11',
 				data: {
 					flow_amount: flow_amt,
 					flow_code: flow_code,

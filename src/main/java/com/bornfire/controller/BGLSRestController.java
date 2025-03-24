@@ -2918,6 +2918,12 @@ public class BGLSRestController {
 		Object[] result = tRAN_MAIN_TRM_WRK_REP.getLatestAccountBalanceAndType(account_value);
 		String datavalues = "Interest";
 
+
+		for (TRAN_MAIN_TRM_WRK_ENTITY valueses1 : intrestcollections) {
+			Date flow_dates = valueses1.getFlow_date();
+			System.out.println("THE DATABASE GET  FLOW_DATES RE HERE " + flow_dates);
+		}
+
 		// Fetch the latest TRAN_DATE from the database
 		Date tranDateObj = bGLS_CONTROL_TABLE_REP.getLatestTranDate();
 		System.out.println("The fetched TRAN_DATE is: " + tranDateObj);
@@ -7290,5 +7296,200 @@ public class BGLSRestController {
 			lOAN_REPAYMENT_REPO.save(values);
 		}
 		tRAN_MAIN_TRM_WRK_REP.saveAll(transactionList);
+	}
+
+	/* praveen - Interest (Application) */
+	@GetMapping("transactionInterest11")
+	public String transactionInterest11(@RequestParam(required = false) String flow_code,
+			@RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") Date flow_date,
+			@RequestParam(required = false) String flow_amount, @RequestParam(required = false) String flow_id,
+			@RequestParam(required = false) String account_no, @RequestParam(required = false) String accountName,
+			@RequestParam(required = false) String operation, HttpServletRequest rq) {
+
+		String user = (String) rq.getSession().getAttribute("USERID");
+
+		/* tranId sequence */
+		String tranId = "TR" + tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID1();
+		System.out.println("THE FRONTEND GETTING FLOW DATE IS  " + flow_date);
+
+		BigDecimal partTranId1 = BigDecimal.valueOf(1);
+		BigDecimal partTranId2 = BigDecimal.valueOf(2);
+		BigDecimal partTranId3 = BigDecimal.valueOf(3);
+
+		String account_value = "1200001220";
+		Object[] result = tRAN_MAIN_TRM_WRK_REP.getLatestAccountBalanceAndType(account_value);
+		String datavalues = "Interest";
+
+		// Fetch the latest TRAN_DATE from the database
+		Date tranDateObj = bGLS_CONTROL_TABLE_REP.getLatestTranDate();
+		System.out.println("The fetched TRAN_DATE is: " + tranDateObj);
+
+		// Convert TRAN_DATE to LocalDate for easy comparison
+		LocalDate tranDate = (tranDateObj instanceof java.sql.Date) ? ((java.sql.Date) tranDateObj).toLocalDate()
+				: tranDateObj.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+		Date Transaction_date = Date.from(tranDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+		// Define date formats
+		SimpleDateFormat backendFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+		SimpleDateFormat frontendFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+
+		List<TRAN_MAIN_TRM_WRK_ENTITY> interestCollections = tRAN_MAIN_TRM_WRK_REP.getAccountDetails(account_value);
+
+		BigDecimal flowAmount = (flow_amount != null) ? new BigDecimal(flow_amount) : BigDecimal.ZERO;
+
+		BigDecimal flow_amt_values = BigDecimal.ZERO;
+
+		if (!interestCollections.isEmpty() && interestCollections.get(0).getTran_amt() != null) {
+			flow_amt_values = interestCollections.get(0).getTran_amt();
+		}
+
+		System.out.println("The getting flow_amt is here " + flow_amt_values);
+
+		BigDecimal creditAmount = flowAmount.subtract(flow_amt_values).setScale(0, RoundingMode.HALF_UP);
+		BigDecimal finalAmount = flowAmount.subtract(creditAmount).setScale(0, RoundingMode.HALF_UP);
+		
+		String partrantype = null;
+		Date flow_dates = null;
+
+		for (TRAN_MAIN_TRM_WRK_ENTITY values : interestCollections) {
+		    flow_dates = values.getFlow_date();  // Store last flow_date
+		    System.out.println("THE DATABASE GET FLOW_DATES HERE " + flow_dates);
+		    partrantype = values.getPart_tran_type(); // Store last part_tran_type
+		}
+
+		// Now, flow_dates and partrantype contain the last values from the loop
+
+		// Convert Date to LocalDateTime safely
+		LocalDateTime frontendDateTime = (flow_date != null) ? convertToLocalDateTime(flow_date) : null;
+		LocalDateTime backendDateTime = (flow_dates != null) ? convertToLocalDateTime(flow_dates) : null;
+
+		// Compare Dates and Check Transaction Type
+		if (frontendDateTime != null && backendDateTime != null && frontendDateTime.isEqual(backendDateTime)) {
+			if ("debit".equalsIgnoreCase(partrantype)) {
+				String tranParticulars = "PRDEM".equals(flow_code) ? "Principle Debited" : "Interest Debited";
+
+				LOAN_ACT_MST_ENTITY loanDetails = lOAN_ACT_MST_REPO.getLoanView(account_no);
+
+				// First Transaction - Customer Loan Account DEBIT
+				TRAN_MAIN_TRM_WRK_ENTITY debitTrm = new TRAN_MAIN_TRM_WRK_ENTITY();
+				debitTrm.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
+				debitTrm.setTran_id(tranId);
+				debitTrm.setPart_tran_id(partTranId1);
+				debitTrm.setAcct_num(loanDetails.getId());
+				debitTrm.setAcct_name(loanDetails.getLoan_name());
+				debitTrm.setTran_type("TRANSFER");
+				debitTrm.setPart_tran_type("Debit");
+				debitTrm.setAcct_crncy(loanDetails.getCurrency_code());
+				debitTrm.setTran_amt(flowAmount);
+				debitTrm.setTran_particular(loanDetails.getId() + " " + tranParticulars);
+				debitTrm.setTran_remarks(loanDetails.getId() + " " + tranParticulars);
+				debitTrm.setTran_date(Transaction_date);
+				debitTrm.setValue_date(flow_date);
+				debitTrm.setFlow_code(flow_code);
+				debitTrm.setFlow_date(flow_date);
+				debitTrm.setTran_status("ENTERED");
+				debitTrm.setEntry_user(user);
+				debitTrm.setEntry_time(flow_date);
+				debitTrm.setDel_flg("N");
+				tRAN_MAIN_TRM_WRK_REP.save(debitTrm);
+
+				// Second Transaction - Office Loan Interest Account CREDIT
+				Chart_Acc_Entity leaseDebit = chart_Acc_Rep.getaedit("4100004110");
+
+				TRAN_MAIN_TRM_WRK_ENTITY creditTrm = new TRAN_MAIN_TRM_WRK_ENTITY();
+				creditTrm.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
+				creditTrm.setTran_id(tranId);
+				creditTrm.setPart_tran_id(partTranId2);
+				creditTrm.setAcct_num(leaseDebit.getAcct_num());
+				creditTrm.setAcct_name(leaseDebit.getAcct_name());
+				creditTrm.setTran_type("TRANSFER");
+				creditTrm.setPart_tran_type("Credit");
+				creditTrm.setAcct_crncy(leaseDebit.getAcct_crncy());
+				creditTrm.setTran_amt(creditAmount);
+				creditTrm.setTran_particular(loanDetails.getId() + " " + tranParticulars);
+				creditTrm.setTran_remarks(loanDetails.getId() + " " + tranParticulars);
+				creditTrm.setTran_date(Transaction_date);
+				creditTrm.setValue_date(flow_date);
+				creditTrm.setFlow_code(flow_code);
+				creditTrm.setFlow_date(flow_date);
+				creditTrm.setTran_status("ENTERED");
+				creditTrm.setEntry_user(user);
+				creditTrm.setEntry_time(flow_date);
+				creditTrm.setDel_flg("N");
+				tRAN_MAIN_TRM_WRK_REP.save(creditTrm);
+
+				// Third Transaction - Interest Receivable CREDIT
+				Chart_Acc_Entity leaseDebit1 = chart_Acc_Rep.getaedit("1200001220");
+
+				TRAN_MAIN_TRM_WRK_ENTITY creditTrm1 = new TRAN_MAIN_TRM_WRK_ENTITY();
+				creditTrm1.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
+				creditTrm1.setTran_id(tranId);
+				creditTrm1.setPart_tran_id(partTranId3);
+				creditTrm1.setAcct_num(leaseDebit1.getAcct_num());
+				creditTrm1.setAcct_name(leaseDebit1.getAcct_name());
+				creditTrm1.setTran_type("TRANSFER");
+				creditTrm1.setPart_tran_type("Credit");
+				creditTrm1.setAcct_crncy(leaseDebit1.getAcct_crncy());
+				creditTrm1.setTran_amt(finalAmount);
+				creditTrm1.setTran_particular(loanDetails.getId() + " " + "Reversal of Booking");
+				creditTrm1.setTran_remarks(loanDetails.getId() + " " + "Reversal of Booking");
+				creditTrm1.setTran_date(Transaction_date);
+				creditTrm1.setValue_date(flow_date);
+				creditTrm1.setFlow_code(flow_code);
+				creditTrm1.setFlow_date(flow_date);
+				creditTrm1.setTran_status("ENTERED");
+				creditTrm1.setEntry_user(user);
+				creditTrm1.setEntry_time(flow_date);
+				creditTrm1.setDel_flg("N");
+				tRAN_MAIN_TRM_WRK_REP.save(creditTrm1);
+			}
+		} else {
+			String tranParticulars = "PRDEM".equals(flow_code) ? "Principle Debited" : "Interest Debited";
+
+			TRAN_MAIN_TRM_WRK_ENTITY debitTrm = new TRAN_MAIN_TRM_WRK_ENTITY();
+			LOAN_ACT_MST_ENTITY loanDetails = lOAN_ACT_MST_REPO.getLoanView(account_no);
+
+			debitTrm.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
+			debitTrm.setTran_id(tranId);
+			debitTrm.setPart_tran_id(partTranId1);
+			debitTrm.setAcct_num(loanDetails.getId());
+			debitTrm.setAcct_name(loanDetails.getLoan_name());
+			debitTrm.setTran_type("TRANSFER");
+			debitTrm.setPart_tran_type("Debit");
+			debitTrm.setTran_amt(flowAmount);
+			debitTrm.setTran_particular(loanDetails.getId() + " " + tranParticulars);
+			debitTrm.setTran_remarks(loanDetails.getId() + " " + tranParticulars);
+			debitTrm.setTran_date(Transaction_date);
+			debitTrm.setFlow_code(flow_code);
+			debitTrm.setTran_status("ENTERED");
+			debitTrm.setEntry_user(user);
+			tRAN_MAIN_TRM_WRK_REP.save(debitTrm);
+
+			Chart_Acc_Entity leaseDebit = chart_Acc_Rep.getaedit("4100004110");
+			TRAN_MAIN_TRM_WRK_ENTITY creditTrm = new TRAN_MAIN_TRM_WRK_ENTITY();
+			creditTrm.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
+			creditTrm.setTran_id(tranId);
+			creditTrm.setPart_tran_id(partTranId2);
+			creditTrm.setAcct_num(leaseDebit.getAcct_num());
+			creditTrm.setAcct_name(leaseDebit.getAcct_name());
+			creditTrm.setTran_type("TRANSFER");
+			creditTrm.setPart_tran_type("Credit");
+			creditTrm.setTran_amt(flowAmount);
+			creditTrm.setTran_particular(loanDetails.getId() + " " + tranParticulars);
+			creditTrm.setTran_remarks(loanDetails.getId() + " " + tranParticulars);
+			creditTrm.setTran_date(Transaction_date);
+			creditTrm.setFlow_code(flow_code);
+			creditTrm.setTran_status("ENTERED");
+			creditTrm.setEntry_user(user);
+			tRAN_MAIN_TRM_WRK_REP.save(creditTrm);
+		}
+
+		return tranId;
+	}
+
+	// ✅ Method to convert java.util.Date to LocalDateTime
+	private LocalDateTime convertToLocalDateTime(Date date) {
+		return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 	}
 }

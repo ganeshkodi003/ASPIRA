@@ -437,4 +437,7 @@ Object[] getcheck1();
 	
 	@Query(value = "SELECT TOP 1 * FROM BGLS_TRM_WRK_TRANSACTIONS WHERE ACCT_NUM = :accountNo ORDER BY tran_id DESC", nativeQuery = true)
 	TRAN_MAIN_TRM_WRK_ENTITY getLastTransactionByAccount(@Param("accountNo") String accountNo);
+	
+	@Query(value = "SELECT * FROM BGLS_TRM_WRK_TRANSACTIONS WHERE ACCT_NUM = :acctNum", nativeQuery = true)
+	List<TRAN_MAIN_TRM_WRK_ENTITY> getAccountDetails(@Param("acctNum") String acctNum);
 }
