@@ -4901,7 +4901,7 @@ public class BGLSRestController {
 			e.printStackTrace();
 			return "Error: " + e.getMessage();
 		}
-		return userId;
+		return "FILE UPLOADED SUCCESSFULLY";
 	}
 
 	@PostMapping("/uploadxmldata2")
@@ -5121,7 +5121,7 @@ public class BGLSRestController {
 			e.printStackTrace();
 			return "Error: " + e.getMessage();
 		}
-		return "File uploaded successfully by user: " + userId;
+		return "FILE UPLOADED SUCCESSFULLY";
 	}
 
 	@PostMapping("/uploadxmldata3")
@@ -5227,7 +5227,7 @@ public class BGLSRestController {
 			e.printStackTrace();
 			return "Error: " + e.getMessage();
 		}
-		return "File uploaded successfully by user: " + userId;
+		return "FILE UPLOADED SUCCESSFULLY";
 	}
 
 	private LocalDateTime parseDateCell(Cell cell) {
