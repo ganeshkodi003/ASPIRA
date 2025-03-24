@@ -2918,6 +2918,7 @@ public class BGLSRestController {
 		Object[] result = tRAN_MAIN_TRM_WRK_REP.getLatestAccountBalanceAndType(account_value);
 		String datavalues = "Interest";
 
+		List<TRAN_MAIN_TRM_WRK_ENTITY> intrestcollections = tRAN_MAIN_TRM_WRK_REP.getAccountDetails(account_value);
 
 		for (TRAN_MAIN_TRM_WRK_ENTITY valueses1 : intrestcollections) {
 			Date flow_dates = valueses1.getFlow_date();
