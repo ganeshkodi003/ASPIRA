@@ -5769,12 +5769,26 @@ public class BGLSRestController {
 		Map<String, BigDecimal> totalPrdem = new HashMap<>();
 		Map<String, BigDecimal> totalIndem = new HashMap<>();
 		Map<String, BigDecimal> totalFeedem = new HashMap<>();
+		System.out.println("THE GETTING ENCODE KEY IS " + encodedKey);
+		System.out.println("THE GETTING FORMTED FLOW DATE IS "+formattedFlowDates);
+		// Fetch demand records once for all flow_dates
+		// Print debug information
+		System.out.println("Encoded Key: " + encodedKey);
+		System.out.println("Formatted Flow Dates: " + formattedFlowDates);
 
 		// Fetch demand records once for all flow_dates
 		List<LOAN_REPAYMENT_ENTITY> demandRecordsList = Optional
-				.ofNullable(lOAN_REPAYMENT_REPO.getLoanFlowsValueDatas1(encodedKey, formattedFlowDates))
-				.orElse(Collections.emptyList());
+		    .ofNullable(lOAN_REPAYMENT_REPO.getLoanFlowsValueDatas1(encodedKey, formattedFlowDates))
+		    .orElse(Collections.emptyList());
 
+		// Check the result
+		if (demandRecordsList.isEmpty()) {
+		    System.out.println("The list is empty. No matching records found.");
+		} else {
+		    System.out.println("List contains values: " + demandRecordsList);
+		}
+
+		
 		for (Map<String, String> transaction : transactions) {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 			Date flowDate = dateFormat.parse(transaction.get("flow_date"));
@@ -7349,14 +7363,14 @@ public class BGLSRestController {
 
 		BigDecimal creditAmount = flowAmount.subtract(flow_amt_values).setScale(0, RoundingMode.HALF_UP);
 		BigDecimal finalAmount = flowAmount.subtract(creditAmount).setScale(0, RoundingMode.HALF_UP);
-		
+
 		String partrantype = null;
 		Date flow_dates = null;
 
 		for (TRAN_MAIN_TRM_WRK_ENTITY values : interestCollections) {
-		    flow_dates = values.getFlow_date();  // Store last flow_date
-		    System.out.println("THE DATABASE GET FLOW_DATES HERE " + flow_dates);
-		    partrantype = values.getPart_tran_type(); // Store last part_tran_type
+			flow_dates = values.getFlow_date(); // Store last flow_date
+			System.out.println("THE DATABASE GET FLOW_DATES HERE " + flow_dates);
+			partrantype = values.getPart_tran_type(); // Store last part_tran_type
 		}
 
 		// Now, flow_dates and partrantype contain the last values from the loop
@@ -7488,7 +7502,7 @@ public class BGLSRestController {
 
 		return tranId;
 	}
-	
+
 	/* praveen - Interest (Application) */
 	@GetMapping("transactionFees11")
 	public String transactionFees11(@RequestParam(required = false) String flow_code,
@@ -7539,14 +7553,14 @@ public class BGLSRestController {
 
 		BigDecimal creditAmount = flowAmount.subtract(flow_amt_values).setScale(0, RoundingMode.HALF_UP);
 		BigDecimal finalAmount = flowAmount.subtract(creditAmount).setScale(0, RoundingMode.HALF_UP);
-		
+
 		String partrantype = null;
 		Date flow_dates = null;
 
 		for (TRAN_MAIN_TRM_WRK_ENTITY values : interestCollections) {
-		    flow_dates = values.getFlow_date();  // Store last flow_date
-		    System.out.println("THE DATABASE GET FLOW_DATES HERE " + flow_dates);
-		    partrantype = values.getPart_tran_type(); // Store last part_tran_type
+			flow_dates = values.getFlow_date(); // Store last flow_date
+			System.out.println("THE DATABASE GET FLOW_DATES HERE " + flow_dates);
+			partrantype = values.getPart_tran_type(); // Store last part_tran_type
 		}
 
 		// Now, flow_dates and partrantype contain the last values from the loop
