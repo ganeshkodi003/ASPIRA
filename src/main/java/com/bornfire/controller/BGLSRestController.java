@@ -5447,6 +5447,13 @@ public class BGLSRestController {
 		return clientMasterRepo.getLoanActDet();
 	}
 
+	@GetMapping("getAccDet")
+	public List<Object[]> getAccDet(@RequestParam(required = false) String id) {
+		System.out.println(id);
+		
+		System.out.println(clientMasterRepo.getAccDet(id));
+		return clientMasterRepo.getAccDet(id);
+	}
 	@GetMapping("NotApprovedCust")
 	public List<CLIENT_MASTER_ENTITY> NotApprovedCust() {
 		return clientMasterRepo.getLoanActFilterUnverified();

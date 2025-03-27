@@ -120,9 +120,7 @@ body {
 	line-height: 0.5rem;
 }
 
-.table-bordered td, .table-bordered th {
-	font-size: smaller;
-}
+
 
 .container-manager {
 	width: 83.5%;
@@ -2160,6 +2158,82 @@ function updateTable(data) {
 }
 
 }
+
+function getAcctDetails() {
+    var id = document.getElementById('customer_id').value;
+    var tableContainer = document.getElementById('tableContainer');
+
+    $.ajax({
+        url: './getAccDet',
+        data: { id: id },
+        type: 'GET',
+        success: function(data) {
+            console.log("Data received:", data);
+
+            // Clear previous rows
+            $('#loanTable').empty();
+
+            // Check if data is available
+            if (data.length > 0) {
+                data.forEach(function(item) {
+                    var row = `
+                        <tr>
+                            <td>${item[0]}</td>
+                            <td>${item[1]}</td>
+                            <td>${(item[2])}</td>
+                            <td>${formatNumber(item[3])}</td>
+                            <td>${formatNumber(item[4])}</td>
+                        </tr>
+                    `;
+                    $('#loanTable').append(row);
+                });
+                
+                // Show the table if data exists
+                tableContainer.style.display = 'block';
+            } else {
+                $('#loanTable').append(`
+                    <tr>
+                        <td colspan="5" class="text-center">No records found!</td>
+                    </tr>
+                `);
+                
+                // Show empty table with message
+                tableContainer.style.display = 'block';
+            }
+        },
+        error: function(err) {
+            console.error('Error fetching data:', err);
+            
+            // Hide the table in case of error
+            tableContainer.style.display = 'none';
+        }
+    });
+}
+
+// ✅ Format date to dd-MM-yyyy
+function formatDate(dateString) {
+    if (!dateString) return '-';
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+}
+
+// ✅ Format number to #,##0.00 format
+function formatNumber(number) {
+    if (number === null || number === undefined || isNaN(number)) {
+        return '-';
+    }
+    return Number(number).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
+}
+
+
+
+
 </script>
 <script>
 $(document)
@@ -2357,6 +2431,14 @@ $(document)
 									th:if="${formmode}=='modify' and ${module == 'module2'}">CUSTOMER
 									MAINTENANCE - MODIFY</h6>
 							</div>
+
+							<div class=" btn-group nav-buttons  float-right">
+
+								<button class="btn btn-primary p-2 "
+									
+									onclick="getAcctDetails();">Account Details</button>
+							</div>
+
 							<div class="btn-group nav-buttons float-right">
 								<button class="btn btn-primary p-2 "
 									th:if="${module} == 'module1'  and ${formmode}==''"
@@ -2588,6 +2670,22 @@ $(document)
 										</div>
 									</div>
 								</fieldset>
+						<div class="m-3 p-0" id="tableContainer" style="display: none;">
+    <table class="table table-bordered">
+        <thead style="text-align: center;">
+            <tr>
+                <th>Acct No</th>
+                <th>Acct Name</th>
+                <th>Date of Loan</th>
+                <th>Loan Amount</th>
+                <th>Loan Balance</th>
+            </tr>
+        </thead>
+        <tbody id="loanTable">
+            <!-- Rows will be appended dynamically -->
+        </tbody>
+    </table>
+</div>
 								<div class="card-footer text-center mt-2">
 									<button class="btn btn-primary p-2" onclick="home();">Home</button>
 
