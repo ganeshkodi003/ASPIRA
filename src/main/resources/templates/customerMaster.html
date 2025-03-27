@@ -2177,13 +2177,15 @@ function getAcctDetails() {
             if (data.length > 0) {
                 data.forEach(function(item) {
                     var row = `
-                        <tr>
-                            <td>${item[0]}</td>
-                            <td>${item[1]}</td>
-                            <td>${(item[2])}</td>
-                            <td>${formatNumber(item[3])}</td>
-                            <td>${formatNumber(item[4])}</td>
-                        </tr>
+ <tr>
+                <td   ><a href="http://localhost:9091/ASPIRA/
+									loanMaster?formmode=viewloan&id=${item[1]}&
+									holder_key=${item[0]}">${item[1]}</a></td>
+                <td>${item[2]}</td>
+                <td>${(item[3])}</td>
+                <td>${formatNumber(item[4])}</td>
+                <td>${formatNumber(item[5])}</td>
+            </tr>
                     `;
                     $('#loanTable').append(row);
                 });

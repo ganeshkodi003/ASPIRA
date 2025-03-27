@@ -26,7 +26,7 @@ public interface CLIENT_MASTER_REPO extends JpaRepository<CLIENT_MASTER_ENTITY, 
      Integer getUnverifiedStatus(String id);
 
      @Query(value = "SELECT \r\n" + //
-                          "    L.ID,\r\n" + //
+                          "   L.ACCOUNT_HOLDERKEY, L.ID,\r\n" + //
                           "    L.LOAN_NAME,\r\n" + //
                           "    FORMAT(L.DISBURSEMENT_DATE, 'dd-MM-yyyy') AS DISBURSEMENT_DATE,\r\n" + //
                           "    L.LOAN_AMOUNT,\r\n" + //
