@@ -229,8 +229,8 @@ body {
 	text-decoration: none;
 	cursor: pointer;
 }
-
-/*
+/
+*
 </style>
 <style>
 .password-info {
@@ -681,8 +681,274 @@ input:hover+.password-info {
 				});
 		});
 </script>
+<script>
+    function schedulePreClosure() {
+    	event.preventDefault();
+    	var id = document.getElementById("account_id").value;
+    	var element = document.getElementById("account_id");
+
+    	if (element) {
+    	    var id = element.value.trim();  
+
+    	    if (!id) {  
+    	        
+    	        $('#mypopup22').modal('show'); 
+                $("#popupmsg_body").html("Account number is required!..."); 
+    	    } else {
+    	    	 $.ajax({
+    	    	        type: 'GET',
+    	    	        url: './FetchLoanDetails',
+    	    	        data: { id: id }, // ✅ Passing the correct value
+    	    	        success: function (data) {
+    	    	        	 
+    	    	              if(data.account_holderkey &&  data.encoded_key){
+    	    	            	  var holder_key = data.account_holderkey;
+    	    	                  var encodedKey = data.encoded_key ;
+    	    	              	var id = data.id ;
+    	    	                 location.href = 'loanMaster?formmode=viewloan&id=' + id +
+    	    	       			'&holder_key=' + holder_key +
+    	    	       			'&encodedKey=' + encodedKey;
+    	    	              }else{
+    	    	            	  $('#mypopup22').modal('show'); 
+    	    	                  $("#popupmsg_body").html("No Data!..."); 
+    	    	              }
+    	    	                   
+    	    	  
+    	    	        },
+    	    	        error: function () {
+    	    	            $('#errorMessage').text('Error fetching data');
+    	    	            $('#errorModal').modal('show');
+    	    	        }
+    	    	    });
+    	    }
+    	} else {
+    	    alert("Element not found");
+    	}
+     
+       
+    }
+    function ledgerPreClosure() {
+    	event.preventDefault();
+    	var element = document.getElementById("account_id");
+
+    	if (element) {
+    	    var id = element.value.trim(); // Trim to remove leading/trailing spaces
+
+    	    if (!id) { // Checks for empty string, null, or undefined
+    	        
+    	        $('#mypopup22').modal('show'); 
+                $("#popupmsg_body").html("Account number is required!..."); 
+    	    } else {
+    	    	location.href = 'accountLedger2?formmode=view&acct_num='
+    				+ id;
+    	    }
+    	} else {
+    	    alert("Element not found");
+    	}
+     
+    }
 
 
+    function scheduleClosure() {
+    	event.preventDefault();
+    	var id = document.getElementById("account_id").value;
+    	var element = document.getElementById("account_id");
+
+    	if (element) {
+    	    var id = element.value.trim();  
+
+    	    if (!id) {  
+    	        
+    	        $('#mypopup22').modal('show'); 
+                $("#popupmsg_body").html("Account number is required!..."); 
+    	    } else {
+    	    	 $.ajax({
+    	    	        type: 'GET',
+    	    	        url: './FetchLoanDetails',
+    	    	        data: { id: id }, // ✅ Passing the correct value
+    	    	        success: function (data) {
+    	    	        	 
+    	    	              if(data.account_holderkey &&  data.encoded_key){
+    	    	            	  var holder_key = data.account_holderkey;
+    	    	                  var encodedKey = data.encoded_key ;
+    	    	              	var id = data.id ;
+    	    	                 location.href = 'loanSchedule?formmode=viewloanschedule1&id=' + id +
+    	    	       			'&holder_key=' + holder_key +
+    	    	       			'&encodedKey=' + encodedKey;
+    	    	              }else{
+    	    	            	  $('#mypopup22').modal('show'); 
+    	    	                  $("#popupmsg_body").html("No Data!..."); 
+    	    	              }
+    	    	                   
+    	    	  
+    	    	        },
+    	    	        error: function () {
+    	    	            $('#errorMessage').text('Error fetching data');
+    	    	            $('#errorModal').modal('show');
+    	    	        }
+    	    	    });
+    	    }
+    	} else {
+    	    alert("Element not found");
+    	}
+     
+       
+    }
+    function ledgerClosure() {
+    	event.preventDefault();
+    	var element = document.getElementById("account_id");
+
+    	if (element) {
+    	    var id = element.value.trim(); // Trim to remove leading/trailing spaces
+
+    	    if (!id) { // Checks for empty string, null, or undefined
+    	        
+    	        $('#mypopup22').modal('show'); 
+                $("#popupmsg_body").html("Account number is required!..."); 
+    	    } else {
+    	    	location.href = 'accountLedger2?formmode=view&acct_num='
+    				+ id;
+    	    }
+    	} else {
+    	    alert("Element not found");
+    	}
+     
+    }
+    
+    
+    //schedule closure datas repaymrnt & ledger 
+    
+    function schedulePreClosure() {
+    	event.preventDefault();
+    	var id = document.getElementById("account_id").value;
+    	var element = document.getElementById("account_id");
+
+    	if (element) {
+    	    var id = element.value.trim();  
+
+    	    if (!id) {  
+    	        
+    	        $('#mypopup22').modal('show'); 
+                $("#popupmsg_body").html("Account number is required!..."); 
+    	    } else {
+    	    	 $.ajax({
+    	    	        type: 'GET',
+    	    	        url: './FetchLoanDetails',
+    	    	        data: { id: id }, // ✅ Passing the correct value
+    	    	        success: function (data) {
+    	    	        	 
+    	    	              if(data.account_holderkey &&  data.encoded_key){
+    	    	            	  var holder_key = data.account_holderkey;
+    	    	                  var encodedKey = data.encoded_key ;
+    	    	              	var id = data.id ;
+    	    	                 location.href = 'loanMaster?formmode=viewloan&id=' + id +
+    	    	       			'&holder_key=' + holder_key;
+    	    	              }else{
+    	    	            	  $('#mypopup22').modal('show'); 
+    	    	                  $("#popupmsg_body").html("No Data!..."); 
+    	    	              }
+    	    	                   
+    	    	  
+    	    	        },
+    	    	        error: function () {
+    	    	            $('#errorMessage').text('Error fetching data');
+    	    	            $('#errorModal').modal('show');
+    	    	        }
+    	    	    });
+    	    }
+    	} else {
+    	    alert("Element not found");
+    	}
+     
+       
+    }
+    function ledgerPreClosure() {
+    	event.preventDefault();
+    	var element = document.getElementById("account_id");
+
+    	if (element) {
+    	    var id = element.value.trim(); // Trim to remove leading/trailing spaces
+
+    	    if (!id) { // Checks for empty string, null, or undefined
+    	        
+    	        $('#mypopup22').modal('show'); 
+                $("#popupmsg_body").html("Account number is required!..."); 
+    	    } else {
+    	    	location.href = 'accountLedger2?formmode=view&acct_num='
+    				+ id;
+    	    }
+    	} else {
+    	    alert("Element not found");
+    	}
+     
+    }
+
+
+    function scheduleClosure() {
+    	event.preventDefault();
+    	var id = document.getElementById("account_id").value;
+    	var element = document.getElementById("account_id");
+
+    	if (element) {
+    	    var id = element.value.trim();  
+
+    	    if (!id) {  
+    	        
+    	        $('#mypopup22').modal('show'); 
+                $("#popupmsg_body").html("Account number is required!..."); 
+    	    } else {
+    	    	 $.ajax({
+    	    	        type: 'GET',
+    	    	        url: './FetchLoanDetails',
+    	    	        data: { id: id }, // ✅ Passing the correct value
+    	    	        success: function (data) {
+    	    	        	 
+    	    	              if(data.account_holderkey &&  data.encoded_key){
+    	    	            	  var holder_key = data.account_holderkey;
+    	    	                  var encodedKey = data.encoded_key ;
+    	    	              	var id = data.id ;
+    	    	                 location.href = 'loanSchedule?formmode=viewloanschedule1&id=' + id +
+    	    	       			'&holder_key=' + holder_key +
+    	    	       			'&encodedKey=' + encodedKey;
+    	    	              }else{
+    	    	            	  $('#mypopup22').modal('show'); 
+    	    	                  $("#popupmsg_body").html("No Data!..."); 
+    	    	              }
+    	    	                   
+    	    	  
+    	    	        },
+    	    	        error: function () {
+    	    	            $('#errorMessage').text('Error fetching data');
+    	    	            $('#errorModal').modal('show');
+    	    	        }
+    	    	    });
+    	    }
+    	} else {
+    	    alert("Element not found");
+    	}
+     
+       
+    }
+    function ledgerClosure() {
+    	event.preventDefault();
+    	var element = document.getElementById("account_id");
+
+    	if (element) {
+    	    var id = element.value.trim(); // Trim to remove leading/trailing spaces
+
+    	    if (!id) { // Checks for empty string, null, or undefined
+    	        
+    	        $('#mypopup22').modal('show'); 
+                $("#popupmsg_body").html("Account number is required!..."); 
+    	    } else {
+    	    	location.href = 'accountLedger2?formmode=view&acct_num='
+    				+ id;
+    	    }
+    	} else {
+    	    alert("Element not found");
+    	}
+    }
+</script>
 <body>
 
 	<div class="col-sm-2">
@@ -693,126 +959,125 @@ input:hover+.password-info {
 	<div class="container-manager">
 		<div class="row">
 			<div class="col-sm-11 ml-5 mt-2">
-			
+
 				<div th:if="${formmode}=='viewloanschedule'">
-					
-							<div class="card" style="border-radius: 2px">
-								<!-- Card Header -->
-								<div class="card-header"
-									style="background-color: #e9ecef; height: 50px">
-									<h6 class="float-left" style="font-size: 1.2rem; color: black;">LOAN
-										SCHEDULE</h6>
 
-									<div class="btn-group nav-buttons float-right">
-										<button class="btn btn-primary p-2"
-											onclick="thirdexceldownload();">Upload</button>
-										<button class="btn btn-primary p-2 ml-1"
-											onclick="switchToList();">List</button>
-									</div>
+					<div class="card" style="border-radius: 2px">
+						<!-- Card Header -->
+						<div class="card-header"
+							style="background-color: #e9ecef; height: 50px">
+							<h6 class="float-left" style="font-size: 1.2rem; color: black;">LOAN
+								SCHEDULE</h6>
 
-								</div>
+							<div class="btn-group nav-buttons float-right">
+								<button class="btn btn-primary p-2"
+									onclick="thirdexceldownload();">Upload</button>
+								<button class="btn btn-primary p-2 ml-1"
+									onclick="switchToList();">List</button>
+							</div>
 
-								<form action="#" method="post" id="employeeForm"
-									autocomplete="off">
-									<div id="tab1" class="tabcontent" style="display: block">
-										<div class="card-body">
-											<div class="border border-secondary">
-												<!-- Customer & Account Details -->
-												<div class="row formline p-2">
-													<div class="col-sm-1"></div>
-													<div class="col-sm-2 d-flex align-items-center">Customer
-														Id</div>
-													<div class="col-sm-2">
-														<input type="text" id="id" name="id"
-															class="form-control form-control-sm bg-white border border-dark"
-															readonly />
-													</div>
+						</div>
 
-													<div class="col-sm-1"></div>
-													<div class="col-sm-2 d-flex align-items-center">Customer
-														Name</div>
-													<div class="col-sm-2">
-														<input type="text" name="cust_name" id="cust_name"
-															class="form-control form-control-sm bg-white border border-dark"
-															readonly />
-													</div>
-												</div>
+						<form action="#" method="post" id="employeeForm"
+							autocomplete="off">
+							<div id="tab1" class="tabcontent" style="display: block">
+								<div class="card-body">
+									<div class="border border-secondary">
+										<!-- Customer & Account Details -->
+										<div class="row formline p-2">
+											<div class="col-sm-1"></div>
+											<div class="col-sm-2 d-flex align-items-center">Customer
+												Id</div>
+											<div class="col-sm-2">
+												<input type="text" id="id" name="id"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
 
-												<div class="row formline p-2">
-													<div class="col-sm-1"></div>
-													<div class="col-sm-2 d-flex align-items-center">Account
-														Id</div>
-													<div class="col-sm-2">
-														<input type="text" name="account_id" id="account_id"
-															class="form-control form-control-sm bg-white border border-dark"
-															readonly />
-													</div>
-													<div class="col-sm-1"></div>
-													<div class="col-sm-2 d-flex align-items-center">Account
-														Name</div>
-													<div class="col-sm-2">
-														<input type="text" name="account_name" id="account_name"
-															class="form-control form-control-sm bg-white border border-dark"
-															readonly />
-													</div>
-												</div>
-
-												<div class="row formline p-2">
-													<div class="col-sm-1"></div>
-													<div class="col-sm-2 d-flex align-items-center">Loan
-														Amount</div>
-													<div class="col-sm-2">
-														<input type="text" name="loan_amount" id="loan_amount"
-															class="form-control form-control-sm bg-white border border-dark"
-															readonly />
-													</div>
-													<div class="col-sm-1"></div>
-													<div class="col-sm-2 d-flex align-items-center">Date
-														of Loan</div>
-													<div class="col-sm-2">
-														<input type="text" id="CREATION_DATE" name="CREATION_DATE"
-															class="form-control form-control-sm bg-white border border-dark"
-															readonly />
-													</div>
-												</div>
+											<div class="col-sm-1"></div>
+											<div class="col-sm-2 d-flex align-items-center">Customer
+												Name</div>
+											<div class="col-sm-2">
+												<input type="text" name="cust_name" id="cust_name"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
 											</div>
 										</div>
 
-									</div>
-									<div class="tab mt-2"
-										style="padding: 4px; display: flex; justify-content: space-around; margin-top: 10px; width: 100%; height: 43px">
-										<h6 class="float-left"
-											style="font-size: 1.2rem; color: black;">
-											DEMAND-COLLECTION-OVERDUE</h6>
-									</div>
+										<div class="row formline p-2">
+											<div class="col-sm-1"></div>
+											<div class="col-sm-2 d-flex align-items-center">Account
+												Id</div>
+											<div class="col-sm-2">
+												<input type="text" name="account_id" id="account_id"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
+											<div class="col-sm-1"></div>
+											<div class="col-sm-2 d-flex align-items-center">Account
+												Name</div>
+											<div class="col-sm-2">
+												<input type="text" name="account_name" id="account_name"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
+										</div>
 
-									<!-- Loan Repayment Table -->
-									<table class="table table-bordered mt-3">
-										<thead class="thead-light">
-											<tr>
-												<th style="text-align: left;">Due Date</th>
-												<th style="text-align: right;">Principal Expenses</th>
-												<th style="text-align: right;">Interest Expenses</th>
-												<th style="text-align: right;">Fee Expenses</th>
-												<th style="text-align: right;">Penalty Expenses</th>
-												<th style="text-align: left;">Repaid Date</th>
-												<th style="text-align: right;">Principal Paid</th>
-												<th style="text-align: right;">Interest Paid</th>
-												<th style="text-align: right;">Fee Paid</th>
-												<th style="text-align: right;">Penalty Paid</th>
-												<th style="text-align: right;">Total Dues</th>
-											</tr>
-										</thead>
-										<tbody id="repaymentDet">
-
-										</tbody>
-									</table>
-								</form>
-								<div class="card-footer text-center">
-									<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-									<button class="btn btn-primary p-2" onclick="back()">Back</button>
+										<div class="row formline p-2">
+											<div class="col-sm-1"></div>
+											<div class="col-sm-2 d-flex align-items-center">Loan
+												Amount</div>
+											<div class="col-sm-2">
+												<input type="text" name="loan_amount" id="loan_amount"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
+											<div class="col-sm-1"></div>
+											<div class="col-sm-2 d-flex align-items-center">Date of
+												Loan</div>
+											<div class="col-sm-2">
+												<input type="text" id="CREATION_DATE" name="CREATION_DATE"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
+										</div>
+									</div>
 								</div>
+
 							</div>
+							<div class="tab mt-2"
+								style="padding: 4px; display: flex; justify-content: space-around; margin-top: 10px; width: 100%; height: 43px">
+								<h6 class="float-left" style="font-size: 1.2rem; color: black;">
+									DEMAND-COLLECTION-OVERDUE</h6>
+							</div>
+
+							<!-- Loan Repayment Table -->
+							<table class="table table-bordered mt-3">
+								<thead class="thead-light">
+									<tr>
+										<th style="text-align: left;">Due Date</th>
+										<th style="text-align: right;">Principal Expenses</th>
+										<th style="text-align: right;">Interest Expenses</th>
+										<th style="text-align: right;">Fee Expenses</th>
+										<th style="text-align: right;">Penalty Expenses</th>
+										<th style="text-align: left;">Repaid Date</th>
+										<th style="text-align: right;">Principal Paid</th>
+										<th style="text-align: right;">Interest Paid</th>
+										<th style="text-align: right;">Fee Paid</th>
+										<th style="text-align: right;">Penalty Paid</th>
+										<th style="text-align: right;">Total Dues</th>
+									</tr>
+								</thead>
+								<tbody id="repaymentDet">
+
+								</tbody>
+							</table>
+						</form>
+						<div class="card-footer text-center">
+							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
+							<button class="btn btn-primary p-2" onclick="back()">Back</button>
+						</div>
+					</div>
 				</div>
 
 				<div th:if="${formmode}=='listschedule'">
@@ -882,152 +1147,159 @@ input:hover+.password-info {
 
 
 				<div th:if="${formmode}=='viewloanschedule1'">
-					
-							<div class="card" style="border-radius: 2px">
-								<!-- Card Header -->
-								<div class="card-header"
-									style="background-color: #e9ecef; height: 50px">
-									<h6 class="float-left" style="font-size: 1.2rem; color: black;">LOAN
-										SCHEDULE -VIEW</h6>
-								</div>
 
-								<!-- Loan Details Section -->
+					<div class="card" style="border-radius: 2px">
+						<!-- Card Header -->
+						<div class="card-header"
+							style="background-color: #e9ecef; height: 50px">
+							<div class="float-left">
+								<h6 style="font-size: 1.2rem;" class="ml-4">LOAN SCHEDULE
+									-VIEW</h6>
+							</div>
+							<div class="float-right">
+								<button class="btn P-2" id="repaymentschedule"
+									onclick="schedulePreClosure()">ACCOUNT</button>
+								<button class="btn P-2" id="ledgerschedule"
+									onclick="ledgerPreClosure()">LEDGER</button>
+							</div>
+						</div>
+
+						<!-- Loan Details Section -->
 
 
-								<form action="#" method="post" id="employeeForm"
-									autocomplete="off">
-									<div id="tab1" class="tabcontent" style="display: block">
-										<div class="card-body">
-											<div class="border border-secondary">
-												<!-- Customer & Account Details -->
-												<div class="row formline p-2">
-													<div class="col-sm-1"></div>
-													<div class="col-sm-2 d-flex align-items-center">Customer
-														Id</div>
-													<div class="col-sm-2">
-														<input type="text" id="id" name="id"
-															th:value="${view[0] != null ? view[0][0] : ''}"
-															class="form-control form-control-sm bg-white border border-dark"
-															readonly />
-													</div>
+						<form action="#" method="post" id="employeeForm"
+							autocomplete="off">
+							<div id="tab1" class="tabcontent" style="display: block">
+								<div class="card-body">
+									<div class="border border-secondary">
+										<!-- Customer & Account Details -->
+										<div class="row formline p-2">
+											<div class="col-sm-1"></div>
+											<div class="col-sm-2 d-flex align-items-center">Customer
+												Id</div>
+											<div class="col-sm-2">
+												<input type="text" id="id" name="id"
+													th:value="${view[0] != null ? view[0][0] : ''}"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
 
-													<div class="col-sm-1"></div>
-													<div class="col-sm-2 d-flex align-items-center">Customer
-														Name</div>
-													<div class="col-sm-2">
-														<input type="text" name="cust_name" id="cust_name"
-															th:value="${view[0] != null ? view[0][1] : ''}"
-															class="form-control form-control-sm bg-white border border-dark"
-															readonly />
-													</div>
-												</div>
-
-												<div class="row formline p-2">
-													<div class="col-sm-1"></div>
-													<div class="col-sm-2 d-flex align-items-center">Account
-														Id</div>
-													<div class="col-sm-2">
-														<input type="text" name="account_id" id="account_id"
-															th:value="${view[0] != null ? view[0][3] : ''}"
-															class="form-control form-control-sm bg-white border border-dark"
-															readonly />
-													</div>
-													<div class="col-sm-1"></div>
-													<div class="col-sm-2 d-flex align-items-center">Account
-														Name</div>
-													<div class="col-sm-2">
-														<input type="text" name="account_name" id="account_name"
-															th:value="${view[0] != null ? view[0][8] : ''}"
-															class="form-control form-control-sm bg-white border border-dark"
-															readonly />
-													</div>
-												</div>
-
-												<div class="row formline p-2">
-													<div class="col-sm-1"></div>
-													<div class="col-sm-2 d-flex align-items-center">Loan
-														Amount</div>
-													<div class="col-sm-2">
-														<input type="text" name="loan_amount" id="loan_amount"
-															th:value="${view[0] != null ? #numbers.formatDecimal(view[0][7], 1, 'COMMA', 2, 'POINT') : ''}"
-															class="form-control form-control-sm bg-white border border-dark"
-															readonly />
-													</div>
-													<div class="col-sm-1"></div>
-													<div class="col-sm-2 d-flex align-items-center">Date
-														of Loan</div>
-													<div class="col-sm-2">
-														<input type="text" id="CREATION_DATE" name="CREATION_DATE"
-															th:value="${view[0] != null ? #dates.format(view[0][2], 'dd-MM-yyyy') : ''}"
-															class="form-control form-control-sm bg-white border border-dark"
-															readonly />
-													</div>
-												</div>
+											<div class="col-sm-1"></div>
+											<div class="col-sm-2 d-flex align-items-center">Customer
+												Name</div>
+											<div class="col-sm-2">
+												<input type="text" name="cust_name" id="cust_name"
+													th:value="${view[0] != null ? view[0][1] : ''}"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
 											</div>
 										</div>
 
-									</div>
-									<div class="tab mt-2"
-										style="padding: 4px; display: flex; justify-content: space-around; margin-top: 10px; width: 100%; height: 43px">
-										<h6 class="float-left"
-											style="font-size: 1.2rem; color: black;">
-											DEMAND-COLLECTION-OVERDUE</h6>
-									</div>
+										<div class="row formline p-2">
+											<div class="col-sm-1"></div>
+											<div class="col-sm-2 d-flex align-items-center">Account
+												Id</div>
+											<div class="col-sm-2">
+												<input type="text" name="account_id" id="account_id"
+													th:value="${view[0] != null ? view[0][3] : ''}"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
+											<div class="col-sm-1"></div>
+											<div class="col-sm-2 d-flex align-items-center">Account
+												Name</div>
+											<div class="col-sm-2">
+												<input type="text" name="account_name" id="account_name"
+													th:value="${view[0] != null ? view[0][8] : ''}"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
+										</div>
 
-									<!-- Loan Repayment Table -->
-									<div class="table-responsive"
-										style="max-height: 400px; overflow-y: auto;">
-										<table class="table table-bordered fixed-header">
-											<thead class="thead-light"
-												style="position: sticky; top: 0; background-color: #e9ecef; z-index: 1;">
-												<tr>
-													<th style="text-align: left;">Due Date</th>
-													<th style="text-align: right;">Principal Expenses</th>
-													<th style="text-align: right;">Interest Expenses</th>
-													<th style="text-align: right;">Fee Expenses</th>
-													<th style="text-align: right;">Penalty Expenses</th>
-													<th style="text-align: left;">Repaid Date</th>
-													<th style="text-align: right;">Principal Paid</th>
-													<th style="text-align: right;">Interest Paid</th>
-													<th style="text-align: right;">Fee Paid</th>
-													<th style="text-align: right;">Penalty Paid</th>
-													<th style="text-align: right;">Total Dues</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr th:each="list : ${dues}" class="userlist text-right">
-													<td style="font-size: 14px; text-align: left;"
-														th:text="${list[1] != null ? #dates.format(list[1], 'dd-MM-yyyy') : ''}">
-													</td>
-													<td style="font-size: 14px;"
-														th:text="${list[3] != null ? #numbers.formatDecimal(list[3], 1, 'COMMA', 2, 'POINT') : '0.00'}">
-													</td>
-													<td style="font-size: 14px;"
-														th:text="${list[6] != null ? #numbers.formatDecimal(list[6], 1, 'COMMA', 2, 'POINT') : '0.00'}">
-													</td>
-													<td style="font-size: 14px;"
-														th:text="${list[9] != null ? #numbers.formatDecimal(list[9], 1, 'COMMA', 2, 'POINT') : '0.00'}">
-													</td>
-													<td style="font-size: 14px;"
-														th:text="${list[12] != null ? #numbers.formatDecimal(list[12], 1, 'COMMA', 2, 'POINT') : '0.00'}">
-													</td>
-													<td style="font-size: 14px; text-align: left;"
-														th:text="${list[2] != null ? #dates.format(list[2], 'dd-MM-yyyy') : ''}">
-													</td>
-													<td style="font-size: 14px;"
-														th:text="${list[4] != null ? #numbers.formatDecimal(list[4], 1, 'COMMA', 2, 'POINT') : '0.00'}">
-													</td>
-													<td style="font-size: 14px;"
-														th:text="${list[7] != null ? #numbers.formatDecimal(list[7], 1, 'COMMA', 2, 'POINT') : '0.00'}">
-													</td>
-													<td style="font-size: 14px;"
-														th:text="${list[10] != null ? #numbers.formatDecimal(list[10], 1, 'COMMA', 2, 'POINT') : '0.00'}">
-													</td>
-													<td style="font-size: 14px;"
-														th:text="${list[13] != null ? #numbers.formatDecimal(list[13], 1, 'COMMA', 2, 'POINT') : '0.00'}">
-													</td>
-													<td style="font-size: 14px;"
-														th:text="${
+										<div class="row formline p-2">
+											<div class="col-sm-1"></div>
+											<div class="col-sm-2 d-flex align-items-center">Loan
+												Amount</div>
+											<div class="col-sm-2">
+												<input type="text" name="loan_amount" id="loan_amount"
+													th:value="${view[0] != null ? #numbers.formatDecimal(view[0][7], 1, 'COMMA', 2, 'POINT') : ''}"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
+											<div class="col-sm-1"></div>
+											<div class="col-sm-2 d-flex align-items-center">Date of
+												Loan</div>
+											<div class="col-sm-2">
+												<input type="text" id="CREATION_DATE" name="CREATION_DATE"
+													th:value="${view[0] != null ? #dates.format(view[0][2], 'dd-MM-yyyy') : ''}"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<div class="tab mt-2"
+								style="padding: 4px; display: flex; justify-content: space-around; margin-top: 10px; width: 100%; height: 43px">
+								<h6 class="float-left" style="font-size: 1.2rem; color: black;">
+									DEMAND-COLLECTION-OVERDUE</h6>
+							</div>
+
+							<!-- Loan Repayment Table -->
+							<div class="table-responsive"
+								style="max-height: 400px; overflow-y: auto;">
+								<table class="table table-bordered fixed-header">
+									<thead class="thead-light"
+										style="position: sticky; top: 0; background-color: #e9ecef; z-index: 1;">
+										<tr>
+											<th style="text-align: left;">Due Date</th>
+											<th style="text-align: right;">Principal Expenses</th>
+											<th style="text-align: right;">Interest Expenses</th>
+											<th style="text-align: right;">Fee Expenses</th>
+											<th style="text-align: right;">Penalty Expenses</th>
+											<th style="text-align: left;">Repaid Date</th>
+											<th style="text-align: right;">Principal Paid</th>
+											<th style="text-align: right;">Interest Paid</th>
+											<th style="text-align: right;">Fee Paid</th>
+											<th style="text-align: right;">Penalty Paid</th>
+											<th style="text-align: right;">Total Dues</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="list : ${dues}" class="userlist text-right">
+											<td style="font-size: 14px; text-align: left;"
+												th:text="${list[1] != null ? #dates.format(list[1], 'dd-MM-yyyy') : ''}">
+											</td>
+											<td style="font-size: 14px;"
+												th:text="${list[3] != null ? #numbers.formatDecimal(list[3], 1, 'COMMA', 2, 'POINT') : '0.00'}">
+											</td>
+											<td style="font-size: 14px;"
+												th:text="${list[6] != null ? #numbers.formatDecimal(list[6], 1, 'COMMA', 2, 'POINT') : '0.00'}">
+											</td>
+											<td style="font-size: 14px;"
+												th:text="${list[9] != null ? #numbers.formatDecimal(list[9], 1, 'COMMA', 2, 'POINT') : '0.00'}">
+											</td>
+											<td style="font-size: 14px;"
+												th:text="${list[12] != null ? #numbers.formatDecimal(list[12], 1, 'COMMA', 2, 'POINT') : '0.00'}">
+											</td>
+											<td style="font-size: 14px; text-align: left;"
+												th:text="${list[2] != null ? #dates.format(list[2], 'dd-MM-yyyy') : ''}">
+											</td>
+											<td style="font-size: 14px;"
+												th:text="${list[4] != null ? #numbers.formatDecimal(list[4], 1, 'COMMA', 2, 'POINT') : '0.00'}">
+											</td>
+											<td style="font-size: 14px;"
+												th:text="${list[7] != null ? #numbers.formatDecimal(list[7], 1, 'COMMA', 2, 'POINT') : '0.00'}">
+											</td>
+											<td style="font-size: 14px;"
+												th:text="${list[10] != null ? #numbers.formatDecimal(list[10], 1, 'COMMA', 2, 'POINT') : '0.00'}">
+											</td>
+											<td style="font-size: 14px;"
+												th:text="${list[13] != null ? #numbers.formatDecimal(list[13], 1, 'COMMA', 2, 'POINT') : '0.00'}">
+											</td>
+											<td style="font-size: 14px;"
+												th:text="${
 												            (list[5] != null ? list[5] : 0) + 
 												            (list[8] != null ? list[8] : 0) + 
 												            (list[11] != null ? list[11] : 0) + 
@@ -1039,21 +1311,21 @@ input:hover+.password-info {
 												                (list[14] != null ? list[14] : 0), 
 												                1, 'COMMA', 2, 'POINT') 
 												            : '0.00'}">
-													</td>
-												</tr>
+											</td>
+										</tr>
 
 
-											</tbody>
-										</table>
-									</div>
-
-								</form>
-								<div class="card-footer text-center">
-									<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-									<button class="btn btn-primary p-2" onclick="back()">Back</button>
-								</div>
+									</tbody>
+								</table>
 							</div>
-						
+
+						</form>
+						<div class="card-footer text-center">
+							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
+							<button class="btn btn-primary p-2" onclick="back()">Back</button>
+						</div>
+					</div>
+
 				</div>
 
 				<!--start the -->
@@ -1114,8 +1386,8 @@ input:hover+.password-info {
 			</div>
 		</form>
 	</div>
-	
-		<div class="modal fade" data-backdrop="false" data-keyboard="false"
+
+	<div class="modal fade" data-backdrop="false" data-keyboard="false"
 		tabindex="-1" role="dialog" aria-hidden="true" id="normalalertvalues">
 		<form action="#" th:object="${reportform}" method="post"
 			enctype="multipart/form-data" id="reportform2">
@@ -1146,6 +1418,6 @@ input:hover+.password-info {
 			</div>
 		</form>
 	</div>
-	
+
 </body>
 </html>
