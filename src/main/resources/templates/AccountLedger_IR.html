@@ -817,7 +817,7 @@ input:hover+.password-info {
 									<div class="col-sm-2">
 										<input type="text" name="acct_bal" id="acct_bal"
 											class="form-control form-control-sm bg-white border border-dark"
-											th:value="${#numbers.formatDecimal(chartaccount?.acct_bal, 1, 2)}"
+											th:value="${#numbers.formatDecimal(chartaccount?.acct_bal, 1, 'COMMA', 2, 'POINT')}"
 											readonly />
 									</div>
 									<div class="col-sm-1">Gen Led</div>

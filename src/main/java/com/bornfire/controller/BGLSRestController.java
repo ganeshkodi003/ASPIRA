@@ -2725,7 +2725,7 @@ public class BGLSRestController {
 
 		System.out.println("THE GETTING ACCOUNT NUMBER IS HERE " + accountNumber);
 
-		List<Object[]> loanFlowRecords = lOAN_REPAYMENT_REPO.getloanflows(fromDate, todate, accountNumber);
+		List<Object[]> loanFlowRecords = lOAN_REPAYMENT_REPO.getloanflowsdata(fromDate, todate, accountNumber);
 
 		// Convert List<Object[]> to List<Map<String, Object>>
 		List<Map<String, Object>> formattedRecords = new ArrayList<>();
@@ -2737,6 +2737,7 @@ public class BGLSRestController {
 			map.put("flow_amt", record[3]); // Interest Due
 			map.put("loan_acct_no", record[4]); // Loan Account ID
 			map.put("acct_name", record[5]); // Loan Name
+			map.put("encoded_key", record[6]); // Loan Name
 			formattedRecords.add(map);
 		}
 		return formattedRecords;
@@ -5770,7 +5771,7 @@ public class BGLSRestController {
 		Map<String, BigDecimal> totalIndem = new HashMap<>();
 		Map<String, BigDecimal> totalFeedem = new HashMap<>();
 		System.out.println("THE GETTING ENCODE KEY IS " + encodedKey);
-		System.out.println("THE GETTING FORMTED FLOW DATE IS "+formattedFlowDates);
+		System.out.println("THE GETTING FORMTED FLOW DATE IS " + formattedFlowDates);
 		// Fetch demand records once for all flow_dates
 		// Print debug information
 		System.out.println("Encoded Key: " + encodedKey);
@@ -5778,17 +5779,16 @@ public class BGLSRestController {
 
 		// Fetch demand records once for all flow_dates
 		List<LOAN_REPAYMENT_ENTITY> demandRecordsList = Optional
-		    .ofNullable(lOAN_REPAYMENT_REPO.getLoanFlowsValueDatas1(encodedKey, formattedFlowDates))
-		    .orElse(Collections.emptyList());
+				.ofNullable(lOAN_REPAYMENT_REPO.getLoanFlowsValueDatas1(encodedKey, formattedFlowDates))
+				.orElse(Collections.emptyList());
 
 		// Check the result
 		if (demandRecordsList.isEmpty()) {
-		    System.out.println("The list is empty. No matching records found.");
+			System.out.println("The list is empty. No matching records found.");
 		} else {
-		    System.out.println("List contains values: " + demandRecordsList);
+			System.out.println("List contains values: " + demandRecordsList);
 		}
 
-		
 		for (Map<String, String> transaction : transactions) {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 			Date flowDate = dateFormat.parse(transaction.get("flow_date"));
@@ -6520,7 +6520,8 @@ public class BGLSRestController {
 		LocalDate tranDate = (tranDateObj instanceof java.sql.Date) ? ((java.sql.Date) tranDateObj).toLocalDate()
 				: tranDateObj.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		Date Transaction_date = Date.from(tranDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
+		System.out.println("THE GETTING TRANSACTION DATE IS " + Transaction_date);
+		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
 		for (Map<String, String> transaction : transactions) {
@@ -7319,13 +7320,24 @@ public class BGLSRestController {
 			@RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") Date flow_date,
 			@RequestParam(required = false) String flow_amount, @RequestParam(required = false) String flow_id,
 			@RequestParam(required = false) String account_no, @RequestParam(required = false) String accountName,
-			@RequestParam(required = false) String operation, HttpServletRequest rq) {
+			@RequestParam(required = false) String operation, @RequestParam(required = false) String encoded_key,
+			HttpServletRequest rq) {
 
 		String user = (String) rq.getSession().getAttribute("USERID");
 
 		/* tranId sequence */
 		String tranId = "TR" + tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID1();
 		System.out.println("THE FRONTEND GETTING FLOW DATE IS  " + flow_date);
+		System.out.println("THE GETTING ENCODED KEY IS " + encoded_key);
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String flow_f_dates = sdf.format(flow_date); // ✅ Corrected formatting
+
+		System.out.println("Formatted Date: " + flow_f_dates);
+
+		Date flow_date_valueses = lOAN_REPAYMENT_REPO.findPreviousDueDate(flow_f_dates, encoded_key);
+
+		System.out.println("THE FLOW DATE PASSED MATCHED PREVIOUS TRANSACTION DATE " + flow_date_valueses);
 
 		BigDecimal partTranId1 = BigDecimal.valueOf(1);
 		BigDecimal partTranId2 = BigDecimal.valueOf(2);
@@ -7376,7 +7388,8 @@ public class BGLSRestController {
 		// Now, flow_dates and partrantype contain the last values from the loop
 
 		// Convert Date to LocalDateTime safely
-		LocalDateTime frontendDateTime = (flow_date != null) ? convertToLocalDateTime(flow_date) : null;
+		LocalDateTime frontendDateTime = (flow_date_valueses != null) ? convertToLocalDateTime(flow_date_valueses)
+				: null;
 		LocalDateTime backendDateTime = (flow_dates != null) ? convertToLocalDateTime(flow_dates) : null;
 
 		// Compare Dates and Check Transaction Type
