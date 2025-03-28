@@ -277,8 +277,9 @@ function viewscreen(a) {
 }
 function verifyscreen(a) {
 	event.preventDefault();
-	var id = a.getAttribute("data-id");
-	location.href = 'Loan_Maintenance?formmode=verify&id=' + id ;
+	var id = a.getAttribute("data-id"); 
+	var holder_key = a.getAttribute("data-account_holderkey"); 
+	location.href = 'Loan_Maintenance?formmode=verify&id=' + id   +'&holder_key=' +holder_key;
 }
 </script>
 <script>
@@ -394,6 +395,18 @@ function handleFilterChange(){
    
         $.ajax({
             url: './NotApprovedLoanMain',
+            type: 'GET',
+            success: function(data) {
+                updateTable(data);
+            },
+            error: function(err) {
+                console.error('Error fetching data:', err);
+            }
+        });
+    }else if (a === 'APPROVED') {
+   
+        $.ajax({
+            url: './ApprovedLoanMain',
             type: 'GET',
             success: function(data) {
                 updateTable(data);
@@ -535,6 +548,7 @@ $(function () {
 									style="background-color: #e3e3e4;margin-left: -13%;">
 									<option value="ALL">All</option>
 									<option value="NOTAPPROVED" selected>UnVerified</option>
+									<option value="APPROVED" selected>Verified</option>
 								</select>
 								<button type="button" class="btn btn-xs btn-primary btns p-2 border btn-filter">Filter</button></div>
 						</div>
@@ -1348,7 +1362,7 @@ $(function () {
 									<button class="btn btn-primary p-2">Home</button>
 									<button class="btn btn-primary p-2"
 										th:if="${Boolean} and ${formmode}=='view'"
-										th:attr="data-id=${view?.id}" onclick="verifyscreen(this);">
+										th:attr="data-id=${view?.id},data-account_holderkey=${view?.account_holderkey}" onclick="verifyscreen(this);">
 										Verify</button>
 
 									<!-- Submit Button (Shown when Boolean is false) -->

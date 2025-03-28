@@ -2111,6 +2111,18 @@ function handleFilterChange(){
                 console.error('Error fetching data:', err);
             }
         });
+    }else if (a === 'APPROVED') {
+        $.ajax({
+            url: './ApprovedCust',
+            type: 'GET',
+            success: function(data) {
+                updateTable(data);
+								console.log("data"+data);
+            },
+            error: function(err) {
+                console.error('Error fetching data:', err);
+            }
+        });
     }
 }
 
@@ -2343,6 +2355,7 @@ $(document)
 									style="background-color: #e3e3e4; width:">
 									<option value="ALL">All</option>
 									<option value="NOTAPPROVED" selected>UnVerified</option>
+									<option value="APPROVED" selected>Verified</option>
 								</select>
 							</div>
 

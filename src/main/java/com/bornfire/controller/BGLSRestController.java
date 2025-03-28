@@ -2716,6 +2716,11 @@ public class BGLSRestController {
 	public List<LOAN_ACT_MST_ENTITY> NotApprovedLoanMain() {
 		return lOAN_ACT_MST_REPO.getLoanActFilterUnverified();
 	}
+	
+	@GetMapping("ApprovedLoanMain")
+	public List<LOAN_ACT_MST_ENTITY> ApprovedLoanMain() {
+		return lOAN_ACT_MST_REPO.getLoanActFilterVerified();
+	}
 
 	@GetMapping("loanflowDetails")
 	public List<Map<String, Object>> loanflowDetails(
@@ -5457,6 +5462,10 @@ public class BGLSRestController {
 	@GetMapping("NotApprovedCust")
 	public List<CLIENT_MASTER_ENTITY> NotApprovedCust() {
 		return clientMasterRepo.getLoanActFilterUnverified();
+	}
+	@GetMapping("ApprovedCust")
+	public List<CLIENT_MASTER_ENTITY> ApprovedCust() {
+		return clientMasterRepo.getLoanActFilterVerified();
 	}
 
 	@GetMapping("loanflowDetailsvalues")

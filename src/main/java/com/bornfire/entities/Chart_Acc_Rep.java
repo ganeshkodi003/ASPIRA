@@ -35,7 +35,7 @@ public interface Chart_Acc_Rep extends JpaRepository<Chart_Acc_Entity, String> {
 	@Query(value = "SELECT * FROM BGLS_CHART_OF_ACCOUNTS WHERE del_flg='N' ORDER BY ACCT_NUM, CLASSIFICATION ASC", nativeQuery = true)
 	List<Chart_Acc_Entity> getList();
 
-	@Query(value = "SELECT * FROM BGLS_CHART_OF_ACCOUNTS WHERE del_flg='N'  ORDER BY ACCT_NUM, CLASSIFICATION ASC", nativeQuery = true)
+	@Query(value = "SELECT * FROM BGLS_CHART_OF_ACCOUNTS WHERE del_flg='N' AND ACCT_NUM NOT LIKE '%C%'  ORDER BY ACCT_NUM, CLASSIFICATION ASC", nativeQuery = true)
 	List<Chart_Acc_Entity> getListoffice();
 
 	@Query(value = "SELECT GLSH_CODE, GLSH_DESC,COUNT(GLSH_CODE) as sum, acct_crncy, SUM(ACCT_BAL) FROM BGLS_CHART_OF_ACCOUNTS WHERE del_flg='N' AND classification='Asset' GROUP BY GLSH_CODE, GLSH_DESC, acct_crncy ORDER BY GLSH_CODE ASC", nativeQuery = true)
