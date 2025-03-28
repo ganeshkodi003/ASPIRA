@@ -1174,7 +1174,6 @@ input:hover+.password-info {
 									<div class="border border-secondary">
 										<!-- Customer & Account Details -->
 										<div class="row formline p-2">
-											<div class="col-sm-1"></div>
 											<div class="col-sm-2 d-flex align-items-center">Customer
 												Id</div>
 											<div class="col-sm-2">
@@ -1184,58 +1183,103 @@ input:hover+.password-info {
 													readonly />
 											</div>
 
-											<div class="col-sm-1"></div>
 											<div class="col-sm-2 d-flex align-items-center">Customer
 												Name</div>
 											<div class="col-sm-2">
 												<input type="text" name="cust_name" id="cust_name"
-													th:value="${view[0] != null ? view[0][1] : ''}"
+													th:value="${view[0] != null ? view[0][2] : ''}"
 													class="form-control form-control-sm bg-white border border-dark"
 													readonly />
 											</div>
-										</div>
-
-										<div class="row formline p-2">
-											<div class="col-sm-1"></div>
-											<div class="col-sm-2 d-flex align-items-center">Account
-												Id</div>
-											<div class="col-sm-2">
-												<input type="text" name="account_id" id="account_id"
-													th:value="${view[0] != null ? view[0][3] : ''}"
-													class="form-control form-control-sm bg-white border border-dark"
-													readonly />
-											</div>
-											<div class="col-sm-1"></div>
-											<div class="col-sm-2 d-flex align-items-center">Account
-												Name</div>
-											<div class="col-sm-2">
-												<input type="text" name="account_name" id="account_name"
-													th:value="${view[0] != null ? view[0][8] : ''}"
-													class="form-control form-control-sm bg-white border border-dark"
-													readonly />
-											</div>
-										</div>
-
-										<div class="row formline p-2">
-											<div class="col-sm-1"></div>
-											<div class="col-sm-2 d-flex align-items-center">Loan
-												Amount</div>
-											<div class="col-sm-2">
-												<input type="text" name="loan_amount" id="loan_amount"
-													th:value="${view[0] != null ? #numbers.formatDecimal(view[0][7], 1, 'COMMA', 2, 'POINT') : ''}"
-													class="form-control form-control-sm bg-white border border-dark"
-													readonly />
-											</div>
-											<div class="col-sm-1"></div>
 											<div class="col-sm-2 d-flex align-items-center">Date of
 												Loan</div>
 											<div class="col-sm-2">
 												<input type="text" id="CREATION_DATE" name="CREATION_DATE"
-													th:value="${view[0] != null ? #dates.format(view[0][2], 'dd-MM-yyyy') : ''}"
+													th:value="${view[0] != null ? #dates.format(view[0][3], 'dd-MM-yyyy') : ''}"
 													class="form-control form-control-sm bg-white border border-dark"
 													readonly />
 											</div>
 										</div>
+
+										<div class="row formline p-2">
+											<div class="col-sm-2 d-flex align-items-center">Account
+												Id</div>
+											<div class="col-sm-2">
+												<input type="text" name="account_id" id="account_id"
+													th:value="${view[0] != null ? view[0][4] : ''}"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
+
+											<div class="col-sm-2 d-flex align-items-center">Account
+												Name</div>
+											<div class="col-sm-2">
+												<input type="text" name="account_name" id="account_name"
+													th:value="${view[0] != null ? view[0][9] : ''}"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
+											<div class="col-sm-2 d-flex align-items-center">Loan
+												Amount</div>
+											<div class="col-sm-2">
+												<input type="text" name="loan_amount" id="loan_amount"
+													th:value="${view[0] != null ? #numbers.formatDecimal(view[0][8], 1, 'COMMA', 2, 'POINT') : ''}"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
+										</div>
+
+										<div class="row formline p-2">
+											<div class="col-sm-2 d-flex align-items-center">Currency</div>
+											<div class="col-sm-2">
+												<input type="text" name="cust_name" id="cust_name"
+													th:value="${view[0] != null ? view[0][10] : ''}"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
+											<div class="col-sm-2 d-flex align-items-center">Outstanding
+												Balance</div>
+											<div class="col-sm-2">
+												<input type="text" id="CREATION_DATE" name="CREATION_DATE"
+													th:value="${view[0] != null ? #numbers.formatDecimal(view[0][11], 1, 'COMMA', 2, 'POINT') : ''}"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
+											<div class="col-sm-2 d-flex align-items-center">Arrears
+												Age</div>
+											<div class="col-sm-2">
+												<input type="text" id="NO_OF_DAYS" name="NO_OF_DAYS"
+													th:value="${view[0] != null && view[0][16] != null ? view[0][16] : ''}"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
+										</div>
+
+										<div class="row formline p-2">
+											<div class="col-sm-2 d-flex align-items-center">Demand</div>
+											<div class="col-sm-2">
+												<input type="text" id="id" name="id"
+													th:value="${view[0] != null ? #numbers.formatDecimal(view[0][17], 1, 'COMMA', 2, 'POINT') : ''}"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
+
+											<div class="col-sm-2 d-flex align-items-center">Collection</div>
+											<div class="col-sm-2">
+												<input type="text" name="cust_name" id="cust_name"
+													th:value="${view[0] != null ? #numbers.formatDecimal(view[0][18], 1, 'COMMA', 2, 'POINT') : ''}"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
+											<div class="col-sm-2 d-flex align-items-center">Arrears</div>
+											<div class="col-sm-2">
+												<input type="text" id="CREATION_DATE" name="CREATION_DATE"
+													th:value="${view[0] != null ? #numbers.formatDecimal(view[0][19], 1, 'COMMA', 2, 'POINT') : ''}"
+													class="form-control form-control-sm bg-white border border-dark"
+													readonly />
+											</div>
+										</div>
+
 									</div>
 								</div>
 
@@ -1249,21 +1293,22 @@ input:hover+.password-info {
 							<!-- Loan Repayment Table -->
 							<div class="table-responsive"
 								style="max-height: 400px; overflow-y: auto;">
-								<table class="table table-bordered fixed-header">
+								<table class="table table-bordered fixed-header"
+									style="width: 100%; white-space: nowrap;">
 									<thead class="thead-light"
 										style="position: sticky; top: 0; background-color: #e9ecef; z-index: 1;">
 										<tr>
 											<th style="text-align: left;">Due Date</th>
-											<th style="text-align: right;">Principal Expenses</th>
-											<th style="text-align: right;">Interest Expenses</th>
-											<th style="text-align: right;">Fee Expenses</th>
-											<th style="text-align: right;">Penalty Expenses</th>
+											<th style="text-align: left;">Principal Expenses</th>
+											<th style="text-align: left;">Interest Expenses</th>
+											<th style="text-align: left;">Fee Expenses</th>
+											<th style="text-align: left;">Penalty Expenses</th>
 											<th style="text-align: left;">Repaid Date</th>
-											<th style="text-align: right;">Principal Paid</th>
-											<th style="text-align: right;">Interest Paid</th>
-											<th style="text-align: right;">Fee Paid</th>
-											<th style="text-align: right;">Penalty Paid</th>
-											<th style="text-align: right;">Total Dues</th>
+											<th style="text-align: left;">Principal Paid</th>
+											<th style="text-align: left;">Interest Paid</th>
+											<th style="text-align: left;">Fee Paid</th>
+											<th style="text-align: left;">Penalty Paid</th>
+											<th style="text-align: left;">Total Dues</th>
 										</tr>
 									</thead>
 									<tbody>

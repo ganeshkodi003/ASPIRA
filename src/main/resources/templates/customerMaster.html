@@ -120,8 +120,6 @@ body {
 	line-height: 0.5rem;
 }
 
-
-
 .container-manager {
 	width: 83.5%;
 	padding-right: 15px;
@@ -2195,8 +2193,8 @@ function getAcctDetails() {
 									holder_key=${item[0]}">${item[1]}</a></td>
                 <td>${item[2]}</td>
                 <td>${(item[3])}</td>
-                <td>${formatNumber(item[4])}</td>
-                <td>${formatNumber(item[5])}</td>
+                <td style="text-align:right;">${formatNumber(item[4])}</td>
+                <td style="text-align:right;">${formatNumber(item[5])}</td>
             </tr>
                     `;
                     $('#loanTable').append(row);
@@ -2449,9 +2447,8 @@ $(document)
 
 							<div class=" btn-group nav-buttons  float-right">
 
-								<button class="btn btn-primary p-2 "
-									
-									onclick="getAcctDetails();">Account Details</button>
+								<button class="btn p-2 " onclick="getAcctDetails();">Account
+									Details</button>
 							</div>
 
 							<div class="btn-group nav-buttons float-right">
@@ -2685,22 +2682,22 @@ $(document)
 										</div>
 									</div>
 								</fieldset>
-						<div class="m-3 p-0" id="tableContainer" style="display: none;">
-    <table class="table table-bordered">
-        <thead style="text-align: center;">
-            <tr>
-                <th>Acct No</th>
-                <th>Acct Name</th>
-                <th>Date of Loan</th>
-                <th>Loan Amount</th>
-                <th>Loan Balance</th>
-            </tr>
-        </thead>
-        <tbody id="loanTable">
-            <!-- Rows will be appended dynamically -->
-        </tbody>
-    </table>
-</div>
+								<div  class="table table-bordered table-sm mt-3" id="tableContainer" style="display: none;">
+									<table class="table table-bordered" style="width: 100%; white-space: nowrap;">
+										<thead class="thead-light">
+											<tr>
+												<th style="text-align: left;">Account Number</th>
+												<th style="text-align: left;">Account Name</th>
+												<th style="text-align: left;">Date of Loan</th>
+												<th style="text-align: center;">Loan Amount</th>
+												<th style="text-align: center;">Loan Balance</th>
+											</tr>
+										</thead>
+										<tbody id="loanTable">
+											<!-- Rows will be appended dynamically -->
+										</tbody>
+									</table>
+								</div>
 								<div class="card-footer text-center mt-2">
 									<button class="btn btn-primary p-2" onclick="home();">Home</button>
 

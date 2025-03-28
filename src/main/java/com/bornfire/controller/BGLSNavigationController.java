@@ -142,10 +142,10 @@ public class BGLSNavigationController {
 
 	@Autowired
 	DataSource srcdataSource;
-	
+
 	@Autowired
 	LOAN_ACT_MST_REPO loan_act_mst_repo;
-	
+
 	@Autowired
 	CLIENT_MASTER_REPO client_mst_repo;
 
@@ -300,8 +300,7 @@ public class BGLSNavigationController {
 
 	@Autowired
 	LOAN_ACT_MST_REPO LOAN_ACT_MST_REPO;
-	
-	
+
 	public String getPagesize() {
 		return pagesize;
 	}
@@ -498,10 +497,10 @@ public class BGLSNavigationController {
 			md.addAttribute("Chart7", reference_code_Rep.getReferenceCode("COA_07"));
 			md.addAttribute("Chart8", reference_code_Rep.getReferenceCode("COA_08"));
 
-		}else if (formmode.equals("delete")) {
+		} else if (formmode.equals("delete")) {
 			md.addAttribute("formmode", "delete");
 			md.addAttribute("chartaccount", chart_Acc_Rep.getaedit(acct_num));
-			
+
 		}
 		return "ChartOfAccounts";
 	}
@@ -1240,6 +1239,7 @@ public class BGLSNavigationController {
 		}
 		return "ProfitAndLossReports";
 	}
+
 	/* PRAVEEN */
 	@RequestMapping(value = "balanceSheetReports", method = { RequestMethod.GET, RequestMethod.POST })
 	public String balanceSheetReports(@RequestParam(required = false) String formmode,
@@ -1320,7 +1320,6 @@ public class BGLSNavigationController {
 		return "general_ledger";
 	}
 
- 
 	/* THANVEER */
 	@RequestMapping(value = "perdiemMaster", method = { RequestMethod.GET, RequestMethod.POST })
 	public String perdiemMaster(@RequestParam(required = false) String formmode,
@@ -1482,7 +1481,6 @@ public class BGLSNavigationController {
 
 		return "PerdiemGeneration";
 	}
- 
 
 	@RequestMapping(value = "balanceSheet", method = { RequestMethod.GET, RequestMethod.POST })
 	public String balanceSheet(@RequestParam(required = false) String formmode,
@@ -1688,7 +1686,7 @@ public class BGLSNavigationController {
 			model.addAttribute("viewmanage", collateral_management_Repo.getbyid(customer_id));
 		} else if (formmode.equals("modify")) {
 			model.addAttribute("formmode", "modify");
-			System.out.println("the output value is "+customer_id);
+			System.out.println("the output value is " + customer_id);
 			model.addAttribute("modimanage", collateral_management_Repo.getbyid(customer_id));
 		}
 		return "Collateral_Management.html";
@@ -1697,12 +1695,13 @@ public class BGLSNavigationController {
 	@PostMapping(value = "SubmitcollamanageModify")
 	@ResponseBody
 	public String SubmitcollamanageModify( // Change parameter name to user_id
-			Model md, HttpServletRequest rq,@RequestParam(required = false) String customer_id,
+			Model md, HttpServletRequest rq, @RequestParam(required = false) String customer_id,
 			@ModelAttribute Collateral_management_Entity collateral_management_Entity) {
 		String userID = (String) rq.getSession().getAttribute("USERID");
 
-		Collateral_management_Entity existed = collateral_management_Repo.getbyid(collateral_management_Entity.getCustomer_id());
-		
+		Collateral_management_Entity existed = collateral_management_Repo
+				.getbyid(collateral_management_Entity.getCustomer_id());
+
 		if (existed == null) {
 			return "No Date Available";
 		} else {
@@ -1757,7 +1756,7 @@ public class BGLSNavigationController {
 			md.addAttribute("BamGeneralLedger", generalLedgerRep.getRefCodelist());
 		} else if (formmode.equals("delete")) {
 			md.addAttribute("formmode", "delete");
-			System.out.println("the gl code value is "+glcode);
+			System.out.println("the gl code value is " + glcode);
 			md.addAttribute("GeneralLedger", generalLedgerRep.getsinglevalue(glcode));
 
 		} else if (formmode.equals("upload")) {
@@ -1831,10 +1830,11 @@ public class BGLSNavigationController {
 			Set<String[]> cif = new HashSet<>();
 
 			for (CustomerRequest a : custid1) {
-				
-			    String[] values = {a.getCif_id(), a.getCa_cif_id_1()  ,a.getCa_preferred_name(), a.getCa_full_name_1()};
-			    cif.add(values);
-			    System.out.println(Arrays.toString(values));
+
+				String[] values = { a.getCif_id(), a.getCa_cif_id_1(), a.getCa_preferred_name(),
+						a.getCa_full_name_1() };
+				cif.add(values);
+				System.out.println(Arrays.toString(values));
 			}
 
 			md.addAttribute("deposit", cif);
@@ -2141,16 +2141,17 @@ public class BGLSNavigationController {
 		}
 		return "Collateral_Maintance.html";
 	}
-	
+
 	@PostMapping(value = "SubmitcollamanageModify1")
 	@ResponseBody
 	public String SubmitcollamanageModify1( // Change parameter name to user_id
 			Model md, HttpServletRequest rq,
 			@ModelAttribute Collateral_management_Entity collateral_management_Entity) {
 		String userID = (String) rq.getSession().getAttribute("USERID");
-		
+
 		String msg = "";
-		Collateral_management_Entity up = collateral_management_Repo.getbyid(collateral_management_Entity.getCustomer_id());
+		Collateral_management_Entity up = collateral_management_Repo
+				.getbyid(collateral_management_Entity.getCustomer_id());
 		if (Objects.nonNull(up)) {
 			up = collateral_management_Entity;
 			up.setDel_flg("N");
@@ -2311,7 +2312,7 @@ public class BGLSNavigationController {
 		collateral_management_Entity.setGen_verify_flg("N");
 		collateral_management_Entity.setEntry_user(userID);
 		collateral_management_Entity.setEntry_time(new Date());
-		
+
 		collateral_management_Repo.save(collateral_management_Entity);
 		System.out.println(customer_id); // Changed to user_id
 		return "Added Successfully";
@@ -3082,23 +3083,23 @@ public class BGLSNavigationController {
 		Date flowdate = (Date) req.getSession().getAttribute("TRANDATE");
 
 		List<Test_Collection_Entity> return_records = new ArrayList<>();
-		
+
 		String customer_id = bACP_CUS_PROFILE_REPO.findBynic(nic_no);
-		
+
 		System.out.println(customer_id);
-		
+
 		List<Lease_Loan_Master_Entity> loanrecords = lease_Loan_Master_Repo.getcusrecords(customer_id);
-		
+
 		for (Lease_Loan_Master_Entity loan : loanrecords) {
 
 			String acct_num = loan.getLoan_accountno();
 			BigDecimal acct_balance = chart_Acc_Rep.getbal(acct_num);
-			BigDecimal flowAmount=BigDecimal.ZERO;
+			BigDecimal flowAmount = BigDecimal.ZERO;
 
 			List<DMD_TABLE> demand_records = dMD_TABLE_REPO.getdemand(acct_num, flowdate);
-			
-			for(DMD_TABLE demand : demand_records) {
-				flowAmount=flowAmount.add(demand.getFlow_amt());
+
+			for (DMD_TABLE demand : demand_records) {
+				flowAmount = flowAmount.add(demand.getFlow_amt());
 			}
 
 			Test_Collection_Entity testentity = new Test_Collection_Entity();
@@ -3106,7 +3107,7 @@ public class BGLSNavigationController {
 			testentity.setLoan_accountno(loan.getLoan_accountno());
 			testentity.setCustomer_name(loan.getCustomer_name());
 			testentity.setLoan_outstanding(acct_balance);
-			testentity.setFlow_code("RIDEM"); 
+			testentity.setFlow_code("RIDEM");
 			testentity.setFlow_date(demand_records.get(0).getFlow_date());
 			testentity.setFlow_amt(flowAmount);
 			return_records.add(testentity);
@@ -3165,6 +3166,7 @@ public class BGLSNavigationController {
 
 		return "TrailBalanceReports2";
 	}
+
 	@RequestMapping(value = "trialBalance", method = { RequestMethod.GET, RequestMethod.POST })
 	public String trialBalance(@RequestParam(required = false) String formmode,
 			@RequestParam(required = false) String tran, Model md, HttpServletRequest rq,
@@ -3187,6 +3189,7 @@ public class BGLSNavigationController {
 
 		return "TrailBalanceReports2";
 	}
+
 	@RequestMapping(value = "BGLS/ghlslistdata", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
 	public List<Chart_Acc_Entity> ghlslistdata(@RequestParam(required = false) String glshCode) {
@@ -3346,8 +3349,7 @@ public class BGLSNavigationController {
 		if (formmode == null || formmode.equals("list1")) {
 			md.addAttribute("formmode", "list1");
 			md.addAttribute("jour", tRAN_MAIN_TRM_WRK_REP.findByjournal1(TRANDATE));
-		//	md.addAttribute("jour", tRAN_MAIN_TRM_WRK_REP.findByjournal());
-
+			// md.addAttribute("jour", tRAN_MAIN_TRM_WRK_REP.findByjournal());
 
 		} else if (formmode.equals("view")) {
 		}
@@ -3415,32 +3417,33 @@ public class BGLSNavigationController {
 
 	@RequestMapping(value = "interest_summary", method = { RequestMethod.GET, RequestMethod.POST })
 	public String interest_summary(@RequestParam(required = false) String formmode, Model md, HttpServletRequest req) {
-	    if (formmode == null || formmode.equals("list")) {
-	        md.addAttribute("formmode", "list");
-	        md.addAttribute("fewvalues", lease_Loan_Master_Repo.getfewvalue());
-	    }
+		if (formmode == null || formmode.equals("list")) {
+			md.addAttribute("formmode", "list");
+			md.addAttribute("fewvalues", lease_Loan_Master_Repo.getfewvalue());
+		}
 
-	    List<Lease_Loan_Master_Entity> listvalues = lease_Loan_Master_Repo.getfewvalue();
-	    List<Object> allAccBalances = new ArrayList<>(); // Initialize list to store all account balances
+		List<Lease_Loan_Master_Entity> listvalues = lease_Loan_Master_Repo.getfewvalue();
+		List<Object> allAccBalances = new ArrayList<>(); // Initialize list to store all account balances
 
-	    if (listvalues != null && !listvalues.isEmpty()) {
-	        for (Lease_Loan_Master_Entity records : listvalues) {
-	            String acc_num = records.getLoan_accountno();
-	            Object accBalance = chart_Acc_Rep.getaccbal(acc_num);
-	            allAccBalances.add(accBalance); // Add each balance to the list
-	           
-	        }
-	    }
+		if (listvalues != null && !listvalues.isEmpty()) {
+			for (Lease_Loan_Master_Entity records : listvalues) {
+				String acc_num = records.getLoan_accountno();
+				Object accBalance = chart_Acc_Rep.getaccbal(acc_num);
+				allAccBalances.add(accBalance); // Add each balance to the list
 
-	    md.addAttribute("allAccBalances", allAccBalances); 
-	    
-	    return "Interest_Summary";
+			}
+		}
+
+		md.addAttribute("allAccBalances", allAccBalances);
+
+		return "Interest_Summary";
 	}
 
 	/* Aishu */
 	@RequestMapping(value = "aspiraLoanMaintanace", method = { RequestMethod.GET, RequestMethod.POST })
 	public String aspiraLoanMaintanace(@RequestParam(required = false) String formmode, Model md,
-			HttpServletRequest req,@RequestParam(required = false) String id,@RequestParam(required = false) String holder_key) {
+			HttpServletRequest req, @RequestParam(required = false) String id,
+			@RequestParam(required = false) String holder_key) {
 
 		if (formmode == null || formmode.equals("list")) {
 			md.addAttribute("formmode", "list");
@@ -3450,81 +3453,80 @@ public class BGLSNavigationController {
 			System.out.println(holder_key);
 			md.addAttribute("view", LOAN_ACT_MST_REPO.getLoanView(id));
 			md.addAttribute("loan", LOAN_ACT_MST_REPO.getLoanValue(holder_key));
-		} 
+		}
 		return "Aspira_Loan_Maintanace";
 	}
-	
-	 @Autowired
-	    private CLIENT_MASTER_REPO clientMasterRepo;
-	
-			@RequestMapping(value = "customerMaster", method = { RequestMethod.GET, RequestMethod.POST })
-			public String customerMaster(@RequestParam(required = false) String formmode,
-					@RequestParam(required = false) String module,
-					@RequestParam(required = false) String id,
-					Model md, HttpServletRequest req) {
 
-				String user = (String) req.getSession().getAttribute("USERID");
-				Date TRANDATE = (Date) req.getSession().getAttribute("TRANDATE");
+	@Autowired
+	private CLIENT_MASTER_REPO clientMasterRepo;
 
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-				String formattedDate = dateFormat.format(TRANDATE);
+	@RequestMapping(value = "customerMaster", method = { RequestMethod.GET, RequestMethod.POST })
+	public String customerMaster(@RequestParam(required = false) String formmode,
+			@RequestParam(required = false) String module, @RequestParam(required = false) String id, Model md,
+			HttpServletRequest req) {
 
-				if (formmode == null) {
-					md.addAttribute("formmode", "home");
-				} else if (formmode.equals("list")) {
-					md.addAttribute("formmode", "list");
-					md.addAttribute("list", clientMasterRepo.getLoanActDet());
-				} else if (formmode.equals("view")) {
-					Integer unverifiedStatus = clientMasterRepo.getUnverifiedStatus(id);
-					Boolean isUnverified = unverifiedStatus != null && unverifiedStatus == 1;
-					md.addAttribute("Boolean", isUnverified);
-					md.addAttribute("formmode", "view");
-					CLIENT_MASTER_ENTITY client = clientMasterRepo.getClientView(id);
-					md.addAttribute("customer", client);
-				} else if (formmode.equals("modify") && "module2".equals(module)) {
-					md.addAttribute("formmode", "modify");
-					CLIENT_MASTER_ENTITY client = clientMasterRepo.getClientView(id);
-					md.addAttribute("customer", client);
-				} else if (formmode.equals("verify") && "module2".equals(module)) {
-					// Allow verify only for module2
-					md.addAttribute("formmode", "verify");
-					CLIENT_MASTER_ENTITY client = clientMasterRepo.getClientView(id);
-					md.addAttribute("customer", client);
-				}
-				md.addAttribute("currentDate", TRANDATE);
-				md.addAttribute("ConDate", formattedDate);
-				md.addAttribute("user", user);
-				md.addAttribute("module", module);
+		String user = (String) req.getSession().getAttribute("USERID");
+		Date TRANDATE = (Date) req.getSession().getAttribute("TRANDATE");
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String formattedDate = dateFormat.format(TRANDATE);
+
+		if (formmode == null) {
+			md.addAttribute("formmode", "home");
+		} else if (formmode.equals("list")) {
+			md.addAttribute("formmode", "list");
+			md.addAttribute("list", clientMasterRepo.getLoanActDet());
+		} else if (formmode.equals("view")) {
+			Integer unverifiedStatus = clientMasterRepo.getUnverifiedStatus(id);
+			Boolean isUnverified = unverifiedStatus != null && unverifiedStatus == 1;
+			md.addAttribute("Boolean", isUnverified);
+			md.addAttribute("formmode", "view");
+			CLIENT_MASTER_ENTITY client = clientMasterRepo.getClientView(id);
+			md.addAttribute("customer", client);
+		} else if (formmode.equals("modify") && "module2".equals(module)) {
+			md.addAttribute("formmode", "modify");
+			CLIENT_MASTER_ENTITY client = clientMasterRepo.getClientView(id);
+			md.addAttribute("customer", client);
+		} else if (formmode.equals("verify") && "module2".equals(module)) {
+			// Allow verify only for module2
+			md.addAttribute("formmode", "verify");
+			CLIENT_MASTER_ENTITY client = clientMasterRepo.getClientView(id);
+			md.addAttribute("customer", client);
+		}
+		md.addAttribute("currentDate", TRANDATE);
+		md.addAttribute("ConDate", formattedDate);
+		md.addAttribute("user", user);
+		md.addAttribute("module", module);
 
 		return "customerMaster";
 
 	}
-	
+
 	@RequestMapping(value = "loanMaster", method = { RequestMethod.GET, RequestMethod.POST })
-	public String loanMaster(@RequestParam(required = false) String formmode, Model model, String customer_id, Model md, 
-			HttpServletRequest request,@RequestParam(required = false) String id,@RequestParam(required = false) String holder_key) {
+	public String loanMaster(@RequestParam(required = false) String formmode, Model model, String customer_id, Model md,
+			HttpServletRequest request, @RequestParam(required = false) String id,
+			@RequestParam(required = false) String holder_key) {
 		String user = (String) request.getSession().getAttribute("USERID");
-		
+
 		if (formmode == null || formmode.equals("loanscrn")) {
-			model.addAttribute("formmode", "loanscrn");  
+			model.addAttribute("formmode", "loanscrn");
 		} else if (formmode.equals("viewloan")) {
 			model.addAttribute("formmode", "viewloan");
 			md.addAttribute("user", user);
 			md.addAttribute("view", LOAN_ACT_MST_REPO.getLoanView(id));
 			md.addAttribute("loan", LOAN_ACT_MST_REPO.getLoanValue(holder_key));
-		}else if (formmode.equals("list")) {  
-			model.addAttribute("formmode", "list"); 
+		} else if (formmode.equals("list")) {
+			model.addAttribute("formmode", "list");
 			md.addAttribute("list", LOAN_ACT_MST_REPO.getLoanActDet());
 			md.addAttribute("user", user);
 		}
 		return "Loan_Master.html";
 	}
-	
-	
+
 	/* Aishu */
 	@RequestMapping(value = "Loan_Maintenance", method = { RequestMethod.GET, RequestMethod.POST })
-	public String Loan_Maintanance(@RequestParam(required = false) String formmode, Model md,
-			HttpServletRequest req,@RequestParam(required = false) String id,@RequestParam(required = false) String holder_key) {
+	public String Loan_Maintanance(@RequestParam(required = false) String formmode, Model md, HttpServletRequest req,
+			@RequestParam(required = false) String id, @RequestParam(required = false) String holder_key) {
 
 		if (formmode == null || formmode.equals("list")) {
 			md.addAttribute("formmode", "list");
@@ -3547,112 +3549,118 @@ public class BGLSNavigationController {
 		}
 		return "Loan_Maintenance";
 	}
+
 	@RequestMapping(value = "loanSchedule", method = { RequestMethod.GET, RequestMethod.POST })
-	public String loanSchedule(
-	        @RequestParam(required = false) String formmode,
-	        @RequestParam(required = false) String customer_id,
-	        @RequestParam(required = false) String id,
-	        @RequestParam(required = false) String holder_key,
-	        @RequestParam(required = false) String encodedKey,
-	        Model model,
-	        HttpServletRequest request) {
+	public String loanSchedule(@RequestParam(required = false) String formmode,
+			@RequestParam(required = false) String customer_id, @RequestParam(required = false) String id,
+			@RequestParam(required = false) String holder_key, @RequestParam(required = false) String encodedKey,
+			Model model, HttpServletRequest request) {
 
-	    String user = (String) request.getSession().getAttribute("USERID");
+		String user = (String) request.getSession().getAttribute("USERID");
 
-	    if (formmode == null || "viewloanschedule".equals(formmode)) {
-	        model.addAttribute("formmode", "viewloanschedule");
+		// Fetch the latest TRAN_DATE from the database
+		Date tranDateObj = bGLS_CONTROL_TABLE_REP.getLatestTranDate();
+		System.out.println("The fetched TRAN_DATE is: " + tranDateObj);
 
-	    } else if ("viewloanschedule1".equals(formmode)) {
-	        model.addAttribute("formmode", "viewloanschedule1");
-System.out.println(encodedKey);
-	        model.addAttribute("view", LOAN_ACT_MST_REPO.getcustomer(holder_key, id));
-	        model.addAttribute("dues", LOAN_ACT_MST_REPO.getDues(encodedKey));
+		// Convert TRAN_DATE to LocalDate for easy comparison
+		LocalDate tranDate = (tranDateObj instanceof java.sql.Date) ? ((java.sql.Date) tranDateObj).toLocalDate()
+				: tranDateObj.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		
+		Date Transaction_date = Date.from(tranDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-	       
-	    } else if ("listschedule".equals(formmode)) {
-	        model.addAttribute("formmode", "listschedule");
-	        model.addAttribute("list", LOAN_ACT_MST_REPO.getLoanActScd());
+		if (formmode == null || "viewloanschedule".equals(formmode)) {
+			model.addAttribute("formmode", "viewloanschedule");
 
-	        System.out.println("Listing Loan Schedules");
-	    }
+		} else if ("viewloanschedule1".equals(formmode)) {
+			model.addAttribute("formmode", "viewloanschedule1");
+			System.out.println(encodedKey);
+			Object[] loanDetails = LOAN_ACT_MST_REPO.getCustomer(Transaction_date, holder_key, id,encodedKey);
+			model.addAttribute("view", loanDetails);
+			model.addAttribute("dues", LOAN_ACT_MST_REPO.getDues(encodedKey));
 
-	    return "Loan_Schedule";
+		} else if ("listschedule".equals(formmode)) {
+			model.addAttribute("formmode", "listschedule");
+			model.addAttribute("list", LOAN_ACT_MST_REPO.getLoanActScd());
+
+			System.out.println("Listing Loan Schedules");
+		}
+
+		return "Loan_Schedule";
 	}
-	
+
 	/* Aishu */
 	@PostMapping(value = "Modifyloanmain")
 	@ResponseBody
-	public String Modifyloanmain(@RequestParam(required = false) String id, 
-	        Model md, HttpServletRequest rq, @ModelAttribute LOAN_ACT_MST_ENTITY loan_act_mst_entity) {
+	public String Modifyloanmain(@RequestParam(required = false) String id, Model md, HttpServletRequest rq,
+			@ModelAttribute LOAN_ACT_MST_ENTITY loan_act_mst_entity) {
 
-	    System.out.println(id);
-	    
-	    LOAN_ACT_MST_ENTITY up = loan_act_mst_repo.getLoanView(loan_act_mst_entity.getId());
-	    System.out.println(loan_act_mst_entity.getLoan_name());
-	    
-	    if (up != null) {
-	        // Update only the fields that need modification
-	        up.setAssigned_branchkey(loan_act_mst_entity.getAssigned_branchkey());
-	        up.setCreation_date(loan_act_mst_entity.getCreation_date());
-	        up.setAccount_substate(loan_act_mst_entity.getAccount_substate());
-	        up.setLoan_amount(loan_act_mst_entity.getLoan_amount());
-	        up.setPayment_method(loan_act_mst_entity.getPayment_method());
-	        up.setPenalty_rate(loan_act_mst_entity.getPenalty_rate());
-	        up.setInterest_rate(loan_act_mst_entity.getInterest_rate());
-	        up.setExpected_disbursementdate(loan_act_mst_entity.getExpected_disbursementdate());
-	        up.setFirst_repaymentdate(loan_act_mst_entity.getFirst_repaymentdate());
-	        up.setRepayment_installments(loan_act_mst_entity.getRepayment_installments());
-	        up.setPrincipal_due(loan_act_mst_entity.getPrincipal_due());
-	        up.setPrincipal_paid(loan_act_mst_entity.getPrincipal_paid());
-	        up.setPrincipal_balance(loan_act_mst_entity.getPrincipal_balance());
-	        up.setInterest_due(loan_act_mst_entity.getInterest_due());
-	        up.setInterest_paid(loan_act_mst_entity.getInterest_paid());
-	        up.setInterest_balance(loan_act_mst_entity.getInterest_balance());
-	        up.setFees_due(loan_act_mst_entity.getFees_due());
-	        up.setFees_paid(loan_act_mst_entity.getFees_paid());
-	        up.setFees_balance(loan_act_mst_entity.getFees_balance());
-	        up.setPenalty_paid(loan_act_mst_entity.getPenalty_paid());
-	        up.setPenalty_due(loan_act_mst_entity.getPenalty_due());
-	        up.setPenalty_balance(loan_act_mst_entity.getPenalty_balance());
-	        up.setDisposable_income(loan_act_mst_entity.getDisposable_income());
-	        up.setManualoverride_amount(loan_act_mst_entity.getManualoverride_amount());
-	        up.setManualoverride_expiry_date(loan_act_mst_entity.getManualoverride_expiry_date());
-	        up.setCpfees(loan_act_mst_entity.getCpfees());
-	        up.setDeposit_amount(loan_act_mst_entity.getDeposit_amount());
-	        up.setTotal_product_price(loan_act_mst_entity.getTotal_product_price());
-	        up.setRetailer_name(loan_act_mst_entity.getRetailer_name());
-	        up.setRetailer_branch(loan_act_mst_entity.getRetailer_branch());
-	        up.setVg_application_id(loan_act_mst_entity.getVg_application_id());
-	        up.setContract_signed(loan_act_mst_entity.getContract_signed());
-	        up.setDate_of_first_call(loan_act_mst_entity.getDate_of_first_call());
-	        up.setLast_call_outcome(loan_act_mst_entity.getLast_call_outcome());
-	        up.setAsondate(loan_act_mst_entity.getAsondate());
+		System.out.println(id);
 
-	        // Update last modified date
-	        up.setLast_modified_date(new Date());
+		LOAN_ACT_MST_ENTITY up = loan_act_mst_repo.getLoanView(loan_act_mst_entity.getId());
+		System.out.println(loan_act_mst_entity.getLoan_name());
 
-	        // Save updated entity
-	        loan_act_mst_repo.save(up);
+		if (up != null) {
+			// Update only the fields that need modification
+			up.setAssigned_branchkey(loan_act_mst_entity.getAssigned_branchkey());
+			up.setCreation_date(loan_act_mst_entity.getCreation_date());
+			up.setAccount_substate(loan_act_mst_entity.getAccount_substate());
+			up.setLoan_amount(loan_act_mst_entity.getLoan_amount());
+			up.setPayment_method(loan_act_mst_entity.getPayment_method());
+			up.setPenalty_rate(loan_act_mst_entity.getPenalty_rate());
+			up.setInterest_rate(loan_act_mst_entity.getInterest_rate());
+			up.setExpected_disbursementdate(loan_act_mst_entity.getExpected_disbursementdate());
+			up.setFirst_repaymentdate(loan_act_mst_entity.getFirst_repaymentdate());
+			up.setRepayment_installments(loan_act_mst_entity.getRepayment_installments());
+			up.setPrincipal_due(loan_act_mst_entity.getPrincipal_due());
+			up.setPrincipal_paid(loan_act_mst_entity.getPrincipal_paid());
+			up.setPrincipal_balance(loan_act_mst_entity.getPrincipal_balance());
+			up.setInterest_due(loan_act_mst_entity.getInterest_due());
+			up.setInterest_paid(loan_act_mst_entity.getInterest_paid());
+			up.setInterest_balance(loan_act_mst_entity.getInterest_balance());
+			up.setFees_due(loan_act_mst_entity.getFees_due());
+			up.setFees_paid(loan_act_mst_entity.getFees_paid());
+			up.setFees_balance(loan_act_mst_entity.getFees_balance());
+			up.setPenalty_paid(loan_act_mst_entity.getPenalty_paid());
+			up.setPenalty_due(loan_act_mst_entity.getPenalty_due());
+			up.setPenalty_balance(loan_act_mst_entity.getPenalty_balance());
+			up.setDisposable_income(loan_act_mst_entity.getDisposable_income());
+			up.setManualoverride_amount(loan_act_mst_entity.getManualoverride_amount());
+			up.setManualoverride_expiry_date(loan_act_mst_entity.getManualoverride_expiry_date());
+			up.setCpfees(loan_act_mst_entity.getCpfees());
+			up.setDeposit_amount(loan_act_mst_entity.getDeposit_amount());
+			up.setTotal_product_price(loan_act_mst_entity.getTotal_product_price());
+			up.setRetailer_name(loan_act_mst_entity.getRetailer_name());
+			up.setRetailer_branch(loan_act_mst_entity.getRetailer_branch());
+			up.setVg_application_id(loan_act_mst_entity.getVg_application_id());
+			up.setContract_signed(loan_act_mst_entity.getContract_signed());
+			up.setDate_of_first_call(loan_act_mst_entity.getDate_of_first_call());
+			up.setLast_call_outcome(loan_act_mst_entity.getLast_call_outcome());
+			up.setAsondate(loan_act_mst_entity.getAsondate());
 
-	        return "Modified Successfully";
-	    } else {
-	        return "Loan record not found";
-	    }
+			// Update last modified date
+			up.setLast_modified_date(new Date());
+
+			// Save updated entity
+			loan_act_mst_repo.save(up);
+
+			return "Modified Successfully";
+		} else {
+			return "Loan record not found";
+		}
 	}
 
 	@PostMapping(value = "Verifyloanmain")
 	@ResponseBody
-	public String Verifyloanmain(@RequestParam(required = false) String id, 
-			Model md, HttpServletRequest rq ) {
-	System.out.println(id);
+	public String Verifyloanmain(@RequestParam(required = false) String id, Model md, HttpServletRequest rq) {
+		System.out.println(id);
 		LOAN_ACT_MST_ENTITY verify = loan_act_mst_repo.getLoanView(id);
 		verify.setApproved_date(new Date());
-		
+
 		loan_act_mst_repo.save(verify);
-	 
+
 		return "Veified Successfully";
 	}
-	
+
 	@RequestMapping(value = "loanOperation", method = { RequestMethod.GET, RequestMethod.POST })
 	public String loanOperation(@RequestParam(required = false) String formmode, Model md, HttpServletRequest req) {
 
@@ -3669,7 +3677,7 @@ System.out.println(encodedKey);
 		}
 		return "LoanOperation";
 	}
-	
+
 	@RequestMapping(value = "loanClosure", method = { RequestMethod.GET, RequestMethod.POST })
 	public String loanClosure(@RequestParam(required = false) String formmode, Model md, HttpServletRequest req) {
 
