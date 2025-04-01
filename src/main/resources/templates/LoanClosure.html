@@ -1437,7 +1437,22 @@ function updateAccountName1(selectElement) {
 }
 
 function handleCheckboxClickCollectiondata() {
-    var loanBal = parseFloat(document.getElementById("loan_bal").value.replace(/,/g, '')) || 0;
+    // Show confirmation modal before proceeding
+    $('#confirmation_modal').modal('show');
+
+    // Handle the "Yes" button click to proceed
+    $('#confirmYesBtn').off('click').on('click', function () {
+        proceedWithTransaction();
+    });
+
+    // Handle the "No" button click to refresh the page
+    $('#confirmNoBtn').off('click').on('click', function () {
+        location.reload(); // Refresh the current page
+    });
+}
+
+function proceedWithTransaction() {
+     var loanBal = parseFloat(document.getElementById("loan_bal").value.replace(/,/g, '')) || 0;
     var acctBalance = parseFloat(document.getElementById("acct_balancedatas").value.replace(/,/g, '')) || 0;
 
     alert("THE LOAN ACCOUNT BALANCE IS " + loanBal);
@@ -1479,12 +1494,11 @@ function handleCheckboxClickCollectiondata() {
         return;
     }
 
-    // Debugging logs to check values
     console.log("Loan Balance:", loanBal);
     console.log("Preclosure Balance:", acctBalance);
     console.log("Comparison Result:", Math.abs(loanBal) === Math.abs(acctBalance));
 
-    // **Compare absolute values to match -20807 and 20807**
+    // Compare absolute values and process accordingly
     if (Math.abs(loanBal) === Math.abs(acctBalance)) {
         processTransaction('./transactionCollectiondatas121', selectedData);
     } else {
@@ -1516,8 +1530,21 @@ function processTransaction(url, selectedData) {
     });
 }
 
-
 function handleCheckboxClickCollectiondata1() {
+    // Show confirmation modal before proceeding
+    $('#confirmation_modal').modal('show');
+
+    // Handle "Yes" button click to proceed
+    $('#confirmYesBtn').off('click').on('click', function () {
+        proceedWithTransaction1();
+    });
+
+    // Handle "No" button click to refresh the page
+    $('#confirmNoBtn').off('click').on('click', function () {
+        location.reload(); // Refresh the page
+    });
+}
+function proceedWithTransaction1() {
     var loanBal = parseFloat(document.getElementById("loan_bal1").value.replace(/,/g, '')) || 0;
     var acctBalance = parseFloat(document.getElementById("acct_balancedatas1").value.replace(/,/g, '')) || 0;
 
@@ -1527,12 +1554,12 @@ function handleCheckboxClickCollectiondata1() {
         var row = $(this);
         let flowAmt = row.find("input[name='flow_amt']").val() || row.find("input[name='flow_amtvals']").val();
 
-        if (!flowAmt) return true;
+        if (!flowAmt) return true; // Skip row if no amount
 
         let selectedRadio = row.find("input[type='radio']:checked").val() || "None";
 
         let rowData = {
-            flow_amt: flowAmt.replace(/,/g, ''),  
+            flow_amt: flowAmt.replace(/,/g, ''), // Remove commas
             flow_code: row.find("input[name='flow_code']").val() || '',
             flow_date: row.find("input[name='flow_date']").val() || '',
             flow_id: row.find("input[name='flow_id']").val() || '',
@@ -1549,6 +1576,10 @@ function handleCheckboxClickCollectiondata1() {
         alert("No rows to process.");
         return;
     }
+
+    console.log("Loan Balance:", loanBal);
+    console.log("Preclosure Balance:", acctBalance);
+    console.log("Comparison Result:", Math.abs(loanBal) === Math.abs(acctBalance));
 
     // **Compare absolute values to match -20807 and 20807**
     if (Math.abs(loanBal) === Math.abs(acctBalance)) {
@@ -2440,6 +2471,26 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 		</div>
 	</div>
+
+
+<div class="modal fade" data-backdrop="false" data-keyboard="false"
+    tabindex="-1" role="dialog" aria-hidden="true" id="confirmation_modal">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-body" style="text-align: center">
+                <p id="popupmsg_body">Do you want to continue?</p>
+                <button type="button" class="btn btn-primary" id="confirmYesBtn" data-dismiss="modal">
+                    Yes
+                </button>
+                <button type="button" class="btn btn-secondary" id="confirmNoBtn" data-dismiss="modal">
+                    No
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 	<div class="modal fade" id="alertERE">
 		<div
