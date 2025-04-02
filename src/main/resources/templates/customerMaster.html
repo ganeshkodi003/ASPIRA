@@ -2047,9 +2047,11 @@ var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
 </script>
 <script type="text/javascript">
 function submitdatas() {
+	 $('#alert33').modal('hide');
+	  
     var form = $('#reportform')[0];
     var data = new FormData(form);
-
+$('#uploadStatus').modal('show');
     $.ajax({
         type: "POST",
         url: "uploadxmldata1",
@@ -2059,7 +2061,7 @@ function submitdatas() {
         success: function(response) {
             console.log(response);
             showResponse(response); // Pass the correct response
-            $('#alert33').modal('hide');
+            $('#uploadStatus').modal('hide');
         },
         error: function(error) {
             showResponse("Error: " + error.responseText);
@@ -3008,6 +3010,35 @@ $(document)
 		</div>
 	</div>
 	<!-- Model Boxes -->
+	<div class="modal fade" data-backdrop="false" data-keyboard="false"
+		tabindex="-1" role="dialog" aria-hidden="true" id="uploadStatus">
+		
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+				role="document" style="max-width: 600px; height: auto;">
+				<div class="modal-content" style="width: 100%; height: 100%;">
+					<!-- Modal Header -->
+					<div class="modal-header"
+						style="justify-content: center; width: 100%; padding: 10px;">
+					</div>
+
+					<!-- Modal Body -->
+					<div
+						class="modal-body d-flex flex-row align-items-center justify-content-center"
+						style="text-align: center; flex-grow: 1; min-height: 100px; padding: 10px;">
+						<p style="font-weight: bold;">Uploading Datas</p>
+					</div>
+
+					<!-- Modal Footer -->
+					<div class="modal-footer d-flex justify-content-center"
+						style="width: 100%; padding: 10px;">
+						
+					</div>
+				</div>
+			</div>
+
+	</div>
+ 
 
 	<div class="modal fade" data-backdrop="false" data-keyboard="false"
 		tabindex="-1" role="dialog" aria-hidden="true" id="mypopup22">
