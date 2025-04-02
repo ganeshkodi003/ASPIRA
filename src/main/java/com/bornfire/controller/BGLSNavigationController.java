@@ -511,7 +511,7 @@ public class BGLSNavigationController {
 			@RequestParam(required = false) String acct_num, String keyword, Model md, HttpServletRequest req) {
 		if (formmode == null || formmode.equals("list")) {
 			md.addAttribute("formmode", "list");
-			md.addAttribute("chartaccount", chart_Acc_Rep.getListoffice());
+			md.addAttribute("chartaccount", chart_Acc_Rep.getListoffice1());
 		} else if (formmode.equals("view")) {
 			md.addAttribute("formmode", "view");
 			md.addAttribute("dataList", tRAN_MAIN_TRM_WRK_REP.getList(acct_num));/* Journal Entries */
