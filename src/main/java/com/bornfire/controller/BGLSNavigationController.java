@@ -3694,4 +3694,57 @@ public class BGLSNavigationController {
 		}
 		return "LoanClosure";
 	}
+	
+	@RequestMapping(value = "TransactionMigration", method = { RequestMethod.GET, RequestMethod.POST })
+	public String TransactionMigration(@RequestParam(required = false) String formmode,
+			@RequestParam(required = false) String branch_name, Model md, HttpServletRequest req,
+			@RequestParam(required = false) BigDecimal record_srl) {
+
+		String userid = (String) req.getSession().getAttribute("USERID");
+		md.addAttribute("menu", "BAJHeaderMenu");
+
+		if (formmode == null || formmode.equals("add")) {
+			md.addAttribute("formmode", "add");
+			List<Organization_Entity> organization = organization_Repo.getAllList();
+			md.addAttribute("organization", organization.get(0));
+
+			md.addAttribute("OrgBranch", organization_Branch_Rep.getbranchlist());
+
+		} else if (formmode.equals("ModifyHead")) {
+			md.addAttribute("formmode", "ModifyHead");
+			List<Organization_Entity> organization = organization_Repo.getAllList();
+			md.addAttribute("organization", organization.get(0));
+		} else if (formmode.equals("DeleteBranch")) {
+			md.addAttribute("formmode", "DeleteBranch");
+			md.addAttribute("OrgBranch", organization_Branch_Rep.getOrgBranch(branch_name));
+		} else if (formmode.equals("AddBranch")) {
+			md.addAttribute("formmode", "AddBranch");
+		} else if (formmode.equals("modify")) {
+			md.addAttribute("formmode", "modify");
+			md.addAttribute("OrgBranch", organization_Branch_Rep.getOrgBranch(branch_name));
+
+		} else if (formmode.equals("view")) {
+			md.addAttribute("formmode", "view");
+			md.addAttribute("OrgBranch", organization_Branch_Rep.getOrgBranch(branch_name));
+
+		} else if (formmode.equals("addholiday")) {
+			md.addAttribute("formmode", "addholiday");
+
+		} else if (formmode.equals("UploadHoliday")) {
+			md.addAttribute("formmode", "UploadHoliday");
+
+		} else if (formmode.equals("ModifyHoliday")) {
+			md.addAttribute("formmode", "ModifyHoliday");
+
+		} else if (formmode.equals("listholiday")) {
+			md.addAttribute("formmode", "listholiday");
+			md.addAttribute("Listofvalues", holidayMaster_Rep.getlistofHoliday());
+
+		} else if (formmode.equals("viewrecord")) {
+
+			md.addAttribute("formmode", "viewrecord");
+			md.addAttribute("singlerecord", holidayMaster_Rep.getsinglevalue(record_srl));
+		}
+		return "TransactionMigrat";
+	}
 }
