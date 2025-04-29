@@ -47,6 +47,39 @@
 
 
 
+<style>
+table {
+	width: 100%;
+	table-layout: auto;
+	border-collapse: collapse;
+}
+
+table th, table td {
+	white-space: nowrap;
+	padding: 8px 12px;
+	border: 1px solid #ccc;
+}
+
+#placelist1 {
+	width: auto;
+}
+
+#placelist2 {
+	width: auto;
+}
+
+#placelist3 {
+	width: auto;
+}
+
+#placelist4 {
+	width: auto;
+}
+
+.table-container {
+	overflow-x: auto;
+}
+</style>
 
 <style>
 body {
@@ -604,11 +637,472 @@ input:hover+.password-info {
         }
     }
 </script>
+<!-- jQuery Datepicker Setup -->
+<script>
+  $(function () {
+    $("#currentvalue").datepicker({
+      dateFormat: "dd-mm-yy", // Date format for the UI
+      changeMonth: true,
+      changeYear: true,
+      onSelect: function () {
+        sendSelectedDate();  // Automatically call AJAX when date is selected
+      }
+    });
+  });
+</script>
+
+<!-- AJAX Function to send selected date -->
+<script>
+function sendSelectedDate() {
+    var selectedDate = $("#currentvalue").val();
+    if (!selectedDate) {
+        alert("Please select a date.");
+        return;
+    }
+
+    var dateParts = selectedDate.split('-');
+    var formattedDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
+
+    $.ajax({
+        url: './getBranchData',
+        type: 'GET',
+        data: { currentDate: formattedDate },
+        success: function (response) {
+            var rows = "";
+
+            for (var i = 0; i < response.length; i++) {
+                var data = response[i];
+
+                var formattedCreationDate = '';
+                if (data.creation_date) {
+                    var rawDate = new Date(data.creation_date);
+                    var day = String(rawDate.getDate()).padStart(2, '0');
+                    var month = String(rawDate.getMonth() + 1).padStart(2, '0');
+                    var year = rawDate.getFullYear();
+                    formattedCreationDate = day + '-' + month + '-' + year;
+                }
+
+                var loanAmountFormatted = '';
+                if (data.loan_amount && !isNaN(data.loan_amount)) {
+                    loanAmountFormatted = parseFloat(data.loan_amount).toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
+
+                rows += "<tr>";
+                rows += "<td>" + (i + 1) + "</td>";
+                rows += "<td>1</td>"; // flow_id = 1
+                rows += "<td>" + formattedCreationDate + "</td>";
+                rows += "<td title='DISRB'>DISRB</td>"; // flow_code = 'DISRB'
+                rows += "<td style='text-align:right;'>" + loanAmountFormatted + "</td>";
+                rows += "<td>" + (data.id || '') + "</td>";
+                rows += "<td>" + (data.loan_name || '') + "</td>";
+                rows += "</tr>";
+            }
+
+            $('#placelist1').html(rows);
+        },
+        error: function () {
+            alert("Failed to fetch data.");
+        }
+    });
+    
+    $.ajax({
+        url: './getBranchData1',
+        type: 'GET',
+        data: { currentDate: formattedDate },
+        success: function (response) {
+            var rows = "";
+
+            // Loop through the response data
+            for (var i = 0; i < response.length; i++) {
+                var data = response[i];
+
+                // Format the due date correctly
+                var formattedCreationDate = '';
+                if (data[2]) {  // Assuming data[2] contains the due date
+                    var rawDate = new Date(data[2]);
+                    var day = String(rawDate.getDate()).padStart(2, '0');
+                    var month = String(rawDate.getMonth() + 1).padStart(2, '0');
+                    var year = rawDate.getFullYear();
+                    formattedCreationDate = day + '-' + month + '-' + year;
+                }
+
+                // Format the loan amount correctly
+                var loanAmountFormatted = '';
+                if (data[10] && !isNaN(data[10])) {  // Assuming data[10] contains the loan amount
+                    loanAmountFormatted = parseFloat(data[10]).toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
+
+                // Build the rows for the table
+                rows += "<tr>";
+                rows += "<td style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;'>" + (i + 1) + "</td>";
+                rows += "<td style='white-space:nowrap;'>1</td>"; // flow_id = 1
+                rows += "<td style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;'>" + formattedCreationDate + "</td>";
+                rows += "<td title='INDEM' style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;'>INDEM</td>";
+                rows += "<td style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;text-align:right;'>" + loanAmountFormatted + "</td>";
+                rows += "<td style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;'>" + (data[21] || '') + "</td>";  // Assuming data[21] is another field
+                rows += "<td style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;'>" + (data[22] || '') + "</td>";  // Assuming data[22] is another field
+                rows += "</tr>";
+            }
+
+            // Insert the generated rows into the table
+            $('#placelist4').html(rows);
+        },
+        error: function () {
+            alert("Failed to fetch data.");
+        }
+    });
+    
+    $.ajax({
+        url: './getBranchData1',
+        type: 'GET',
+        data: { currentDate: formattedDate },
+        success: function (response) {
+            var rows = "";
+            var serialNo = 1; // Start serial number from 1
+
+            for (var i = 0; i < response.length; i++) {
+                var data = response[i];
+
+                // Format the flow date
+                var formattedCreationDate = '';
+                if (data[2]) {
+                    var rawDate = new Date(data[2]);
+                    var day = String(rawDate.getDate()).padStart(2, '0');
+                    var month = String(rawDate.getMonth() + 1).padStart(2, '0');
+                    var year = rawDate.getFullYear();
+                    formattedCreationDate = day + '-' + month + '-' + year;
+                }
+
+                // Format INDEM amount
+                var interestDueFormatted = '';
+                if (data[10] && !isNaN(data[10])) {
+                    interestDueFormatted = parseFloat(data[10]).toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
+
+                // Format FEEDM amount
+                var feeDueFormatted = '';
+                if (data[13] && !isNaN(data[13])) {
+                    feeDueFormatted = parseFloat(data[13]).toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
+
+                // INDEM row
+                rows += "<tr>";
+                rows += "<td style='white-space:nowrap;'>" + (serialNo++) + "</td>";
+                rows += "<td style='white-space:nowrap;'>1</td>";
+                rows += "<td style='white-space:nowrap;'>" + formattedCreationDate + "</td>";
+                rows += "<td style='white-space:nowrap;' title='INDEM'>INDEM</td>";
+                rows += "<td style='white-space:nowrap;text-align:right;'>" + interestDueFormatted + "</td>";
+                rows += "<td style='white-space:nowrap;'>" + (data[21] || '') + "</td>";
+                rows += "<td style='white-space:nowrap;'>" + (data[22] || '') + "</td>";
+                rows += "</tr>";
+
+                // FEEDM row
+                rows += "<tr>";
+                rows += "<td style='white-space:nowrap;'>" + (serialNo++) + "</td>";
+                rows += "<td style='white-space:nowrap;'>2</td>";
+                rows += "<td style='white-space:nowrap;'>" + formattedCreationDate + "</td>";
+                rows += "<td style='white-space:nowrap;' title='FEEDM'>FEEDM</td>";
+                rows += "<td style='white-space:nowrap;text-align:right;'>" + feeDueFormatted + "</td>";
+                rows += "<td style='white-space:nowrap;'>" + (data[21] || '') + "</td>";
+                rows += "<td style='white-space:nowrap;'>" + (data[22] || '') + "</td>";
+                rows += "</tr>";
+            }
+
+            $('#placelist2').html(rows);
+        },
+        error: function () {
+            alert("Failed to fetch data.");
+        }
+    });
+
+
+    $.ajax({
+        url: './getBranchData1',
+        type: 'GET',
+        data: { currentDate: formattedDate },
+        success: function (response) {
+            var rows = "";
+            var serialNo = 1; // Initialize serial number
+
+            for (var i = 0; i < response.length; i++) {
+                var data = response[i];
+
+                // Format the due date
+                var formattedCreationDate = '';
+                if (data[2]) {
+                    var rawDate = new Date(data[2]);
+                    var day = String(rawDate.getDate()).padStart(2, '0');
+                    var month = String(rawDate.getMonth() + 1).padStart(2, '0');
+                    var year = rawDate.getFullYear();
+                    formattedCreationDate = day + '-' + month + '-' + year;
+                }
+
+                // Format PRDEM (principal due)
+                var principleDueFormatted = '';
+                if (data[7] && !isNaN(data[7])) {
+                    principleDueFormatted = parseFloat(data[7]).toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
+
+                // Format INDEM (interest due)
+                var interestDueFormatted = '';
+                if (data[10] && !isNaN(data[10])) {
+                    interestDueFormatted = parseFloat(data[10]).toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
+
+                // Format FEEDM (fee due)
+                var feeDueFormatted = '';
+                if (data[13] && !isNaN(data[13])) {
+                    feeDueFormatted = parseFloat(data[13]).toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
+
+                // INDEM row (flow_id = 1)
+                rows += "<tr>";
+                rows += "<td style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;'>" + (serialNo++) + "</td>";
+                rows += "<td style='white-space:nowrap;'>1</td>";
+                rows += "<td style='white-space:nowrap;'>" + formattedCreationDate + "</td>";
+                rows += "<td title='INDEM' style='white-space:nowrap;'>INDEM</td>";
+                rows += "<td style='white-space:nowrap;text-align:right;'>" + interestDueFormatted + "</td>";
+                rows += "<td style='white-space:nowrap;'>" + (data[21] || '') + "</td>";
+                rows += "<td style='white-space:nowrap;'>" + (data[22] || '') + "</td>";
+                rows += "</tr>";
+
+                // FEEDM row (flow_id = 2)
+                rows += "<tr>";
+                rows += "<td style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;'>" + (serialNo++) + "</td>";
+                rows += "<td style='white-space:nowrap;'>2</td>";
+                rows += "<td style='white-space:nowrap;'>" + formattedCreationDate + "</td>";
+                rows += "<td title='FEEDM' style='white-space:nowrap;'>FEEDM</td>";
+                rows += "<td style='white-space:nowrap;text-align:right;'>" + feeDueFormatted + "</td>";
+                rows += "<td style='white-space:nowrap;'>" + (data[21] || '') + "</td>";
+                rows += "<td style='white-space:nowrap;'>" + (data[22] || '') + "</td>";
+                rows += "</tr>";
+
+                // PRDEM row (flow_id = 3)
+                rows += "<tr>";
+                rows += "<td style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;'>" + (serialNo++) + "</td>";
+                rows += "<td style='white-space:nowrap;'>3</td>";
+                rows += "<td style='white-space:nowrap;'>" + formattedCreationDate + "</td>";
+                rows += "<td title='PRDEM' style='white-space:nowrap;'>PRDEM</td>";
+                rows += "<td style='white-space:nowrap;text-align:right;'>" + principleDueFormatted + "</td>";
+                rows += "<td style='white-space:nowrap;'>" + (data[21] || '') + "</td>";
+                rows += "<td style='white-space:nowrap;'>" + (data[22] || '') + "</td>";
+                rows += "</tr>";
+            }
+
+            $('#placelist3').html(rows);
+        },
+        error: function () {
+            alert("Failed to fetch data.");
+        }
+    });
+
+}
+
+function disbursementsubmit() {
+    var tableData = [];
+
+    // Collect data from the table
+    $('#placelist1 tr').each(function () {
+        var row = $(this).find('td');
+
+        var rowData = {
+            srl_no: $(row[0]).text().trim(),
+            flow_id: $(row[1]).text().trim(),
+            flow_date: $(row[2]).text().trim(),
+            flow_code: $(row[3]).text().trim(),
+            flow_amount: $(row[4]).text().trim().replace(/,/g, ''), // remove comma
+            account_number: $(row[5]).text().trim(),
+            account_name: $(row[6]).text().trim()
+        };
+
+        tableData.push(rowData);
+    });
+
+    // Show the file uploading popup
+    $('#alertmsg121').text('File Uploading...');
+    $('#alert121').modal('show');
+
+    // Inline AJAX with File Uploading message
+    $.ajax({
+        url: './saveBranchData',  // Your controller endpoint
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(tableData),
+        success: function (response) {
+         
+            // Show the success popup with the database response
+            $('#alertmsg121').text('Data saved successfully!');
+            $('#alert121').modal('show');
+        },
+        error: function () {
+            // Hide the uploading popup first
+            $('#alert121').modal('hide');
+            
+            // Show error message in the popup
+            $('#alertmsg121').text('Failed to save data.');
+            $('#alert121').modal('show');
+        }
+    });
+}
+
+function bookingsubmit() {
+    var tableData = [];
+
+    // Collect data from the table
+    $('#placelist4 tr').each(function () {
+        var row = $(this).find('td');
+
+        var rowData = {
+            srl_no: $(row[0]).text().trim(),
+            flow_id: $(row[1]).text().trim(),
+            flow_date: $(row[2]).text().trim(),
+            flow_code: $(row[3]).text().trim(),
+            flow_amount: $(row[4]).text().trim().replace(/,/g, ''), // remove comma
+            account_number: $(row[5]).text().trim(),
+            account_name: $(row[6]).text().trim()
+        };
+
+        tableData.push(rowData);
+    });
+
+    // Show the file uploading popup
+    $('#alertmsg121').text('File Uploading...');
+    $('#alert121').modal('show');
+
+    // Inline AJAX with File Uploading message
+    $.ajax({
+        url: './saveBranchData1',  // Your controller endpoint
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(tableData),
+        success: function (response) {
+         
+            // Show the success popup with the database response
+            $('#alertmsg121').text('Data saved successfully!');
+            $('#alert121').modal('show');
+        },
+        error: function () {
+            // Hide the uploading popup first
+            $('#alert121').modal('hide');
+            
+            // Show error message in the popup
+            $('#alertmsg121').text('Failed to save data.');
+            $('#alert121').modal('show');
+        }
+    });
+}
+
+function interestsubmit() {
+    var tableData = [];
+
+    $('#placelist2 tr').each(function () {
+        var row = $(this).find('td');
+        if (row.length > 0) {
+            var rowData = {
+                srl_no: $(row[0]).text().trim(),
+                flow_id: $(row[1]).text().trim(),
+                flow_date: $(row[2]).text().trim(),
+                flow_code: $(row[3]).text().trim(),
+                flow_amount: $(row[4]).text().trim().replace(/,/g, ''),
+                account_number: $(row[5]).text().trim(),
+                account_name: $(row[6]).text().trim()
+            };
+            tableData.push(rowData);
+        }
+    });
+
+    if (tableData.length === 0) {
+        alert("No data to submit.");
+        return;
+    }
+
+    $('#alertmsg121').text('File Uploading...');
+    $('#alert121').modal('show');
+
+    $.ajax({
+        url: './saveBranchData2',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(tableData),
+        success: function (response) {
+            $('#alertmsg121').text('Data saved successfully!');
+            $('#alert121').modal('show');
+        },
+        error: function () {
+            $('#alert121').modal('hide');
+            $('#alertmsg121').text('Failed to save data.');
+            $('#alert121').modal('show');
+        }
+    });
+}
+
+function recoverysubmit() {
+    var tableData = [];
+
+    $('#placelist3 tr').each(function () {
+        var row = $(this).find('td');
+        if (row.length > 0) {
+            var rowData = {
+                srl_no: $(row[0]).text().trim(),
+                flow_id: $(row[1]).text().trim(),
+                flow_date: $(row[2]).text().trim(),
+                flow_code: $(row[3]).text().trim(),
+                flow_amount: $(row[4]).text().trim().replace(/,/g, ''),
+                account_number: $(row[5]).text().trim(),
+                account_name: $(row[6]).text().trim()
+            };
+            tableData.push(rowData);
+        }
+    });
+
+    if (tableData.length === 0) {
+        alert("No data to submit.");
+        return;
+    }
+
+    $('#alertmsg121').text('File Uploading...');
+    $('#alert121').modal('show');
+
+    $.ajax({
+        url: './saveBranchData3',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(tableData),
+        success: function (response) {
+            $('#alertmsg121').text('Data saved successfully!');
+            $('#alert121').modal('show');
+        },
+        error: function () {
+            $('#alert121').modal('hide');
+            $('#alertmsg121').text('Failed to save data.');
+            $('#alert121').modal('show');
+        }
+    });
+}
+</script>
 </head>
-
-
 <body>
-
 	<div class="col-sm-2">
 		<div th:insert="BGLSHeaderMenu :: header"></div>
 	</div>
@@ -630,512 +1124,180 @@ input:hover+.password-info {
 				<div th:if="${formmode}=='add'">
 					<div class="card ">
 
-						<div class="card-header d-flex justify-content-between align-items-center"
-     style="background-color: #e9ecef; height: 50px;">
-     
-    <!-- Left side -->
-    <div>
-        <h6 style="font-size: 1.2rem; color: black; margin: 0;">TRANSACTION</h6>
-    </div>
+						<div
+							class="card-header d-flex justify-content-between align-items-center"
+							style="background-color: #e9ecef; height: 50px;">
 
-    <!-- Right side -->
-    <div class="d-flex align-items-center">
-        <div class="pr-2 mr-2">
-            <span><b>MIGRATION DATE</b></span>
-        </div>
-        <div>
-            <input type="date" name="current" id="current"
-                   class="form-control form-control-sm bg-white border border-dark" />
-        </div>
-    </div>
-</div>
+							<!-- Left side -->
+							<div>
+								<h6 style="font-size: 1.2rem; color: black; margin: 0;">TRANSACTION</h6>
+							</div>
 
+							<!-- Right side -->
+							<div class="d-flex align-items-center">
+								<div class="pr-2 mr-2">
+									<span><b>MIGRATION DATE</b></span>
+								</div>
+								<div>
+									<input type="text" name="current" id="currentvalue"
+										class="form-control form-control-sm bg-white border border-dark"
+										placeholder="dd-mm-yyyy" autocomplete="off" />
+								</div>
+							</div>
+						</div>
 
 						<div class="tab mt-2"
 							style="padding: 4px 4px; position: relative; display: flex; justify-content: space-around; margin-top: 10px; width: 100%; height: 43px">
 							<button class="tablinks" onclick="openTab(event, 'tab1')"
 								style="font-size: 16px; padding: 4px 8px; height: 32px;">Disbursement</button>
+							<button class="tablinks" onclick="openTab(event, 'tab4')"
+								style="font-size: 16px; padding: 4px 8px; height: 32px;">Booking
+								Transaction</button>
 							<button class="tablinks" onclick="openTab(event, 'tab2')"
 								style="font-size: 16px; padding: 4px 8px; height: 32px;">Interest
 								Transaction</button>
-							<button class="tablinks" onclick="openTab(event, 'tabCalendar')"
-								style="font-size: 16px; padding: 4px 8px; height: 32px;">Recovery
-								Transaction</button>
 							<button class="tablinks" onclick="openTab(event, 'tab3')"
-								style="font-size: 16px; padding: 4px 8px; height: 32px;">Booking
+								style="font-size: 16px; padding: 4px 8px; height: 32px;">Recovery
 								Transaction</button>
 						</div>
 
 						<div id="tab1" class="tabcontent" style="display: block">
 							<div class="card-body">
-								<form class=" border border-secondary" action="#" method="post"
-									id="assosiateForm" autocomplete="off">
-									<div class="row formline" style="padding: 10px 0px 2px 0px;">
+								<!-- Scrollable table container -->
+								<div class="table-wrapper"
+									style="max-height: 340px; overflow-y: auto; display: block; border: 1px solid #ccc;">
+									<table class="table table-bordered table-hover table-sm"
+										style="margin-bottom: 0px; font-size: initial; width: 100%; table-layout: fixed;">
+										<thead class="thead-light"
+											style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 1;">
+											<tr>
+												<th style="width: 9%">SRL NO</th>
+												<th style="width: 9%">FLOW ID</th>
+												<th style="width: 12%">FLOW DATE</th>
+												<th style="width: 12%">FLOW CODE</th>
+												<th style="width: 12%; text-align: center;">FLOW AMOUNT</th>
+												<th style="width: 23%">ACCOUNT NUMBER</th>
+												<th style="width: 23%">ACCOUNT NAME</th>
+											</tr>
+										</thead>
+										<tbody id="placelist1">
 
-
-										<div class="col-sm-1"></div>
-										<div class="col-sm-2">Organization Name</div>
-
-
-										<div class="col-sm-2">
-											<input type="text" name="" id=""
-												th:value="${organization?.org_name}" readonly
-												class="form-control form-control-sm bg-white border border-dark" />
-
-										</div>
-
-										<div class="col-sm-1"></div>
-										<div class="col-sm-2">Organization Type</div>
-										<div class="col-sm-2">
-											<input type="text" name="" id=""
-												th:value="${organization?.org_type}" readonly
-												class="form-control form-control-sm bg-white border border-dark" />
-										</div>
-									</div>
-
-									<div class="row formline" style="padding: 0px 0px 2px 0px;">
-
-
-										<div class="col-sm-1"></div>
-										<div class="col-sm-2">Date of Registration</div>
-
-
-										<div class="col-sm-2">
-											<input type="text" name="" id=""
-												th:value="${#dates.format(organization?.date_of_regn, 'dd-MM-yyyy')}"
-												readonly
-												class="form-control form-control-sm bg-white border border-dark" />
-
-										</div>
-
-										<div class="col-sm-1"></div>
-										<div class="col-sm-2">Certificate and Registration</div>
-										<div class="col-sm-2">
-
-											<input type="text" name="" id=""
-												th:value="${organization?.reg_no}" readonly
-												class="form-control form-control-sm bg-white border border-dark" />
-
-										</div>
-									</div>
-
-									<div class="row formline" style="padding: 0px 0px 2px 0px;">
-
-
-										<div class="col-sm-1"></div>
-										<div class="col-sm-2">Business Registration Card</div>
-
-
-										<div class="col-sm-2">
-											<input type="text" name="" id=""
-												th:value="${organization?.pan_card}" readonly
-												class="form-control form-control-sm bg-white border border-dark" />
-										</div>
-
-										<div class="col-sm-1"></div>
-										<div class="col-sm-2">VAT Reference</div>
-										<div class="col-sm-2">
-
-											<input type="text" name="" id=""
-												th:value="${organization?.tan_card}" readonly
-												class="form-control form-control-sm bg-white border border-dark" />
-
-
-										</div>
-									</div>
-
-									<div class="row formline" style="padding: 0px 0px 2px 0px;">
-
-
-										<div class="col-sm-1"></div>
-										<div class="col-sm-2">No of Employees</div>
-
-
-										<div class="col-sm-2">
-											<input type="text" name="" id=""
-												th:value="${organization?.no_of_emp}" readonly
-												class="form-control form-control-sm bg-white border border-dark" />
-
-										</div>
-
-										<div class="col-sm-1"></div>
-										<div class="col-sm-2">As On</div>
-										<div class="col-sm-2">
-
-											<input type="text" name="" id=""
-												th:value="${#dates.format(organization?.as_on, 'dd-MM-yyyy')}"
-												readonly
-												class="form-control form-control-sm bg-white border border-dark" />
-
-										</div>
-									</div>
-									<div class="row formline" style="padding: 0px 0px 2px 0px;">
-
-
-										<div class="col-sm-1"></div>
-										<div class="col-sm-2">Registered Office Address 1</div>
-
-
-										<div class="col-sm-2">
-											<input type="text" name="" id=""
-												th:value="${organization?.reg_addr_1}" readonly
-												class="form-control form-control-sm bg-white border border-dark" />
-
-										</div>
-
-										<div class="col-sm-1"></div>
-										<div class="col-sm-2">Registered Office Address 2</div>
-										<div class="col-sm-2">
-
-											<input type="text" name="" id=""
-												th:value="${organization?.reg_addr_2}" readonly
-												class="form-control form-control-sm bg-white border border-dark" />
-
-										</div>
-									</div>
-
-									<div class="row formline" style="padding: 0px 0px 2px 0px;">
-
-
-										<div class="col-sm-1"></div>
-										<div class="col-sm-2">Corporate Office Address 1</div>
-
-
-										<div class="col-sm-2">
-											<input type="text" name="" id=""
-												th:value="${organization?.corp_addr_1}" readonly
-												class="form-control form-control-sm bg-white border border-dark" />
-
-										</div>
-
-										<div class="col-sm-1"></div>
-										<div class="col-sm-2">Corporate Office Address 2</div>
-										<div class="col-sm-2">
-											<input type="text" name="" id=""
-												th:value="${organization?.cor_addr_2}" readonly
-												class="form-control form-control-sm bg-white border border-dark" />
-
-
-										</div>
-									</div>
-
-									<div class="row formline" style="padding: 0px 0px 10px 0px;">
-
-
-										<div class="col-sm-1"></div>
-										<div class="col-sm-2">WebSite</div>
-
-
-										<div class="col-sm-2 ">
-											<input type="" name="" id=""
-												th:value="${organization?.web_site}" readonly
-												class="form-control form-control-sm bg-white border border-dark" />
-
-										</div>
-
-										<div class="col-sm-1 pl-3">
-											<a th:href="${organization?.web_site}" target="_blank"> <img
-												th:src="@{/images/link.png}" class="img-fluid"
-												style="max-width: 30px; max-height: 25px;" id="showmenu"
-												alt="Bornfire">
-											</a>
-										</div>
-										<div class="col-sm-2">Email</div>
-										<div class="col-sm-2">
-											<input type="text" name="" id=""
-												th:value="${organization?.email}" readonly
-												class="form-control form-control-sm bg-white border border-dark" />
-										</div>
-									</div>
-
-
-
-
-								</form>
-
+										</tbody>
+									</table>
+								</div>
 							</div>
-							<div class="card-footer text-center "
+
+							<div class="card-footer text-center"
 								style="background-color: #e9ecef">
-
-
 								<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-								<button class="btn btn-primary p-2" onclick="Modify();">Modify</button>
+								<button class="btn btn-primary p-2"
+									onclick="disbursementsubmit(this);">Proceed</button>
 								<button class="btn btn-primary p-2" onclick="Back();">Back</button>
-
 							</div>
 						</div>
+
 
 						<div id="tab2" class="tabcontent" style="display: none">
 
 							<div class="card-body">
-								<div class="card-header "
-									style="background-color: #e9ecef; HEIGHT: 50px">
+								<div class="table-wrapper"
+									style="max-height: 340px; overflow-y: auto; display: block; border: 1px solid #ccc;">
+									<table class="table table-bordered table-hover table-sm"
+										style="margin-bottom: 0px; font-size: initial; width: 100%; table-layout: fixed;">
+										<thead class="thead-light"
+											style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 1;">
+											<tr>
+												<th style="width: 9%">SRL NO</th>
+												<th style="width: 9%">FLOW ID</th>
+												<th style="width: 12%">FLOW DATE</th>
+												<th style="width: 12%">FLOW CODE</th>
+												<th style="width: 12%; text-align: center;">FLOW AMOUNT</th>
+												<th style="width: 23%">ACCOUNT NUMBER</th>
+												<th style="width: 23%">ACCOUNT NAME</th>
+											</tr>
+										</thead>
+										<tbody id="placelist2">
 
-									<div class="float-left">
-										<h6 style="font-size: 1.2rem; color: black;">LIST OF
-											BRANCHES</h6>
-									</div>
-
-									<div class="float-right">
-										<button class="btn btn-primary P-2" onclick="AddBranch();">Add</button>
-
-
-
-
-
-									</div>
-
-								</div>
-
-								<table class="table table-bordered  table-hover table-sm"
-									style="margin-bottom: 0px; font-size: initial;"
-									id="AssosiateTable">
-									<thead class="thead-light">
-
-										<tr>
-											<th>SRL NO</th>
-											<th>BRANCH CODE</th>
-											<th>BRANCH NAME</th>
-											<th>SWIFT CODE</th>
-											<th>BRANCH HEAD</th>
-											<th style="text-align: center">SELECT</th>
-										</tr>
-									</thead>
-
-									<tbody id="placelist">
-
-										<tr th:each="EmployeeData,iterator : ${OrgBranch}">
-
-											<td th:text="${iterator.index +1}"></td>
-											<td th:text="${EmployeeData.branch_code}"></td>
-											<td th:text="${EmployeeData.branch_name}"
-												th:attr="data-resource=${EmployeeData.branch_name}"
-												class="text-primary" onclick="view(this)"></td>
-											<td th:text="${EmployeeData.swift_code}"></td>
-											<td th:text="${EmployeeData.branch_head}"></td>
-
-
-											<td align="center"><input type="radio" name="" id=""
-												readonly
-												th:attr="data-resource=${EmployeeData.branch_name},
-										          data-modify_flg=${EmployeeData.modify_flg}	"
-												onclick="branchfunction(this)" /></td>
-										</tr>
-
-									</tbody>
-
-								</table>
-
-
-								<div class="card-footer text-center"
-									style="background-color: #e9ecef;">
-
-
-									<button class="btn btn-primary P-2" onclick="Home();">Home</button>
-									<button class="btn btn-primary P-2" onclick="Back();">Back</button>
-
+										</tbody>
+									</table>
 								</div>
 							</div>
-
-
-
-						</div>
-						<div id="tabCalendar" class="tabcontent" style="display: none;">
-							<div class="tab mt-2"
-								style="padding: 4px 4px; position: relative; display: flex; justify-content: space-around; margin-top: 10px; width: 100%; height: 43px">
-								<!-- Submodule Tab buttons for Calendar Maintenance -->
-								<button class="subtablinks"
-									onclick="openSubTab(event, 'tabCalendarMaster')"
-									style="font-size: 16px; padding: 4px 8px; height: 32px;">Calendar
-									Master</button>
-								<button class="subtablinks"
-									onclick="openSubTab(event, 'tabHolidayMaster')"
-									style="font-size: 16px; padding: 4px 8px; height: 32px;">Holiday
-									Master</button>
-							</div>
-
-
-							<div id="tabCalendarMaster" class="subtabcontent"
-								style="display: block;">
-								<div class="card-body">
-									<form class=" border border-secondary " action="#"
-										method="post" id="assosiateForm" autocomplete="off">
-										<div style="width: 1000px; margin-left: 400px">
-											<div class="row formline" style="padding: 10px 0px 2px 0px;">
-												<div class="col-sm-1"></div>
-												<div class="col-sm-2">Organization Name</div>
-												<div class="col-sm-1"></div>
-												<div class="col-sm-2">
-													<input type="text" name="" id="" readonly
-														style="width: 200px"
-														class="form-control form-control-sm bg-white border border-dark"
-														value='ABSA BANK LTD' />
-
-												</div>
-											</div>
-											<div class="row formline" style="padding: 0px 0px 2px 0px;">
-												<div class="col-sm-1"></div>
-												<div class="col-sm-2">Time Zone</div>
-												<div class="col-sm-1"></div>
-												<div class="col-sm-2">
-													<input type="text" name="" id="" style="width: 200px"
-														value="SCT (GMT+4)" readonly
-														class="form-control form-control-sm bg-white border border-dark" />
-												</div>
-											</div>
-											<div class="row formline" style="padding: 0px 0px 2px 0px;">
-												<div class="col-sm-1"></div>
-												<div class="col-sm-2">Working Hours</div>
-												<div class="col-sm-1"></div>
-
-												<!-- Start and End Times in Single col-sm-2 -->
-												<div class="col-sm-2 d-flex align-items-center">
-													<input type="text" name="startTime" id="startTime"
-														style="width: 100px" value="8:00 AM" readonly
-														class="form-control form-control-sm bg-white border border-dark me-1" />
-													<input type="text" name="endTime" id="endTime"
-														style="width: 100px" value="5:00 PM" readonly
-														class="form-control form-control-sm bg-white border border-dark ms-1" />
-												</div>
-											</div>
-											<div class="row formline" style="padding: 0px 0px 2px 0px;">
-												<div class="col-sm-1"></div>
-												<div class="col-sm-2">Weekly Holiday</div>
-												<div class="col-sm-1"></div>
-												<div class="col-sm-2">
-													<input type="text" name="" id="" style="width: 200px"
-														readonly
-														class="form-control form-control-sm bg-white border border-dark" />
-												</div>
-
-											</div>
-
-											<div class="row formline" style="padding: 0px 0px 10px 0px;">
-												<div class="col-sm-1"></div>
-												<div class="col-sm-2">Remarks</div>
-												<div class="col-sm-1"></div>
-												<div class="col-sm-2">
-													<input type="text" name="" id="" style="width: 200px"
-														readonly
-														class="form-control form-control-sm bg-white border border-dark" />
-												</div>
-
-											</div>
-										</div>
-									</form>
-								</div>
-								<div class="card-footer text-center "
-									style="background-color: #e9ecef">
-									<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-									<button class="btn btn-primary p-2" onclick="Modify();">Modify</button>
-									<button class="btn btn-primary p-2" onclick="Back();">Back</button>
-								</div>
-							</div>
-
-							<div id="tabHolidayMaster" class="subtabcontent"
-								style="display: none;">
-								<div class="card-body">
-									<form class=" border border-secondary" action="#" method="post"
-										id="assosiateForm" autocomplete="off">
-										<div class="row formline" style="padding: 10px 0px 2px 0px;">
-
-
-											<div class="col-sm-1"></div>
-											<div class="col-sm-2">Organization</div>
-											<div class="col-sm-2">
-												<input type="text" name="" id="" readonly
-													class="form-control form-control-sm bg-white border border-dark" />
-
-											</div>
-											<div class="col-sm-1"></div>
-											<div class="col-sm-2">Location</div>
-											<div class="col-sm-2">
-												<input type="text" name="" id="" readonly
-													class="form-control form-control-sm bg-white border border-dark" />
-											</div>
-										</div>
-
-										<div class="row formline" style="padding: 0px 0px 2px 0px;">
-											<div class="col-sm-1"></div>
-											<div class="col-sm-2">Calendar Year</div>
-											<div class="col-sm-2">
-												<input type="text" name="" id="" readonly
-													class="form-control form-control-sm bg-white border border-dark" />
-											</div>
-											<div class="col-sm-1"></div>
-											<div class="col-sm-2">Month</div>
-											<div class="col-sm-2">
-												<input type="text" name="" id="" readonly
-													class="form-control form-control-sm bg-white border border-dark" />
-											</div>
-										</div>
-
-										<div class="row formline" style="padding: 0px 0px 2px 0px;">
-											<div class="col-sm-1"></div>
-											<div class="col-sm-2">Record No</div>
-											<div class="col-sm-2">
-												<input type="text" name="" id="" readonly
-													class="form-control form-control-sm bg-white border border-dark" />
-											</div>
-											<div class="col-sm-1"></div>
-											<div class="col-sm-2">Date</div>
-											<div class="col-sm-2">
-												<input type="text" name="" id="" readonly
-													class="form-control form-control-sm bg-white border border-dark" />
-											</div>
-										</div>
-
-										<div class="row formline" style="padding: 0px 0px 2px 0px;">
-											<div class="col-sm-1"></div>
-											<div class="col-sm-2">Description</div>
-											<div class="col-sm-2">
-												<input type="text" name="" id="" readonly
-													class="form-control form-control-sm bg-white border border-dark" />
-
-											</div>
-											<div class="col-sm-1"></div>
-											<div class="col-sm-2">Remarks</div>
-											<div class="col-sm-2">
-												<input type="text" name="" id="" readonly
-													class="form-control form-control-sm bg-white border border-dark" />
-
-											</div>
-										</div>
-										<div class="row formline" style="padding: 0px 0px 2px 0px;">
-											<div class="col-sm-1"></div>
-											<div class="col-sm-2">Holiday Flag</div>
-											<div class="col-sm-2">
-												<input type="text" name="" id="" readonly
-													class="form-control form-control-sm bg-white border border-dark" />
-
-											</div>
-											<div class="col-sm-1"></div>
-											<div class="col-sm-2">Record Status</div>
-											<div class="col-sm-2">
-
-												<input type="text" name="" id="" readonly
-													class="form-control form-control-sm bg-white border border-dark" />
-
-											</div>
-										</div>
-
-									</form>
-
-								</div>
-								<div class="card-footer text-center "
-									style="background-color: #e9ecef">
-
-
-									<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-									<button class="btn btn-primary p-2" onclick="addHoliday()">Add</button>
-									<button class="btn btn-primary p-2" onclick="UploadHoliday()">Upload</button>
-									<button class="btn btn-primary p-2" onclick="ModifyHoliday();">Modify</button>
-									<button class="btn btn-primary p-2" onclick="ListHoliday()">List</button>
-									<button class="btn btn-primary p-2" onclick="Back();">Back</button>
-
-								</div>
+							<div class="card-footer text-center"
+								style="background-color: #e9ecef;">
+								<button class="btn btn-primary P-2" onclick="Home();">Home</button>
+								<button class="btn btn-primary p-2"
+									onclick="interestsubmit(this);">Proceed</button>
+								<button class="btn btn-primary P-2" onclick="Back();">Back</button>
 							</div>
 						</div>
+
+						<div id="tab3" class="tabcontent" style="display: none;">
+							<div class="card-body">
+								<div class="table-wrapper"
+									style="max-height: 340px; overflow-y: auto; display: block; border: 1px solid #ccc;">
+									<table class="table table-bordered table-hover table-sm"
+										style="margin-bottom: 0px; font-size: initial; width: 100%; table-layout: fixed;">
+										<thead class="thead-light"
+											style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 1;">
+											<tr>
+												<th style="width: 9%">SRL NO</th>
+												<th style="width: 9%">FLOW ID</th>
+												<th style="width: 12%">FLOW DATE</th>
+												<th style="width: 12%">FLOW CODE</th>
+												<th style="width: 12%; text-align: center;">FLOW AMOUNT</th>
+												<th style="width: 23%">ACCOUNT NUMBER</th>
+												<th style="width: 23%">ACCOUNT NAME</th>
+											</tr>
+										</thead>
+
+										<tbody id="placelist3">
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="card-footer text-center"
+								style="background-color: #e9ecef;">
+								<button class="btn btn-primary P-2" onclick="Home();">Home</button>
+								<button class="btn btn-primary p-2"
+									onclick="recoverysubmit(this);">Proceed</button>
+								<button class="btn btn-primary P-2" onclick="Back();">Back</button>
+							</div>
+						</div>
+
+						<div id="tab4" class="tabcontent" style="display: none;">
+							<div class="card-body">
+								<div class="table-wrapper"
+									style="max-height: 340px; overflow-y: auto; display: block; border: 1px solid #ccc;">
+									<table class="table table-bordered table-hover table-sm"
+										style="margin-bottom: 0px; font-size: initial; width: 100%; table-layout: fixed;">
+										<thead class="thead-light"
+											style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 1;">
+											<tr>
+												<th style="width: 9%">SRL NO</th>
+												<th style="width: 9%">FLOW ID</th>
+												<th style="width: 12%">FLOW DATE</th>
+												<th style="width: 12%">FLOW CODE</th>
+												<th style="width: 12%; text-align: center;">FLOW AMOUNT</th>
+												<th style="width: 23%">ACCOUNT NUMBER</th>
+												<th style="width: 23%">ACCOUNT NAME</th>
+											</tr>
+										</thead>
+										<tbody id="placelist4">
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="card-footer text-center"
+								style="background-color: #e9ecef;">
+								<button class="btn btn-primary P-2" onclick="Home();">Home</button>
+								<button class="btn btn-primary p-2"
+									onclick="bookingsubmit(this);">Proceed</button>
+								<button class="btn btn-primary P-2" onclick="Back();">Back</button>
+							</div>
+						</div>
+
 					</div>
 				</div>
 				<!-- ---------------------------------------------------------------------------------------------------------------- -->
@@ -2871,6 +3033,22 @@ input:hover+.password-info {
 			</div>
 		</div>
 	</div>
+
+	<!-- Modal structure -->
+	<div class="modal fade" data-backdrop="false" data-keyboard="false"
+		id="alert121" tabindex="-1" role="dialog" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center;">
+					<h6 id="alertmsg121"></h6>
+					<button type="button" class="btn btn-primary"
+						onclick="$('#alert121').modal('hide')">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<script>
         document.addEventListener("DOMContentLoaded", function() {
             // Get the input field

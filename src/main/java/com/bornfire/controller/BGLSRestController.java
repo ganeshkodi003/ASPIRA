@@ -2716,7 +2716,7 @@ public class BGLSRestController {
 	public List<LOAN_ACT_MST_ENTITY> NotApprovedLoanMain() {
 		return lOAN_ACT_MST_REPO.getLoanActFilterUnverified();
 	}
-	
+
 	@GetMapping("ApprovedLoanMain")
 	public List<LOAN_ACT_MST_ENTITY> ApprovedLoanMain() {
 		return lOAN_ACT_MST_REPO.getLoanActFilterVerified();
@@ -5455,14 +5455,16 @@ public class BGLSRestController {
 	@GetMapping("getAccDet")
 	public List<Object[]> getAccDet(@RequestParam(required = false) String id) {
 		System.out.println(id);
-		
+
 		System.out.println(clientMasterRepo.getAccDet(id));
 		return clientMasterRepo.getAccDet(id);
 	}
+
 	@GetMapping("NotApprovedCust")
 	public List<CLIENT_MASTER_ENTITY> NotApprovedCust() {
 		return clientMasterRepo.getLoanActFilterUnverified();
 	}
+
 	@GetMapping("ApprovedCust")
 	public List<CLIENT_MASTER_ENTITY> ApprovedCust() {
 		return clientMasterRepo.getLoanActFilterVerified();
@@ -6537,7 +6539,7 @@ public class BGLSRestController {
 				: tranDateObj.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		Date Transaction_date = Date.from(tranDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		System.out.println("THE GETTING TRANSACTION DATE IS " + Transaction_date);
-		
+
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
 		for (Map<String, String> transaction : transactions) {
@@ -7726,4 +7728,716 @@ public class BGLSRestController {
 	private LocalDateTime convertToLocalDateTime(Date date) {
 		return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 	}
+
+	@RequestMapping(value = "/getBranchData", method = RequestMethod.GET)
+	@ResponseBody
+	public List<LOAN_ACT_MST_ENTITY> getBranchData(
+			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date currentDate) {
+
+		if (currentDate != null) {
+			// Convert java.util.Date to java.sql.Date (removes time part)
+			java.sql.Date sqlDate = new java.sql.Date(currentDate.getTime());
+			System.out.println("Formatted SQL Date for DB: " + sqlDate); // 2025-04-24
+			return lOAN_ACT_MST_REPO.getLoanActDetval(sqlDate);
+		} else {
+			System.out.println("No date provided.");
+			return new ArrayList<>();
+		}
+	}
+
+	@RequestMapping(value = "/getBranchData1", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object[]> getBranchData1(
+			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date currentDate) {
+
+		if (currentDate != null) {
+			// Convert to SQL date to remove time
+			java.sql.Date sqlDate = new java.sql.Date(currentDate.getTime());
+			System.out.println("Formatted SQL Date for DB: " + sqlDate);
+
+			// Get loan account data
+			List<LOAN_ACT_MST_ENTITY> loanActList = lOAN_ACT_MST_REPO.getLoanActDetval(sqlDate);
+
+			// Create list of encoded keys
+			List<String> encodedKeyList = new ArrayList<>();
+			for (LOAN_ACT_MST_ENTITY entity : loanActList) {
+				if (entity.getEncoded_key() != null) {
+					System.out.println("Encoded Key: " + entity.getEncoded_key());
+					encodedKeyList.add(entity.getEncoded_key());
+				}
+			}
+
+			// If keys are found, fetch repayment data
+			if (!encodedKeyList.isEmpty()) {
+				List<Object[]> repaymentList = lOAN_REPAYMENT_REPO
+						.findByParentAccountKeyInAndDueDateLessThanEqual(encodedKeyList, sqlDate);
+
+				// Log result
+				System.out.println("Repayment Size: " + repaymentList.size());
+				return repaymentList;
+			} else {
+				System.out.println("No Encoded Keys Found.");
+				return new ArrayList<>();
+			}
+		} else {
+			System.out.println("No date provided.");
+			return new ArrayList<>();
+		}
+	}
+
+	@PostMapping("/saveBranchData")
+	public ResponseEntity<String> saveBranchData(@RequestBody List<Map<String, Object>> branchDataList,
+			HttpServletRequest rq) {
+		if (branchDataList != null && !branchDataList.isEmpty()) {
+			// Iterating over all rows (branchDataList)
+			for (Map<String, Object> data : branchDataList) {
+				/*
+				 * // Logging the incoming data for each row
+				 * System.out.println("Received Data:"); System.out.println("SRL No: " +
+				 * data.get("srl_no")); System.out.println("Flow ID: " + data.get("flow_id"));
+				 * System.out.println("Flow Date: " + data.get("flow_date"));
+				 * System.out.println("Flow Code: " + data.get("flow_code"));
+				 * System.out.println("Flow Amount: " + data.get("flow_amount"));
+				 * System.out.println("Account Number: " + data.get("account_number"));
+				 * System.out.println("Account Name: " + data.get("account_name"));
+				 */
+				// Extract user from session
+				String user = (String) rq.getSession().getAttribute("USERID");
+
+				// Convert values to correct data types
+				String flowDateStr = (String) data.get("flow_date");
+				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); // Adjusted format to dd-MM-yyyy
+				Date flowDate = null;
+				try {
+					flowDate = sdf.parse(flowDateStr); // Parsing the flowDateStr with the given format
+				} catch (Exception e) {
+					e.printStackTrace(); // Log exception
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid date format.");
+				}
+
+				BigDecimal flowAmount = new BigDecimal((String) data.get("flow_amount").toString().replace(",", ""));
+				String flowCode = (String) data.get("flow_code");
+				String accountNumber = (String) data.get("account_number");
+
+				// Example of creating a UUID or TranId
+				String tranId = "TR" + tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID1();
+
+				// Assuming these BigDecimal values for part transaction IDs
+				BigDecimal partTranId1 = BigDecimal.valueOf(1);
+				BigDecimal partTranId2 = BigDecimal.valueOf(2);
+
+				// Fetch loan details
+				LOAN_ACT_MST_ENTITY loanDetails = lOAN_ACT_MST_REPO.getLoanView(accountNumber);
+
+				// Setting tranParticulars to "Loan Disbursement"
+				String tranParticulars = "Loan Disbursement";
+
+				// First Transaction - Customer Loan Account DEBIT
+				TRAN_MAIN_TRM_WRK_ENTITY debitTrm = new TRAN_MAIN_TRM_WRK_ENTITY();
+				debitTrm.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
+				debitTrm.setTran_id(tranId);
+				debitTrm.setPart_tran_id(partTranId1);
+				debitTrm.setAcct_num(loanDetails.getId());
+				debitTrm.setAcct_name(loanDetails.getLoan_name());
+				debitTrm.setTran_type("TRANSFER");
+				debitTrm.setPart_tran_type("Debit");
+				debitTrm.setAcct_crncy(loanDetails.getCurrency_code());
+				debitTrm.setTran_amt(flowAmount); // Use the flowAmount for debit
+				debitTrm.setTran_particular(loanDetails.getId() + " " + tranParticulars); // Setting loan disbursement
+				debitTrm.setTran_remarks(loanDetails.getId() + " " + tranParticulars); // Setting loan disbursement
+				debitTrm.setTran_date(flowDate); // Set the flow date
+				debitTrm.setValue_date(flowDate); // Set the value date
+				debitTrm.setFlow_code(flowCode);
+				debitTrm.setFlow_date(flowDate);
+				debitTrm.setTran_status("POSTED");
+				debitTrm.setEntry_user(user);
+				debitTrm.setEntry_time(flowDate);
+				debitTrm.setDel_flg("N");
+				tRAN_MAIN_TRM_WRK_REP.save(debitTrm);
+
+				// Second Transaction - Office Loan Interest Account CREDIT
+				Chart_Acc_Entity leaseDebit = chart_Acc_Rep.getaedit("2700002750");
+
+				TRAN_MAIN_TRM_WRK_ENTITY creditTrm = new TRAN_MAIN_TRM_WRK_ENTITY();
+				creditTrm.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
+				creditTrm.setTran_id(tranId);
+				creditTrm.setPart_tran_id(partTranId2);
+				creditTrm.setAcct_num(leaseDebit.getAcct_num());
+				creditTrm.setAcct_name(leaseDebit.getAcct_name());
+				creditTrm.setTran_type("TRANSFER");
+				creditTrm.setPart_tran_type("Credit");
+				creditTrm.setAcct_crncy(leaseDebit.getAcct_crncy());
+				creditTrm.setTran_amt(flowAmount); // Use the same flowAmount for credit
+				creditTrm.setTran_particular(loanDetails.getId() + " " + tranParticulars); // Setting loan disbursement
+				creditTrm.setTran_remarks(loanDetails.getId() + " " + tranParticulars); // Setting loan disbursement
+				creditTrm.setTran_date(flowDate);
+				creditTrm.setValue_date(flowDate);
+				creditTrm.setFlow_code(flowCode);
+				creditTrm.setFlow_date(flowDate);
+				creditTrm.setTran_status("POSTED");
+				creditTrm.setEntry_user(user);
+				creditTrm.setEntry_time(flowDate);
+				creditTrm.setDel_flg("N");
+				tRAN_MAIN_TRM_WRK_REP.save(creditTrm);
+
+				// Now update the account balances for both debit and credit transactions
+				List<TRAN_MAIN_TRM_WRK_ENTITY> values = tRAN_MAIN_TRM_WRK_REP.findByjournalvalues(tranId);
+				List<TRAN_MAIN_TRM_WRK_ENTITY> savedatas = new ArrayList<>();
+
+				// Iterate over all transactions and apply updates
+				for (TRAN_MAIN_TRM_WRK_ENTITY entity : values) {
+					entity.setPost_user(user);
+					entity.setPost_time(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+					entity.setDel_flg("N");
+					entity.setTran_status("POSTED");
+					savedatas.add(entity);
+
+					// Updating ACCT_BAL in the BGLS_CHART_OF_ACCOUNTS table for each transaction
+					if (entity.getPart_tran_type().equalsIgnoreCase("Debit")) {
+						// Update Debit Account Balance
+						Chart_Acc_Entity chartAccount = chart_Acc_Rep.getValuepopval(entity.getAcct_num());
+						BigDecimal newBalance = chartAccount.getAcct_bal().subtract(entity.getTran_amt());
+						chartAccount.setAcct_bal(newBalance);
+						chart_Acc_Rep.save(chartAccount);
+					} else if (entity.getPart_tran_type().equalsIgnoreCase("Credit")) {
+						// Update Credit Account Balance
+						Chart_Acc_Entity chartAccount = chart_Acc_Rep.getValuepopval(entity.getAcct_num());
+						BigDecimal newBalance = chartAccount.getAcct_bal().add(entity.getTran_amt());
+						chartAccount.setAcct_bal(newBalance);
+						chart_Acc_Rep.save(chartAccount);
+					}
+
+					if (entity.getFlow_code().equalsIgnoreCase("DISBT")) {
+						String accountNumber1 = entity.getAcct_num();
+						String acountName = lease_Loan_Master_Repo.accountName(accountNumber1);
+						if (Objects.nonNull(acountName) || acountName != null) {
+							Lease_Loan_Master_Entity leaseRecord = lease_Loan_Master_Repo.findByref_no(accountNumber1);
+							leaseRecord.setDisbursement(entity.getTran_amt());
+							lease_Loan_Master_Repo.save(leaseRecord);
+						} else {
+							System.out.println("Not a loan account");
+						}
+					}
+				}
+
+				// Save updated transactions
+				tRAN_MAIN_TRM_WRK_REP.saveAll(savedatas);
+			}
+			return ResponseEntity.ok("Branch Data Saved Successfully");
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid data or empty list.");
+	}
+
+	@PostMapping("/saveBranchData1")
+	public ResponseEntity<String> saveBranchData1(@RequestBody List<Map<String, Object>> branchDataList,
+			HttpServletRequest request) {
+		if (branchDataList == null || branchDataList.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid data or empty list.");
+		}
+
+		String user = (String) request.getSession().getAttribute("USERID");
+		System.out.println("Logged-in User ID: " + user);
+
+		for (Map<String, Object> data : branchDataList) {
+			try {
+				System.out.println("========================================");
+				System.out.println("Processing New Record: " + data);
+
+				// Extract required fields
+				String flowDateStr = (String) data.get("flow_date");
+				String flowCode = (String) data.get("flow_code");
+				String accountNumber = (String) data.get("account_number");
+
+				String flowamount = (String) data.get("flow_amount");
+
+				System.out.println("THE GETTING FLOW_AMOUNT IS HERE " + flowamount);
+
+				System.out.println("Flow Date (String): " + flowDateStr);
+				System.out.println("Flow Code: " + flowCode);
+				System.out.println("Account Number: " + accountNumber);
+
+				// Date parsing
+				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+				LocalDate flowLocalDate = LocalDate.parse(flowDateStr, dateFormatter);
+				Date flowDate = Date.from(flowLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+				System.out.println("Parsed Flow Date (LocalDate): " + flowLocalDate);
+				System.out.println("Parsed Flow Date (Date): " + flowDate);
+
+				// Find latest due_date before flow_date for INDEM
+				LocalDate latestDueDateBeforeFlowDate = null;
+				BigDecimal indemAmount = BigDecimal.ZERO;
+
+				for (Map<String, Object> record : branchDataList) {
+					Object dueDateObj = record.get("due_date");
+					if (dueDateObj != null) {
+						LocalDate dueDate;
+						if (dueDateObj instanceof String) {
+							dueDate = LocalDate.parse((String) dueDateObj, dateFormatter);
+						} else if (dueDateObj instanceof Date) {
+							dueDate = ((Date) dueDateObj).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+						} else {
+							continue;
+						}
+
+						System.out.println("THE DUE DATE IS BEFORE " + dueDate);
+						System.out.println("THE FLOW LOCAL DATE IS HERE " + flowLocalDate);
+
+						if (dueDate.isBefore(flowLocalDate) && "INDEM".equalsIgnoreCase(flowCode)) {
+							BigDecimal recordFlowAmount = new BigDecimal(
+									record.get("flow_amount").toString().replace(",", ""));
+
+							System.out.println("THE GETTING FLOW AMOUNT INDEM AMOUNT IS " + recordFlowAmount);
+							if (latestDueDateBeforeFlowDate == null || dueDate.isAfter(latestDueDateBeforeFlowDate)) {
+								latestDueDateBeforeFlowDate = dueDate;
+								indemAmount = recordFlowAmount;
+							}
+						}
+					}
+				}
+
+				System.out.println("Latest Due Date Before Flow Date: " + latestDueDateBeforeFlowDate);
+				System.out.println("INDEM Amount: " + indemAmount);
+
+				// Calculate per-day interest if needed
+				BigDecimal perDayInterest = BigDecimal.ZERO;
+				if (latestDueDateBeforeFlowDate != null) {
+					int totalDays = YearMonth.from(latestDueDateBeforeFlowDate).lengthOfMonth();
+					perDayInterest = indemAmount.divide(BigDecimal.valueOf(totalDays), 2, RoundingMode.HALF_UP);
+				}
+
+				System.out.println("Per Day Interest (if applicable): " + perDayInterest);
+
+				// Create transaction ID
+				String tranId = "TR" + tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID1();
+				System.out.println("Generated Transaction ID: " + tranId);
+
+				// Fetch loan details
+				LOAN_ACT_MST_ENTITY loanDetails = lOAN_ACT_MST_REPO.getLoanView(accountNumber);
+				if (loanDetails == null) {
+					System.out.println("Loan details not found for account: " + accountNumber);
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Loan account not found: " + accountNumber);
+				}
+				System.out.println("Fetched Loan Details: " + loanDetails);
+
+				// Calculate Month-End Date from Flow Date
+				LocalDate flowLocalDateEnd = flowLocalDate.withDayOfMonth(flowLocalDate.lengthOfMonth());
+				Date flowMonthEndDate = Date.from(flowLocalDateEnd.atStartOfDay(ZoneId.systemDefault()).toInstant());
+				System.out.println("THE MONTHEND DATE IS " + flowMonthEndDate);
+
+				// Prepare Debit Entry
+				TRAN_MAIN_TRM_WRK_ENTITY debitEntry = new TRAN_MAIN_TRM_WRK_ENTITY();
+				debitEntry.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
+				debitEntry.setTran_id(tranId);
+				debitEntry.setPart_tran_id(BigDecimal.ONE);
+				debitEntry.setAcct_num(loanDetails.getId());
+				debitEntry.setAcct_name(loanDetails.getLoan_name());
+				debitEntry.setTran_type("TRANSFER");
+				debitEntry.setPart_tran_type("Debit");
+				debitEntry.setAcct_crncy(loanDetails.getCurrency_code());
+				debitEntry.setTran_amt(indemAmount);
+				debitEntry.setTran_particular(loanDetails.getId() + " Interest Booking");
+				debitEntry.setTran_remarks(loanDetails.getId() + " Interest Booking");
+				debitEntry.setTran_date(flowMonthEndDate);
+				debitEntry.setValue_date(flowDate);
+				debitEntry.setFlow_code(flowCode);
+				debitEntry.setFlow_date(flowDate);
+				debitEntry.setTran_status("POSTED");
+				debitEntry.setEntry_user(user);
+				debitEntry.setEntry_time(new Date());
+				debitEntry.setDel_flg("N");
+				System.out.println("Prepared Debit Entry: " + debitEntry);
+				tRAN_MAIN_TRM_WRK_REP.save(debitEntry);
+
+				// Prepare Credit Entry
+				Chart_Acc_Entity leaseDebit = chart_Acc_Rep.getaedit("2700002750");
+				System.out.println("Fetched Lease Debit Account: " + leaseDebit);
+
+				TRAN_MAIN_TRM_WRK_ENTITY creditEntry = new TRAN_MAIN_TRM_WRK_ENTITY();
+				creditEntry.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
+				creditEntry.setTran_id(tranId);
+				creditEntry.setPart_tran_id(BigDecimal.valueOf(2));
+				creditEntry.setAcct_num(leaseDebit.getAcct_num());
+				creditEntry.setAcct_name(leaseDebit.getAcct_name());
+				creditEntry.setTran_type("TRANSFER");
+				creditEntry.setPart_tran_type("Credit");
+				creditEntry.setAcct_crncy(leaseDebit.getAcct_crncy());
+				creditEntry.setTran_amt(indemAmount);
+				creditEntry.setTran_particular(loanDetails.getId() + " Interest Booking");
+				creditEntry.setTran_remarks(loanDetails.getId() + " Interest Booking");
+				creditEntry.setTran_date(flowMonthEndDate);
+				creditEntry.setValue_date(flowDate);
+				creditEntry.setFlow_code(flowCode);
+				creditEntry.setFlow_date(flowDate);
+				creditEntry.setTran_status("POSTED");
+				creditEntry.setEntry_user(user);
+				creditEntry.setEntry_time(new Date());
+				creditEntry.setDel_flg("N");
+				System.out.println("Prepared Credit Entry: " + creditEntry);
+				tRAN_MAIN_TRM_WRK_REP.save(creditEntry);
+
+				// Update balances
+				List<TRAN_MAIN_TRM_WRK_ENTITY> transactions = tRAN_MAIN_TRM_WRK_REP.findByjournalvalues(tranId);
+				System.out.println("Fetched Transactions for Posting: " + transactions);
+
+				for (TRAN_MAIN_TRM_WRK_ENTITY transaction : transactions) {
+					transaction.setPost_user(user);
+					transaction.setPost_time(new Date());
+					transaction.setTran_status("POSTED");
+					transaction.setDel_flg("N");
+
+					Chart_Acc_Entity account = chart_Acc_Rep.getValuepopval(transaction.getAcct_num());
+					if (account != null) {
+						if ("Debit".equalsIgnoreCase(transaction.getPart_tran_type())) {
+							account.setAcct_bal(account.getAcct_bal().subtract(transaction.getTran_amt()));
+						} else if ("Credit".equalsIgnoreCase(transaction.getPart_tran_type())) {
+							account.setAcct_bal(account.getAcct_bal().add(transaction.getTran_amt()));
+						}
+						chart_Acc_Rep.save(account);
+						System.out.println("Updated Account Balance: " + account);
+					}
+
+					if ("DISBT".equalsIgnoreCase(transaction.getFlow_code())) {
+						Lease_Loan_Master_Entity leaseRecord = lease_Loan_Master_Repo
+								.findByref_no(transaction.getAcct_num());
+						if (leaseRecord != null) {
+							leaseRecord.setDisbursement(transaction.getTran_amt());
+							lease_Loan_Master_Repo.save(leaseRecord);
+							System.out.println("Updated Lease Disbursement: " + leaseRecord);
+						}
+					}
+				}
+
+				tRAN_MAIN_TRM_WRK_REP.saveAll(transactions);
+				System.out.println("Saved all transaction postings.");
+
+				System.out.println("========================================");
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+						.body("Error occurred while saving branch data: " + e.getMessage());
+			}
+		}
+
+		return ResponseEntity.ok("Branch Data Saved Successfully.");
+	}
+
+	@PostMapping("/saveBranchData2")
+	public ResponseEntity<String> saveBranchData2(@RequestBody List<Map<String, Object>> branchDataList,
+	                                              HttpServletRequest request) {
+	    if (branchDataList == null || branchDataList.isEmpty()) {
+	        System.out.println("Invalid or empty data list received.");
+	        return ResponseEntity.badRequest().body("Invalid data or empty list.");
+	    }
+
+	    String user = (String) request.getSession().getAttribute("USERID");
+	    if (user == null || user.trim().isEmpty()) {
+	        System.out.println("User not logged in.");
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in.");
+	    }
+
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	    List<String> tranIdList = new ArrayList<>();
+
+	    for (Map<String, Object> data : branchDataList) {
+	        try {
+	            // Check if any required field is null or empty and skip the row if it is
+	            String flowDateStr = (String) data.get("flow_date");
+	            String flowCode = (String) data.get("flow_code");
+	            String accountNumber = (String) data.get("account_number");
+	            String flowAmountStr = (String) data.get("flow_amount");
+
+	            if (flowDateStr == null || flowCode == null || accountNumber == null || flowAmountStr == null ||
+	                flowDateStr.trim().isEmpty() || flowCode.trim().isEmpty() || accountNumber.trim().isEmpty() || flowAmountStr.trim().isEmpty()) {
+	                // Skipping row due to null or empty values
+	                System.out.println("Skipping record with missing or empty fields.");
+	                continue;
+	            }
+
+	            flowCode = flowCode.trim().toUpperCase();
+	            if (!flowCode.equals("INDEM") && !flowCode.equals("FEEDM")) {
+	                // Skipping row due to invalid flow code
+	                System.out.println("Skipping record: flow_code not INDEM or FEEDM -> " + flowCode);
+	                continue;
+	            }
+
+	            System.out.println("Processing transaction with FLOW_CODE: " + flowCode);
+
+	            BigDecimal flowAmount = new BigDecimal(flowAmountStr.trim());
+	            LocalDate flowLocalDate = LocalDate.parse(flowDateStr.trim(), formatter);
+	            Date flowDate = Date.from(flowLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+	            String tranId = "TR" + tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID1();
+	            tranIdList.add(tranId);
+
+	            LOAN_ACT_MST_ENTITY loanDetails = lOAN_ACT_MST_REPO.getLoanView(accountNumber.trim());
+	            if (loanDetails == null) {
+	                System.out.println("Loan account not found for Account Number: " + accountNumber);
+	                continue;
+	            }
+
+	            LocalDate monthEnd = flowLocalDate.withDayOfMonth(flowLocalDate.lengthOfMonth());
+	            Date tranDate = Date.from(monthEnd.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+	            String flowParticular = loanDetails.getId() +
+	                    (flowCode.equals("INDEM") ? " Interest Demand" : " Fees Demand");
+
+	            // Debit Transaction
+	            TRAN_MAIN_TRM_WRK_ENTITY debit = new TRAN_MAIN_TRM_WRK_ENTITY();
+	            debit.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
+	            debit.setTran_id(tranId);
+	            debit.setPart_tran_id(BigDecimal.ONE);
+	            debit.setAcct_num(loanDetails.getId());
+	            debit.setAcct_name(loanDetails.getLoan_name());
+	            debit.setTran_type("TRANSFER");
+	            debit.setPart_tran_type("Debit");
+	            debit.setAcct_crncy(loanDetails.getCurrency_code());
+	            debit.setTran_amt(flowAmount);
+	            debit.setTran_particular(flowParticular);
+	            debit.setTran_remarks(flowParticular);
+	            debit.setTran_date(tranDate);
+	            debit.setValue_date(flowDate);
+	            debit.setFlow_code(flowCode);
+	            debit.setFlow_date(flowDate);
+	            debit.setTran_status("POSTED");
+	            debit.setEntry_user(user);
+	            debit.setEntry_time(new Date());
+	            debit.setDel_flg("N");
+	            tRAN_MAIN_TRM_WRK_REP.save(debit);
+	            System.out.println("Debit transaction saved: " + debit.getTran_id());
+
+	            // Credit Transaction
+	            Chart_Acc_Entity creditAcc = null;
+	            if (flowCode.equals("INDEM")) {
+	                creditAcc = chart_Acc_Rep.getaedit("4100004110");
+	            } else if (flowCode.equals("FEEDM")) {
+	                creditAcc = chart_Acc_Rep.getaedit("4200004210");
+	            }
+
+	            if (creditAcc == null) {
+	                System.out.println("Skipping record: Credit account not found for FLOW_CODE: " + flowCode);
+	                continue;
+	            }
+
+	            TRAN_MAIN_TRM_WRK_ENTITY credit = new TRAN_MAIN_TRM_WRK_ENTITY();
+	            credit.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
+	            credit.setTran_id(tranId);
+	            credit.setPart_tran_id(BigDecimal.valueOf(2));
+	            credit.setAcct_num(creditAcc.getAcct_num());
+	            credit.setAcct_name(creditAcc.getAcct_name());
+	            credit.setTran_type("TRANSFER");
+	            credit.setPart_tran_type("Credit");
+	            credit.setAcct_crncy(creditAcc.getAcct_crncy());
+	            credit.setTran_amt(flowAmount);
+	            credit.setTran_particular(flowParticular);
+	            credit.setTran_remarks(flowParticular);
+	            credit.setTran_date(tranDate);
+	            credit.setValue_date(flowDate);
+	            credit.setFlow_code(flowCode);
+	            credit.setFlow_date(flowDate);
+	            credit.setTran_status("POSTED");
+	            credit.setEntry_user(user);
+	            credit.setEntry_time(new Date());
+	            credit.setDel_flg("N");
+	            tRAN_MAIN_TRM_WRK_REP.save(credit);
+	            System.out.println("Credit transaction saved: " + credit.getTran_id());
+
+	        } catch (Exception e) {
+	            System.out.println("Exception while processing data: " + e.getMessage());
+	            e.printStackTrace();
+	        }
+	    }
+
+	    // Balance update
+	    for (String tranId : tranIdList) {
+	        List<TRAN_MAIN_TRM_WRK_ENTITY> transactions = tRAN_MAIN_TRM_WRK_REP.findByjournalvalues(tranId);
+	        for (TRAN_MAIN_TRM_WRK_ENTITY transaction : transactions) {
+	            transaction.setPost_user(user);
+	            transaction.setPost_time(new Date());
+	            transaction.setTran_status("POSTED");
+	            transaction.setDel_flg("N");
+
+	            Chart_Acc_Entity account = chart_Acc_Rep.getValuepopval(transaction.getAcct_num());
+	            if (account != null) {
+	                BigDecimal oldBalance = account.getAcct_bal();
+	                if ("Debit".equalsIgnoreCase(transaction.getPart_tran_type())) {
+	                    account.setAcct_bal(oldBalance.subtract(transaction.getTran_amt()));
+	                    System.out.println("Account debited: " + account.getAcct_num() + ", Old Balance: " + oldBalance + ", New Balance: " + account.getAcct_bal());
+	                } else if ("Credit".equalsIgnoreCase(transaction.getPart_tran_type())) {
+	                    account.setAcct_bal(oldBalance.add(transaction.getTran_amt()));
+	                    System.out.println("Account credited: " + account.getAcct_num() + ", Old Balance: " + oldBalance + ", New Balance: " + account.getAcct_bal());
+	                }
+	                chart_Acc_Rep.save(account);
+	            } else {
+	                System.out.println("Account not found for balance update: " + transaction.getAcct_num());
+	            }
+	        }
+	        tRAN_MAIN_TRM_WRK_REP.saveAll(transactions);
+	    }
+
+	    return ResponseEntity.ok("Only INDEM and FEEDM transactions saved and balances updated successfully.");
+	}
+
+	@PostMapping("/saveBranchData3")
+	public ResponseEntity<String> saveBranchData3(@RequestBody List<Map<String, Object>> branchDataList,
+	                                              HttpServletRequest request) {
+	    if (branchDataList == null || branchDataList.isEmpty()) {
+	        System.out.println("Invalid or empty data list received.");
+	        return ResponseEntity.badRequest().body("Invalid data or empty list.");
+	    }
+
+	    String user = (String) request.getSession().getAttribute("USERID");
+	    if (user == null || user.trim().isEmpty()) {
+	        System.out.println("User not logged in.");
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in.");
+	    }
+
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	    List<String> tranIdList = new ArrayList<>();
+
+	    for (Map<String, Object> data : branchDataList) {
+	        try {
+	            String flowDateStr = (String) data.get("flow_date");
+	            String flowCode = (String) data.get("flow_code");
+	            String accountNumber = (String) data.get("account_number");
+	            String flowAmountStr = (String) data.get("flow_amount");
+
+	            if (flowDateStr == null || flowCode == null || accountNumber == null || flowAmountStr == null ||
+	                flowDateStr.trim().isEmpty() || flowCode.trim().isEmpty() || accountNumber.trim().isEmpty() || flowAmountStr.trim().isEmpty()) {
+	                System.out.println("Skipping record with missing or empty fields.");
+	                continue;
+	            }
+
+	            flowCode = flowCode.trim().toUpperCase();
+	            if (!flowCode.equals("INDEM") && !flowCode.equals("FEEDM") && !flowCode.equals("PRDEM")) {
+	                System.out.println("Skipping record: flow_code not INDEM, FEEDM, or PRDEM -> " + flowCode);
+	                continue;
+	            }
+
+	            System.out.println("Processing flowCode: " + flowCode); // sysout for flow code
+	            BigDecimal flowAmount = new BigDecimal(flowAmountStr.trim());
+	            LocalDate flowLocalDate = LocalDate.parse(flowDateStr.trim(), formatter);
+	            Date flowDate = Date.from(flowLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+	            String tranId = "TR" + tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID1();
+	            tranIdList.add(tranId);
+
+	            LocalDate monthEnd = flowLocalDate.withDayOfMonth(flowLocalDate.lengthOfMonth());
+	            Date tranDate = Date.from(monthEnd.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+	            String flowParticular = accountNumber + " - ";
+	            switch (flowCode) {
+	                case "INDEM":
+	                    flowParticular += "Interest Recovery";
+	                    break;
+	                case "FEEDM":
+	                    flowParticular += "Fees Recovery";
+	                    break;
+	                case "PRDEM":
+	                    flowParticular += "Principle Recovery";
+	                    break;
+	            }
+
+	            System.out.println("Flow Particular: " + flowParticular); // sysout for flow particular
+
+	            // Debit Transaction - Fixed account 2700002750
+	            Chart_Acc_Entity debitAcc = chart_Acc_Rep.getValuepopval("2700002750");
+	            if (debitAcc == null) {
+	                System.out.println("Debit account 2700002750 not found.");
+	                continue;
+	            }
+
+	            System.out.println("Debit Account Found: " + debitAcc.getAcct_num()); // sysout for debit account
+
+	            TRAN_MAIN_TRM_WRK_ENTITY debit = new TRAN_MAIN_TRM_WRK_ENTITY();
+	            debit.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
+	            debit.setTran_id(tranId);
+	            debit.setPart_tran_id(BigDecimal.ONE);
+	            debit.setTran_type("TRANSFER");
+	            debit.setPart_tran_type("Debit");
+	            debit.setAcct_num("2700002750");
+	            debit.setAcct_name("Loan Parking Account");
+	            debit.setAcct_crncy("INR");
+	            debit.setTran_amt(flowAmount);
+	            debit.setTran_particular(flowParticular);
+	            debit.setTran_remarks(flowParticular);
+	            debit.setTran_date(tranDate);
+	            debit.setValue_date(flowDate);
+	            debit.setFlow_code(flowCode);
+	            debit.setFlow_date(flowDate);
+	            debit.setTran_status("POSTED");
+	            debit.setEntry_user(user);
+	            debit.setEntry_time(new Date());
+	            debit.setDel_flg("N");
+	            tRAN_MAIN_TRM_WRK_REP.save(debit);
+
+	            // Credit Transaction - From frontend account_number
+	            Chart_Acc_Entity creditAcc = chart_Acc_Rep.getValuepopval(accountNumber.trim());
+	            if (creditAcc == null) {
+	                System.out.println("Credit account not found: " + accountNumber);
+	                continue;
+	            }
+
+	            System.out.println("Credit Account Found: " + creditAcc.getAcct_num()); // sysout for credit account
+
+	            TRAN_MAIN_TRM_WRK_ENTITY credit = new TRAN_MAIN_TRM_WRK_ENTITY();
+	            credit.setSrl_no(tRAN_MAIN_TRM_WRK_REP.gettrmRefUUID());
+	            credit.setTran_id(tranId);
+	            credit.setPart_tran_id(BigDecimal.valueOf(2));
+	            credit.setTran_type("TRANSFER");
+	            credit.setPart_tran_type("Credit");
+	            credit.setAcct_num(creditAcc.getAcct_num());
+	            credit.setAcct_name(creditAcc.getAcct_name());
+	            credit.setAcct_crncy(creditAcc.getAcct_crncy());
+	            credit.setTran_amt(flowAmount);
+	            credit.setTran_particular(flowParticular);
+	            credit.setTran_remarks(flowParticular);
+	            credit.setTran_date(tranDate);
+	            credit.setValue_date(flowDate);
+	            credit.setFlow_code(flowCode);
+	            credit.setFlow_date(flowDate);
+	            credit.setTran_status("POSTED");
+	            credit.setEntry_user(user);
+	            credit.setEntry_time(new Date());
+	            credit.setDel_flg("N");
+	            tRAN_MAIN_TRM_WRK_REP.save(credit);
+
+	            System.out.println("Credit Transaction saved for account: " + creditAcc.getAcct_num()); // sysout for saved credit transaction
+
+	        } catch (Exception e) {
+	            System.out.println("Exception while processing data: " + e.getMessage());
+	            e.printStackTrace();
+	        }
+	    }
+
+	    // Balance update for all transactions
+	    for (String tranId : tranIdList) {
+	        List<TRAN_MAIN_TRM_WRK_ENTITY> transactions = tRAN_MAIN_TRM_WRK_REP.findByjournalvalues(tranId);
+	        for (TRAN_MAIN_TRM_WRK_ENTITY transaction : transactions) {
+	            transaction.setPost_user(user);
+	            transaction.setPost_time(new Date());
+	            transaction.setTran_status("POSTED");
+	            transaction.setDel_flg("N");
+
+	            Chart_Acc_Entity account = chart_Acc_Rep.getValuepopval(transaction.getAcct_num());
+	            if (account != null) {
+	                BigDecimal oldBalance = account.getAcct_bal();
+	                if ("Debit".equalsIgnoreCase(transaction.getPart_tran_type())) {
+	                    account.setAcct_bal(oldBalance.subtract(transaction.getTran_amt()));
+	                } else if ("Credit".equalsIgnoreCase(transaction.getPart_tran_type())) {
+	                    account.setAcct_bal(oldBalance.add(transaction.getTran_amt()));
+	                }
+	                chart_Acc_Rep.save(account);
+	                System.out.println("Account balance updated for account: " + account.getAcct_num()); // sysout for balance update
+	            } else {
+	                System.out.println("Account not found for balance update: " + transaction.getAcct_num());
+	            }
+	        }
+	        tRAN_MAIN_TRM_WRK_REP.saveAll(transactions);
+	    }
+
+	    return ResponseEntity.ok("INDEM, FEEDM, and PRDEM transactions saved and balances updated successfully.");
+	}
+	
 }

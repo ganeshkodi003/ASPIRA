@@ -292,4 +292,10 @@ public interface LOAN_REPAYMENT_REPO extends JpaRepository<LOAN_REPAYMENT_ENTITY
 			"ORDER BY B.due_date", nativeQuery = true)
 	List<Object[]> getloanflowsdata(Date fromDate, Date toDate, String accountNum);
 
+	@Query(value = "SELECT lr.*, lam.ID, lam.LOAN_NAME " + "FROM LOAN_REPAYMENT_TBL lr "
+			+ "JOIN LOAN_ACCOUNT_MASTER_TBL lam ON lr.PARENT_ACCOUNT_KEY = lam.ENCODED_KEY "
+			+ "WHERE lr.PARENT_ACCOUNT_KEY IN :keys " + "AND lr.DUE_DATE <= :date ORDER BY lr.DUE_DATE", nativeQuery = true)
+	List<Object[]> findByParentAccountKeyInAndDueDateLessThanEqual(@Param("keys") List<String> keys,
+			@Param("date") Date date);
+
 }
