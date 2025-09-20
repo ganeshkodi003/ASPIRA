@@ -1,1107 +1,1031 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <!--
 	CREATED BY : PRAVEEN
 	DATE : 17-09-24
 -->
 
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
-	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/font-awesome/5.9.0/css/all.min.css"
-	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
-	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
-	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
-<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
-<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+		th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" href="/webjars/font-awesome/5.9.0/css/all.min.css"
+		th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+	<link rel="stylesheet" type="text/css" href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+		th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+	<link rel="stylesheet" type="text/css" href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+		th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+	<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+	<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
 
-<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
-	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
-	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
-<script src="/webjars/jquery/3.4.1/jquery.min.js"
-	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
-<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
-	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+	<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+		th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+	<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+		th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+	<script src="/webjars/jquery/3.4.1/jquery.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+	<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+		th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
 
-<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
-	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+	<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+		th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
 
-<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
-	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+	<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+		th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
 
-<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
-	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
-<script
-	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
-	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+	<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+		th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+	<script src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+		th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
 
 
 
-<style>
-table {
-	width: 100%;
-	table-layout: auto;
-	border-collapse: collapse;
-}
+	<style>
+		table {
+			width: 100%;
+			table-layout: auto;
+			border-collapse: collapse;
+		}
 
-table th, table td {
-	white-space: nowrap;
-	padding: 8px 12px;
-	border: 1px solid #ccc;
-}
+		table th,
+		table td {
+			white-space: nowrap;
+			padding: 8px 12px;
+			border: 1px solid #ccc;
+		}
 
-#placelist1 {
-	width: auto;
-}
+		#placelist1 {
+			width: auto;
+		}
 
-#placelist2 {
-	width: auto;
-}
+		#placelist2 {
+			width: auto;
+		}
 
-#placelist3 {
-	width: auto;
-}
+		#placelist3 {
+			width: auto;
+		}
 
-#placelist4 {
-	width: auto;
-}
+		#placelist4 {
+			width: auto;
+		}
 
-.table-container {
-	overflow-x: auto;
-}
-</style>
+		.table-container {
+			overflow-x: auto;
+		}
+	</style>
 
-<style>
-body {
-	font-size: 0.8rem;
-}
+	<style>
+		body {
+			font-size: 0.8rem;
+		}
 
-.btn {
-	line-height: 0.5rem;
-}
+		.btn {
+			line-height: 0.5rem;
+		}
 
-.table-bordered td, .table-bordered th {
-	font-size: smaller;
-}
+		.table-bordered td,
+		.table-bordered th {
+			font-size: smaller;
+		}
 
-.container-manager {
-	width: 83.5%;
-	padding-right: 15px;
-	padding-left: 15px;
-	margin-right: auto;
-	margin-left: 17.3%;
-	margin-top: 80px;
-	margin-top: 80px;
-}
+		.container-manager {
+			width: 83.5%;
+			padding-right: 15px;
+			padding-left: 15px;
+			margin-right: auto;
+			margin-left: 17.3%;
+			margin-top: 80px;
+			margin-top: 80px;
+		}
 
-.table .thead-light th {
-	color: #495057;
-	background-color: #e9ecef;
-	border-color: #dee2e6;
-	width: 23px;
-}
+		.table .thead-light th {
+			color: #495057;
+			background-color: #e9ecef;
+			border-color: #dee2e6;
+			width: 23px;
+		}
 
-.scroll {
-	max-height: 60vh;
-	overflow-y: scroll;
-	overflow-x: hidden;
-}
+		.scroll {
+			max-height: 60vh;
+			overflow-y: scroll;
+			overflow-x: hidden;
+		}
 
-.tablinks {
-	background-color: #f1f1f1;
-	/* Default background color */
-	border: none;
-	color: black;
-	padding: 10px 20px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	transition: background-color 0.3s;
-}
+		.tablinks {
+			background-color: #f1f1f1;
+			/* Default background color */
+			border: none;
+			color: black;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			transition: background-color 0.3s;
+		}
 
-.tablinks.active {
-	background-color: #2084a9;
-	color: white;
-}
+		.tablinks.active {
+			background-color: #2084a9;
+			color: white;
+		}
 
-.tab {
-	overflow: hidden;
-	border: 1px solid #ccc;
-	background-color: #f2f2f2;
-}
+		.tab {
+			overflow: hidden;
+			border: 1px solid #ccc;
+			background-color: #f2f2f2;
+		}
 
-.tab button {
-	background-color: inherit;
-	float: left;
-	border: none;
-	outline: none;
-	cursor: pointer;
-	padding: 14px 56px;
-	transition: 0.3s;
-	font-size: 17px;
-}
+		.tab button {
+			background-color: inherit;
+			float: left;
+			border: none;
+			outline: none;
+			cursor: pointer;
+			padding: 14px 56px;
+			transition: 0.3s;
+			font-size: 17px;
+		}
 
-.tab button:hover {
-	background-color: #ddd;
-}
+		.tab button:hover {
+			background-color: #ddd;
+		}
 
-.tabcontent {
-	display: none;
-	padding: 0px;
-	border-top: 1px solid #ccc;
-}
+		.tabcontent {
+			display: none;
+			padding: 0px;
+			border-top: 1px solid #ccc;
+		}
 
-.active {
-	background-color: #2084a9;
-}
+		.active {
+			background-color: #2084a9;
+		}
 
-#myPieChart {
-	width: 100px;
-	height: 100px;
-}
-</style>
-<style>
-.modal {
-	display: none;
-	/* Hidden by default */
-	position: absolute;
-	/* Stay in place */
-	z-index: 1;
-	/* Location of the box */
-	left: 0;
-	top: 0;
-	width: 100%;
-	/* Full width */
-	height: 100%;
-	/* Full height */
-	overflow: auto;
-	/* Enable scroll if needed */
-	background-color: rgb(0, 0, 0);
-	/* Fallback color */
-	background-color: rgba(0, 0, 0, 0.4);
-	/* Black w/ opacity */
-}
+		#myPieChart {
+			width: 100px;
+			height: 100px;
+		}
+	</style>
+	<style>
+		.modal {
+			display: none;
+			/* Hidden by default */
+			position: absolute;
+			/* Stay in place */
+			z-index: 1;
+			/* Sit on top */
+			padding-top: 100px;
+			/* Location of the box */
+			left: 0;
+			top: 0;
+			width: 100%;
+			/* Full width */
+			height: 100%;
+			/* Full height */
+			overflow: auto;
+			/* Enable scroll if needed */
+			background-color: rgb(0, 0, 0);
+			/* Fallback color */
+			background-color: rgba(0, 0, 0, 0.4);
+			/* Black w/ opacity */
+		}
 
-/* Modal Content */
-.modal-content {
-	background-color: #fefefe;
-	margin: auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 100%;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
-		rgba(0, 0, 0, 0.19);
-	-webkit-animation-name: animatetop;
-	-webkit-animation-duration: 0.4s;
-	animation-name: animatetop;
-	animation-duration: 0.4s
-}
+		.modal-header {
+			padding: 2px 16px;
+			background-color: #BBC3CB;
+			color: balck;
+		}
 
-.modal-pass {
-	background-color: #fefefe;
-	margin: 15% auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 40%;
-	height: 25%;
-	margin-left: 400PX;
-	margin-right: auto;
-	border-radius: 10px;
-	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
-	font-family: Arial, sans-serif;
-}
+		/* Ensure modal background is removed */
+		.modal-backdrop {
+			display: none !important;
+			/* Completely hide backdrop */
+		}
 
-.close {
-	color: red;
-	font-size: 28px;
-	font-weight: bold;
-}
+		/* Optional: Prevent page from scrolling when modal is open */
+		body.modal-open {
+			overflow: hidden;
+		}
 
-.close:hover, .close:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
-</style>
-<style>
-.password-info {
-	visibility: hidden;
-	width: 320px;
-	background-color: #333;
-	color: #fff;
-	text-align: left;
-	border-radius: 10px;
-	padding: 10px;
-	position: absolute;
-	z-index: 1;
-	top: calc(100% + 10px);
-	left: 50%;
-	transform: translateX(-50%);
-	opacity: 0;
-	transition: opacity 0.3s;
-}
+		.modal-body {
+			padding: 2px 16px;
+		}
 
-input:hover+.password-info {
-	visibility: visible;
-	opacity: 0.8;
-}
+		.modal-footer {
+			padding: 2px 16px;
+			background-color: #BBC3CB;
+			color: black;
+		}
 
-.subtablinks {
-	background-color: #f1f1f1;
-	/* Default background color */
-	border: none;
-	color: black;
-	padding: 10px 20px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	transition: background-color 0.3s;
-}
+		/* Modal Content */
+		.modal-content {
+			background-color: #fefefe;
+			margin: auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 80%;
+			height: 0%;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			-webkit-animation-name: animatetop;
+			-webkit-animation-duration: 0.4s;
+			animation-name: animatetop;
+			animation-duration: 0.4s
+		}
 
-.subtablinks.active {
-	background-color: #2084a9;
-	color: white;
-}
+		.close {
+			color: red;
+			font-size: 28px;
+			font-weight: bold;
+		}
 
-.hover-underline:hover {
-	text-decoration: underline;
-	text-decoration-color: #007bff;
-	cursor: pointer;
-	/* Sets underline color to blue */
-}
-</style>
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+		}
+	</style>
+	<style>
+		.password-info {
+			visibility: hidden;
+			width: 320px;
+			background-color: #333;
+			color: #fff;
+			text-align: left;
+			border-radius: 10px;
+			padding: 10px;
+			position: absolute;
+			z-index: 1;
+			top: calc(100% + 10px);
+			left: 50%;
+			transform: translateX(-50%);
+			opacity: 0;
+			transition: opacity 0.3s;
+		}
+
+		input:hover+.password-info {
+			visibility: visible;
+			opacity: 0.8;
+		}
+
+		.subtablinks {
+			background-color: #f1f1f1;
+			/* Default background color */
+			border: none;
+			color: black;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			transition: background-color 0.3s;
+		}
+
+		.subtablinks.active {
+			background-color: #2084a9;
+			color: white;
+		}
+
+		.hover-underline:hover {
+			text-decoration: underline;
+			text-decoration-color: #007bff;
+			cursor: pointer;
+			/* Sets underline color to blue */
+		}
+	</style>
 
 
-<script>
-	function Home() {
+	<script>
+		function Home() {
 
-		location.href = 'Dashboard';
-	}
+			location.href = 'Dashboard';
+		}
 
-	function Back() {
-		window.history.back();
-	}
+		function Back() {
+			window.history.back();
+		}
 
-	$(function() {
-		$(
+		$(function () {
+			$(
 				"#doj,#dob,#date_of_offer,#date_of_appointment_letter,#aed,#ped,#dsd,#ded")
 				.datepicker({
-					dateFormat : "dd-mm-yy",
-					changeMonth : true,
-					changeYear : true
+					dateFormat: "dd-mm-yy",
+					changeMonth: true,
+					changeYear: true
 
 				});
-	});
-</script>
-<script>
-	function AddBranch() {
+		});
+	</script>
+	<script>
+		function AddBranch() {
 
-		location.href = './organizationDetails?formmode=AddBranch';
+			location.href = './organizationDetails?formmode=AddBranch';
 
-	}
+		}
 
-	function list() {
+		function list() {
 
-		location.href = './organizationDetails?formmode=list';
-	}
+			location.href = './organizationDetails?formmode=list';
+		}
 
-	function add() {
+		function add() {
 
-		location.href = './organizationDetails?formmode=add';
-	}
+			location.href = './organizationDetails?formmode=add';
+		}
 
-	function Modify() {
+		function Modify() {
 
-		location.href = './organizationDetails?formmode=ModifyHead';
-	}
-	
-	
-	
-</script>
-
-<script>
-	function view(a) {
-		var branch = a.getAttribute('data-resource');
-
-		location.href = './organizationDetails?formmode=view&branch_name='
-				+ branch;
-	}
+			location.href = './organizationDetails?formmode=ModifyHead';
+		}
 
 
-	function branchfunction(a){
-		var branch = a.getAttribute('data-resource');
-		var mod_flg = a.getAttribute('data-modify_flg');
-		if(mod_flg == "Y"){
-			location.href = './organizationDetails?formmode=DeleteBranch&branch_name='
-				+ branch;
-		}else{
-			location.href = './organizationDetails?formmode=modify&branch_name='
+
+	</script>
+
+	<script>
+		function view(a) {
+			var branch = a.getAttribute('data-resource');
+
+			location.href = './organizationDetails?formmode=view&branch_name='
 				+ branch;
 		}
-	}
 
-	/* 	function openTab(evt, tabName) {
 
-	 var tabcontent = document.getElementsByClassName("tabcontent");
-	 for (let i = 0; i < tabcontent.length; i++) {
-	 tabcontent[i].style.display = "none";
-	 }
+		function branchfunction(a) {
+			var branch = a.getAttribute('data-resource');
+			var mod_flg = a.getAttribute('data-modify_flg');
+			if (mod_flg == "Y") {
+				location.href = './organizationDetails?formmode=DeleteBranch&branch_name='
+					+ branch;
+			} else {
+				location.href = './organizationDetails?formmode=modify&branch_name='
+					+ branch;
+			}
+		}
 
-	 let tablinks = document.getElementsByClassName("tablinks");
-	 for (let i = 0; i < tablinks.length; i++) {
-	 tablinks[i].classList.remove("active");
-	 }
-
-	 document.getElementById(tabName).style.display = "block";
-	 evt.currentTarget.classList.add("active");
-
-	 //document.getElementById("submitBtn").style.display = (tabName === 'tab2') ? 'block' : 'none';
-	 } */
-	 function showError(element, message) {
-		    var errorSpan = $('<span class="error-message"></span>').text(message);
-		    errorSpan.css('color', 'red');
-		    element.after(errorSpan);
+		/* 	function openTab(evt, tabName) {
+	
+		 var tabcontent = document.getElementsByClassName("tabcontent");
+		 for (let i = 0; i < tabcontent.length; i++) {
+		 tabcontent[i].style.display = "none";
+		 }
+	
+		 let tablinks = document.getElementsByClassName("tablinks");
+		 for (let i = 0; i < tablinks.length; i++) {
+		 tablinks[i].classList.remove("active");
+		 }
+	
+		 document.getElementById(tabName).style.display = "block";
+		 evt.currentTarget.classList.add("active");
+	
+		 //document.getElementById("submitBtn").style.display = (tabName === 'tab2') ? 'block' : 'none';
+		 } */
+		function showError(element, message) {
+			var errorSpan = $('<span class="error-message"></span>').text(message);
+			errorSpan.css('color', 'red');
+			element.after(errorSpan);
 		}
 
 		function hideError(element) {
-		    element.next('.error-message').remove();
+			element.next('.error-message').remove();
 		}
 
 		function validateField(selector, message) {
-		    const element = $(selector);
-		    if (!element.val()) {
-		        showError(element, message);
-		        return true;
-		    } else {
-		        hideError(element);
-		        return false;
-		    }
+			const element = $(selector);
+			if (!element.val()) {
+				showError(element, message);
+				return true;
+			} else {
+				hideError(element);
+				return false;
+			}
 		}
 
-	function AddSubmit() {
-		 let hasError = false;
-		  //for customer check
-		  
-		  /*  hasError = validateField("#branch_head", 'Required') || hasError; 
-		   hasError = validateField("#branch_code", 'Required') || hasError; 
-	       hasError = validateField("#swift_code", 'Required') || hasError; 
-		   hasError = validateField("#designation", 'Required') || hasError; 
-           hasError = validateField("#land_line", 'Required') || hasError; 
-		   hasError =validateField("#branch_name", 'Required') || hasError;
-		   hasError =  validateField("#mobile", 'Required') || hasError; 
-		   hasError =  validateField("#photo", 'Required') || hasError; 
-		   hasError =  validateField("#cont_person", 'Required') || hasError; 
-		   hasError =  validateField("#fax", 'Required') || hasError;  */
-		   
-		
-		   if (hasError) {
-		        $('#alert1').modal("toggle");
-		        $('#alertmsg1').text("Enter the Required fields..");
-		        return; // Exit the function if there are validation errors
-		    }
-		   var formElement = document.getElementById('assosiateForm1'); // Get the form element
-		   var formData = new FormData(formElement); 
-	       var photoInput = formElement.querySelector("input[name='photo']");
-		   alert(photoInput)
-	        
-		   if (photoInput && photoInput.files.length > 0) {
-	            formData.append("photoFile", photoInput.files[0]);
-	        }else {
-	            console.error("Photo input not found or no file selected.");
-	            $('#alert1').modal("toggle");
-	            $('#alertmsg1').text("Please select a photo.");
-	            return; // Exit the function if the photo input is not found or no file is selected
-	        }  
+		function AddSubmit() {
+			let hasError = false;
+			//for customer check
+
+			/*  hasError = validateField("#branch_head", 'Required') || hasError; 
+			 hasError = validateField("#branch_code", 'Required') || hasError; 
+			 hasError = validateField("#swift_code", 'Required') || hasError; 
+			 hasError = validateField("#designation", 'Required') || hasError; 
+			 hasError = validateField("#land_line", 'Required') || hasError; 
+			 hasError =validateField("#branch_name", 'Required') || hasError;
+			 hasError =  validateField("#mobile", 'Required') || hasError; 
+			 hasError =  validateField("#photo", 'Required') || hasError; 
+			 hasError =  validateField("#cont_person", 'Required') || hasError; 
+			 hasError =  validateField("#fax", 'Required') || hasError;  */
+
+
+			if (hasError) {
+				$('#alert1').modal("toggle");
+				$('#alertmsg1').text("Enter the Required fields..");
+				return; // Exit the function if there are validation errors
+			}
+			var formElement = document.getElementById('assosiateForm1'); // Get the form element
+			var formData = new FormData(formElement);
+			var photoInput = formElement.querySelector("input[name='photo']");
+			alert(photoInput)
+
+			if (photoInput && photoInput.files.length > 0) {
+				formData.append("photoFile", photoInput.files[0]);
+			} else {
+				console.error("Photo input not found or no file selected.");
+				$('#alert1').modal("toggle");
+				$('#alertmsg1').text("Please select a photo.");
+				return; // Exit the function if the photo input is not found or no file is selected
+			}
 			$.ajax({
-				url : './OrgBranchAdd',
+				url: './OrgBranchAdd',
 				data: formData,
-			    type: 'POST',
-			    processData: false,  // Don't process the data
-			    contentType: false, 
-				success : function(data) {
+				type: 'POST',
+				processData: false,  // Don't process the data
+				contentType: false,
+				success: function (data) {
 					$("#alertmsg").text(data);
 					$('#alert').modal("show");
 				}
 			});
-		
-	}
 
-	 function ModifyTab1Submit() {
-
-		    $.ajax({
-		        url: './tab1modify',
-		        data: $("#tab1modify").serialize(),
-		        type: 'POST',
-		        success: function(data) {
-		            $("#alertmsg").text(data);
-		            $('#alert').modal("show");
-		        },
-		        error: function(jqXHR, textStatus, errorThrown) {
-		            console.error("Error in AJAX request: " + textStatus, errorThrown);
-		        }
-		    });
 		}
 
-
-	function ModifyTab2Submit() {
-
-		$.ajax({
-			url : './tab2modify',
-			data : $("#tab2modify").serialize(),
-			type : 'POST',
-			success : function(data) {
-				$("#alertmsg").text(data);
-				$('#alert').modal("show");
-			}
-		});
-
-	}
-	function del_bran() {
-
-		$.ajax({
-			url : './tab2Del',
-			data : $("#tab2Del").serialize(),
-			type : 'POST',
-			success : function(data) {
-				$("#alertmsg").text(data);
-				$('#alert').modal("show");
-			}
-		});
-
-	}
-</script>
-
-<script>
-	function openTab(evt, tabName) {
-		// Hide all main tab content
-		let i, tabcontent, tablinks;
-		tabcontent = document.getElementsByClassName("tabcontent");
-		for (i = 0; i < tabcontent.length; i++) {
-			tabcontent[i].style.display = "none";
-		}
-
-		// Remove active class from main tabs
-		tablinks = document.getElementsByClassName("tablinks");
-		for (i = 0; i < tablinks.length; i++) {
-			tablinks[i].className = tablinks[i].className
-					.replace(" active", "");
-		}
-
-		// Show selected main tab and set as active
-		document.getElementById(tabName).style.display = "block";
-		evt.currentTarget.className += " active";
-	}
-
-	function openSubTab(evt, subTabName) {
-		// Hide all sub-tab content
-		let i, subtabcontent, subtablinks;
-		subtabcontent = document.getElementsByClassName("subtabcontent");
-		for (i = 0; i < subtabcontent.length; i++) {
-			subtabcontent[i].style.display = "none";
-		}
-
-		// Remove active class from sub-tabs
-		subtablinks = document.getElementsByClassName("subtablinks");
-		for (i = 0; i < subtablinks.length; i++) {
-			subtablinks[i].className = subtablinks[i].className.replace(
-					" active", "");
-		}
-
-		// Show selected sub-tab and set as active
-		document.getElementById(subTabName).style.display = "block";
-		evt.currentTarget.className += " active";
-	}
-</script>
-<script>
-	$(function() {
-		$("#date_of_regn").datepicker({
-			dateFormat : "dd-mm-yy", // Format as 'DD-MM-YYYY'
-			changeMonth : true, // Allows changing month
-			changeYear : true, // Allows changing year
-			yearRange : "1900:2024", // Year range
-			maxDate : new Date()
-		// Restricts to today or earlier
-		});
-	});
-</script>
-<script>
-	function addHoliday() {
-
-		location.href = './organizationDetails?formmode=addholiday';
-
-	}
-	function UploadHoliday() {
-
-		location.href = './organizationDetails?formmode=UploadHoliday';
-
-	}
-	function ModifyHoliday() {
-
-		location.href = './organizationDetails?formmode=ModifyHoliday';
-	}
-
-	function ListHoliday() {
-
-		location.href = './organizationDetails?formmode=listholiday';
-	}
-</script>
-<script>
-	function submitexcelgst() {
-		event.preventDefault(); // Prevent default form submission behavior
-
-		var fileInput = document.getElementById('fileval');
-		console.log(fileInput);
-
-		// Check if a file is selected
-		if (fileInput && fileInput.files.length > 0) {
-			var file = fileInput.files[0];
-			//alert(file.name); // Alert with the file name
-
-			var formData = new FormData();
-			formData.append('file', file);
+		function ModifyTab1Submit() {
 
 			$.ajax({
-				url : './calenderuploadexcel',
-				data : formData,
-				type : 'POST',
-				contentType : false,
-				processData : false,
-				cache : false, // Disable cache to avoid potential issues
-				success : function(data) {
-					alert('File uploaded successfully: ' + data);
-					console.log("Successfully Upload")
+				url: './tab1modify',
+				data: $("#tab1modify").serialize(),
+				type: 'POST',
+				success: function (data) {
+					$("#alertmsg").text(data);
+					$('#alert').modal("show");
 				},
-				error : function(xhr, status, error) {
-					alert('Error occurred while uploading file: ' + error);
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.error("Error in AJAX request: " + textStatus, errorThrown);
 				}
 			});
-		} else {
-			alert('Please select a file before uploading.');
 		}
-	}
 
-	function getdata(a) {
-		var record_srl = a.getAttribute("data-attr");
-		console.log("record_srl" + record_srl);
-		location.href = 'organizationDetails?formmode=viewrecord&record_srl='
+
+		function ModifyTab2Submit() {
+
+			$.ajax({
+				url: './tab2modify',
+				data: $("#tab2modify").serialize(),
+				type: 'POST',
+				success: function (data) {
+					$("#alertmsg").text(data);
+					$('#alert').modal("show");
+				}
+			});
+
+		}
+		function del_bran() {
+
+			$.ajax({
+				url: './tab2Del',
+				data: $("#tab2Del").serialize(),
+				type: 'POST',
+				success: function (data) {
+					$("#alertmsg").text(data);
+					$('#alert').modal("show");
+				}
+			});
+
+		}
+	</script>
+
+	<script>
+		function openTab(evt, tabName) {
+			// Hide all main tab content
+			let i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+
+			// Remove active class from main tabs
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className
+					.replace(" active", "");
+			}
+
+			// Show selected main tab and set as active
+			document.getElementById(tabName).style.display = "block";
+			evt.currentTarget.className += " active";
+		}
+
+		function openSubTab(evt, subTabName) {
+			// Hide all sub-tab content
+			let i, subtabcontent, subtablinks;
+			subtabcontent = document.getElementsByClassName("subtabcontent");
+			for (i = 0; i < subtabcontent.length; i++) {
+				subtabcontent[i].style.display = "none";
+			}
+
+			// Remove active class from sub-tabs
+			subtablinks = document.getElementsByClassName("subtablinks");
+			for (i = 0; i < subtablinks.length; i++) {
+				subtablinks[i].className = subtablinks[i].className.replace(
+					" active", "");
+			}
+
+			// Show selected sub-tab and set as active
+			document.getElementById(subTabName).style.display = "block";
+			evt.currentTarget.className += " active";
+		}
+	</script>
+	<script>
+		$(function () {
+			$("#date_of_regn").datepicker({
+				dateFormat: "dd-mm-yy", // Format as 'DD-MM-YYYY'
+				changeMonth: true, // Allows changing month
+				changeYear: true, // Allows changing year
+				yearRange: "1900:2024", // Year range
+				maxDate: new Date()
+				// Restricts to today or earlier
+			});
+		});
+	</script>
+	<script>
+		function addHoliday() {
+
+			location.href = './organizationDetails?formmode=addholiday';
+
+		}
+		function UploadHoliday() {
+
+			location.href = './organizationDetails?formmode=UploadHoliday';
+
+		}
+		function ModifyHoliday() {
+
+			location.href = './organizationDetails?formmode=ModifyHoliday';
+		}
+
+		function ListHoliday() {
+
+			location.href = './organizationDetails?formmode=listholiday';
+		}
+	</script>
+	<script>
+		function submitexcelgst() {
+			event.preventDefault(); // Prevent default form submission behavior
+
+			var fileInput = document.getElementById('fileval');
+			console.log(fileInput);
+
+			// Check if a file is selected
+			if (fileInput && fileInput.files.length > 0) {
+				var file = fileInput.files[0];
+				//alert(file.name); // Alert with the file name
+
+				var formData = new FormData();
+				formData.append('file', file);
+
+				$.ajax({
+					url: './calenderuploadexcel',
+					data: formData,
+					type: 'POST',
+					contentType: false,
+					processData: false,
+					cache: false, // Disable cache to avoid potential issues
+					success: function (data) {
+						alert('File uploaded successfully: ' + data);
+						console.log("Successfully Upload")
+					},
+					error: function (xhr, status, error) {
+						alert('Error occurred while uploading file: ' + error);
+					}
+				});
+			} else {
+				alert('Please select a file before uploading.');
+			}
+		}
+
+		function getdata(a) {
+			var record_srl = a.getAttribute("data-attr");
+			console.log("record_srl" + record_srl);
+			location.href = 'organizationDetails?formmode=viewrecord&record_srl='
 				+ record_srl;
-	}
-</script>
-<script>
-	function validateNumericInput(input) {
-		const errorMessage = document.getElementById('errorMessage');
-		// Remove any non-numeric characters
-		input.value = input.value.replace(/[^0-9]/g, '');
-
-		// Show an error message if needed (optional)
-		if (/[^0-9]/.test(input.value)) {
-			errorMessage.style.display = 'block';
-		} else {
-			errorMessage.style.display = 'none';
 		}
-	}
-	
-	function validatePanCard(input) {
-        const errorMessage = document.getElementById('errorMessage');
-        const value = input.value;
+	</script>
+	<script>
+		function validateNumericInput(input) {
+			const errorMessage = document.getElementById('errorMessage');
+			// Remove any non-numeric characters
+			input.value = input.value.replace(/[^0-9]/g, '');
 
-        // Allow only alphanumeric characters
-        input.value = value.replace(/[^a-zA-Z0-9]/g, '');
+			// Show an error message if needed (optional)
+			if (/[^0-9]/.test(input.value)) {
+				errorMessage.style.display = 'block';
+			} else {
+				errorMessage.style.display = 'none';
+			}
+		}
 
-        // Check if the length is exactly 10
-        if (input.value.length !== 10) {
-            errorMessage.style.display = 'block';
-        } else {
-            errorMessage.style.display = 'none';
-        }
-    }
-	
-	function validateAddress(input) {
-        const value = input.value;
+		function validatePanCard(input) {
+			const errorMessage = document.getElementById('errorMessage');
+			const value = input.value;
 
-        // Check if the length is less than 3 characters
-        if (value.length < 3 && value.length > 0) {
-            alert("Please fill in more than 3 letters.");
-        }
-    }
-</script>
-<!-- jQuery Datepicker Setup -->
-<script>
-  $(function () {
-    $("#currentvalue").datepicker({
-      dateFormat: "dd-mm-yy", // Date format for the UI
-      changeMonth: true,
-      changeYear: true,
-      onSelect: function () {
-        sendSelectedDate();  // Automatically call AJAX when date is selected
-      }
-    });
-  });
-</script>
+			// Allow only alphanumeric characters
+			input.value = value.replace(/[^a-zA-Z0-9]/g, '');
 
-<!-- AJAX Function to send selected date -->
-<script>
-function sendSelectedDate() {
-    var selectedDate = $("#currentvalue").val();
-    if (!selectedDate) {
-        alert("Please select a date.");
-        return;
-    }
+			// Check if the length is exactly 10
+			if (input.value.length !== 10) {
+				errorMessage.style.display = 'block';
+			} else {
+				errorMessage.style.display = 'none';
+			}
+		}
 
-    var dateParts = selectedDate.split('-');
-    var formattedDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
+		function validateAddress(input) {
+			const value = input.value;
 
-    $.ajax({
-        url: './getBranchData',
-        type: 'GET',
-        data: { currentDate: formattedDate },
-        success: function (response) {
-            var rows = "";
+			// Check if the length is less than 3 characters
+			if (value.length < 3 && value.length > 0) {
+				alert("Please fill in more than 3 letters.");
+			}
+		}
+	</script>
+	<!-- jQuery Datepicker Setup -->
+	<script>
+		$(function () {
+			$("#currentvalue").datepicker({
+				dateFormat: "dd-mm-yy", // Date format for the UI
+				changeMonth: true,
+				changeYear: true,
+				onSelect: function () {
+					sendSelectedDate();  // Automatically call AJAX when date is selected
+				}
+			});
+		});
+	</script>
 
-            for (var i = 0; i < response.length; i++) {
-                var data = response[i];
+	<!-- AJAX Function to send selected date -->
+	<script>
+		function sendSelectedDate() {
+			var selectedDate = $("#currentvalue").val();
+			if (!selectedDate) {
+				alert("Please select a date.");
+				return;
+			}
 
-                var formattedCreationDate = '';
-                if (data.creation_date) {
-                    var rawDate = new Date(data.creation_date);
-                    var day = String(rawDate.getDate()).padStart(2, '0');
-                    var month = String(rawDate.getMonth() + 1).padStart(2, '0');
-                    var year = rawDate.getFullYear();
-                    formattedCreationDate = day + '-' + month + '-' + year;
-                }
+			var dateParts = selectedDate.split('-');
+			var formattedDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
 
-                var loanAmountFormatted = '';
-                if (data.loan_amount && !isNaN(data.loan_amount)) {
-                    loanAmountFormatted = parseFloat(data.loan_amount).toLocaleString('en-IN', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    });
-                }
+			function handleAjax(url, tableId, buildRowsFn) {
+				$.ajax({
+					url: url,
+					type: 'GET',
+					data: {currentDate: formattedDate},
+					success: function (response) {
+						var rows = "";
+						if (!response || response.length === 0) {
+							rows = "<tr><td colspan='7' style='text-align:center;'>No Data Found</td></tr>";
+						} else {
+							rows = buildRowsFn(response);
+						}
+						$('#' + tableId).html(rows);
+					},
+					error: function () {
+						$('#' + tableId).html("<tr><td colspan='7' style='text-align:center;color:red;'>Error fetching data</td></tr>");
+					}
+				});
+			}
 
-                rows += "<tr>";
-                rows += "<td>" + (i + 1) + "</td>";
-                rows += "<td>1</td>"; // flow_id = 1
-                rows += "<td>" + formattedCreationDate + "</td>";
-                rows += "<td title='DISRB'>DISRB</td>"; // flow_code = 'DISRB'
-                rows += "<td style='text-align:right;'>" + loanAmountFormatted + "</td>";
-                rows += "<td>" + (data.id || '') + "</td>";
-                rows += "<td>" + (data.loan_name || '') + "</td>";
-                rows += "</tr>";
-            }
+			// === TAB 1 ===
+			handleAjax("./getBranchData", "placelist1", function (response) {
+				var rows = "";
+				for (var i = 0; i < response.length; i++) {
+					var data = response[i];
+					var formattedCreationDate = '';
+					if (data.creation_date) {
+						var rawDate = new Date(data.creation_date);
+						var day = String(rawDate.getDate()).padStart(2, '0');
+						var month = String(rawDate.getMonth() + 1).padStart(2, '0');
+						var year = rawDate.getFullYear();
+						formattedCreationDate = day + '-' + month + '-' + year;
+					}
+					var loanAmountFormatted = data.loan_amount && !isNaN(data.loan_amount)
+						? parseFloat(data.loan_amount).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})
+						: '';
 
-            $('#placelist1').html(rows);
-        },
-        error: function () {
-            alert("Failed to fetch data.");
-        }
-    });
-    
-    $.ajax({
-        url: './getBranchData1',
-        type: 'GET',
-        data: { currentDate: formattedDate },
-        success: function (response) {
-            var rows = "";
+					rows += "<tr>";
+					rows += "<td>" + (i + 1) + "</td>";
+					rows += "<td>1</td>";
+					rows += "<td>" + formattedCreationDate + "</td>";
+					rows += "<td title='DISRB'>DISRB</td>";
+					rows += "<td style='text-align:right;'>" + loanAmountFormatted + "</td>";
+					rows += "<td>" + (data.id || '') + "</td>";
+					rows += "<td>" + (data.loan_name || '') + "</td>";
+					rows += "</tr>";
+				}
+				return rows;
+			});
 
-            // Loop through the response data
-            for (var i = 0; i < response.length; i++) {
-                var data = response[i];
+			// === TAB 2 (INDEM) ===
+			handleAjax("./getBranchData1", "placelist2", function (response) {
+				var rows = "", serialNo = 1;
+				for (var i = 0; i < response.length; i++) {
+					var data = response[i];
+					var formattedCreationDate = data[2] ? new Date(data[2]).toLocaleDateString('en-GB').replace(/\//g, '-') : '';
+					var interest = data[10] && !isNaN(data[10]) ? parseFloat(data[10]).toLocaleString('en-IN', {minimumFractionDigits: 2}) : '';
 
-                // Format the due date correctly
-                var formattedCreationDate = '';
-                if (data[2]) {  // Assuming data[2] contains the due date
-                    var rawDate = new Date(data[2]);
-                    var day = String(rawDate.getDate()).padStart(2, '0');
-                    var month = String(rawDate.getMonth() + 1).padStart(2, '0');
-                    var year = rawDate.getFullYear();
-                    formattedCreationDate = day + '-' + month + '-' + year;
-                }
+					// INDEM row only for Tab 2
+					rows += `<tr>
+			                    <td>${serialNo++}</td>
+			                    <td>1</td>
+			                    <td>${formattedCreationDate}</td>
+			                    <td title='INDEM'>INDEM</td>
+			                    <td style='text-align:right;'>${interest}</td>
+			                    <td>${data[21] || ''}</td>
+			                    <td>${data[22] || ''}</td>
+			                 </tr>`;
+				}
+				return rows;
+			});
 
-                // Format the loan amount correctly
-                var loanAmountFormatted = '';
-                if (data[10] && !isNaN(data[10])) {  // Assuming data[10] contains the loan amount
-                    loanAmountFormatted = parseFloat(data[10]).toLocaleString('en-IN', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    });
-                }
+			// === TAB 3 ===
+			handleAjax("./getBranchData31", "placelist3", function (response) {
+				var rows = "", serialNo = 1;
+				for (var i = 0; i < response.length; i++) {
+					var data = response[i];
+					var formattedCreationDate = data[2] ? new Date(data[2]).toLocaleDateString('en-GB').replace(/\//g, '-') : '';
+					var principal = data[7] && !isNaN(data[7]) ? parseFloat(data[7]).toLocaleString('en-IN', {minimumFractionDigits: 2}) : '';
+					var interest = data[10] && !isNaN(data[10]) ? parseFloat(data[10]).toLocaleString('en-IN', {minimumFractionDigits: 2}) : '';
+					var fee = data[13] && !isNaN(data[13]) ? parseFloat(data[13]).toLocaleString('en-IN', {minimumFractionDigits: 2}) : '';
 
-                // Build the rows for the table
-                rows += "<tr>";
-                rows += "<td style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;'>" + (i + 1) + "</td>";
-                rows += "<td style='white-space:nowrap;'>1</td>"; // flow_id = 1
-                rows += "<td style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;'>" + formattedCreationDate + "</td>";
-                rows += "<td title='INDEM' style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;'>INDEM</td>";
-                rows += "<td style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;text-align:right;'>" + loanAmountFormatted + "</td>";
-                rows += "<td style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;'>" + (data[21] || '') + "</td>";  // Assuming data[21] is another field
-                rows += "<td style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;'>" + (data[22] || '') + "</td>";  // Assuming data[22] is another field
-                rows += "</tr>";
-            }
+					rows += `<tr><td>${serialNo++}</td><td>1</td><td>${formattedCreationDate}</td><td title='INDEM'>INDEM</td><td style='text-align:right;'>${interest}</td><td>${data[21] || ''}</td><td>${data[22] || ''}</td></tr>`;
+					rows += `<tr><td>${serialNo++}</td><td>2</td><td>${formattedCreationDate}</td><td title='FEEDM'>FEEDM</td><td style='text-align:right;'>${fee}</td><td>${data[21] || ''}</td><td>${data[22] || ''}</td></tr>`;
+					rows += `<tr><td>${serialNo++}</td><td>3</td><td>${formattedCreationDate}</td><td title='PRDEM'>PRDEM</td><td style='text-align:right;'>${principal}</td><td>${data[21] || ''}</td><td>${data[22] || ''}</td></tr>`;
+				}
+				return rows;
+			});
 
-            // Insert the generated rows into the table
-            $('#placelist4').html(rows);
-        },
-        error: function () {
-            alert("Failed to fetch data.");
-        }
-    });
-    
-    $.ajax({
-        url: './getBranchData1',
-        type: 'GET',
-        data: { currentDate: formattedDate },
-        success: function (response) {
-            var rows = "";
-            var serialNo = 1; // Start serial number from 1
+			// === TAB 4 ===
+			handleAjax("./getBranchData1", "placelist4", function (response) {
+				var rows = "";
+				for (var i = 0; i < response.length; i++) {
+					var data = response[i];
+					var formattedCreationDate = data[2] ? new Date(data[2]).toLocaleDateString('en-GB').replace(/\//g, '-') : '';
+					var loanAmountFormatted = data[10] && !isNaN(data[10]) ? parseFloat(data[10]).toLocaleString('en-IN', {minimumFractionDigits: 2}) : '';
+					rows += `<tr><td>${i + 1}</td><td>1</td><td>${formattedCreationDate}</td><td title='INDEM'>INDEM</td><td style='text-align:right;'>${loanAmountFormatted}</td><td>${data[21] || ''}</td><td>${data[22] || ''}</td></tr>`;
+				}
+				return rows;
+			});
 
-            for (var i = 0; i < response.length; i++) {
-                var data = response[i];
+			// === TAB 5 (FEEDM) ===
+			handleAjax("./getBranchData21", "placelist5", function (response) {
+				var rows = "", serialNo = 1;
+				for (var i = 0; i < response.length; i++) {
+					var data = response[i];
+					var formattedCreationDate = data[2] ? new Date(data[2]).toLocaleDateString('en-GB').replace(/\//g, '-') : '';
+					var fee = data[13] && !isNaN(data[13]) ? parseFloat(data[13]).toLocaleString('en-IN', {minimumFractionDigits: 2}) : '';
 
-                // Format the flow date
-                var formattedCreationDate = '';
-                if (data[2]) {
-                    var rawDate = new Date(data[2]);
-                    var day = String(rawDate.getDate()).padStart(2, '0');
-                    var month = String(rawDate.getMonth() + 1).padStart(2, '0');
-                    var year = rawDate.getFullYear();
-                    formattedCreationDate = day + '-' + month + '-' + year;
-                }
+					// FEEDM row only for Tab 5
+					rows += `<tr>
+			                    <td>${serialNo++}</td>
+			                    <td>2</td>
+			                    <td>${formattedCreationDate}</td>
+			                    <td title='FEEDM'>FEEDM</td>
+			                    <td style='text-align:right;'>${fee}</td>
+			                    <td>${data[21] || ''}</td>
+			                    <td>${data[22] || ''}</td>
+			                 </tr>`;
+				}
+				return rows;
+			});
+		}
 
-                // Format INDEM amount
-                var interestDueFormatted = '';
-                if (data[10] && !isNaN(data[10])) {
-                    interestDueFormatted = parseFloat(data[10]).toLocaleString('en-IN', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    });
-                }
+		function disbursementsubmit() {
+			var tableData = [];
 
-                // Format FEEDM amount
-                var feeDueFormatted = '';
-                if (data[13] && !isNaN(data[13])) {
-                    feeDueFormatted = parseFloat(data[13]).toLocaleString('en-IN', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    });
-                }
+			// Collect data from the table
+			$('#placelist1 tr').each(function () {
+				var row = $(this).find('td');
 
-                // INDEM row
-                rows += "<tr>";
-                rows += "<td style='white-space:nowrap;'>" + (serialNo++) + "</td>";
-                rows += "<td style='white-space:nowrap;'>1</td>";
-                rows += "<td style='white-space:nowrap;'>" + formattedCreationDate + "</td>";
-                rows += "<td style='white-space:nowrap;' title='INDEM'>INDEM</td>";
-                rows += "<td style='white-space:nowrap;text-align:right;'>" + interestDueFormatted + "</td>";
-                rows += "<td style='white-space:nowrap;'>" + (data[21] || '') + "</td>";
-                rows += "<td style='white-space:nowrap;'>" + (data[22] || '') + "</td>";
-                rows += "</tr>";
+				var rowData = {
+					srl_no: $(row[0]).text().trim(),
+					flow_id: $(row[1]).text().trim(),
+					flow_date: $(row[2]).text().trim(),
+					flow_code: $(row[3]).text().trim(),
+					flow_amount: $(row[4]).text().trim().replace(/,/g, ''), // remove comma
+					account_number: $(row[5]).text().trim(),
+					account_name: $(row[6]).text().trim()
+				};
 
-                // FEEDM row
-                rows += "<tr>";
-                rows += "<td style='white-space:nowrap;'>" + (serialNo++) + "</td>";
-                rows += "<td style='white-space:nowrap;'>2</td>";
-                rows += "<td style='white-space:nowrap;'>" + formattedCreationDate + "</td>";
-                rows += "<td style='white-space:nowrap;' title='FEEDM'>FEEDM</td>";
-                rows += "<td style='white-space:nowrap;text-align:right;'>" + feeDueFormatted + "</td>";
-                rows += "<td style='white-space:nowrap;'>" + (data[21] || '') + "</td>";
-                rows += "<td style='white-space:nowrap;'>" + (data[22] || '') + "</td>";
-                rows += "</tr>";
-            }
+				tableData.push(rowData);
+			});
 
-            $('#placelist2').html(rows);
-        },
-        error: function () {
-            alert("Failed to fetch data.");
-        }
-    });
+			// Show the file uploading popup
+			$('#alertmsg121').text('File Uploading...');
+			$('#alert121').modal('show');
 
+			// Inline AJAX with File Uploading message
+			$.ajax({
+				url: './saveBranchData',  // Your controller endpoint
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(tableData),
+				success: function (response) {
 
-    $.ajax({
-        url: './getBranchData1',
-        type: 'GET',
-        data: { currentDate: formattedDate },
-        success: function (response) {
-            var rows = "";
-            var serialNo = 1; // Initialize serial number
+					// Show the success popup with the database response
+					$('#alertmsg121').text('Data saved successfully!');
+					$('#alert121').modal('show');
+				},
+				error: function () {
+					// Hide the uploading popup first
+					$('#alert121').modal('hide');
 
-            for (var i = 0; i < response.length; i++) {
-                var data = response[i];
+					// Show error message in the popup
+					$('#alertmsg121').text('Failed to save data.');
+					$('#alert121').modal('show');
+				}
+			});
+		}
 
-                // Format the due date
-                var formattedCreationDate = '';
-                if (data[2]) {
-                    var rawDate = new Date(data[2]);
-                    var day = String(rawDate.getDate()).padStart(2, '0');
-                    var month = String(rawDate.getMonth() + 1).padStart(2, '0');
-                    var year = rawDate.getFullYear();
-                    formattedCreationDate = day + '-' + month + '-' + year;
-                }
+		function bookingsubmit() {
+			var tableData = [];
 
-                // Format PRDEM (principal due)
-                var principleDueFormatted = '';
-                if (data[7] && !isNaN(data[7])) {
-                    principleDueFormatted = parseFloat(data[7]).toLocaleString('en-IN', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    });
-                }
+			// Collect data from the table
+			$('#placelist4 tr').each(function () {
+				var row = $(this).find('td');
 
-                // Format INDEM (interest due)
-                var interestDueFormatted = '';
-                if (data[10] && !isNaN(data[10])) {
-                    interestDueFormatted = parseFloat(data[10]).toLocaleString('en-IN', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    });
-                }
+				var rowData = {
+					srl_no: $(row[0]).text().trim(),
+					flow_id: $(row[1]).text().trim(),
+					flow_date: $(row[2]).text().trim(),
+					flow_code: $(row[3]).text().trim(),
+					flow_amount: $(row[4]).text().trim().replace(/,/g, ''), // remove comma
+					account_number: $(row[5]).text().trim(),
+					account_name: $(row[6]).text().trim()
+				};
 
-                // Format FEEDM (fee due)
-                var feeDueFormatted = '';
-                if (data[13] && !isNaN(data[13])) {
-                    feeDueFormatted = parseFloat(data[13]).toLocaleString('en-IN', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    });
-                }
+				tableData.push(rowData);
+			});
 
-                // INDEM row (flow_id = 1)
-                rows += "<tr>";
-                rows += "<td style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;'>" + (serialNo++) + "</td>";
-                rows += "<td style='white-space:nowrap;'>1</td>";
-                rows += "<td style='white-space:nowrap;'>" + formattedCreationDate + "</td>";
-                rows += "<td title='INDEM' style='white-space:nowrap;'>INDEM</td>";
-                rows += "<td style='white-space:nowrap;text-align:right;'>" + interestDueFormatted + "</td>";
-                rows += "<td style='white-space:nowrap;'>" + (data[21] || '') + "</td>";
-                rows += "<td style='white-space:nowrap;'>" + (data[22] || '') + "</td>";
-                rows += "</tr>";
+			// Show the file uploading popup
+			$('#alertmsg121').text('File Uploading...');
+			$('#alert121').modal('show');
 
-                // FEEDM row (flow_id = 2)
-                rows += "<tr>";
-                rows += "<td style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;'>" + (serialNo++) + "</td>";
-                rows += "<td style='white-space:nowrap;'>2</td>";
-                rows += "<td style='white-space:nowrap;'>" + formattedCreationDate + "</td>";
-                rows += "<td title='FEEDM' style='white-space:nowrap;'>FEEDM</td>";
-                rows += "<td style='white-space:nowrap;text-align:right;'>" + feeDueFormatted + "</td>";
-                rows += "<td style='white-space:nowrap;'>" + (data[21] || '') + "</td>";
-                rows += "<td style='white-space:nowrap;'>" + (data[22] || '') + "</td>";
-                rows += "</tr>";
+			// Inline AJAX with File Uploading message
+			$.ajax({
+				url: './saveBranchData1',  // Your controller endpoint
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(tableData),
+				success: function (response) {
 
-                // PRDEM row (flow_id = 3)
-                rows += "<tr>";
-                rows += "<td style='white-space:nowrap; overflow:hidden; text-overflow:ellipsis;'>" + (serialNo++) + "</td>";
-                rows += "<td style='white-space:nowrap;'>3</td>";
-                rows += "<td style='white-space:nowrap;'>" + formattedCreationDate + "</td>";
-                rows += "<td title='PRDEM' style='white-space:nowrap;'>PRDEM</td>";
-                rows += "<td style='white-space:nowrap;text-align:right;'>" + principleDueFormatted + "</td>";
-                rows += "<td style='white-space:nowrap;'>" + (data[21] || '') + "</td>";
-                rows += "<td style='white-space:nowrap;'>" + (data[22] || '') + "</td>";
-                rows += "</tr>";
-            }
+					// Show the success popup with the database response
+					$('#alertmsg121').text('Data saved successfully!');
+					$('#alert121').modal('show');
+				},
+				error: function () {
+					// Hide the uploading popup first
+					$('#alert121').modal('hide');
 
-            $('#placelist3').html(rows);
-        },
-        error: function () {
-            alert("Failed to fetch data.");
-        }
-    });
+					// Show error message in the popup
+					$('#alertmsg121').text('Failed to save data.');
+					$('#alert121').modal('show');
+				}
+			});
+		}
 
-}
+		function interestsubmit() {
+			var tableData = [];
 
-function disbursementsubmit() {
-    var tableData = [];
+			$('#placelist2 tr').each(function () {
+				var row = $(this).find('td');
+				if (row.length > 0) {
+					var rowData = {
+						srl_no: $(row[0]).text().trim(),
+						flow_id: $(row[1]).text().trim(),
+						flow_date: $(row[2]).text().trim(),
+						flow_code: $(row[3]).text().trim(),
+						flow_amount: $(row[4]).text().trim().replace(/,/g, ''),
+						account_number: $(row[5]).text().trim(),
+						account_name: $(row[6]).text().trim()
+					};
+					tableData.push(rowData);
+				}
+			});
 
-    // Collect data from the table
-    $('#placelist1 tr').each(function () {
-        var row = $(this).find('td');
+			if (tableData.length === 0) {
+				alert("No data to submit.");
+				return;
+			}
 
-        var rowData = {
-            srl_no: $(row[0]).text().trim(),
-            flow_id: $(row[1]).text().trim(),
-            flow_date: $(row[2]).text().trim(),
-            flow_code: $(row[3]).text().trim(),
-            flow_amount: $(row[4]).text().trim().replace(/,/g, ''), // remove comma
-            account_number: $(row[5]).text().trim(),
-            account_name: $(row[6]).text().trim()
-        };
+			$('#alertmsg121').text('File Uploading...');
+			$('#alert121').modal('show');
 
-        tableData.push(rowData);
-    });
+			$.ajax({
+				url: './saveBranchData2',
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(tableData),
+				success: function (response) {
+					$('#alertmsg121').text('Data saved successfully!');
+					$('#alert121').modal('show');
+				},
+				error: function () {
+					$('#alert121').modal('hide');
+					$('#alertmsg121').text('Failed to save data.');
+					$('#alert121').modal('show');
+				}
+			});
+		}
 
-    // Show the file uploading popup
-    $('#alertmsg121').text('File Uploading...');
-    $('#alert121').modal('show');
+		function feessubmit() {
+			var tableData = [];
 
-    // Inline AJAX with File Uploading message
-    $.ajax({
-        url: './saveBranchData',  // Your controller endpoint
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(tableData),
-        success: function (response) {
-         
-            // Show the success popup with the database response
-            $('#alertmsg121').text('Data saved successfully!');
-            $('#alert121').modal('show');
-        },
-        error: function () {
-            // Hide the uploading popup first
-            $('#alert121').modal('hide');
-            
-            // Show error message in the popup
-            $('#alertmsg121').text('Failed to save data.');
-            $('#alert121').modal('show');
-        }
-    });
-}
+			$('#placelist5 tr').each(function () {
+				var row = $(this).find('td');
+				if (row.length > 0) {
+					var rowData = {
+						srl_no: $(row[0]).text().trim(),
+						flow_id: $(row[1]).text().trim(),
+						flow_date: $(row[2]).text().trim(),
+						flow_code: $(row[3]).text().trim(),
+						flow_amount: $(row[4]).text().trim().replace(/,/g, ''),
+						account_number: $(row[5]).text().trim(),
+						account_name: $(row[6]).text().trim()
+					};
+					tableData.push(rowData);
+				}
+			});
 
-function bookingsubmit() {
-    var tableData = [];
+			if (tableData.length === 0) {
+				alert("No data to submit.");
+				return;
+			}
 
-    // Collect data from the table
-    $('#placelist4 tr').each(function () {
-        var row = $(this).find('td');
+			$('#alertmsg121').text('File Uploading...');
+			$('#alert121').modal('show');
 
-        var rowData = {
-            srl_no: $(row[0]).text().trim(),
-            flow_id: $(row[1]).text().trim(),
-            flow_date: $(row[2]).text().trim(),
-            flow_code: $(row[3]).text().trim(),
-            flow_amount: $(row[4]).text().trim().replace(/,/g, ''), // remove comma
-            account_number: $(row[5]).text().trim(),
-            account_name: $(row[6]).text().trim()
-        };
+			$.ajax({
+				url: './saveBranchData2',
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(tableData),
+				success: function (response) {
+					$('#alertmsg121').text('Data saved successfully!');
+					$('#alert121').modal('show');
+				},
+				error: function () {
+					$('#alert121').modal('hide');
+					$('#alertmsg121').text('Failed to save data.');
+					$('#alert121').modal('show');
+				}
+			});
+		}
 
-        tableData.push(rowData);
-    });
+		function recoverysubmit() {
+			var tableData = [];
 
-    // Show the file uploading popup
-    $('#alertmsg121').text('File Uploading...');
-    $('#alert121').modal('show');
+			$('#placelist3 tr').each(function () {
+				var row = $(this).find('td');
+				if (row.length > 0) {
+					var rowData = {
+						srl_no: $(row[0]).text().trim(),
+						flow_id: $(row[1]).text().trim(),
+						flow_date: $(row[2]).text().trim(),
+						flow_code: $(row[3]).text().trim(),
+						flow_amount: $(row[4]).text().trim().replace(/,/g, ''),
+						account_number: $(row[5]).text().trim(),
+						account_name: $(row[6]).text().trim()
+					};
+					tableData.push(rowData);
+				}
+			});
 
-    // Inline AJAX with File Uploading message
-    $.ajax({
-        url: './saveBranchData1',  // Your controller endpoint
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(tableData),
-        success: function (response) {
-         
-            // Show the success popup with the database response
-            $('#alertmsg121').text('Data saved successfully!');
-            $('#alert121').modal('show');
-        },
-        error: function () {
-            // Hide the uploading popup first
-            $('#alert121').modal('hide');
-            
-            // Show error message in the popup
-            $('#alertmsg121').text('Failed to save data.');
-            $('#alert121').modal('show');
-        }
-    });
-}
+			if (tableData.length === 0) {
+				alert("No data to submit.");
+				return;
+			}
 
-function interestsubmit() {
-    var tableData = [];
+			$('#alertmsg121').text('File Uploading...');
+			$('#alert121').modal('show');
 
-    $('#placelist2 tr').each(function () {
-        var row = $(this).find('td');
-        if (row.length > 0) {
-            var rowData = {
-                srl_no: $(row[0]).text().trim(),
-                flow_id: $(row[1]).text().trim(),
-                flow_date: $(row[2]).text().trim(),
-                flow_code: $(row[3]).text().trim(),
-                flow_amount: $(row[4]).text().trim().replace(/,/g, ''),
-                account_number: $(row[5]).text().trim(),
-                account_name: $(row[6]).text().trim()
-            };
-            tableData.push(rowData);
-        }
-    });
-
-    if (tableData.length === 0) {
-        alert("No data to submit.");
-        return;
-    }
-
-    $('#alertmsg121').text('File Uploading...');
-    $('#alert121').modal('show');
-
-    $.ajax({
-        url: './saveBranchData2',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(tableData),
-        success: function (response) {
-            $('#alertmsg121').text('Data saved successfully!');
-            $('#alert121').modal('show');
-        },
-        error: function () {
-            $('#alert121').modal('hide');
-            $('#alertmsg121').text('Failed to save data.');
-            $('#alert121').modal('show');
-        }
-    });
-}
-
-function recoverysubmit() {
-    var tableData = [];
-
-    $('#placelist3 tr').each(function () {
-        var row = $(this).find('td');
-        if (row.length > 0) {
-            var rowData = {
-                srl_no: $(row[0]).text().trim(),
-                flow_id: $(row[1]).text().trim(),
-                flow_date: $(row[2]).text().trim(),
-                flow_code: $(row[3]).text().trim(),
-                flow_amount: $(row[4]).text().trim().replace(/,/g, ''),
-                account_number: $(row[5]).text().trim(),
-                account_name: $(row[6]).text().trim()
-            };
-            tableData.push(rowData);
-        }
-    });
-
-    if (tableData.length === 0) {
-        alert("No data to submit.");
-        return;
-    }
-
-    $('#alertmsg121').text('File Uploading...');
-    $('#alert121').modal('show');
-
-    $.ajax({
-        url: './saveBranchData3',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(tableData),
-        success: function (response) {
-            $('#alertmsg121').text('Data saved successfully!');
-            $('#alert121').modal('show');
-        },
-        error: function () {
-            $('#alert121').modal('hide');
-            $('#alertmsg121').text('Failed to save data.');
-            $('#alert121').modal('show');
-        }
-    });
-}
-</script>
+			$.ajax({
+				url: './saveBranchData3',
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(tableData),
+				success: function (response) {
+					$('#alertmsg121').text('Data saved successfully!');
+					$('#alert121').modal('show');
+				},
+				error: function () {
+					$('#alert121').modal('hide');
+					$('#alertmsg121').text('Failed to save data.');
+					$('#alert121').modal('show');
+				}
+			});
+		}
+	</script>
 </head>
+
 <body>
 	<div class="col-sm-2">
 		<div th:insert="BGLSHeaderMenu :: header"></div>
@@ -1124,8 +1048,7 @@ function recoverysubmit() {
 				<div th:if="${formmode}=='add'">
 					<div class="card ">
 
-						<div
-							class="card-header d-flex justify-content-between align-items-center"
+						<div class="card-header d-flex justify-content-between align-items-center"
 							style="background-color: #e9ecef; height: 50px;">
 
 							<!-- Left side -->
@@ -1149,14 +1072,17 @@ function recoverysubmit() {
 						<div class="tab mt-2"
 							style="padding: 4px 4px; position: relative; display: flex; justify-content: space-around; margin-top: 10px; width: 100%; height: 43px">
 							<button class="tablinks" onclick="openTab(event, 'tab1')"
-								style="font-size: 16px; padding: 4px 8px; height: 32px;">Disbursement</button> 
+								style="font-size: 16px; padding: 4px 8px; height: 32px;">Disbursement</button>
 							<button class="tablinks" onclick="openTab(event, 'tab2')"
 								style="font-size: 16px; padding: 4px 8px; height: 32px;">Interest
+								Transaction</button>
+							<button class="tablinks" onclick="openTab(event, 'tab5')"
+								style="font-size: 16px; padding: 4px 8px; height: 32px;">Fees
 								Transaction</button>
 							<button class="tablinks" onclick="openTab(event, 'tab3')"
 								style="font-size: 16px; padding: 4px 8px; height: 32px;">Recovery
 								Transaction</button>
-								<button class="tablinks" onclick="openTab(event, 'tab4')"
+							<button class="tablinks" onclick="openTab(event, 'tab4')"
 								style="font-size: 16px; padding: 4px 8px; height: 32px;">Booking
 								Transaction</button>
 						</div>
@@ -1187,11 +1113,9 @@ function recoverysubmit() {
 								</div>
 							</div>
 
-							<div class="card-footer text-center"
-								style="background-color: #e9ecef">
+							<div class="card-footer text-center" style="background-color: #e9ecef">
 								<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-								<button class="btn btn-primary p-2"
-									onclick="disbursementsubmit(this);">Proceed</button>
+								<button class="btn btn-primary p-2" onclick="disbursementsubmit(this);">Proceed</button>
 								<button class="btn btn-primary p-2" onclick="Back();">Back</button>
 							</div>
 						</div>
@@ -1222,11 +1146,9 @@ function recoverysubmit() {
 									</table>
 								</div>
 							</div>
-							<div class="card-footer text-center"
-								style="background-color: #e9ecef;">
+							<div class="card-footer text-center" style="background-color: #e9ecef;">
 								<button class="btn btn-primary P-2" onclick="Home();">Home</button>
-								<button class="btn btn-primary p-2"
-									onclick="interestsubmit(this);">Proceed</button>
+								<button class="btn btn-primary p-2" onclick="interestsubmit(this);">Proceed</button>
 								<button class="btn btn-primary P-2" onclick="Back();">Back</button>
 							</div>
 						</div>
@@ -1256,11 +1178,9 @@ function recoverysubmit() {
 									</table>
 								</div>
 							</div>
-							<div class="card-footer text-center"
-								style="background-color: #e9ecef;">
+							<div class="card-footer text-center" style="background-color: #e9ecef;">
 								<button class="btn btn-primary P-2" onclick="Home();">Home</button>
-								<button class="btn btn-primary p-2"
-									onclick="recoverysubmit(this);">Proceed</button>
+								<button class="btn btn-primary p-2" onclick="recoverysubmit(this);">Proceed</button>
 								<button class="btn btn-primary P-2" onclick="Back();">Back</button>
 							</div>
 						</div>
@@ -1289,11 +1209,40 @@ function recoverysubmit() {
 									</table>
 								</div>
 							</div>
-							<div class="card-footer text-center"
-								style="background-color: #e9ecef;">
+							<div class="card-footer text-center" style="background-color: #e9ecef;">
 								<button class="btn btn-primary P-2" onclick="Home();">Home</button>
-								<button class="btn btn-primary p-2"
-									onclick="bookingsubmit(this);">Proceed</button>
+								<button class="btn btn-primary p-2" onclick="bookingsubmit(this);">Proceed</button>
+								<button class="btn btn-primary P-2" onclick="Back();">Back</button>
+							</div>
+						</div>
+
+						<div id="tab5" class="tabcontent" style="display: none;">
+							<div class="card-body">
+								<div class="table-wrapper"
+									style="max-height: 340px; overflow-y: auto; display: block; border: 1px solid #ccc;">
+									<table class="table table-bordered table-hover table-sm"
+										style="margin-bottom: 0px; font-size: initial; width: 100%; table-layout: fixed;">
+										<thead class="thead-light"
+											style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 1;">
+											<tr>
+												<th style="width: 9%">SRL NO</th>
+												<th style="width: 9%">FLOW ID</th>
+												<th style="width: 12%">FLOW DATE</th>
+												<th style="width: 12%">FLOW CODE</th>
+												<th style="width: 12%; text-align: center;">FLOW AMOUNT</th>
+												<th style="width: 23%">ACCOUNT NUMBER</th>
+												<th style="width: 23%">ACCOUNT NAME</th>
+											</tr>
+										</thead>
+										<tbody id="placelist5">
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="card-footer text-center" style="background-color: #e9ecef;">
+								<button class="btn btn-primary P-2" onclick="Home();">Home</button>
+								<button class="btn btn-primary p-2" onclick="feessubmit(this);">Proceed</button>
 								<button class="btn btn-primary P-2" onclick="Back();">Back</button>
 							</div>
 						</div>
@@ -1303,8 +1252,7 @@ function recoverysubmit() {
 				<!-- ---------------------------------------------------------------------------------------------------------------- -->
 				<div th:if="${formmode} =='addholiday'">
 					<div class="card">
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">Holiday
 									Master-Add</h6>
@@ -1313,8 +1261,8 @@ function recoverysubmit() {
 						</div>
 
 						<div class="card-body">
-							<form class=" border border-secondary" action="#" method="post"
-								id="" autocomplete="off" enctype="multipart/form-data">
+							<form class=" border border-secondary" action="#" method="post" id="" autocomplete="off"
+								enctype="multipart/form-data">
 								<div class="row formline" style="padding: 10px 0px 2px 0px;">
 
 
@@ -1401,13 +1349,11 @@ function recoverysubmit() {
 							</form>
 
 						</div>
-						<div class="card-footer text-center "
-							style="background-color: #e9ecef">
+						<div class="card-footer text-center " style="background-color: #e9ecef">
 
 
 							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary p-2" id="submitBtn"
-								onclick="AddSubmit();">Submit</button>
+							<button class="btn btn-primary p-2" id="submitBtn" onclick="AddSubmit();">Submit</button>
 
 							<button class="btn btn-primary p-2" onclick="Back();">Back</button>
 
@@ -1415,8 +1361,7 @@ function recoverysubmit() {
 					</div>
 				</div>
 				<div th:if="${formmode}=='UploadHoliday'">
-					<form action="#" method="post" autocomplete="off"
-						style="width: 100%">
+					<form action="#" method="post" autocomplete="off" style="width: 100%">
 						<div class="card">
 							<div class="card-header" style="background-color: #BBC3CB;">
 								<div class="float-right"></div>
@@ -1435,8 +1380,7 @@ function recoverysubmit() {
 											</div>
 											<div class="col-sm-2">
 
-												<input type="file" id="fileval" name="fileval"
-													accept=".xlsx,.xls,.csv"
+												<input type="file" id="fileval" name="fileval" accept=".xlsx,.xls,.csv"
 													class="form-control form-control-sm">
 
 											</div>
@@ -1448,8 +1392,7 @@ function recoverysubmit() {
 
 								</div>
 							</div>
-							<div class="card-footer text-center"
-								style="background-color: #BBC3CB;">
+							<div class="card-footer text-center" style="background-color: #BBC3CB;">
 								<button type="button" class="btn btn-primary" id="btnHome"
 									onclick="home();">Home</button>
 
@@ -1465,8 +1408,7 @@ function recoverysubmit() {
 
 				<div th:if="${formmode} =='ModifyHoliday'">
 					<div class="card">
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">Holiday
 									Master-Modify</h6>
@@ -1476,8 +1418,8 @@ function recoverysubmit() {
 
 
 						<div class="card-body">
-							<form class=" border border-secondary" action="#" method="post"
-								id="tab1modify" autocomplete="off">
+							<form class=" border border-secondary" action="#" method="post" id="tab1modify"
+								autocomplete="off">
 								<div class="row formline" style="padding: 10px 0px 2px 0px;">
 
 
@@ -1562,8 +1504,7 @@ function recoverysubmit() {
 							</form>
 
 						</div>
-						<div class="card-footer text-center "
-							style="background-color: #e9ecef">
+						<div class="card-footer text-center " style="background-color: #e9ecef">
 
 
 							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
@@ -1582,8 +1523,7 @@ function recoverysubmit() {
 				<div th:if="${formmode}=='listholiday'">
 					<div class="panel panel-primary filterable">
 						<div class="card w-100 border panel panel-primary filterable">
-							<div class="card-header"
-								style="background-color: #e9ecef; height: 70px">
+							<div class="card-header" style="background-color: #e9ecef; height: 70px">
 								<div class="float-left">
 									<h6 style="font-size: 1.2rem; color: black;">Holiday
 										Master-List</h6>
@@ -1594,8 +1534,7 @@ function recoverysubmit() {
 							<div class="card-body">
 								<div class="table-responsive">
 									<table class="table table-bordered  table-hover table-sm"
-										style="margin-bottom: 0px; font-size: initial;"
-										id="AssosiateTable">
+										style="margin-bottom: 0px; font-size: initial;" id="AssosiateTable">
 										<thead class="thead-light">
 
 											<tr>
@@ -1612,13 +1551,12 @@ function recoverysubmit() {
 											<tr th:each="chartacc : ${Listofvalues}">
 
 												<td class="hover-underline" onclick="getdata(this)"
-													style="color: #007bff;"
-													th:attr="data-attr=${chartacc?.record_srl}"
+													style="color: #007bff;" th:attr="data-attr=${chartacc?.record_srl}"
 													th:text="${chartacc?.record_srl}"></td>
 												<td th:text="${chartacc?.cal_year}"></td>
 												<td th:text="${chartacc?.cal_month}"></td>
-												<td
-													th:text="${#dates.format(chartacc?.record_date, 'dd-MM-yyyy')}"></td>
+												<td th:text="${#dates.format(chartacc?.record_date, 'dd-MM-yyyy')}">
+												</td>
 												<td th:text="${#dates.format(chartacc?.record_date, 'dd')}"></td>
 												<td th:text="${chartacc?.holiday_desc}"></td>
 
@@ -1634,8 +1572,7 @@ function recoverysubmit() {
 								</div>
 							</div>
 
-							<div class="card-footer text-center"
-								style="background-color: #e9ecef">
+							<div class="card-footer text-center" style="background-color: #e9ecef">
 								<button class="btn btn-primary p-2" onclick="Home();">Home</button>
 								<button class="btn btn-primary p-2" id="submitBtn"
 									onclick="getCheckedValues()">Submit</button>
@@ -1649,8 +1586,7 @@ function recoverysubmit() {
 				<div th:if="${formmode}=='viewrecord'">
 					<div class="card ">
 
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">Holiday
 									Master-View</h6>
@@ -1658,16 +1594,15 @@ function recoverysubmit() {
 
 						</div>
 						<div class="card-body">
-							<form class=" border border-secondary" action="#" method="post"
-								id="tab1modify" autocomplete="off">
+							<form class=" border border-secondary" action="#" method="post" id="tab1modify"
+								autocomplete="off">
 								<div class="row formline" style="padding: 10px 0px 2px 0px;">
 
 
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">Organization</div>
 									<div class="col-sm-2">
-										<input type="text" name="orgn" id="orgn"
-											th:value="${singlerecord?.orgn}"
+										<input type="text" name="orgn" id="orgn" th:value="${singlerecord?.orgn}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -1710,8 +1645,7 @@ function recoverysubmit() {
 									<div class="col-sm-2">
 										<input type="text" name="record_date" id="record_date"
 											th:value="${#dates.format(singlerecord?.record_date, 'dd-MM-yyyy')}"
-											readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 								</div>
@@ -1740,8 +1674,7 @@ function recoverysubmit() {
 									<div class="col-sm-2">
 										<input type="text" name="holiday_flg" id="holiday_flg"
 											th:value="${#strings.equals(singlerecord?.holiday_flg, 'Y') ? 'ACTIVE' : 'INACTIVE'}"
-											readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 									<div class="col-sm-1"></div>
@@ -1757,8 +1690,7 @@ function recoverysubmit() {
 							</form>
 
 						</div>
-						<div class="card-footer text-center "
-							style="background-color: #e9ecef">
+						<div class="card-footer text-center " style="background-color: #e9ecef">
 
 
 							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
@@ -1775,8 +1707,7 @@ function recoverysubmit() {
 				<div th:if="${formmode}=='view'">
 					<div class="card ">
 
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">BRANCH - VIEW</h6>
 							</div>
@@ -1784,8 +1715,7 @@ function recoverysubmit() {
 						</div>
 
 						<div class="card-body">
-							<form class=" border border-secondary" action="#" method="post"
-								id="" autocomplete="off">
+							<form class=" border border-secondary" action="#" method="post" id="" autocomplete="off">
 								<div class="row formline" style="padding: 10px 0px 2px 0px;">
 
 
@@ -1851,9 +1781,8 @@ function recoverysubmit() {
 									<div class="col-sm-2">Pic No</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="pic_no" id="pic_no"
-											th:value="${OrgBranch?.pic_no}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="pic_no" id="pic_no" th:value="${OrgBranch?.pic_no}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 
 									</div>
@@ -1877,8 +1806,7 @@ function recoverysubmit() {
 									<div class="col-sm-2">Fax</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="fax" id="fax"
-											th:value="${OrgBranch?.fax}" readonly
+										<input type="text" name="fax" id="fax" th:value="${OrgBranch?.fax}" readonly
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -1892,9 +1820,8 @@ function recoverysubmit() {
 
 
 									<div class="col-sm-2">
-										<input type="number" name="mobile" id="mobile"
-											th:value="${OrgBranch?.mobile}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="number" name="mobile" id="mobile" th:value="${OrgBranch?.mobile}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 
@@ -1916,9 +1843,8 @@ function recoverysubmit() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="website" id="website"
-											th:value="${OrgBranch?.website}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="website" id="website" th:value="${OrgBranch?.website}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 
@@ -1926,9 +1852,8 @@ function recoverysubmit() {
 									<div class="col-sm-2">Mail Id</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="mail_id" id="mail_id"
-											th:value="${OrgBranch?.mail_id}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="mail_id" id="mail_id" th:value="${OrgBranch?.mail_id}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 								</div>
@@ -1941,18 +1866,16 @@ function recoverysubmit() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="add_1" id="add_1"
-											th:value="${OrgBranch?.add_1}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="add_1" id="add_1" th:value="${OrgBranch?.add_1}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">Address 2</div>
 									<div class="col-sm-2">
-										<input type="text" name="add_2" id="add_2"
-											th:value="${OrgBranch?.add_2}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="add_2" id="add_2" th:value="${OrgBranch?.add_2}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 
 									</div>
@@ -1966,8 +1889,7 @@ function recoverysubmit() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="city" id="city"
-											th:value="${OrgBranch?.city}" readonly
+										<input type="text" name="city" id="city" th:value="${OrgBranch?.city}" readonly
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -1975,9 +1897,8 @@ function recoverysubmit() {
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">State</div>
 									<div class="col-sm-2">
-										<input type="text" name="state" id="state"
-											th:value="${OrgBranch?.state}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="state" id="state" th:value="${OrgBranch?.state}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 									</div>
 								</div>
 
@@ -1989,9 +1910,8 @@ function recoverysubmit() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="country" id="country"
-											th:value="${OrgBranch?.country}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="country" id="country" th:value="${OrgBranch?.country}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 
@@ -2008,8 +1928,7 @@ function recoverysubmit() {
 							</form>
 
 						</div>
-						<div class="card-footer text-center "
-							style="background-color: #e9ecef">
+						<div class="card-footer text-center " style="background-color: #e9ecef">
 
 
 							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
@@ -2025,8 +1944,7 @@ function recoverysubmit() {
 				<div th:if="${formmode}=='DeleteBranch'">
 					<div class="card ">
 
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">BRANCH -
 									DELETE</h6>
@@ -2035,8 +1953,8 @@ function recoverysubmit() {
 						</div>
 
 						<div class="card-body">
-							<form class=" border border-secondary" action="#" method="post"
-								id="tab2Del" autocomplete="off">
+							<form class=" border border-secondary" action="#" method="post" id="tab2Del"
+								autocomplete="off">
 								<div class="row formline" style="padding: 10px 0px 2px 0px;">
 
 
@@ -2102,9 +2020,8 @@ function recoverysubmit() {
 									<div class="col-sm-2">Pic No</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="pic_no" id="pic_no"
-											th:value="${OrgBranch?.pic_no}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="pic_no" id="pic_no" th:value="${OrgBranch?.pic_no}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 
 									</div>
@@ -2128,8 +2045,7 @@ function recoverysubmit() {
 									<div class="col-sm-2">Fax</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="fax" id="fax"
-											th:value="${OrgBranch?.fax}" readonly
+										<input type="text" name="fax" id="fax" th:value="${OrgBranch?.fax}" readonly
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2143,9 +2059,8 @@ function recoverysubmit() {
 
 
 									<div class="col-sm-2">
-										<input type="number" name="mobile" id="mobile"
-											th:value="${OrgBranch?.mobile}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="number" name="mobile" id="mobile" th:value="${OrgBranch?.mobile}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 
@@ -2167,9 +2082,8 @@ function recoverysubmit() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="website" id="website"
-											th:value="${OrgBranch?.website}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="website" id="website" th:value="${OrgBranch?.website}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 
@@ -2177,9 +2091,8 @@ function recoverysubmit() {
 									<div class="col-sm-2">Mail Id</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="mail_id" id="mail_id"
-											th:value="${OrgBranch?.mail_id}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="mail_id" id="mail_id" th:value="${OrgBranch?.mail_id}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 								</div>
@@ -2192,18 +2105,16 @@ function recoverysubmit() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="add_1" id="add_1"
-											th:value="${OrgBranch?.add_1}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="add_1" id="add_1" th:value="${OrgBranch?.add_1}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">Address 2</div>
 									<div class="col-sm-2">
-										<input type="text" name="add_2" id="add_2"
-											th:value="${OrgBranch?.add_2}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="add_2" id="add_2" th:value="${OrgBranch?.add_2}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 
 									</div>
@@ -2217,8 +2128,7 @@ function recoverysubmit() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="city" id="city"
-											th:value="${OrgBranch?.city}" readonly
+										<input type="text" name="city" id="city" th:value="${OrgBranch?.city}" readonly
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2226,9 +2136,8 @@ function recoverysubmit() {
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">State</div>
 									<div class="col-sm-2">
-										<input type="text" name="state" id="state"
-											th:value="${OrgBranch?.state}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="state" id="state" th:value="${OrgBranch?.state}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 									</div>
 								</div>
 
@@ -2240,9 +2149,8 @@ function recoverysubmit() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="country" id="country"
-											th:value="${OrgBranch?.country}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="country" id="country" th:value="${OrgBranch?.country}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 
@@ -2259,8 +2167,7 @@ function recoverysubmit() {
 							</form>
 
 						</div>
-						<div class="card-footer text-center "
-							style="background-color: #e9ecef">
+						<div class="card-footer text-center " style="background-color: #e9ecef">
 
 
 							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
@@ -2276,8 +2183,7 @@ function recoverysubmit() {
 				<div th:if="${formmode}=='modify'">
 					<div class="card ">
 
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">BRANCH -
 									MODIFY</h6>
@@ -2287,8 +2193,8 @@ function recoverysubmit() {
 
 
 						<div class="card-body">
-							<form class=" border border-secondary" action="#" method="post"
-								id="tab2modify" autocomplete="off">
+							<form class=" border border-secondary" action="#" method="post" id="tab2modify"
+								autocomplete="off">
 								<div class="row formline" style="padding: 10px 0px 2px 0px;">
 
 
@@ -2308,8 +2214,7 @@ function recoverysubmit() {
 									<div class="col-sm-2">
 										<input type="text" name="branch_name" id="branch_name"
 											th:value="${OrgBranch?.branch_name}"
-											class="form-control form-control-sm bg-white border border-dark"
-											readonly />
+											class="form-control form-control-sm bg-white border border-dark" readonly />
 									</div>
 								</div>
 
@@ -2355,8 +2260,7 @@ function recoverysubmit() {
 									<div class="col-sm-2">Pic No</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="pic_no" id="pic_no"
-											th:value="${OrgBranch?.pic_no}"
+										<input type="text" name="pic_no" id="pic_no" th:value="${OrgBranch?.pic_no}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 
@@ -2381,8 +2285,7 @@ function recoverysubmit() {
 									<div class="col-sm-2">Fax</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="fax" id="fax"
-											th:value="${OrgBranch?.fax}"
+										<input type="text" name="fax" id="fax" th:value="${OrgBranch?.fax}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2396,8 +2299,7 @@ function recoverysubmit() {
 
 
 									<div class="col-sm-2">
-										<input type="number" name="mobile" id="mobile"
-											th:value="${OrgBranch?.mobile}"
+										<input type="number" name="mobile" id="mobile" th:value="${OrgBranch?.mobile}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2420,8 +2322,7 @@ function recoverysubmit() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="website" id="website"
-											th:value="${OrgBranch?.website}"
+										<input type="text" name="website" id="website" th:value="${OrgBranch?.website}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2430,8 +2331,7 @@ function recoverysubmit() {
 									<div class="col-sm-2">Mail Id</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="mail_id" id="mail_id"
-											th:value="${OrgBranch?.mail_id}"
+										<input type="text" name="mail_id" id="mail_id" th:value="${OrgBranch?.mail_id}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2445,8 +2345,7 @@ function recoverysubmit() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="add_1" id="add_1"
-											th:value="${OrgBranch?.add_1}"
+										<input type="text" name="add_1" id="add_1" th:value="${OrgBranch?.add_1}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2454,8 +2353,7 @@ function recoverysubmit() {
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">Address 2</div>
 									<div class="col-sm-2">
-										<input type="text" name="add_2" id="add_2"
-											th:value="${OrgBranch?.add_2}"
+										<input type="text" name="add_2" id="add_2" th:value="${OrgBranch?.add_2}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 
@@ -2470,8 +2368,7 @@ function recoverysubmit() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="city" id="city"
-											th:value="${OrgBranch?.city}"
+										<input type="text" name="city" id="city" th:value="${OrgBranch?.city}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2479,8 +2376,7 @@ function recoverysubmit() {
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">State</div>
 									<div class="col-sm-2">
-										<input type="text" name="state" id="state"
-											th:value="${OrgBranch?.state}"
+										<input type="text" name="state" id="state" th:value="${OrgBranch?.state}"
 											class="form-control form-control-sm bg-white border border-dark" />
 									</div>
 								</div>
@@ -2493,8 +2389,7 @@ function recoverysubmit() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="country" id="country"
-											th:value="${OrgBranch?.country}"
+										<input type="text" name="country" id="country" th:value="${OrgBranch?.country}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2512,8 +2407,7 @@ function recoverysubmit() {
 							</form>
 
 						</div>
-						<div class="card-footer text-center "
-							style="background-color: #e9ecef">
+						<div class="card-footer text-center " style="background-color: #e9ecef">
 
 
 							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
@@ -2531,8 +2425,7 @@ function recoverysubmit() {
 
 				<div th:if="${formmode} =='ModifyHead'">
 					<div class="card">
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">HEAD OFFICE -
 									MODIFY</h6>
@@ -2542,8 +2435,8 @@ function recoverysubmit() {
 
 
 						<div class="card-body">
-							<form class=" border border-secondary" action="#" method="post"
-								id="tab1modify" autocomplete="off">
+							<form class=" border border-secondary" action="#" method="post" id="tab1modify"
+								autocomplete="off">
 								<div class="row formline" style="padding: 10px 0px 2px 0px;">
 
 
@@ -2554,8 +2447,7 @@ function recoverysubmit() {
 									<div class="col-sm-2">
 										<input type="text" name="org_name" id="org_name"
 											th:value="${organization?.org_name}"
-											class="form-control form-control-sm bg-white border border-dark"
-											readonly />
+											class="form-control form-control-sm bg-white border border-dark" readonly />
 
 									</div>
 
@@ -2586,8 +2478,7 @@ function recoverysubmit() {
 									<div class="col-sm-2">Certificate and Registration</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="reg_no" id="reg_no"
-											th:value="${organization?.reg_no}"
+										<input type="text" name="reg_no" id="reg_no" th:value="${organization?.reg_no}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2626,8 +2517,7 @@ function recoverysubmit() {
 									<div class="col-sm-2">No of Employees</div>
 									<div class="col-sm-2">
 										<input type="text" name="no_of_emp" id="no_of_emp"
-											th:value="${organization?.no_of_emp}"
-											oninput="validateNumericInput(this)"
+											th:value="${organization?.no_of_emp}" oninput="validateNumericInput(this)"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2652,8 +2542,7 @@ function recoverysubmit() {
 
 									<div class="col-sm-2">
 										<input type="text" name="reg_addr_1" id="reg_addr_1"
-											th:value="${organization?.reg_addr_1}"
-											oninput="validateAddress(this)"
+											th:value="${organization?.reg_addr_1}" oninput="validateAddress(this)"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2663,8 +2552,7 @@ function recoverysubmit() {
 									<div class="col-sm-2">
 
 										<input type="text" name="reg_addr_2" id="reg_addr_2"
-											th:value="${organization?.reg_addr_2}"
-											oninput="validateAddress(this)"
+											th:value="${organization?.reg_addr_2}" oninput="validateAddress(this)"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2679,8 +2567,7 @@ function recoverysubmit() {
 
 									<div class="col-sm-2">
 										<input type="text" name="corp_addr_1" id="corp_addr_1"
-											th:value="${organization?.corp_addr_1}"
-											oninput="validateAddress(this)"
+											th:value="${organization?.corp_addr_1}" oninput="validateAddress(this)"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2689,8 +2576,7 @@ function recoverysubmit() {
 									<div class="col-sm-2">Corporate Office Address 2</div>
 									<div class="col-sm-2">
 										<input type="text" name="cor_addr_2" id="cor_addr_2"
-											th:value="${organization?.cor_addr_2}"
-											oninput="validateAddress(this)"
+											th:value="${organization?.cor_addr_2}" oninput="validateAddress(this)"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 
@@ -2714,8 +2600,7 @@ function recoverysubmit() {
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">Email</div>
 									<div class="col-sm-2">
-										<input type="text" name="email" id="email"
-											th:value="${organization?.email}"
+										<input type="text" name="email" id="email" th:value="${organization?.email}"
 											class="form-control form-control-sm bg-white border border-dark" />
 									</div>
 								</div>
@@ -2726,8 +2611,7 @@ function recoverysubmit() {
 							</form>
 
 						</div>
-						<div class="card-footer text-center "
-							style="background-color: #e9ecef">
+						<div class="card-footer text-center " style="background-color: #e9ecef">
 
 
 							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
@@ -2744,8 +2628,7 @@ function recoverysubmit() {
 
 				<div th:if="${formmode} =='AddBranch'">
 					<div class="card">
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">BRANCH - ADD</h6>
 							</div>
@@ -2754,8 +2637,7 @@ function recoverysubmit() {
 
 						<div class="card-body">
 							<form class=" border border-secondary" action="#" method="post"
-								enctype="multipart/form-data" id="assosiateForm1"
-								autocomplete="off">
+								enctype="multipart/form-data" id="assosiateForm1" autocomplete="off">
 								<div class="row formline" style="padding: 10px 0px 2px 0px;">
 
 
@@ -2976,17 +2858,14 @@ function recoverysubmit() {
 									</div>
 								</div>
 
-
 							</form>
 
 						</div>
-						<div class="card-footer text-center "
-							style="background-color: #e9ecef">
+						<div class="card-footer text-center " style="background-color: #e9ecef">
 
 
 							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary p-2" id="submitBtn"
-								onclick="AddSubmit();">Submit</button>
+							<button class="btn btn-primary p-2" id="submitBtn" onclick="AddSubmit();">Submit</button>
 
 							<button class="btn btn-primary p-2" onclick="Back();">Back</button>
 
@@ -3005,10 +2884,9 @@ function recoverysubmit() {
 	</div>
 
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false"
-		id="alert" tabindex="-1" role="dialog" aria-hidden="true">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+	<div class="modal fade" data-backdrop="false" data-keyboard="false" id="alert" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
 
 				<div class="modal-body" style="text-align: center;">
@@ -3019,51 +2897,80 @@ function recoverysubmit() {
 		</div>
 	</div>
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false"
-		id="alert1" tabindex="-1" role="dialog" aria-hidden="true">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+	<div class="modal fade" data-backdrop="false" data-keyboard="false" id="alert1" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
 
 				<div class="modal-body" style="text-align: center;">
 					<h6 id="alertmsg1"></h6>
-					<button type="button" class="btn btn-primary"
-						onclick="$('#alert1').modal('hide')">Close</button>
+					<button type="button" class="btn btn-primary" onclick="$('#alert1').modal('hide')">Close</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- Modal structure -->
-	<div class="modal fade" data-backdrop="false" data-keyboard="false"
-		id="alert121" tabindex="-1" role="dialog" aria-hidden="true">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+	<div class="modal fade" data-backdrop="false" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true"
+		id="alert121">
+		<form action="#" th:object="${reportform}" method="post" enctype="multipart/form-data" id="reportform2">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"
+				style="max-width: 600px; height: auto;">
+				<div class="modal-content" style="width: 100%; height: 100%;">
+					<!-- Modal Header -->
+					<div class="modal-header" style="justify-content: center; width: 100%; padding: 10px;">
+						<h5 class="modal-title" id="popupAlert" style="font-size: 18px;">
+							TRNSACTION DATA - UPLOAD</h5>
+					</div>
+
+					<!-- Modal Body -->
+					<div class="modal-body d-flex flex-row align-items-center justify-content-center"
+						style="text-align: center; flex-grow: 1; min-height: 100px; padding: 10px;">
+						<h6 id="alertmsg121" class="text-center text-primary"></h6>
+					</div>
+
+					<!-- Modal Footer -->
+					<div class="modal-footer d-flex justify-content-center" style="width: 100%; padding: 10px;">
+						<button type="button" class="btn btn-primary"
+							onclick="$('#alert121').modal('hide'); location.reload();">
+							Close
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="modal fade" data-backdrop="false" data-keyboard="false" id="alert1211" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
 				<div class="modal-body" style="text-align: center;">
-					<h6 id="alertmsg121"></h6>
-					<button type="button" class="btn btn-primary"
-						onclick="$('#alert121').modal('hide')">Close</button>
+					<h6 id="alertmsg1211"></h6>
+					<button type="button" class="btn btn-primary" onclick="$('#alert121').modal('hide')">Close</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Get the input field
-            var dateInput = document.getElementById('as_on');            
-           
-                if (dateInput) {
-                	  var today = new Date().toISOString().split('T')[0];
-                	  dateInput.setAttribute('max', today);
+		document.addEventListener("DOMContentLoaded", function () {
+			// Get the input field
+			var dateInput = document.getElementById('as_on');
 
-                     
-                }
-              
-            
-        });
-    </script>
+			if (dateInput) {
+				var today = new Date().toISOString().split('T')[0];
+				dateInput.setAttribute('max', today);
+
+
+			}
+		});
+		
+		$('#alert121').on('hidden.bs.modal', function () {
+		    location.reload();
+		});
+
+	</script>
 </body>
 
 </html>

@@ -1,751 +1,752 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <!--
 	CREATED BY : Nithya
 	DATE : 11-03-25
     VERSION    : 01
 -->
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
-	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/font-awesome/5.9.0/css/all.min.css"
-	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
-	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
-	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
-<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
-<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+		th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" href="/webjars/font-awesome/5.9.0/css/all.min.css"
+		th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+	<link rel="stylesheet" type="text/css" href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+		th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+	<link rel="stylesheet" type="text/css" href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+		th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+	<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+	<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
 
-<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
-	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
-	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
-<script src="/webjars/jquery/3.4.1/jquery.min.js"
-	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+	<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+		th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+	<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+		th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+	<script src="/webjars/jquery/3.4.1/jquery.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
 
 
-<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
-	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+	<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+		th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
 
-<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
-	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+	<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+		th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
 
-<!-- jQuery UI -->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<link rel="stylesheet"
-	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="js/ResponisiveHeight.js"></script>
+	<!-- jQuery UI -->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="js/ResponisiveHeight.js"></script>
 
 
-<script src="js/bootstrap411.js"></script>
+	<script src="js/bootstrap411.js"></script>
 
 
 
 
-<style>
-.modal {
-	display: none;
-	/* Hidden by default */
-	position: absolute;
-	/* Stay in place */
-	z-index: 1;
-	/* Sit on top */
-	padding-top: 100px;
-	/* Location of the box */
-	left: 0;
-	top: 0;
-	width: 100%;
-	/* Full width */
-	height: 100%;
-	/* Full height */
-	overflow: auto;
-	/* Enable scroll if needed */
-	background-color: rgb(0, 0, 0);
-	/* Fallback color */
-	background-color: rgba(0, 0, 0, 0.4);
-	/* Black w/ opacity */
-}
+	<style>
+		.modal {
+			display: none;
+			/* Hidden by default */
+			position: absolute;
+			/* Stay in place */
+			z-index: 1;
+			/* Sit on top */
+			padding-top: 100px;
+			/* Location of the box */
+			left: 0;
+			top: 0;
+			width: 100%;
+			/* Full width */
+			height: 100%;
+			/* Full height */
+			overflow: auto;
+			/* Enable scroll if needed */
+			background-color: rgb(0, 0, 0);
+			/* Fallback color */
+			background-color: rgba(0, 0, 0, 0.4);
+			/* Black w/ opacity */
+		}
 
-.modal-header {
-	padding: 2px 16px;
-	background-color: #BBC3CB;
-	color: balck;
-}
-/* Ensure modal background is removed */
-.modal-backdrop {
-	display: none !important; /* Completely hide backdrop */
-}
+		.modal-header {
+			padding: 2px 16px;
+			background-color: #BBC3CB;
+			color: balck;
+		}
 
-/* Optional: Prevent page from scrolling when modal is open */
-body.modal-open {
-	overflow: hidden;
-}
+		/* Ensure modal background is removed */
+		.modal-backdrop {
+			display: none !important;
+			/* Completely hide backdrop */
+		}
 
-.modal-body {
-	padding: 2px 16px;
-}
+		/* Optional: Prevent page from scrolling when modal is open */
+		body.modal-open {
+			overflow: hidden;
+		}
 
-.modal-footer {
-	padding: 2px 16px;
-	background-color: #BBC3CB;
-	color: black;
-}
-/* Modal Content */
-.modal-content {
-	background-color: #fefefe;
-	margin: auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 80%;
-	height: 0%;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
-		rgba(0, 0, 0, 0.19);
-	-webkit-animation-name: animatetop;
-	-webkit-animation-duration: 0.4s;
-	animation-name: animatetop;
-	animation-duration: 0.4s
-}
+		.modal-body {
+			padding: 2px 16px;
+		}
 
-body {
-	font-size: 0.8rem;
-}
+		.modal-footer {
+			padding: 2px 16px;
+			background-color: #BBC3CB;
+			color: black;
+		}
 
-.btn {
-	line-height: 0.5rem;
-}
+		/* Modal Content */
+		.modal-content {
+			background-color: #fefefe;
+			margin: auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 80%;
+			height: 0%;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			-webkit-animation-name: animatetop;
+			-webkit-animation-duration: 0.4s;
+			animation-name: animatetop;
+			animation-duration: 0.4s
+		}
 
-.table-bordered td, .table-bordered th {
-	font-size: smaller;
-}
+		body {
+			font-size: 0.8rem;
+		}
 
-.container-manager {
-	width: 83.5%;
-	padding-right: 15px;
-	padding-left: 15px;
-	margin-right: auto;
-	margin-left: 17.3%;
-	margin-top: 80px;
-	margin-top: 80px;
-}
+		.btn {
+			line-height: 0.5rem;
+		}
 
-.table .thead-light th {
-	color: #495057;
-	background-color: #e9ecef;
-	border-color: #dee2e6;
-	width: 23px;
-}
+		.table-bordered td,
+		.table-bordered th {
+			font-size: smaller;
+		}
 
-.tablinks {
-	background-color: #f2f2f2;
-	color: #000;
-}
+		.container-manager {
+			width: 83.5%;
+			padding-right: 15px;
+			padding-left: 15px;
+			margin-right: auto;
+			margin-left: 17.3%;
+			margin-top: 80px;
+			margin-top: 80px;
+		}
 
-.tablinks.active {
-	background-color: #007bff;
-	color: #fff;
-}
+		.table .thead-light th {
+			color: #495057;
+			background-color: #e9ecef;
+			border-color: #dee2e6;
+			width: 23px;
+		}
 
-.tab {
-	overflow: hidden;
-	border: 1px solid #ccc;
-	background-color: #f1f1f1;
-}
+		.tablinks {
+			background-color: #f2f2f2;
+			color: #000;
+		}
 
-.scroll {
-	max-height: 60vh;
-	overflow-y: scroll;
-	overflow-x: hidden;
-}
+		.tablinks.active {
+			background-color: #007bff;
+			color: #fff;
+		}
 
-.tab button {
-	background-color: inherit;
-	float: left;
-	border: none;
-	outline: none;
-	cursor: pointer;
-	padding: 14px 16px;
-	transition: 0.3s;
-	font-size: 17px;
-}
+		.tab {
+			overflow: hidden;
+			border: 1px solid #ccc;
+			background-color: #f1f1f1;
+		}
 
-.tab button:hover {
-	background-color: #ddd;
-}
+		.scroll {
+			max-height: 60vh;
+			overflow-y: scroll;
+			overflow-x: hidden;
+		}
 
-.tabcontent {
-	display: none;
-	padding: 6px 12px;
-	border: 0px solid #ccc;
-	border-top: none;
-}
+		.tab button {
+			background-color: inherit;
+			float: left;
+			border: none;
+			outline: none;
+			cursor: pointer;
+			padding: 14px 16px;
+			transition: 0.3s;
+			font-size: 17px;
+		}
 
-#myPieChart {
-	width: 100px;
-	height: 100px;
-}
+		.tab button:hover {
+			background-color: #ddd;
+		}
 
-.input-group-text {
-	cursor: pointer;
-}
+		.tabcontent {
+			display: none;
+			padding: 6px 12px;
+			border: 0px solid #ccc;
+			border-top: none;
+		}
 
-#eyeIcon {
-	font-size: 1.2rem;
-}
+		#myPieChart {
+			width: 100px;
+			height: 100px;
+		}
 
-input, select {
-	width: 75% !important;
-	padding: 2px;
-}
+		.input-group-text {
+			cursor: pointer;
+		}
 
-.mmdd {
-	height: 25px;
-	width: 35% !important;
-}
+		#eyeIcon {
+			font-size: 1.2rem;
+		}
 
-.ml-2 {
-	margin-left: 1px;
-}
+		input,
+		select {
+			width: 75% !important;
+			padding: 2px;
+		}
 
-button:focus {
-	outline: unset !important;
-	border: unset !important;
-}
+		.mmdd {
+			height: 25px;
+			width: 35% !important;
+		}
 
-.borderRemove {
-	border: none;
-}
-</style>
-<style>
-.modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.4);
-}
+		.ml-2 {
+			margin-left: 1px;
+		}
 
-.modal-content {
-	background-color: #fefefe;
-	margin: 15% auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 70%;
-	height: 20%;
-	margin-left: 200px;
-}
+		button:focus {
+			outline: unset !important;
+			border: unset !important;
+		}
 
-.modal-pass {
-	background-color: #fefefe;
-	margin: 15% auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 40%;
-	height: 25%;
-	margin-left: 400PX;
-	margin-right: auto;
-	border-radius: 10px;
-	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
-	font-family: Arial, sans-serif;
-}
+		.borderRemove {
+			border: none;
+		}
+	</style>
+	<style>
+		.modal {
+			display: none;
+			position: fixed;
+			z-index: 1;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgba(0, 0, 0, 0.4);
+		}
 
-.close {
-	color: red;
-	font-size: 28px;
-	font-weight: bold;
-}
+		.modal-content {
+			background-color: #fefefe;
+			margin: 15% auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 70%;
+			height: 20%;
+			margin-left: 200px;
+		}
 
-.close:hover, .close:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
+		.modal-pass {
+			background-color: #fefefe;
+			margin: 15% auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 40%;
+			height: 25%;
+			margin-left: 400PX;
+			margin-right: auto;
+			border-radius: 10px;
+			box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+			font-family: Arial, sans-serif;
+		}
 
-.filterable .filters input[disabled] {
-	background-color: transparent;
-	border: none;
-	cursor: auto;
-	box-shadow: none;
-	padding: 0;
-	height: auto;
-}
+		.close {
+			color: red;
+			font-size: 28px;
+			font-weight: bold;
+		}
 
-.filterable .filters input[disabled]::-webkit-input-placeholder {
-	color: #333;
-}
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+		}
 
-.filterable .filters input[disabled]::-moz-placeholder {
-	color: #333;
-}
+		.filterable .filters input[disabled] {
+			background-color: transparent;
+			border: none;
+			cursor: auto;
+			box-shadow: none;
+			padding: 0;
+			height: auto;
+		}
 
-.filterable .filters input[disabled]:-ms-input-placeholder {
-	color: #333;
-}
-</style>
-<style>
-.password-info {
-	visibility: hidden;
-	width: 320px;
-	background-color: #333;
-	color: #fff;
-	text-align: left;
-	border-radius: 10px;
-	padding: 10px;
-	position: absolute;
-	z-index: 1;
-	top: calc(100% + 10px);
-	left: 50%;
-	transform: translateX(-50%);
-	opacity: 0;
-	transition: opacity 0.3s;
-}
+		.filterable .filters input[disabled]::-webkit-input-placeholder {
+			color: #333;
+		}
 
-input:hover+.password-info {
-	visibility: visible;
-	opacity: 0.8;
-}
-</style>
+		.filterable .filters input[disabled]::-moz-placeholder {
+			color: #333;
+		}
 
-<script>
-	function back() {
-		event.preventDefault();
-		window.history.back();
-	}
+		.filterable .filters input[disabled]:-ms-input-placeholder {
+			color: #333;
+		}
+	</style>
+	<style>
+		.password-info {
+			visibility: hidden;
+			width: 320px;
+			background-color: #333;
+			color: #fff;
+			text-align: left;
+			border-radius: 10px;
+			padding: 10px;
+			position: absolute;
+			z-index: 1;
+			top: calc(100% + 10px);
+			left: 50%;
+			transform: translateX(-50%);
+			opacity: 0;
+			transition: opacity 0.3s;
+		}
 
-	function Homeln() {
+		input:hover+.password-info {
+			visibility: visible;
+			opacity: 0.8;
+		}
+	</style>
 
-		location.href = 'Dashboard';
-	}
-</script>
+	<script>
+		function back() {
+			event.preventDefault();
+			window.history.back();
+		}
+
+		function Homeln() {
+
+			location.href = 'Dashboard';
+		}
+	</script>
 
 
-<script type="text/javascript">
-	//validations 
+	<script type="text/javascript">
+		//validations 
 
-	function numberAndLetters(inputElement) {
-		inputElement.value = inputElement.value.replace(/[^0-9a-zA-Z]/g, '')
+		function numberAndLetters(inputElement) {
+			inputElement.value = inputElement.value.replace(/[^0-9a-zA-Z]/g, '')
 				.toUpperCase();
-	}
+		}
 
-	function numberOnly(inputElement) {
-		inputElement.value = inputElement.value.replace(/\D/g, '');
-	}
+		function numberOnly(inputElement) {
+			inputElement.value = inputElement.value.replace(/\D/g, '');
+		}
 
-	function handleIn(input) {
-		// Remove special characters using regex
-		input.value = input.value.replace(/[^\w\s]/gi, '').toUpperCase();
-	}
-</script>
-<script>
-	function ClickId(a) {
-		var id = a.getAttribute("data-id");
-		var holder_key = a.getAttribute("data-account_holderkey");
-		location.href = 'loanMaster?formmode=viewloan&id=' + id
+		function handleIn(input) {
+			// Remove special characters using regex
+			input.value = input.value.replace(/[^\w\s]/gi, '').toUpperCase();
+		}
+	</script>
+	<script>
+		function ClickId(a) {
+			var id = a.getAttribute("data-id");
+			var holder_key = a.getAttribute("data-account_holderkey");
+			location.href = 'loanMaster?formmode=viewloan&id=' + id
 				+ '&holder_key=' + holder_key;
-	}
+		}
 
-	function ListLoan() {
-		location.href = 'loanMaster?formmode=list';
-	}
+		function ListLoan() {
+			location.href = 'loanMaster?formmode=list';
+		}
 
-	function secondexceldownload() {
-		$("#alert533").modal("show");
-	}
-</script>
-<script type="text/javascript">
-	function submitdatas2() {
-		var form = $('#reportform2')[0];
-		var data = new FormData(form);
+		function secondexceldownload() {
+			$("#alert533").modal("show");
+		}
+	</script>
+	<script type="text/javascript">
+		function submitdatas2() {
+			var form = $('#reportform2')[0];
+			var data = new FormData(form);
+			// Show uploading modal with message
+			$('#normalalertvalues .modal-body').html("<h6 class='text-center'>File Uploading...</h6>");
+			$('#normalalertvalues').modal('show');
+			$.ajax({
+				type: "POST",
+				url: "uploadxmldata2",
+				data: data,
+				processData: false,
+				contentType: false,
+				success: function (response) {
+					console.log("Success: ", response);
 
-		$.ajax({
-			type : "POST",
-			url : "uploadxmldata2",
-			data : data,
-			processData : false,
-			contentType : false,
-			success : function(response) {
-				console.log("Success: ", response);
+					// Hide the current modal
+					$('#alert533').modal('hide');
+					$('#normalalertvalues .modal-body').html("<h6 class='text-center text-success'>File uploaded successfully!</h6>");
+					// Show success message in another modal
+					showResponse(response);
+				},
+				error: function (error) {
+					console.log("Error: ", error);
+					showResponse("Error: " + error.responseText);
+				}
+			});
+		}
 
-				// Hide the current modal
-				$('#alert533').modal('hide');
-
-				// Show success message in another modal
-				showResponse(response);
-			},
-			error : function(error) {
-				console.log("Error: ", error);
-				showResponse("Error: " + error.responseText);
-			}
-		});
-	}
-
-	function showResponse(responseText) {
-		$("#alertmsg11").text(responseText);
-		$('#normalalertvalues').modal("show");
-
-		// Ensure any existing backdrop is removed
-		$('.modal-backdrop').remove();
-	}
-</script>
-<script>
-	$(document)
+		function showResponse(responseText) {
+			$("#alertmsg11").text(responseText);
+			$('#normalalertvalues').modal("show");
+			// Ensure any existing backdrop is removed
+			$('.modal-backdrop').remove();
+		}
+	</script>
+	<script>
+		$(document)
 			.ready(
-					function() {
-						$('.filterable .btn-filter')
-								.click(
-										function() {
-											var $panel = $(this).parents(
-													'.filterable'), $filters = $panel
-													.find('.filters input'), $tbody = $panel
-													.find('.table tbody');
-											if ($filters.prop('disabled') == true) {
-												$filters
-														.prop('disabled', false);
-												$filters.first().focus();
-											} else {
-												$filters.val('').prop(
-														'disabled', true);
-												$tbody.find('.no-result')
-														.remove();
-												$tbody.find('tr').show();
-											}
-										});
+				function () {
+					$('.filterable .btn-filter')
+						.click(
+							function () {
+								var $panel = $(this).parents(
+									'.filterable'), $filters = $panel
+										.find('.filters input'), $tbody = $panel
+											.find('.table tbody');
+								if ($filters.prop('disabled') == true) {
+									$filters
+										.prop('disabled', false);
+									$filters.first().focus();
+								} else {
+									$filters.val('').prop(
+										'disabled', true);
+									$tbody.find('.no-result')
+										.remove();
+									$tbody.find('tr').show();
+								}
+							});
 
-						$('.filterable .filters input')
-								.keyup(
-										function(e) {
-											/* Ignore tab key */
-											var code = e.keyCode || e.which;
-											if (code == '9')
-												return;
-											/* Useful DOM data and selectors */
-											var $input = $(this), inputContent = $input
-													.val().toLowerCase(), $panel = $input
-													.parents('.filterable'), column = $panel
-													.find('.filters th')
-													.index($input.parents('th')), $table = $panel
-													.find('.table'), $rows = $table
+					$('.filterable .filters input')
+						.keyup(
+							function (e) {
+								/* Ignore tab key */
+								var code = e.keyCode || e.which;
+								if (code == '9')
+									return;
+								/* Useful DOM data and selectors */
+								var $input = $(this), inputContent = $input
+									.val().toLowerCase(), $panel = $input
+										.parents('.filterable'), column = $panel
+											.find('.filters th')
+											.index($input.parents('th')), $table = $panel
+												.find('.table'), $rows = $table
 													.find('tbody tr');
-											console.log($input);
-											/* Dirtiest filter function ever ;) */
-											var $filteredRows = $rows
-													.filter(function() {
-														var value = $(this)
-																.find('td').eq(
-																		column)
-																.text()
-																.toLowerCase();
-														console.log(value);
-														return value
-																.indexOf(inputContent) === -1;
-													});
-											/* Clean previous no-result if exist */
-											$table.find('tbody .no-result')
-													.remove();
-											/* Show all rows, hide filtered ones (never do that outside of a demo ! xD) */
-											$rows.show();
-											$filteredRows.hide();
-											/* Prepend no-result row if all rows are filtered */
-											if ($filteredRows.length === $rows.length) {
-												$table
-														.find('tbody')
-														.prepend(
-																$('<tr class="no-result text-center"><td colspan="'
-																		+ $table
-																				.find('.filters th').length
-																		+ '">No result found</td></tr>'));
-											}
-										});
-					});
-</script>
-<script>
-	function schedulePreClosure() {
-		event.preventDefault();
-		var id = document.getElementById("id").value;
-		var element = document.getElementById("id");
+								console.log($input);
+								/* Dirtiest filter function ever ;) */
+								var $filteredRows = $rows
+									.filter(function () {
+										var value = $(this)
+											.find('td').eq(
+												column)
+											.text()
+											.toLowerCase();
+										console.log(value);
+										return value
+											.indexOf(inputContent) === -1;
+									});
+								/* Clean previous no-result if exist */
+								$table.find('tbody .no-result')
+									.remove();
+								/* Show all rows, hide filtered ones (never do that outside of a demo ! xD) */
+								$rows.show();
+								$filteredRows.hide();
+								/* Prepend no-result row if all rows are filtered */
+								if ($filteredRows.length === $rows.length) {
+									$table
+										.find('tbody')
+										.prepend(
+											$('<tr class="no-result text-center"><td colspan="'
+												+ $table
+													.find('.filters th').length
+												+ '">No result found</td></tr>'));
+								}
+							});
+				});
+	</script>
+	<script>
+		function schedulePreClosure() {
+			event.preventDefault();
+			var id = document.getElementById("id").value;
+			var element = document.getElementById("id");
 
-		if (element) {
-			var id = element.value.trim();
+			if (element) {
+				var id = element.value.trim();
 
-			if (!id) {
+				if (!id) {
 
-				$('#mypopup22').modal('show');
-				$("#popupmsg_body").html("Account number is required!...");
-			} else {
-				$
+					$('#mypopup22').modal('show');
+					$("#popupmsg_body").html("Account number is required!...");
+				} else {
+					$
 						.ajax({
-							type : 'GET',
-							url : './FetchLoanDetails',
-							data : {
-								id : id
+							type: 'GET',
+							url: './FetchLoanDetails',
+							data: {
+								id: id
 							}, // ✅ Passing the correct value
-							success : function(data) {
+							success: function (data) {
 
 								if (data.account_holderkey && data.encoded_key) {
 									var holder_key = data.account_holderkey;
 									var encodedKey = data.encoded_key;
 									var id = data.id;
 									location.href = 'loanSchedule?formmode=viewloanschedule1&id='
-											+ id
-											+ '&holder_key='
-											+ holder_key
-											+ '&encodedKey=' + encodedKey;
+										+ id
+										+ '&holder_key='
+										+ holder_key
+										+ '&encodedKey=' + encodedKey;
 								} else {
 									$('#mypopup22').modal('show');
 									$("#popupmsg_body").html("No Data!...");
 								}
 
 							},
-							error : function() {
+							error: function () {
 								$('#errorMessage').text('Error fetching data');
 								$('#errorModal').modal('show');
 							}
 						});
+				}
+			} else {
+				alert("Element not found");
 			}
-		} else {
-			alert("Element not found");
+
+		}
+		function ledgerPreClosure() {
+			event.preventDefault();
+			var element = document.getElementById("id");
+
+			if (element) {
+				var id = element.value.trim(); // Trim to remove leading/trailing spaces
+
+				if (!id) { // Checks for empty string, null, or undefined
+
+					$('#mypopup22').modal('show');
+					$("#popupmsg_body").html("Account number is required!...");
+				} else {
+					location.href = 'accountLedger2?formmode=view&acct_num=' + id;
+				}
+			} else {
+				alert("Element not found");
+			}
+
 		}
 
-	}
-	function ledgerPreClosure() {
-		event.preventDefault();
-		var element = document.getElementById("id");
+		function scheduleClosure() {
+			event.preventDefault();
+			var id = document.getElementById("id").value;
+			var element = document.getElementById("id");
 
-		if (element) {
-			var id = element.value.trim(); // Trim to remove leading/trailing spaces
+			if (element) {
+				var id = element.value.trim();
 
-			if (!id) { // Checks for empty string, null, or undefined
+				if (!id) {
 
-				$('#mypopup22').modal('show');
-				$("#popupmsg_body").html("Account number is required!...");
-			} else {
-				location.href = 'accountLedger2?formmode=view&acct_num=' + id;
-			}
-		} else {
-			alert("Element not found");
-		}
-
-	}
-
-	function scheduleClosure() {
-		event.preventDefault();
-		var id = document.getElementById("id").value;
-		var element = document.getElementById("id");
-
-		if (element) {
-			var id = element.value.trim();
-
-			if (!id) {
-
-				$('#mypopup22').modal('show');
-				$("#popupmsg_body").html("Account number is required!...");
-			} else {
-				$
+					$('#mypopup22').modal('show');
+					$("#popupmsg_body").html("Account number is required!...");
+				} else {
+					$
 						.ajax({
-							type : 'GET',
-							url : './FetchLoanDetails',
-							data : {
-								id : id
+							type: 'GET',
+							url: './FetchLoanDetails',
+							data: {
+								id: id
 							}, // ✅ Passing the correct value
-							success : function(data) {
+							success: function (data) {
 
 								if (data.account_holderkey && data.encoded_key) {
 									var holder_key = data.account_holderkey;
 									var encodedKey = data.encoded_key;
 									var id = data.id;
 									location.href = 'loanSchedule?formmode=viewloanschedule1&id='
-											+ id
-											+ '&holder_key='
-											+ holder_key
-											+ '&encodedKey=' + encodedKey;
+										+ id
+										+ '&holder_key='
+										+ holder_key
+										+ '&encodedKey=' + encodedKey;
 								} else {
 									$('#mypopup22').modal('show');
 									$("#popupmsg_body").html("No Data!...");
 								}
 
 							},
-							error : function() {
+							error: function () {
 								$('#errorMessage').text('Error fetching data');
 								$('#errorModal').modal('show');
 							}
 						});
+				}
+			} else {
+				alert("Element not found");
 			}
-		} else {
-			alert("Element not found");
+
+		}
+		function ledgerClosure() {
+			event.preventDefault();
+			var element = document.getElementById("id");
+
+			if (element) {
+				var id = element.value.trim(); // Trim to remove leading/trailing spaces
+
+				if (!id) { // Checks for empty string, null, or undefined
+
+					$('#mypopup22').modal('show');
+					$("#popupmsg_body").html("Account number is required!...");
+				} else {
+					location.href = 'accountLedger2?formmode=view&acct_num=' + id;
+				}
+			} else {
+				alert("Element not found");
+			}
+
 		}
 
-	}
-	function ledgerClosure() {
-		event.preventDefault();
-		var element = document.getElementById("id");
+		//schedule closure datas repaymrnt & ledger 
 
-		if (element) {
-			var id = element.value.trim(); // Trim to remove leading/trailing spaces
+		function schedulePreClosure() {
+			event.preventDefault();
+			var id = document.getElementById("id").value;
+			var element = document.getElementById("id");
 
-			if (!id) { // Checks for empty string, null, or undefined
+			if (element) {
+				var id = element.value.trim();
 
-				$('#mypopup22').modal('show');
-				$("#popupmsg_body").html("Account number is required!...");
-			} else {
-				location.href = 'accountLedger2?formmode=view&acct_num=' + id;
-			}
-		} else {
-			alert("Element not found");
-		}
+				if (!id) {
 
-	}
-
-	//schedule closure datas repaymrnt & ledger 
-
-	function schedulePreClosure() {
-		event.preventDefault();
-		var id = document.getElementById("id").value;
-		var element = document.getElementById("id");
-
-		if (element) {
-			var id = element.value.trim();
-
-			if (!id) {
-
-				$('#mypopup22').modal('show');
-				$("#popupmsg_body").html("Account number is required!...");
-			} else {
-				$
+					$('#mypopup22').modal('show');
+					$("#popupmsg_body").html("Account number is required!...");
+				} else {
+					$
 						.ajax({
-							type : 'GET',
-							url : './FetchLoanDetails',
-							data : {
-								id : id
+							type: 'GET',
+							url: './FetchLoanDetails',
+							data: {
+								id: id
 							}, // ✅ Passing the correct value
-							success : function(data) {
+							success: function (data) {
 
 								if (data.account_holderkey && data.encoded_key) {
 									var holder_key = data.account_holderkey;
 									var encodedKey = data.encoded_key;
 									var id = data.id;
 									location.href = 'loanSchedule?formmode=viewloanschedule1&id='
-											+ id
-											+ '&holder_key='
-											+ holder_key
-											+ '&encodedKey=' + encodedKey;
+										+ id
+										+ '&holder_key='
+										+ holder_key
+										+ '&encodedKey=' + encodedKey;
 								} else {
 									$('#mypopup22').modal('show');
 									$("#popupmsg_body").html("No Data!...");
 								}
 
 							},
-							error : function() {
+							error: function () {
 								$('#errorMessage').text('Error fetching data');
 								$('#errorModal').modal('show');
 							}
 						});
+				}
+			} else {
+				alert("Element not found");
 			}
-		} else {
-			alert("Element not found");
+
+		}
+		function ledgerPreClosure() {
+			event.preventDefault();
+			var element = document.getElementById("id");
+
+			if (element) {
+				var id = element.value.trim(); // Trim to remove leading/trailing spaces
+
+				if (!id) { // Checks for empty string, null, or undefined
+
+					$('#mypopup22').modal('show');
+					$("#popupmsg_body").html("Account number is required!...");
+				} else {
+					location.href = 'accountLedger2?formmode=view&acct_num=' + id;
+				}
+			} else {
+				alert("Element not found");
+			}
+
 		}
 
-	}
-	function ledgerPreClosure() {
-		event.preventDefault();
-		var element = document.getElementById("id");
+		function scheduleClosure() {
+			event.preventDefault();
+			var id = document.getElementById("id").value;
+			var element = document.getElementById("id");
 
-		if (element) {
-			var id = element.value.trim(); // Trim to remove leading/trailing spaces
+			if (element) {
+				var id = element.value.trim();
 
-			if (!id) { // Checks for empty string, null, or undefined
+				if (!id) {
 
-				$('#mypopup22').modal('show');
-				$("#popupmsg_body").html("Account number is required!...");
-			} else {
-				location.href = 'accountLedger2?formmode=view&acct_num=' + id;
-			}
-		} else {
-			alert("Element not found");
-		}
-
-	}
-
-	function scheduleClosure() {
-		event.preventDefault();
-		var id = document.getElementById("id").value;
-		var element = document.getElementById("id");
-
-		if (element) {
-			var id = element.value.trim();
-
-			if (!id) {
-
-				$('#mypopup22').modal('show');
-				$("#popupmsg_body").html("Account number is required!...");
-			} else {
-				$
+					$('#mypopup22').modal('show');
+					$("#popupmsg_body").html("Account number is required!...");
+				} else {
+					$
 						.ajax({
-							type : 'GET',
-							url : './FetchLoanDetails',
-							data : {
-								id : id
+							type: 'GET',
+							url: './FetchLoanDetails',
+							data: {
+								id: id
 							}, // ✅ Passing the correct value
-							success : function(data) {
+							success: function (data) {
 
 								if (data.account_holderkey && data.encoded_key) {
 									var holder_key = data.account_holderkey;
 									var encodedKey = data.encoded_key;
 									var id = data.id;
 									location.href = 'loanSchedule?formmode=viewloanschedule1&id='
-											+ id
-											+ '&holder_key='
-											+ holder_key
-											+ '&encodedKey=' + encodedKey;
+										+ id
+										+ '&holder_key='
+										+ holder_key
+										+ '&encodedKey=' + encodedKey;
 								} else {
 									$('#mypopup22').modal('show');
 									$("#popupmsg_body").html("No Data!...");
 								}
 
 							},
-							error : function() {
+							error: function () {
 								$('#errorMessage').text('Error fetching data');
 								$('#errorModal').modal('show');
 							}
 						});
-			}
-		} else {
-			alert("Element not found");
-		}
-
-	}
-	function ledgerClosure() {
-		event.preventDefault();
-		var element = document.getElementById("id");
-
-		if (element) {
-			var id = element.value.trim(); // Trim to remove leading/trailing spaces
-
-			if (!id) { // Checks for empty string, null, or undefined
-
-				$('#mypopup22').modal('show');
-				$("#popupmsg_body").html("Account number is required!...");
+				}
 			} else {
-				location.href = 'accountLedger2?formmode=view&acct_num=' + id;
+				alert("Element not found");
 			}
-		} else {
-			alert("Element not found");
-		}
 
-	}
-</script>
+		}
+		function ledgerClosure() {
+			event.preventDefault();
+			var element = document.getElementById("id");
+
+			if (element) {
+				var id = element.value.trim(); // Trim to remove leading/trailing spaces
+
+				if (!id) { // Checks for empty string, null, or undefined
+
+					$('#mypopup22').modal('show');
+					$("#popupmsg_body").html("Account number is required!...");
+				} else {
+					location.href = 'accountLedger2?formmode=view&acct_num=' + id;
+				}
+			} else {
+				alert("Element not found");
+			}
+
+		}
+	</script>
 </head>
 <title>ASPIRA</title>
+
 <body>
 	<div class="col-sm-2">
 		<div th:insert="BGLSHeaderMenu :: header"></div>
@@ -758,8 +759,7 @@ input:hover+.password-info {
 				<div th:if="${formmode}=='list'">
 					<div class="panel panel-primary filterable">
 						<div class="card">
-							<div class="card-header"
-								style="background-color: #e9ecef; height: 50px">
+							<div class="card-header" style="background-color: #e9ecef; height: 50px">
 								<div class="float-left">
 									<h6 style="font-size: 1.2rem;">LOAN MASTER - LIST</h6>
 								</div>
@@ -768,46 +768,58 @@ input:hover+.password-info {
 										class="btn btn-xs btn-primary btns p-2 border btn-filter">Filter</button>
 								</div>
 							</div>
-							<div class="card-body"
-								style="overflow-y: auto; border: 1px solid #ddd;">
+							<div class="card-body" style="overflow-y: auto; border: 1px solid #ddd;">
 								<div class="table-responsive" id="cardBody">
 									<table class="table  table-bordered  table-hover table-sm"
 										style="margin-bottom: 0px; font-size: initial;" id="usertable">
 										<thead class="thead-light"
 											style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 1;">
 											<tr class="filters">
-												<th style="width: 8%;"><input type="text"
-													style="width: 80px" class="form-control font-weight-bold"
-													placeholder="Sr No" disabled></th>
-												<th style="width: 10%;"><input type="text"
-													style="width: 80px" class="form-control font-weight-bold"
-													placeholder="LOAN ID" disabled></th>
+												<th style="width: 8%;"><input type="text" style="width: 80px"
+														class="form-control font-weight-bold" placeholder="Sr No"
+														disabled></th>
+												<th style="width: 10%;"><input type="text" style="width: 80px"
+														class="form-control font-weight-bold" placeholder="LOAN ID"
+														disabled></th>
 												<th><input type="text" style="width: 80px"
-													class="form-control font-weight-bold"
-													placeholder="LOAN NAME" disabled></th>
+														class="form-control font-weight-bold" placeholder="LOAN NAME"
+														disabled></th>
 												<th><input type="text" style="width: 80px"
-													class="form-control font-weight-bold"
-													placeholder="RETAILER NAME" disabled></th>
+														class="form-control font-weight-bold"
+														placeholder="RETAILER NAME" disabled></th>
 												<th><input type="text" style="width: 80px"
-													class="form-control font-weight-bold"
-													placeholder="RETAILER BRANCH ID" disabled></th>
-												<th style="width: 10%;"><input type="text"
-													style="width: 80px" class="form-control font-weight-bold"
-													placeholder="STATUS" disabled></th>
+														class="form-control font-weight-bold"
+														placeholder="RETAILER BRANCH ID" disabled></th>
+												<th style="width: 10%;"><input type="text" style="width: 80px"
+														class="form-control font-weight-bold" placeholder="STATUS"
+														disabled></th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr th:each="list, iterator : ${list}" class="userlist">
-												<td style="font-size: 14px" th:text="${iterator.index +1}"></td>
-												<td style="font-size: 14px" class="text-primary"
-													th:attr="data-id=${list?.id}, data-account_holderkey=${list?.account_holderkey}"
-													th:text="${list?.id}" onclick="ClickId(this);"></td>
-												<td style="font-size: 14px" th:text="${list?.loan_name}"></td>
-												<td style="font-size: 14px" th:text="${list?.retailer_name}">TEST</td>
-												<td style="font-size: 14px"
-													th:text="${list?.retailer_branch}">TEST</td>
-												<td style="font-size: 14px" th:text="${list?.account_state}">TEST</td>
-											</tr>
+											<th:block th:if="${list != null and #lists.size(list) > 0}">
+												<tr th:each="item, iterator : ${list}" class="userlist">
+													<td style="font-size: 14px" th:text="${iterator.index + 1}"></td>
+													<td style="font-size: 14px" class="text-primary"
+														th:attr="data-id=${item?.id}, data-account_holderkey=${item?.account_holderkey}"
+														th:text="${item?.id}" onclick="ClickId(this);"></td>
+													<td style="font-size: 14px" th:text="${item?.loan_name}"></td>
+													<td style="font-size: 14px" th:text="${item?.retailer_name}">TEST
+													</td>
+													<td style="font-size: 14px" th:text="${item?.retailer_branch}">TEST
+													</td>
+													<td style="font-size: 14px" th:text="${item?.account_state}">TEST
+													</td>
+												</tr>
+											</th:block>
+
+											<th:block th:if="${list == null or #lists.isEmpty(list)}">
+												<tr>
+													<td colspan="6" class="text-center"
+														style="font-size: 14px; font-weight: bold; color: red;">
+														No data available
+													</td>
+												</tr>
+											</th:block>
 										</tbody>
 									</table>
 								</div>
@@ -823,8 +835,7 @@ input:hover+.password-info {
 				<div th:if="${formmode}=='viewloan'" class="mt-2">
 
 					<div class="card">
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem;" class="ml-4">LOAN MASTER -
 									VIEW</h6>
@@ -832,14 +843,12 @@ input:hover+.password-info {
 							<div class="float-right">
 								<button class="btn P-2" id="repaymentschedule"
 									onclick="schedulePreClosure()">SCHEDULER</button>
-								<button class="btn P-2" id="ledgerschedule"
-									onclick="ledgerPreClosure()">LEDGER</button>
+								<button class="btn P-2" id="ledgerschedule" onclick="ledgerPreClosure()">LEDGER</button>
 							</div>
 						</div>
 						<div class="card-body">
-							<form action="#" th:object="${drawDownDetails}" method="post"
-								id="drawDownDetailsAdd" autocomplete="off"
-								name="drawDownDetailsData" th:fragment="finuserapply">
+							<form action="#" th:object="${drawDownDetails}" method="post" id="drawDownDetailsAdd"
+								autocomplete="off" name="drawDownDetailsData" th:fragment="finuserapply">
 
 								<div class="">
 									<div class="ml-4">
@@ -851,15 +860,15 @@ input:hover+.password-info {
 											<label>Customer Id</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${loan[0][0]}"
-												name="customer_id" id="customer_id" readonly />
+											<input type="text" th:value="${loan[0][0]}" name="customer_id"
+												id="customer_id" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Customer Name</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${loan[0][1]}"
-												name="employer_name" id="employer_name" readonly />
+											<input type="text" th:value="${loan[0][1]}" name="employer_name"
+												id="employer_name" readonly />
 										</div>
 
 										<div class="col-sm-2">
@@ -876,24 +885,22 @@ input:hover+.password-info {
 											<label>Account Type</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="account_holdertype"
-												id="account_holdertype"
+											<input type="text" name="account_holdertype" id="account_holdertype"
 												th:value="${view?.account_holdertype}" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Loan No</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${view?.id}" name="id" id="id"
-												readonly />
+											<input type="text" th:value="${view?.id}" name="id" id="id" readonly />
 										</div>
 
 										<div class="col-sm-2">
 											<label>Loan Name</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${view?.loan_name}"
-												name="loan_name" id="loan_name" readonly />
+											<input type="text" th:value="${view?.loan_name}" name="loan_name"
+												id="loan_name" readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2 mt-1">
@@ -946,8 +953,8 @@ input:hover+.password-info {
 											<label> Account Status </label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${view?.account_state}"
-												name="account_state" id="account_state" readonly />
+											<input type="text" th:value="${view?.account_state}" name="account_state"
+												id="account_state" readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2  mt-1">
@@ -955,8 +962,8 @@ input:hover+.password-info {
 											<label>Currency Code</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="currency_code" id="currency_code"
-												value="KES" readonly />
+											<input type="text" name="currency_code" id="currency_code" value="KES"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Loan Amount</label>
@@ -979,17 +986,15 @@ input:hover+.password-info {
 											<label>Payment Method</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="payment_method"
-												th:value="${view?.payment_method}" id="payment_method"
-												readonly />
+											<input type="text" name="payment_method" th:value="${view?.payment_method}"
+												id="payment_method" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Penalty Rate</label>
 										</div>
 										<div class="col-sm-2">
 											<input type="text" name="penalty_rate" id="penalty_rate"
-												th:value="${view?.penalty_rate}" oninput="numberOnly(this);"
-												readonly />
+												th:value="${view?.penalty_rate}" oninput="numberOnly(this);" readonly />
 										</div>
 
 										<div class="col-sm-2">
@@ -997,8 +1002,8 @@ input:hover+.password-info {
 										</div>
 										<div class="col-sm-2">
 											<input type="text" name="interest_rate" id="interest_rate"
-												th:value="${view?.interest_rate}"
-												oninput="numberOnly(this);" readonly />
+												th:value="${view?.interest_rate}" oninput="numberOnly(this);"
+												readonly />
 
 										</div>
 									</div>
@@ -1168,8 +1173,7 @@ input:hover+.password-info {
 										</div>
 										<div class="col-sm-2">
 											<input type="text" th:value="${view?.sale_processedbyvgid}"
-												name="sale_processedbyvgid" id="sale_processedbyvgid"
-												readonly />
+												name="sale_processedbyvgid" id="sale_processedbyvgid" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Sales Processed For</label>
@@ -1194,8 +1198,7 @@ input:hover+.password-info {
 										</div>
 										<div class="col-sm-2">
 											<input type="text" name="employment_status"
-												th:value="${view?.employment_status}" id="employment_status"
-												readonly />
+												th:value="${view?.employment_status}" id="employment_status" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Job Title</label>
@@ -1209,9 +1212,8 @@ input:hover+.password-info {
 											<label>Employer Name</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="employer_name"
-												th:value="${view?.employer_name}" id="employer_name"
-												readonly />
+											<input type="text" name="employer_name" th:value="${view?.employer_name}"
+												id="employer_name" readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2 mt-1">
@@ -1220,15 +1222,15 @@ input:hover+.password-info {
 											<label>TU Core</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${view?.tuscore}" name="tuscore"
-												id="tuscore" readonly />
+											<input type="text" th:value="${view?.tuscore}" name="tuscore" id="tuscore"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>TU Probability</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${view?.tuprobability}"
-												name="tuprobability" id="tuprobability" readonly />
+											<input type="text" th:value="${view?.tuprobability}" name="tuprobability"
+												id="tuprobability" readonly />
 										</div>
 
 										<div class="col-sm-2">
@@ -1244,22 +1246,22 @@ input:hover+.password-info {
 											<label>TU Reasons</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${view?.tufullname}"
-												name="tufullname" id="tufullname" readonly />
+											<input type="text" th:value="${view?.tufullname}" name="tufullname"
+												id="tufullname" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Tureason 1</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="tureason1"
-												th:value="${view?.tureason1}" name="tureason1" readonly />
+											<input type="text" id="tureason1" th:value="${view?.tureason1}"
+												name="tureason1" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Tureason 2</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="tureason2"
-												th:value="${view?.tureason2}" name="tureason2" readonly />
+											<input type="text" id="tureason2" th:value="${view?.tureason2}"
+												name="tureason2" readonly />
 										</div>
 									</div>
 
@@ -1270,8 +1272,7 @@ input:hover+.password-info {
 									</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="disposable_income"
-											id="disposable_income"
+										<input type="text" name="disposable_income" id="disposable_income"
 											th:value="${view?.disposable_income == 0 ? '0.00' :#numbers.formatDecimal(view?.disposable_income, 0, 'COMMA', 2, 'POINT')}"
 											readonly />
 									</div>
@@ -1281,8 +1282,7 @@ input:hover+.password-info {
 									<div class="col-sm-2">
 										<input type="text"
 											th:value="${view?.manualoverride_amount == 0 ? '0.00' :#numbers.formatDecimal(view?.manualoverride_amount, 0, 'COMMA', 2, 'POINT')}"
-											name="manualoverride_amount" id="manualoverride_amount"
-											readonly />
+											name="manualoverride_amount" id="manualoverride_amount" readonly />
 									</div>
 
 									<div class="col-sm-2">
@@ -1291,8 +1291,8 @@ input:hover+.password-info {
 									<div class="col-sm-2">
 										<input type="text"
 											th:value="${#dates.format(view?.manualoverride_expiry_date, 'dd-MM-yyyy')}"
-											name="manualoverride_expiry_date"
-											id="manualoverride_expiry_date" readonly />
+											name="manualoverride_expiry_date" id="manualoverride_expiry_date"
+											readonly />
 									</div>
 								</div>
 								<div class="row formline  ml-2 mt-1">
@@ -1318,8 +1318,7 @@ input:hover+.password-info {
 										<label>Total Product Price</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" name="total_product_price"
-											id="total_product_price"
+										<input type="text" name="total_product_price" id="total_product_price"
 											th:value="${view?.total_product_price == 0 ? '0.00' :#numbers.formatDecimal(view?.total_product_price, 0, 'COMMA', 2, 'POINT')}"
 											readonly />
 									</div>
@@ -1330,15 +1329,15 @@ input:hover+.password-info {
 										<label>Retailer Name</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" th:value="${view?.retailer_name}"
-											name="retailer_name" id="retailer_name" readonly />
+										<input type="text" th:value="${view?.retailer_name}" name="retailer_name"
+											id="retailer_name" readonly />
 									</div>
 									<div class="col-sm-2">
 										<label>Retailer Branch</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" th:value="${view?.retailer_branch}"
-											name="retailer_branch" id="retailer_branch" readonly />
+										<input type="text" th:value="${view?.retailer_branch}" name="retailer_branch"
+											id="retailer_branch" readonly />
 									</div>
 
 									<div class="col-sm-2">
@@ -1355,8 +1354,8 @@ input:hover+.password-info {
 										<label>Contract Signed</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" th:value="${view?.contract_signed}"
-											name="contract_signed" id="contract_signed" readonly />
+										<input type="text" th:value="${view?.contract_signed}" name="contract_signed"
+											id="contract_signed" readonly />
 									</div>
 									<div class="col-sm-2">
 										<label>Date of First Call</label>
@@ -1380,8 +1379,7 @@ input:hover+.password-info {
 										<label>As On Date</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text"
-											th:value="${#dates.format(view?.asondate, 'dd-MM-yyyy')}"
+										<input type="text" th:value="${#dates.format(view?.asondate, 'dd-MM-yyyy')}"
 											name="asondate" id="asondate" readonly />
 									</div>
 									<div class="col-sm-2">
@@ -1406,48 +1404,52 @@ input:hover+.password-info {
 						<table
 							Style="border: 1px solid #ccc; width: 100%; max-width: 100%; margin: 0 auto; box-sizing: border-box;">
 							<tr>
-								<td class="col-sm-2" style="text-align: center;"><font
-									size="2"><B>Entry User :</B></font></td>
-								<td class="col-sm-2" style="width: 112px; margin-right: 20px;"><input
-									type="text" id="entryuser" name="ub.entryuser" value="System"
-									style="border: none; outline: none; background-color: transparent; font-size: 12px;"
-									readonly></td>
-								<td class="col-sm-2" style="text-align: center;"><font
-									size="2"><B>Modify User :</B></font></td>
-								<td class="col-sm-2" style="width: 112px;"><input
-									type="text" id="modifyuser" name="ub.modifyuser" value="System"
-									style="border: none; outline: none; background-color: transparent; font-size: 12px;"
-									readonly></td>
-								<td class="col-sm-2" style="text-align: center;"><font
-									size="2"><B>Verify User :</B></font></td>
-								<td class="col-sm-2" style="width: 112px;"><input
-									type="text" id="verifyuser" name="ub.verifyuser" value="System"
-									style="border: none; outline: none; background-color: transparent; font-size: 12px;"
-									readonly></td>
+								<td class="col-sm-2" style="text-align: center;">
+									<font size="2"><B>Entry User :</B></font>
+								</td>
+								<td class="col-sm-2" style="width: 112px; margin-right: 20px;"><input type="text"
+										id="entryuser" name="ub.entryuser" value="System"
+										style="border: none; outline: none; background-color: transparent; font-size: 12px;"
+										readonly></td>
+								<td class="col-sm-2" style="text-align: center;">
+									<font size="2"><B>Modify User :</B></font>
+								</td>
+								<td class="col-sm-2" style="width: 112px;"><input type="text" id="modifyuser"
+										name="ub.modifyuser" value="System"
+										style="border: none; outline: none; background-color: transparent; font-size: 12px;"
+										readonly></td>
+								<td class="col-sm-2" style="text-align: center;">
+									<font size="2"><B>Verify User :</B></font>
+								</td>
+								<td class="col-sm-2" style="width: 112px;"><input type="text" id="verifyuser"
+										name="ub.verifyuser" value="System"
+										style="border: none; outline: none; background-color: transparent; font-size: 12px;"
+										readonly></td>
 							</tr>
 							<tr>
-								<td style="text-align: center;"><font size="2"><B>Entry
-											Time :</B></font></td>
-								<td style="width: 112px"><input type="text" id="entrytime"
-									name="ub.entrytime"
-									th:value="${#dates.format(view?.creation_date, 'dd-MM-yyyy HH:mm:ss')}"
-									readonly
-									style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;">
+								<td style="text-align: center;">
+									<font size="2"><B>Entry
+											Time :</B></font>
 								</td>
-								<td style="text-align: center;"><font size="2"><B>Modify
-											Time :</B></font></td>
-								<td style="width: 112px"><input type="text" id="modifytime"
-									name="ub.modifytime"
-									th:value="${#dates.format(view?.last_modified_date, 'dd-MM-yyyy HH:mm:ss')}"
-									style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
-									readonly></td>
-								<td style="text-align: center; font-size: 15px;"><font
-									size="2"><B>Verify Time :</B></font></td>
-								<td style="width: 112px"><input type="text" id="verifytime"
-									name="ub.verifytime"
-									th:value="${#dates.format(view?.approved_date, 'dd-MM-yyyy HH:mm:ss')}"
-									style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
-									readonly></td>
+								<td style="width: 112px"><input type="text" id="entrytime" name="ub.entrytime"
+										th:value="${#dates.format(view?.creation_date, 'dd-MM-yyyy HH:mm:ss')}" readonly
+										style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;">
+								</td>
+								<td style="text-align: center;">
+									<font size="2"><B>Modify
+											Time :</B></font>
+								</td>
+								<td style="width: 112px"><input type="text" id="modifytime" name="ub.modifytime"
+										th:value="${#dates.format(view?.last_modified_date, 'dd-MM-yyyy HH:mm:ss')}"
+										style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
+										readonly></td>
+								<td style="text-align: center; font-size: 15px;">
+									<font size="2"><B>Verify Time :</B></font>
+								</td>
+								<td style="width: 112px"><input type="text" id="verifytime" name="ub.verifytime"
+										th:value="${#dates.format(view?.approved_date, 'dd-MM-yyyy HH:mm:ss')}"
+										style="border: none; outline: none; background-color: transparent; font-size: 12px; margin-left: 14px;"
+										readonly></td>
 							</tr>
 						</table>
 					</div>
@@ -1456,21 +1458,18 @@ input:hover+.password-info {
 				<div th:if="${formmode}=='loanscrn'" class="mt-2">
 
 					<div class="card">
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem;" class="ml-4">LOAN MASTER</h6>
 							</div>
 							<div class="btn-group nav-buttons float-right">
-								<button class="btn btn-primary p-2"
-									onclick="secondexceldownload();">Upload</button>
+								<button class="btn btn-primary p-2" onclick="secondexceldownload();">Upload</button>
 								<button class="btn btn-primary p-2 ml-1" onclick="ListLoan();">List</button>
 							</div>
 						</div>
 						<div class="card-body">
-							<form action="#" th:object="${drawDownDetails}" method="post"
-								id="drawDownDetailsAdd" autocomplete="off"
-								name="drawDownDetailsData" th:fragment="finuserapply">
+							<form action="#" th:object="${drawDownDetails}" method="post" id="drawDownDetailsAdd"
+								autocomplete="off" name="drawDownDetailsData" th:fragment="finuserapply">
 
 								<div class="">
 									<div class="ml-4">
@@ -1482,23 +1481,20 @@ input:hover+.password-info {
 											<label>Customer Id</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="customer_id" id="customer_id"
-												readonly />
+											<input type="text" name="customer_id" id="customer_id" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Customer Name</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="employer_name" id="employer_name"
-												readonly />
+											<input type="text" name="employer_name" id="employer_name" readonly />
 										</div>
 
 										<div class="col-sm-2">
 											<label>Customer Status</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="account_state" id="account_state"
-												readonly />
+											<input type="text" name="account_state" id="account_state" readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2 mt-1">
@@ -1507,15 +1503,14 @@ input:hover+.password-info {
 											<label>Account Type</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="account_holdertype"
-												id="account_holdertype" readonly />
+											<input type="text" name="account_holdertype" id="account_holdertype"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Loan No</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" th:value="${view?.id}" name="id" id="id"
-												readonly />
+											<input type="text" th:value="${view?.id}" name="id" id="id" readonly />
 										</div>
 
 										<div class="col-sm-2">
@@ -1531,23 +1526,21 @@ input:hover+.password-info {
 											<label>Assigned Branch</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="assigned_branchkey"
-												id="assigned_branchkey" readonly />
+											<input type="text" name="assigned_branchkey" id="assigned_branchkey"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Open Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="creation_date" id="creation_date"
-												readonly />
+											<input type="text" name="creation_date" id="creation_date" readonly />
 										</div>
 
 										<div class="col-sm-2">
 											<label> Approval Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="approved_date" id="approved_date"
-												readonly />
+											<input type="text" name="approved_date" id="approved_date" readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2 mt-1">
@@ -1556,23 +1549,21 @@ input:hover+.password-info {
 											<label>Last Modified Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="last_modified_date"
-												id="last_modified_date" readonly />
+											<input type="text" name="last_modified_date" id="last_modified_date"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Last Review Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="closed_date" id="closed_date"
-												readonly />
+											<input type="text" name="closed_date" id="closed_date" readonly />
 										</div>
 
 										<div class="col-sm-2">
 											<label> Account Status </label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="account_state" id="account_state"
-												readonly />
+											<input type="text" name="account_state" id="account_state" readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2  mt-1">
@@ -1580,22 +1571,19 @@ input:hover+.password-info {
 											<label>Currency Code</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="currency_code" id="currency_code"
-												readonly />
+											<input type="text" name="currency_code" id="currency_code" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Loan Amount</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="loan_amount" id="loan_amount"
-												readonly />
+											<input type="text" name="loan_amount" id="loan_amount" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Sub Status</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="account_substate"
-												id="account_substate" readonly />
+											<input type="text" name="account_substate" id="account_substate" readonly />
 										</div>
 									</div>
 									<div class="row formline ml-2  mt-1">
@@ -1603,8 +1591,7 @@ input:hover+.password-info {
 											<label>Payment Method</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="payment_method" id="payment_method"
-												readonly />
+											<input type="text" name="payment_method" id="payment_method" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Penalty Rate</label>
@@ -1628,15 +1615,15 @@ input:hover+.password-info {
 											<label>Disbursement Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="disbursement_date"
-												name="disbursement_date" readonly />
+											<input type="text" id="disbursement_date" name="disbursement_date"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>First Payment Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="first_repaymentdate"
-												name="first_repaymentdate" readonly />
+											<input type="text" id="first_repaymentdate" name="first_repaymentdate"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Remarks 1</label>
@@ -1674,15 +1661,13 @@ input:hover+.password-info {
 											<label>Principal Due</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="principal_due" readonly
-												name="principal_due" />
+											<input type="text" id="principal_due" readonly name="principal_due" />
 										</div>
 										<div class="col-sm-2">
 											<label>Principal Paid</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="principal_paid" id="principal_paid"
-												readonly />
+											<input type="text" name="principal_paid" id="principal_paid" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Principal Balance</label>
@@ -1697,22 +1682,19 @@ input:hover+.password-info {
 											<label>Interest Due</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="interest_due" name="interest_due"
-												readonly />
+											<input type="text" id="interest_due" name="interest_due" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Interest Paid</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="interest_paid" name="interest_paid"
-												readonly />
+											<input type="text" id="interest_paid" name="interest_paid" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Interest Balance</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="interest_balance"
-												name="interest_balance" readonly />
+											<input type="text" id="interest_balance" name="interest_balance" readonly />
 										</div>
 									</div>
 									<div class="row formline ml-2  mt-1">
@@ -1732,8 +1714,7 @@ input:hover+.password-info {
 											<label>Fee Balance</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="fees_balance" name="fees_balance"
-												readonly />
+											<input type="text" id="fees_balance" name="fees_balance" readonly />
 										</div>
 									</div>
 									<div class="row formline ml-2  mt-1">
@@ -1741,22 +1722,19 @@ input:hover+.password-info {
 											<label>Penalty Due</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="penalty_due" name="penalty_due"
-												readonly />
+											<input type="text" id="penalty_due" name="penalty_due" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Penalty Paid</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="penalty_paid" id="penalty_paid"
-												readonly />
+											<input type="text" name="penalty_paid" id="penalty_paid" readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Penalty Balance</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" id="penalty_balance"
-												name="penalty_balance" readonly />
+											<input type="text" id="penalty_balance" name="penalty_balance" readonly />
 										</div>
 									</div>
 								</div>
@@ -1770,23 +1748,22 @@ input:hover+.password-info {
 											<label>Sales Processed By VGID</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="sale_processedbyvgid"
-												id="sale_processedbyvgid" readonly />
+											<input type="text" name="sale_processedbyvgid" id="sale_processedbyvgid"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Sales Processed For</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="sale_processedfor"
-												id="sale_processedfor" readonly />
+											<input type="text" name="sale_processedfor" id="sale_processedfor"
+												readonly />
 										</div>
 
 										<div class="col-sm-2">
 											<label>Sales Referred By</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="sale_referredby"
-												id="sale_referredby" readonly />
+											<input type="text" name="sale_referredby" id="sale_referredby" readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2 mt-1">
@@ -1795,8 +1772,8 @@ input:hover+.password-info {
 											<label>Employment Status</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="employment_status"
-												id="employment_status" readonly />
+											<input type="text" name="employment_status" id="employment_status"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Job Title</label>
@@ -1809,8 +1786,7 @@ input:hover+.password-info {
 											<label>Employer Name</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="employer_name" id="employer_name"
-												readonly />
+											<input type="text" name="employer_name" id="employer_name" readonly />
 										</div>
 									</div>
 									<div class="row formline  ml-2 mt-1">
@@ -1825,8 +1801,7 @@ input:hover+.password-info {
 											<label>TU Probability</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="tuprobability" id="tuprobability"
-												readonly />
+											<input type="text" name="tuprobability" id="tuprobability" readonly />
 										</div>
 
 										<div class="col-sm-2">
@@ -1865,15 +1840,14 @@ input:hover+.password-info {
 									</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="disposable_income"
-											id="disposable_income" readonly />
+										<input type="text" name="disposable_income" id="disposable_income" readonly />
 									</div>
 									<div class="col-sm-2">
 										<label>Manual Override Amount</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" name="manualoverride_amount"
-											id="manualoverride_amount" readonly />
+										<input type="text" name="manualoverride_amount" id="manualoverride_amount"
+											readonly />
 									</div>
 
 									<div class="col-sm-2">
@@ -1896,16 +1870,15 @@ input:hover+.password-info {
 										<label>Deposit Amount</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" name="deposit_amount" id="deposit_amount"
-											readonly />
+										<input type="text" name="deposit_amount" id="deposit_amount" readonly />
 									</div>
 
 									<div class="col-sm-2">
 										<label>Total Product Price</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" name="total_product_price"
-											id="total_product_price" readonly />
+										<input type="text" name="total_product_price" id="total_product_price"
+											readonly />
 									</div>
 								</div>
 								<div class="row formline  ml-2 mt-1">
@@ -1914,23 +1887,20 @@ input:hover+.password-info {
 										<label>Retailer Name</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" name="retailer_name" id="retailer_name"
-											readonly />
+										<input type="text" name="retailer_name" id="retailer_name" readonly />
 									</div>
 									<div class="col-sm-2">
 										<label>Retailer Branch</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" name="retailer_branch" id="retailer_branch"
-											readonly />
+										<input type="text" name="retailer_branch" id="retailer_branch" readonly />
 									</div>
 
 									<div class="col-sm-2">
 										<label>VG Application Id</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" name="vg_application_id"
-											id="vg_application_id" readonly />
+										<input type="text" name="vg_application_id" id="vg_application_id" readonly />
 									</div>
 								</div>
 								<div class="row formline  ml-2 mt-1">
@@ -1939,23 +1909,20 @@ input:hover+.password-info {
 										<label>Contract Signed</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" name="contract_signed" id="contract_signed"
-											readonly />
+										<input type="text" name="contract_signed" id="contract_signed" readonly />
 									</div>
 									<div class="col-sm-2">
 										<label>Date of First Call</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" name="date_of_first_call"
-											id="date_of_first_call" readonly />
+										<input type="text" name="date_of_first_call" id="date_of_first_call" readonly />
 									</div>
 
 									<div class="col-sm-2">
 										<label>Last Call Outcome</label>
 									</div>
 									<div class="col-sm-2">
-										<input type="text" name="last_call_outcome"
-											id="last_call_outcome" readonly />
+										<input type="text" name="last_call_outcome" id="last_call_outcome" readonly />
 									</div>
 								</div>
 								<div class="row formline  ml-2  mt-1">
@@ -1995,10 +1962,8 @@ input:hover+.password-info {
 	<!-- Model Boxes -->
 
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false"
-		style="padding-right: 850px" id="alert">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
+	<div class="modal fade" data-backdrop="false" data-keyboard="false" style="padding-right: 850px" id="alert">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
 			<div class="modal-content">
 				<div class="modal-body" style="text-align: center">
 					<p id="alertmsg"></p>
@@ -2009,15 +1974,12 @@ input:hover+.password-info {
 		</div>
 	</div>
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false"
-		id="alert1">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+	<div class="modal fade" data-backdrop="false" data-keyboard="false" id="alert1">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
 				<div class="modal-body" style="text-align: center">
 					<p id="alertmsg1"></p>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
-						onclick="listPage();">Ok</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="listPage();">Ok</button>
 				</div>
 			</div>
 		</div>
@@ -2036,17 +1998,16 @@ input:hover+.password-info {
 		</div>
 	</div>-->
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false"
-		id="normalAlert" tabindex="-1" role="dialog" aria-hidden="true">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+	<div class="modal fade" data-backdrop="false" data-keyboard="false" id="normalAlert" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content"
 				style="position: fixed; left: 50%; transform: translate(-50%, 0%); width: 30%; height: 25%;">
 				<div class="modal-header">
 					<h5 class="modal-title">Alerts</h5>
 
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true" onclick="$('#normalalert').modal('hide')">Ã—</button>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+						onclick="$('#normalalert').modal('hide')">Ã—</button>
 				</div>
 				<div class="modal-body" style="text-align: center;">
 					<h6 id="Normalalertmsg"></h6>
@@ -2057,16 +2018,14 @@ input:hover+.password-info {
 		</div>
 	</div>
 
-	<div id="scheduleModal" class="modal fade" data-backdrop="static"
-		data-keyboard="false" tabindex="-1" role="dialog">
+	<div id="scheduleModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content"
-				style="width: 1300px; margin-left: -400px;">
+			<div class="modal-content" style="width: 1300px; margin-left: -400px;">
 				<div class="modal-header">
 					<h5 class="modal-title" style="text-align: center;">DEMAND
 						SCHEDULE DETAILS</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close" onclick="$('#scheduleModal').modal('hide');">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"
+						onclick="$('#scheduleModal').modal('hide');">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
@@ -2107,16 +2066,14 @@ input:hover+.password-info {
 	</div>
 
 	<!-- Sechdule Modal view -->
-	<div id="scheduleModalView" class="modal fade" data-backdrop="static"
-		data-keyboard="false" tabindex="-1" role="dialog">
+	<div id="scheduleModalView" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1"
+		role="dialog">
 		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content"
-				style="width: 1300px; margin-left: -400px;">
+			<div class="modal-content" style="width: 1300px; margin-left: -400px;">
 				<div class="modal-header">
 					<h5 class="modal-title" style="text-align: center;">SCHEDULE
 						PAYMENT DETAILS</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close"
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"
 						onclick="$('#scheduleModalView').modal('hide');">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -2179,11 +2136,9 @@ input:hover+.password-info {
 		</div>
 	</div>
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false"
-		id="mypopup2" tabindex="-1" role="dialog" aria-hidden="true"
-		style="padding-right: 800px">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+	<div class="modal fade" data-backdrop="false" data-keyboard="false" id="mypopup2" tabindex="-1" role="dialog"
+		aria-hidden="true" style="padding-right: 800px">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content" style="width: 120%; height: 25%">
 				<div class="card">
 					<!-- Header with Alert Message -->
@@ -2218,69 +2173,58 @@ input:hover+.password-info {
 		</div>
 	</div>
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false"
-		tabindex="-1" role="dialog" aria-hidden="true" id="alert533">
-		<form action="#" th:object="${reportform}" method="post"
-			enctype="multipart/form-data" id="reportform2">
-			<div
-				class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-				role="document" style="max-width: 600px; height: auto;">
+	<div class="modal fade" data-backdrop="false" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true"
+		id="alert533">
+		<form action="#" th:object="${reportform}" method="post" enctype="multipart/form-data" id="reportform2">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"
+				style="max-width: 600px; height: auto;">
 				<div class="modal-content" style="width: 100%; height: 100%;">
 					<!-- Modal Header -->
-					<div class="modal-header"
-						style="justify-content: center; width: 100%; padding: 10px;">
+					<div class="modal-header" style="justify-content: center; width: 100%; padding: 10px;">
 						<h5 class="modal-title" id="popupAlert" style="font-size: 18px;">
 							LOAN MASTER - UPLOAD</h5>
 					</div>
 
 					<!-- Modal Body -->
-					<div
-						class="modal-body d-flex flex-row align-items-center justify-content-center"
+					<div class="modal-body d-flex flex-row align-items-center justify-content-center"
 						style="text-align: center; flex-grow: 1; min-height: 100px; padding: 10px;">
 						<label for="fileInput" class="mb-0 mr-2 font-weight-bold">Choose
 							File:</label> <input type="file" name="file" id="fileInput"
-							class="form-control form-control-sm bg-white border border-dark"
-							accept=".xml, .xls, .xlsx" style="width: auto; flex-shrink: 1;" />
+							class="form-control form-control-sm bg-white border border-dark" accept=".xml, .xls, .xlsx"
+							style="width: auto; flex-shrink: 1;" />
 					</div>
 
 					<!-- Modal Footer -->
-					<div class="modal-footer d-flex justify-content-center"
-						style="width: 100%; padding: 10px;">
-						<button type="button" class="btn btn-primary"
-							onclick="submitdatas2()">Submit</button>
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal" onclick="refreshPage()">Close</button>
+					<div class="modal-footer d-flex justify-content-center" style="width: 100%; padding: 10px;">
+						<button type="button" class="btn btn-primary" onclick="submitdatas2()">Submit</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal"
+							onclick="refreshPage()">Close</button>
 					</div>
 				</div>
 			</div>
 		</form>
 	</div>
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false"
-		tabindex="-1" role="dialog" aria-hidden="true" id="normalalertvalues">
-		<form action="#" th:object="${reportform}" method="post"
-			enctype="multipart/form-data" id="reportform2">
-			<div
-				class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-				role="document" style="max-width: 600px; height: auto;">
+	<div class="modal fade" data-backdrop="false" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true"
+		id="normalalertvalues">
+		<form action="#" th:object="${reportform}" method="post" enctype="multipart/form-data" id="reportform2">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"
+				style="max-width: 600px; height: auto;">
 				<div class="modal-content" style="width: 100%; height: 100%;">
 					<!-- Modal Header -->
-					<div class="modal-header"
-						style="justify-content: center; width: 100%; padding: 10px;">
+					<div class="modal-header" style="justify-content: center; width: 100%; padding: 10px;">
 						<h5 class="modal-title" id="popupAlert" style="font-size: 18px;">
-							SUCCESS MESSAGE - UPLOAD</h5>
+							LOAN MASTER - UPLOAD</h5>
 					</div>
 
 					<!-- Modal Body -->
-					<div
-						class="modal-body d-flex flex-row align-items-center justify-content-center"
+					<div class="modal-body d-flex flex-row align-items-center justify-content-center"
 						style="text-align: center; flex-grow: 1; min-height: 100px; padding: 10px;">
 						<h6 id="alertmsg11" class="text-center text-primary"></h6>
 					</div>
 
 					<!-- Modal Footer -->
-					<div class="modal-footer d-flex justify-content-center"
-						style="width: 100%; padding: 10px;">
+					<div class="modal-footer d-flex justify-content-center" style="width: 100%; padding: 10px;">
 						<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
 					</div>
 				</div>
@@ -2289,4 +2233,5 @@ input:hover+.password-info {
 	</div>
 
 </body>
+
 </html>

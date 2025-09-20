@@ -96,7 +96,11 @@ public class LOAN_ACT_MST_ENTITY {
 	private String	last_call_outcome;
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	asondate;
-	
+	private String	disbursement_flg;
+	private String	interest_flg;
+	private String	fees_flg;
+	private String	recovery_flg;
+
 	public String getEncoded_key() {
 		return encoded_key;
 	}
@@ -665,6 +669,38 @@ public class LOAN_ACT_MST_ENTITY {
 		this.asondate = asondate;
 	}
 
+	public String getDisbursement_flg() {
+		return disbursement_flg;
+	}
+
+	public void setDisbursement_flg(String disbursement_flg) {
+		this.disbursement_flg = disbursement_flg;
+	}
+
+	public String getInterest_flg() {
+		return interest_flg;
+	}
+
+	public void setInterest_flg(String interest_flg) {
+		this.interest_flg = interest_flg;
+	}
+
+	public String getFees_flg() {
+		return fees_flg;
+	}
+
+	public void setFees_flg(String fees_flg) {
+		this.fees_flg = fees_flg;
+	}
+
+	public String getRecovery_flg() {
+		return recovery_flg;
+	}
+
+	public void setRecovery_flg(String recovery_flg) {
+		this.recovery_flg = recovery_flg;
+	}
+
 	public LOAN_ACT_MST_ENTITY(String encoded_key, String id, String account_holdertype, String account_holderkey,
 			Date creation_date, Date approved_date, Date last_modified_date, Date closed_date,
 			Date last_account_appraisaldate, String account_state, String account_substate, String product_typekey,
@@ -684,7 +720,7 @@ public class LOAN_ACT_MST_ENTITY {
 			BigDecimal manualoverride_amount, Date manualoverride_expiry_date, BigDecimal cpfees,
 			BigDecimal deposit_amount, BigDecimal total_product_price, String retailer_name, String retailer_branch,
 			String vg_application_id, String contract_signed, Date date_of_first_call, String last_call_outcome,
-			Date asondate) {
+			Date asondate, String disbursement_flg, String interest_flg, String fees_flg, String recovery_flg) {
 		super();
 		this.encoded_key = encoded_key;
 		this.id = id;
@@ -757,6 +793,10 @@ public class LOAN_ACT_MST_ENTITY {
 		this.date_of_first_call = date_of_first_call;
 		this.last_call_outcome = last_call_outcome;
 		this.asondate = asondate;
+		this.disbursement_flg = disbursement_flg;
+		this.interest_flg = interest_flg;
+		this.fees_flg = fees_flg;
+		this.recovery_flg = recovery_flg;
 	}
 
 	@Override
@@ -791,7 +831,9 @@ public class LOAN_ACT_MST_ENTITY {
 				+ ", total_product_price=" + total_product_price + ", retailer_name=" + retailer_name
 				+ ", retailer_branch=" + retailer_branch + ", vg_application_id=" + vg_application_id
 				+ ", contract_signed=" + contract_signed + ", date_of_first_call=" + date_of_first_call
-				+ ", last_call_outcome=" + last_call_outcome + ", asondate=" + asondate + "]";
+				+ ", last_call_outcome=" + last_call_outcome + ", asondate=" + asondate + ", disbursement_flg="
+				+ disbursement_flg + ", interest_flg=" + interest_flg + ", fees_flg=" + fees_flg + ", recovery_flg="
+				+ recovery_flg + "]";
 	}
 
 	public LOAN_ACT_MST_ENTITY() {

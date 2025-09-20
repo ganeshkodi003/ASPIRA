@@ -294,8 +294,14 @@ public interface LOAN_REPAYMENT_REPO extends JpaRepository<LOAN_REPAYMENT_ENTITY
 
 	@Query(value = "SELECT lr.*, lam.ID, lam.LOAN_NAME " + "FROM LOAN_REPAYMENT_TBL lr "
 			+ "JOIN LOAN_ACCOUNT_MASTER_TBL lam ON lr.PARENT_ACCOUNT_KEY = lam.ENCODED_KEY "
-			+ "WHERE lr.PARENT_ACCOUNT_KEY IN :keys " + "AND lr.DUE_DATE <= :date ORDER BY lr.DUE_DATE", nativeQuery = true)
+			+ "WHERE lr.PARENT_ACCOUNT_KEY IN :keys " + "AND lr.DUE_DATE <= :date "
+			+ "AND lr.INTEREST_EXP = lr.INTEREST_PAID " + "AND lr.PRINCIPAL_EXP = lr.PRINCIPAL_PAID "
+			+ "AND lr.FEE_EXP = lr.FEE_PAID " + "AND lr.FEE_EXP > 0 " + "AND lr.INTEREST_EXP > 0 "
+			+ "AND lr.PRINCIPAL_EXP > 0 " + "ORDER BY lr.DUE_DATE", nativeQuery = true)
 	List<Object[]> findByParentAccountKeyInAndDueDateLessThanEqual(@Param("keys") List<String> keys,
 			@Param("date") Date date);
+
+	@Query(value = "SELECT REPAID_DATE FROM LOAN_REPAYMENT_TBL WHERE DUE_DATE IN :dates ORDER BY DUE_DATE", nativeQuery = true)
+	List<Date> findRepaidDatesForMultipleDates(@Param("dates") List<Date> dates);
 
 }
