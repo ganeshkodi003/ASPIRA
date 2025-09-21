@@ -6,19 +6,24 @@
 
 <title>ASPIRA</title>
 
-<script src="/js/maxcdn.js" th:src="@{/js/maxcdn.js}"></script>
-<link rel="stylesheet" type="text/css" href="/css/loader.css"
-	th:href="@{/css/loader2.css}">
-<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
-<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/font-awesome/5.9.0/css/all.min.css"
-	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
-<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
-	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
-<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
-	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+	<link rel="stylesheet" href="/ASPIRA/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/ASPIRA/css/fontawesome.min.css">
+	<link rel="stylesheet" href="/ASPIRA/css/jquery-ui.min.css">
+	<link rel="stylesheet" href="/ASPIRA/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="/ASPIRA/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="/ASPIRA/css/fontawesome.min.css">
 
+	<script src="/ASPIRA/js/jquery.min.js"></script>
+	<script src="/ASPIRA/js/popper.min.js"></script>
+	<script src="/ASPIRA/js/bootstrap.min.js"></script>
+	<script src="/ASPIRA/js/jquery-ui.min.js"></script>
+	<script src="/ASPIRA/js/jquery.form.min.js"></script>
+	<script src="/ASPIRA/js/jquery.validate.min.js"></script>
+	<script src="/ASPIRA/js/jquery.dataTables.min.js"></script>
+	<script src="/ASPIRA/js/dataTables.bootstrap4.min.js"></script>
+	<!-- TOAST -->
+	<link rel="stylesheet" th:href="@{/css/jquery.toast.min.css}">
+	<script th:src="@{/js/jquery.toast.min.js}"></script>
 <style>
 body {
 	font-size: 0.8rem;
@@ -163,13 +168,6 @@ section {
 
 .btn-primary.focus, .btn-primary:focus {
 	box-shadow: unset !important;
-}
-
-.nav-link-collapse:after {
-	float: right;
-	content: '\f067';
-	font-family: 'Font Awesome 5 Free';
-	color: red;
 }
 
 .nav-link-show:after {

@@ -5,49 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
-	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/font-awesome/5.9.0/css/all.min.css"
-	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
-	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
-	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
-<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
-<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
-
-<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
-	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
-	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
-<script src="/webjars/jquery/3.4.1/jquery.min.js"
-	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
-<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
-	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
-
-<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
-	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
-
-<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
-	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
-
-<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
-	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
-<script
-	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
-	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
-<!-- ✅ Load jQuery & jQuery UI -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-
-<!-- ✅ Load jQuery UI CSS -->
-<link rel="stylesheet"
-	href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-
+<script src="/ASPIRA/js/jquery.min.js"></script>
+<script src="/ASPIRA/js/jquery-ui.min.js"></script>
 
 
 <style>
@@ -396,7 +355,7 @@ input:hover+.password-info {
 						                	</tr>`;
 						            });
 						        } else {
-						            tHTML += "<tr><td colspan='7'>No records available</td></tr>";
+						            tHTML += "<tr><td class='text-center' colspan='7'>No records available</td></tr>";
 						        }
 
 						        $("#flowIdTbody").empty().append(tHTML);
@@ -480,7 +439,7 @@ input:hover+.password-info {
 									});
 								});
 							} else {
-								tHTML += "<tr><td colspan='7'>No records available</td></tr>";
+								tHTML += "<tr><td  class='text-center' colspan='7'>No records available</td></tr>";
 								$("#flowIdTbody").empty().append(tHTML);
 							}
 						},
@@ -553,7 +512,7 @@ input:hover+.password-info {
 						                    + "</tr>";
 						            });
 						        } else {
-						            tHTML += "<tr><td colspan='7'>No records available</td></tr>";
+						            tHTML += "<tr><td class='text-center' colspan='7'>No records available</td></tr>";
 						        }
 
 						        $("#flowIdTbody").empty().append(tHTML);
@@ -1065,7 +1024,12 @@ input:hover+.password-info {
 						},
 						success: function (data) {
 						    console.log("Data received:", data);
-
+						    if (data.message) {
+							       // alert(data.message);
+							        $("#alertmsg").text(data.message);
+									$('#alert').modal('show');
+							        return; // Stop further processing if it's not month-end
+							 }
 						    if (!data || Object.keys(data).length === 0) {
 						        $("#errorMessage").text("No records found.");
 						        $("#errorModal").modal("show");
@@ -1881,7 +1845,9 @@ if (remainingBalance > 0) {
 
     // Extra message if balance is not fully utilized
    
-
+function closeModal() {
+		    $("#alert").modal('hide');
+		}
 
 </script>
 </head>
@@ -2228,7 +2194,19 @@ if (remainingBalance > 0) {
 		</div>
 	</div>
 </body>
+<div class="modal fade" data-backdrop="false" data-keyboard="false"
+		id="alert" tabindex="-1" role="dialog" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
 
+				<div class="modal-body" style="text-align: center;">
+					<h6 id="alertmsg"></h6>
+					<button type="button" class="btn btn-primary" onclick="closeModal()">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 

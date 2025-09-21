@@ -1,53 +1,20 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <!--
 	CREATED BY : PRAVEEN
 	DATE : 17-09-24
 -->
-
+<!--
+CREATED BY	: Aishwarya
+CREATED ON	: 21.09.2025
+PURPOSE		: FUNCTIONLITY
+VERSION     : 2.0
+ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
-	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/font-awesome/5.9.0/css/all.min.css"
-	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
-	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
-	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
-<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
-<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
-
-<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
-	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
-	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
-<script src="/webjars/jquery/3.4.1/jquery.min.js"
-	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
-<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
-	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
-
-<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
-	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
-
-<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
-	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
-
-<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
-	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
-<script
-	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
-	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
-
-
-
-
+<script src="/ASPIRA/js/jquery.min.js"></script>
+<script src="/ASPIRA/js/jquery-ui.min.js"></script>
 <style>
 body {
 	font-size: 0.8rem;
@@ -249,8 +216,6 @@ input:hover+.password-info {
 	/* Sets underline color to blue */
 }
 </style>
-
-
 <script>
 	function Home() {
 
@@ -833,10 +798,6 @@ $(function() {
 												class="form-control form-control-sm bg-white border border-dark" />
 										</div>
 									</div>
-
-
-
-
 								</form>
 
 							</div>
@@ -844,9 +805,9 @@ $(function() {
 								style="background-color: #e9ecef">
 
 
-								<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-								<button class="btn btn-primary p-2" onclick="Modify();">Modify</button>
-								<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+								<button onclick="Home();">Home</buton>
+								<button class="btn btn-primary me-3" onclick="Modify();">Modify</button>
+								<button class="btn btn-primary me-3" onclick="Back();">Back</button>
 
 							</div>
 						</div>
@@ -863,7 +824,7 @@ $(function() {
 									</div>
 
 									<div class="float-right">
-										<button class="btn btn-primary P-2" onclick="AddBranch();">Add</button>
+										<button class="btn btn-primary me-3" onclick="AddBranch();">Add</button>
 
 
 
@@ -917,8 +878,8 @@ $(function() {
 									style="background-color: #e9ecef;">
 
 
-									<button class="btn btn-primary P-2" onclick="Home();">Home</button>
-									<button class="btn btn-primary P-2" onclick="Back();">Back</button>
+									<button class="btn btn-primary me-3" onclick="Home();">Home</button>
+									<button class="btn btn-primary me-3" onclick="Back();">Back</button>
 
 								</div>
 							</div>
@@ -1012,9 +973,9 @@ $(function() {
 								</div>
 								<div class="card-footer text-center "
 									style="background-color: #e9ecef">
-									<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-									<button class="btn btn-primary p-2" onclick="Modify();">Modify</button>
-									<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+									<button class="btn btn-primary me-3" onclick="Home();">Home</button>
+									<button class="btn btn-primary me-3" onclick="Modify();">Modify</button>
+									<button class="btn btn-primary me-3" onclick="Back();">Back</button>
 								</div>
 							</div>
 
@@ -1112,12 +1073,12 @@ $(function() {
 									style="background-color: #e9ecef">
 
 
-									<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-									<button class="btn btn-primary p-2" onclick="addHoliday()">Add</button>
-									<button class="btn btn-primary p-2" onclick="UploadHoliday()">Upload</button>
-									<button class="btn btn-primary p-2" onclick="ModifyHoliday();">Modify</button>
-									<button class="btn btn-primary p-2" onclick="ListHoliday()">List</button>
-									<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+									<button class="btn btn-primary me-3" onclick="Home();">Home</button>
+									<button class="btn btn-primary me-3" onclick="addHoliday()">Add</button>
+									<button class="btn btn-primary me-3" onclick="UploadHoliday()">Upload</button>
+									<button class="btn btn-primary me-3" onclick="ModifyHoliday();">Modify</button>
+									<button class="btn btn-primary me-3" onclick="ListHoliday()">List</button>
+									<button class="btn btn-primary me-3" onclick="Back();">Back</button>
 
 								</div>
 							</div>
@@ -1229,11 +1190,11 @@ $(function() {
 							style="background-color: #e9ecef">
 
 
-							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary p-2" id="submitBtn"
+							<button class="btn btn-primary me-3" onclick="Home();">Home</button>
+							<button class="btn btn-primary me-3" id="submitBtn"
 								onclick="AddSubmit();">Submit</button>
 
-							<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+							<button class="btn btn-primary me-3" onclick="Back();">Back</button>
 
 						</div>
 					</div>
@@ -1390,11 +1351,11 @@ $(function() {
 							style="background-color: #e9ecef">
 
 
-							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary p-2" id="submitBtn"
+							<button class="btn btn-primary me-3" onclick="Home();">Home</button>
+							<button class="btn btn-primary me-3" id="submitBtn"
 								onclick="ModifyTab1Submit();">Submit</button>
 
-							<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+							<button class="btn btn-primary me-3" onclick="Back();">Back</button>
 
 						</div>
 
@@ -1460,10 +1421,10 @@ $(function() {
 
 							<div class="card-footer text-center"
 								style="background-color: #e9ecef">
-								<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-								<button class="btn btn-primary p-2" id="submitBtn"
+								<button class="btn btn-primary me-3" onclick="Home();">Home</button>
+								<button class="btn btn-primary me-3" id="submitBtn"
 									onclick="getCheckedValues()">Submit</button>
-								<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+								<button class="btn btn-primary me-3" onclick="Back();">Back</button>
 							</div>
 						</div>
 					</div>
@@ -1585,9 +1546,9 @@ $(function() {
 							style="background-color: #e9ecef">
 
 
-							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
+							<button class="btn btn-primary me-3" onclick="Home();">Home</button>
 
-							<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+							<button class="btn btn-primary me-3" onclick="Back();">Back</button>
 
 						</div>
 
@@ -1836,9 +1797,9 @@ $(function() {
 							style="background-color: #e9ecef">
 
 
-							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
+							<button class="btn btn-primary me-3" onclick="Home();">Home</button>
 
-							<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+							<button class="btn btn-primary me-3" onclick="Back();">Back</button>
 
 						</div>
 
@@ -2087,9 +2048,9 @@ $(function() {
 							style="background-color: #e9ecef">
 
 
-							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary p-2" onclick="del_bran();">Submit</button>
-							<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+							<button class="btn btn-primary me-3" onclick="Home();">Home</button>
+							<button class="btn btn-primary me-3" onclick="del_bran();">Submit</button>
+							<button class="btn btn-primary me-3" onclick="Back();">Back</button>
 
 						</div>
 
@@ -2340,11 +2301,11 @@ $(function() {
 							style="background-color: #e9ecef">
 
 
-							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary p-2" id="submitBtn"
+							<button class="btn btn-primary me-3" onclick="Home();">Home</button>
+							<button class="btn btn-primary me-3" id="submitBtn"
 								onclick="ModifyTab2Submit();">Submit</button>
 
-							<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+							<button class="btn btn-primary me-3" onclick="Back();">Back</button>
 
 						</div>
 
@@ -2554,11 +2515,11 @@ $(function() {
 							style="background-color: #e9ecef">
 
 
-							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary p-2" id="submitBtn"
+							<button class="btn btn-primary me-3" onclick="Home();">Home</button>
+							<button class="btn btn-primary me-3" id="submitBtn"
 								onclick="ModifyTab1Submit();">Submit</button>
 
-							<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+							<button class="btn btn-primary me-3" onclick="Back();">Back</button>
 
 						</div>
 
@@ -2808,11 +2769,11 @@ $(function() {
 							style="background-color: #e9ecef">
 
 
-							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary p-2" id="submitBtn"
+							<button class="btn btn-primary me-3" onclick="Home();">Home</button>
+							<button class="btn btn-primary me-3" id="submitBtn"
 								onclick="AddSubmit();">Submit</button>
 
-							<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+							<button class="btn btn-primary me-3" onclick="Back();">Back</button>
 
 						</div>
 					</div>
