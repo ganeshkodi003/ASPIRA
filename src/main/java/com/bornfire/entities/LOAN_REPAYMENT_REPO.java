@@ -63,7 +63,7 @@ public interface LOAN_REPAYMENT_REPO extends JpaRepository<LOAN_REPAYMENT_ENTITY
 			+ "       B.FEE_DUE AS flow_amt, " + "       A.ID AS loan_acct_no, " + "       A.LOAN_NAME AS acct_name, "
 			+ "       A.ENCODED_KEY AS encoded_key " + "FROM LOAN_ACCOUNT_MASTER_TBL A "
 			+ "JOIN LOAN_REPAYMENT_TBL B ON A.ENCODED_KEY = B.PARENT_ACCOUNT_KEY "
-			+ "WHERE B.DUE_DATE BETWEEN ?1 AND ?2 " + "AND B.PARENT_ACCOUNT_KEY = ?3 "
+			+ "WHERE B.FEE_DUE > 0 AND B.DUE_DATE BETWEEN ?1 AND ?2 " + "AND B.PARENT_ACCOUNT_KEY = ?3 "
 			+ "AND B.payment_state = 'PENDING' " + "ORDER BY B.due_date", nativeQuery = true)
 	List<Object[]> getloanflowsdatas(Date fromDate, Date toDate, String accountNum);
 
@@ -289,7 +289,7 @@ public interface LOAN_REPAYMENT_REPO extends JpaRepository<LOAN_REPAYMENT_ENTITY
 			+ "       B.INTEREST_DUE AS flow_amt, " + "       A.ID AS loan_acct_no, "
 			+ "       A.LOAN_NAME AS acct_name, " + "       B.PARENT_ACCOUNT_KEY AS encoded_key "
 			+ "FROM LOAN_ACCOUNT_MASTER_TBL A " + "JOIN LOAN_REPAYMENT_TBL B ON A.ENCODED_KEY = B.PARENT_ACCOUNT_KEY "
-			+ "WHERE B.DUE_DATE BETWEEN ?1 AND ?2 " + "AND B.PARENT_ACCOUNT_KEY = ?3 "
+			+ "WHERE B.interest_due > 0 AND B.DUE_DATE BETWEEN ?1 AND ?2 " + "AND B.PARENT_ACCOUNT_KEY = ?3 "
 			+ "AND B.payment_state = 'PENDING' " + "ORDER BY B.due_date", nativeQuery = true)
 	List<Object[]> getloanflowsdata(Date fromDate, Date toDate, String accountNum);
 

@@ -100,6 +100,24 @@ public class LOAN_ACT_MST_ENTITY {
 	private String	interest_flg;
 	private String	fees_flg;
 	private String	recovery_flg;
+	private String	interest_demand_flg;
+	private String	fees_demand_flg;
+	
+	public String getInterest_demand_flg() {
+		return interest_demand_flg;
+	}
+
+	public void setInterest_demand_flg(String interest_demand_flg) {
+		this.interest_demand_flg = interest_demand_flg;
+	}
+
+	public String getFees_demand_flg() {
+		return fees_demand_flg;
+	}
+
+	public void setFees_demand_flg(String fees_demand_flg) {
+		this.fees_demand_flg = fees_demand_flg;
+	}
 
 	public String getEncoded_key() {
 		return encoded_key;
@@ -701,6 +719,7 @@ public class LOAN_ACT_MST_ENTITY {
 		this.recovery_flg = recovery_flg;
 	}
 
+	
 	public LOAN_ACT_MST_ENTITY(String encoded_key, String id, String account_holdertype, String account_holderkey,
 			Date creation_date, Date approved_date, Date last_modified_date, Date closed_date,
 			Date last_account_appraisaldate, String account_state, String account_substate, String product_typekey,
@@ -720,7 +739,8 @@ public class LOAN_ACT_MST_ENTITY {
 			BigDecimal manualoverride_amount, Date manualoverride_expiry_date, BigDecimal cpfees,
 			BigDecimal deposit_amount, BigDecimal total_product_price, String retailer_name, String retailer_branch,
 			String vg_application_id, String contract_signed, Date date_of_first_call, String last_call_outcome,
-			Date asondate, String disbursement_flg, String interest_flg, String fees_flg, String recovery_flg) {
+			Date asondate, String disbursement_flg, String interest_flg, String fees_flg, String recovery_flg,
+			String interest_demand_flg, String fees_demand_flg) {
 		super();
 		this.encoded_key = encoded_key;
 		this.id = id;
@@ -797,6 +817,8 @@ public class LOAN_ACT_MST_ENTITY {
 		this.interest_flg = interest_flg;
 		this.fees_flg = fees_flg;
 		this.recovery_flg = recovery_flg;
+		this.interest_demand_flg = interest_demand_flg;
+		this.fees_demand_flg = fees_demand_flg;
 	}
 
 	@Override
@@ -833,7 +855,8 @@ public class LOAN_ACT_MST_ENTITY {
 				+ ", contract_signed=" + contract_signed + ", date_of_first_call=" + date_of_first_call
 				+ ", last_call_outcome=" + last_call_outcome + ", asondate=" + asondate + ", disbursement_flg="
 				+ disbursement_flg + ", interest_flg=" + interest_flg + ", fees_flg=" + fees_flg + ", recovery_flg="
-				+ recovery_flg + "]";
+				+ recovery_flg + ", interest_demand_flg=" + interest_demand_flg + ", fees_demand_flg=" + fees_demand_flg
+				+ "]";
 	}
 
 	public LOAN_ACT_MST_ENTITY() {

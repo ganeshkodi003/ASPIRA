@@ -2074,7 +2074,13 @@ public class BGLSRestController {
 		LocalDate inputDate = dateFrom.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate monthStart = inputDate.withDayOfMonth(1);
 		LocalDate monthEnd = inputDate.with(TemporalAdjusters.lastDayOfMonth());
-
+		
+		if (!inputDate.equals(monthEnd)) {
+		    // Not month-end → show popup / message
+		    Map<String, Object> response = new HashMap<>();
+		    response.put("message", "Booking allowed only at month-end.");
+		    return response;
+		}
 		System.out.println("===== Month Start/End =====");
 		System.out.println("Month Start: " + monthStart);
 		System.out.println("Month End: " + monthEnd);
@@ -2089,7 +2095,7 @@ public class BGLSRestController {
 		// Fetch next pending flow
 		List<Object[]> defnList = lOAN_REPAYMENT_REPO.getNextPendingFlow(todate, actno1);
 
-		if (defnList == null || defnList.isEmpty()) {
+		if(defnList == null || defnList.isEmpty()) {
 			System.out.println("No records found for account: " + actno1);
 			return Collections.emptyMap();
 		}
