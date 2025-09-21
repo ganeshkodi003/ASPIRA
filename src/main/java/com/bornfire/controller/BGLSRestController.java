@@ -902,162 +902,137 @@ public class BGLSRestController {
 	/* Thanveer */
 	@RequestMapping(value = "tab1modify", method = RequestMethod.POST)
 	@ResponseBody
-	public String tab1modify(Model md, HttpServletRequest rq, @ModelAttribute Organization_Entity organization_Entity)
-			throws ParseException {
+	public String tab1modify(Model md, HttpServletRequest rq, @ModelAttribute Organization_Entity organization_Entity) {
 
 		Optional<Organization_Entity> up = organization_Repo.findById(organization_Entity.getOrg_name());
 		BGLSBusinessTable_Entity audit = new BGLSBusinessTable_Entity();
 		String userid = (String) rq.getSession().getAttribute("USERID");
 		Long auditID = bglsBusinessTable_Rep.getAuditRefUUID();
-		System.out.println(organization_Entity.getAs_on() + "uigiu");
-		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		String formattedDate = dateFormat.format(organization_Entity.getAs_on());
 
-		try {
-			Date parsedDate = dateFormat.parse(formattedDate); // Parse the String back to Date
-			System.out.println("Parsed Date: " + parsedDate); // Prints the Date object
-		} catch (ParseException e) {
-			e.printStackTrace();
+		// ✅ Handle null safely
+		Date asOn = organization_Entity.getAs_on();
+		if (asOn != null) {
+			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+			String formattedDate = dateFormat.format(asOn);
+			try {
+				Date parsedDate = dateFormat.parse(formattedDate);
+				System.out.println("Parsed As_on Date: " + parsedDate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("As_on is null for Org: " + organization_Entity.getOrg_name());
 		}
 
-		// Organization_Entity up = organization_Entity;
 		String msg = "";
 		if (up.isPresent()) {
 			Organization_Entity us1 = up.get();
-			if ((us1.getOrg_type().equals(organization_Entity.getOrg_type())
-					&& us1.getDate_of_regn().equals(organization_Entity.getDate_of_regn())
-					&& us1.getReg_no().equals(organization_Entity.getReg_no())
-					&& us1.getPan_card().equals(organization_Entity.getPan_card())
-					&& us1.getTan_card().equals(organization_Entity.getTan_card())
-					&& us1.getNo_of_emp().equals(organization_Entity.getNo_of_emp())
-					&& us1.getAs_on().equals(organization_Entity.getAs_on())
-					&& us1.getReg_addr_1().equals(organization_Entity.getReg_addr_1())
-					&& us1.getReg_addr_2().equals(organization_Entity.getReg_addr_2())
-					&& us1.getCorp_addr_1().equals(organization_Entity.getCorp_addr_1())
-					&& us1.getCor_addr_2().equals(organization_Entity.getCor_addr_2())
-					&& us1.getWeb_site().equals(organization_Entity.getWeb_site())
-					&& us1.getEmail().equals(organization_Entity.getEmail())
 
-			)) {
-				msg = "No any Modification done";
+			// ✅ Null-safe equals check
+			boolean noChange = Objects.equals(us1.getOrg_type(), organization_Entity.getOrg_type())
+					&& Objects.equals(us1.getDate_of_regn(), organization_Entity.getDate_of_regn())
+					&& Objects.equals(us1.getReg_no(), organization_Entity.getReg_no())
+					&& Objects.equals(us1.getPan_card(), organization_Entity.getPan_card())
+					&& Objects.equals(us1.getTan_card(), organization_Entity.getTan_card())
+					&& Objects.equals(us1.getNo_of_emp(), organization_Entity.getNo_of_emp())
+					&& Objects.equals(us1.getAs_on(), organization_Entity.getAs_on())
+					&& Objects.equals(us1.getReg_addr_1(), organization_Entity.getReg_addr_1())
+					&& Objects.equals(us1.getReg_addr_2(), organization_Entity.getReg_addr_2())
+					&& Objects.equals(us1.getCorp_addr_1(), organization_Entity.getCorp_addr_1())
+					&& Objects.equals(us1.getCor_addr_2(), organization_Entity.getCor_addr_2())
+					&& Objects.equals(us1.getWeb_site(), organization_Entity.getWeb_site())
+					&& Objects.equals(us1.getEmail(), organization_Entity.getEmail());
+
+			if (noChange) {
+				msg = "No modification done";
 			} else {
-				System.out.println(organization_Entity.getEmail());
-				System.out.println(us1.getEmail());
 				organization_Entity.setModify_flg("Y");
 				organization_Entity.setDel_flg("N");
 				organization_Entity.setModify_time(new Date());
 				organization_Entity.setModify_user(userid);
 
-				// for audit
-				StringBuilder stringBuilder = new StringBuilder();
-
-				if ((us1.getOrg_type().equals(organization_Entity.getOrg_type())
-						&& us1.getDate_of_regn().equals(organization_Entity.getDate_of_regn())
-						&& us1.getReg_no().equals(organization_Entity.getReg_no())
-						&& us1.getPan_card().equals(organization_Entity.getPan_card())
-						&& us1.getTan_card().equals(organization_Entity.getTan_card())
-						&& us1.getNo_of_emp().equals(organization_Entity.getNo_of_emp())
-						&& us1.getAs_on().equals(organization_Entity.getAs_on())
-						&& us1.getReg_addr_1().equals(organization_Entity.getReg_addr_1())
-						&& us1.getReg_addr_2().equals(organization_Entity.getReg_addr_2())
-						&& us1.getCorp_addr_1().equals(organization_Entity.getCorp_addr_1())
-						&& us1.getCor_addr_2().equals(organization_Entity.getCor_addr_2())
-						&& us1.getWeb_site().equals(organization_Entity.getWeb_site())
-						&& us1.getEmail().equals(organization_Entity.getEmail())
-
-				)) {
-
+				// build modification details
+				StringBuilder sb = new StringBuilder();
+				if (!Objects.equals(us1.getOrg_type(), organization_Entity.getOrg_type())) {
+					sb.append("Organization Type+").append(us1.getOrg_type()).append("+")
+							.append(organization_Entity.getOrg_type()).append("||");
 				}
-				if (!us1.getOrg_type().equals(organization_Entity.getOrg_type())) {
-					stringBuilder = stringBuilder.append(
-							"Organization Type+" + us1.getOrg_type() + "+" + organization_Entity.getOrg_type() + "||");
+				if (!Objects.equals(us1.getDate_of_regn(), organization_Entity.getDate_of_regn())) {
+					sb.append("Date of Registration+").append(us1.getDate_of_regn()).append("+")
+							.append(organization_Entity.getDate_of_regn()).append("||");
 				}
-				if (!us1.getDate_of_regn().equals(organization_Entity.getDate_of_regn())) {
-					stringBuilder = stringBuilder.append("Date of Registration+" + us1.getDate_of_regn() + "+"
-							+ organization_Entity.getDate_of_regn() + "||");
+				if (!Objects.equals(us1.getReg_no(), organization_Entity.getReg_no())) {
+					sb.append("Certificate and Registration+").append(us1.getReg_no()).append("+")
+							.append(organization_Entity.getReg_no()).append("||");
 				}
-				if (!us1.getReg_no().equals(organization_Entity.getReg_no())) {
-					stringBuilder = stringBuilder.append("Certificate and Registration+" + us1.getReg_no() + "+"
-							+ organization_Entity.getReg_no() + "||");
+				if (!Objects.equals(us1.getPan_card(), organization_Entity.getPan_card())) {
+					sb.append("Business Registration Card+").append(us1.getPan_card()).append("+")
+							.append(organization_Entity.getPan_card()).append("||");
 				}
-				if (!us1.getPan_card().equals(organization_Entity.getPan_card())) {
-					stringBuilder = stringBuilder.append("Business Registration Card+" + us1.getPan_card() + "+"
-							+ organization_Entity.getPan_card() + "||");
+				if (!Objects.equals(us1.getTan_card(), organization_Entity.getTan_card())) {
+					sb.append("VAT Reference+").append(us1.getTan_card()).append("+")
+							.append(organization_Entity.getTan_card()).append("||");
 				}
-				if (!us1.getTan_card().equals(organization_Entity.getTan_card())) {
-					stringBuilder = stringBuilder.append(
-							"VAT Reference+" + us1.getTan_card() + "+" + organization_Entity.getTan_card() + "||");
+				if (!Objects.equals(us1.getNo_of_emp(), organization_Entity.getNo_of_emp())) {
+					sb.append("No of Employees+").append(us1.getNo_of_emp()).append("+")
+							.append(organization_Entity.getNo_of_emp()).append("||");
 				}
-				if (!us1.getNo_of_emp().equals(organization_Entity.getNo_of_emp())) {
-					stringBuilder = stringBuilder.append(
-							"No of Employees+" + us1.getNo_of_emp() + "+" + organization_Entity.getNo_of_emp() + "||");
+				if (!Objects.equals(us1.getAs_on(), organization_Entity.getAs_on())) {
+					sb.append("As On+").append(us1.getAs_on()).append("+").append(organization_Entity.getAs_on())
+							.append("||");
 				}
-				if (!us1.getAs_on().equals(organization_Entity.getAs_on())) {
-					stringBuilder = stringBuilder
-							.append("As On+" + us1.getAs_on() + "+" + organization_Entity.getAs_on() + "||");
+				if (!Objects.equals(us1.getReg_addr_1(), organization_Entity.getReg_addr_1())) {
+					sb.append("Registered Office Address 1+").append(us1.getReg_addr_1()).append("+")
+							.append(organization_Entity.getReg_addr_1()).append("||");
 				}
-				if (!us1.getOrg_type().equals(organization_Entity.getOrg_type())) {
-					stringBuilder = stringBuilder.append("Registered Office Address 1+" + us1.getOrg_type() + "+"
-							+ organization_Entity.getOrg_type() + "||");
+				if (!Objects.equals(us1.getCorp_addr_1(), organization_Entity.getCorp_addr_1())) {
+					sb.append("Corporate Office Address 1+").append(us1.getCorp_addr_1()).append("+")
+							.append(organization_Entity.getCorp_addr_1()).append("||");
 				}
-				if (!us1.getReg_addr_1().equals(organization_Entity.getReg_addr_1())) {
-					stringBuilder = stringBuilder.append("Registered Office Address 1+" + us1.getReg_addr_1() + "+"
-							+ organization_Entity.getReg_addr_1() + "||");
+				if (!Objects.equals(us1.getCor_addr_2(), organization_Entity.getCor_addr_2())) {
+					sb.append("Corporate Office Address 2+").append(us1.getCor_addr_2()).append("+")
+							.append(organization_Entity.getCor_addr_2()).append("||");
 				}
-				if (!us1.getCorp_addr_1().equals(organization_Entity.getCorp_addr_1())) {
-					stringBuilder = stringBuilder.append("Corporate Office Address 1+" + us1.getCorp_addr_1() + "+"
-							+ organization_Entity.getCorp_addr_1() + "||");
+				if (!Objects.equals(us1.getWeb_site(), organization_Entity.getWeb_site())) {
+					sb.append("Website+").append(us1.getWeb_site()).append("+")
+							.append(organization_Entity.getWeb_site()).append("||");
 				}
-				if (!us1.getCor_addr_2().equals(organization_Entity.getCor_addr_2())) {
-					stringBuilder = stringBuilder.append("Corporate Office Address 2+" + us1.getOrg_type() + "+"
-							+ organization_Entity.getOrg_type() + "||");
-				}
-				if (!us1.getWeb_site().equals(organization_Entity.getWeb_site())) {
-					stringBuilder = stringBuilder
-							.append("Website+" + us1.getWeb_site() + "+" + organization_Entity.getWeb_site() + "||");
+				if (!Objects.equals(us1.getEmail(), organization_Entity.getEmail())) {
+					sb.append("Email+").append(us1.getEmail()).append("+").append(organization_Entity.getEmail())
+							.append("||");
 				}
 
-				if (!us1.getEmail().equalsIgnoreCase(organization_Entity.getEmail())) {
-					stringBuilder = stringBuilder
-							.append("Email+" + us1.getEmail() + "+" + organization_Entity.getEmail() + "||");
-					System.out.println(stringBuilder + us1.getEmail());
-				}
+				// audit
 				audit.setAudit_date(new Date());
 				audit.setEntry_time(new Date());
 				audit.setEntry_user(userid);
-				audit.setFunc_code("HEAD OFFIC MODIFICATION");
+				audit.setFunc_code("HEAD OFFICE MODIFICATION");
 				audit.setRemarks(userid + " : User Modified Successfully");
 				audit.setAudit_table("BGLS_ORG_MASTER");
 				audit.setAudit_screen("HEAD OFFICE - MODIFY");
+
 				Optional<UserProfile> up1 = userProfileRep.findById(userid);
-				UserProfile user = up1.get();
-				audit.setEvent_name(user.getUsername());
-				audit.setEvent_id(user.getUserid());
-				// audit.setEvent_name(up.getUsername());
-				String modiDetails = stringBuilder.toString();
-				System.out.println(modiDetails + "modiDetailsmodiDetails");
-				audit.setModi_details(modiDetails);
+				up1.ifPresent(user -> {
+					audit.setEvent_name(user.getUsername());
+					audit.setEvent_id(user.getUserid());
+				});
+
+				audit.setModi_details(sb.toString());
 				audit.setAudit_ref_no(auditID.toString());
+
 				UserProfile auth_user = userProfileRep.getRole(userid);
-				String auth_user_val = auth_user.getAuth_user();
-				Date auth_user_date = auth_user.getAuth_time();
-				audit.setAuth_user(auth_user_val);
-				audit.setAuth_time(auth_user_date);
+				if (auth_user != null) {
+					audit.setAuth_user(auth_user.getAuth_user());
+					audit.setAuth_time(auth_user.getAuth_time());
+				}
+
 				bglsBusinessTable_Rep.save(audit);
 				organization_Repo.save(organization_Entity);
+
 				msg = "User Modified Successfully";
-
 			}
-
 		}
-
-		/*
-		 * up.setEntity_flg("N"); up.setDel_flg("N"); organization_Repo.save(up);
-		 */
-		// for audit
-
 		return msg;
-
 	}
 
 	/* Thanveer */

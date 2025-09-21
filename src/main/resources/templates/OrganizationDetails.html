@@ -492,16 +492,15 @@ input:hover+.password-info {
 	}
 </script>
 <script>
-	$(function() {
-		$("#date_of_regn").datepicker({
-			dateFormat : "dd-mm-yy", // Format as 'DD-MM-YYYY'
-			changeMonth : true, // Allows changing month
-			changeYear : true, // Allows changing year
-			yearRange : "1900:2024", // Year range
-			maxDate : new Date()
-		// Restricts to today or earlier
-		});
-	});
+$(function() {
+    $("#date_of_regn, #as_on").datepicker({
+        dateFormat: "dd-mm-yy",  // Format as 'DD-MM-YYYY'
+        changeMonth: true,        // Allows changing month
+        changeYear: true,         // Allows changing year
+        yearRange: "1900:2024",   // Year range
+        maxDate: new Date()       // Restricts to today or earlier
+    });
+});
 </script>
 <script>
 	function addHoliday() {
@@ -2461,8 +2460,8 @@ input:hover+.password-info {
 									<div class="col-sm-2">As On</div>
 									<div class="col-sm-2">
 
-										<input type="date" name="as_on" id="as_on"
-											th:value="${#dates.format(organization?.as_on, 'yyyy-MM-dd')}"
+										<input type="text" name="as_on" id="as_on"
+											th:value="${#dates.format(organization?.as_on, 'dd-MM-yyyy')}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 
@@ -2858,21 +2857,5 @@ input:hover+.password-info {
 			</div>
 		</div>
 	</div>
-	<script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Get the input field
-            var dateInput = document.getElementById('as_on');            
-           
-                if (dateInput) {
-                	  var today = new Date().toISOString().split('T')[0];
-                	  dateInput.setAttribute('max', today);
-
-                     
-                }
-              
-            
-        });
-    </script>
 </body>
-
 </html>
