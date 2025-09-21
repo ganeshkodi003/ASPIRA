@@ -42,26 +42,29 @@ public interface LOAN_REPAYMENT_REPO extends JpaRepository<LOAN_REPAYMENT_ENTITY
 			+ "WHERE U.flow_amt > 0 \r\n" + "ORDER BY U.due_date, flow_id", nativeQuery = true)
 	List<Object[]> getloanflowsvalue(Date fromDate, Date toDate, String accountNum);
 
-	@Query(value = "SELECT B.due_date AS due_date, " + "       '1' AS flow_id, " + "       'INDEM' AS flow_code, "
+	@Query(value = "SELECT TOP 1 B.due_date AS due_date, " + "       '1' AS flow_id, " + "       'INDEM' AS flow_code, "
 			+ "       B.INTEREST_DUE AS flow_amt, " + "       A.ID AS loan_acct_no, "
 			+ "       A.LOAN_NAME AS acct_name, " + "       A.INTEREST_RATE AS interest_rate "
 			+ "FROM LOAN_ACCOUNT_MASTER_TBL A " + "JOIN LOAN_REPAYMENT_TBL B ON A.ENCODED_KEY = B.PARENT_ACCOUNT_KEY "
-			+ "WHERE B.DUE_DATE BETWEEN ?1 AND ?2 " + "AND B.PARENT_ACCOUNT_KEY = ?3 "
-			+ "AND B.payment_state = 'PENDING' " + "AND B.due_date > '2025-01-17' " + // ✅ Now only showing dates //
-																						// *after* 2025-01-17
-			"ORDER BY B.due_date", nativeQuery = true)
-	List<Object[]> getloanflowsatas(Date fromDate, Date toDate, String accountNum);
+			+ "WHERE B.DUE_DATE > ?1 " + // strictly after passed date
+			"AND B.PARENT_ACCOUNT_KEY = ?2 " + "AND B.payment_state = 'PENDING' "
+			+ "ORDER BY B.due_date ASC", nativeQuery = true)
+	List<Object[]> getNextPendingFlow(Date fromDate, String accountNum);
+
+	@Query(value = "SELECT TOP 1 B.DUE_DATE, B.INTEREST_DUE, A.ID, A.LOAN_NAME " + "FROM LOAN_REPAYMENT_TBL B "
+			+ "JOIN LOAN_ACCOUNT_MASTER_TBL A ON A.ENCODED_KEY = B.PARENT_ACCOUNT_KEY "
+			+ "WHERE A.ID = ?1 AND B.PAYMENT_STATE = 'PAID' " + "ORDER BY B.DUE_DATE DESC", nativeQuery = true)
+	List<Object[]> getLastPaidDueDate(String accountNum);
 
 	@Query(value = "select * from LOAN_REPAYMENT_TBL where PARENT_ACCOUNT_KEY = ?1 and DUE_DATE = ?2", nativeQuery = true)
 	LOAN_REPAYMENT_ENTITY getLoanFlowsValueDatas(String accountNum, String flowDate);
 
 	@Query(value = "SELECT B.due_date AS due_date, " + "       '1' AS flow_id, " + "       'FEEDEM' AS flow_code, "
 			+ "       B.FEE_DUE AS flow_amt, " + "       A.ID AS loan_acct_no, " + "       A.LOAN_NAME AS acct_name, "
-			+ "       A.ENCODED_KEY AS encoded_key " + // ✅ Added encoded_key
-			"FROM LOAN_ACCOUNT_MASTER_TBL A " + "JOIN LOAN_REPAYMENT_TBL B ON A.ENCODED_KEY = B.PARENT_ACCOUNT_KEY "
+			+ "       A.ENCODED_KEY AS encoded_key " + "FROM LOAN_ACCOUNT_MASTER_TBL A "
+			+ "JOIN LOAN_REPAYMENT_TBL B ON A.ENCODED_KEY = B.PARENT_ACCOUNT_KEY "
 			+ "WHERE B.DUE_DATE BETWEEN ?1 AND ?2 " + "AND B.PARENT_ACCOUNT_KEY = ?3 "
-			+ "AND B.payment_state = 'PENDING' " + "AND B.due_date > '2025-01-17' " + // ✅ Added correct condition
-			"ORDER BY B.due_date", nativeQuery = true)
+			+ "AND B.payment_state = 'PENDING' " + "ORDER BY B.due_date", nativeQuery = true)
 	List<Object[]> getloanflowsdatas(Date fromDate, Date toDate, String accountNum);
 
 	@Query(value = "select * from LOAN_REPAYMENT_TBL where PARENT_ACCOUNT_KEY = ?1 AND payment_state ='PENDING'", nativeQuery = true)
@@ -284,12 +287,10 @@ public interface LOAN_REPAYMENT_REPO extends JpaRepository<LOAN_REPAYMENT_ENTITY
 
 	@Query(value = "SELECT B.due_date AS due_date, " + "       '1' AS flow_id, " + "       'INDEM' AS flow_code, "
 			+ "       B.INTEREST_DUE AS flow_amt, " + "       A.ID AS loan_acct_no, "
-			+ "       A.LOAN_NAME AS acct_name, " + // ✅ Already included
-			"       B.PARENT_ACCOUNT_KEY AS encoded_key " + // ✅ Added encoded_key here
-			"FROM LOAN_ACCOUNT_MASTER_TBL A " + "JOIN LOAN_REPAYMENT_TBL B ON A.ENCODED_KEY = B.PARENT_ACCOUNT_KEY "
+			+ "       A.LOAN_NAME AS acct_name, " + "       B.PARENT_ACCOUNT_KEY AS encoded_key "
+			+ "FROM LOAN_ACCOUNT_MASTER_TBL A " + "JOIN LOAN_REPAYMENT_TBL B ON A.ENCODED_KEY = B.PARENT_ACCOUNT_KEY "
 			+ "WHERE B.DUE_DATE BETWEEN ?1 AND ?2 " + "AND B.PARENT_ACCOUNT_KEY = ?3 "
-			+ "AND B.payment_state = 'PENDING' " + "AND B.due_date > '2025-01-17' " + // ✅ Hardcoded date filter
-			"ORDER BY B.due_date", nativeQuery = true)
+			+ "AND B.payment_state = 'PENDING' " + "ORDER BY B.due_date", nativeQuery = true)
 	List<Object[]> getloanflowsdata(Date fromDate, Date toDate, String accountNum);
 
 	@Query(value = "SELECT lr.*, lam.ID, lam.LOAN_NAME " + "FROM LOAN_REPAYMENT_TBL lr "
@@ -304,4 +305,6 @@ public interface LOAN_REPAYMENT_REPO extends JpaRepository<LOAN_REPAYMENT_ENTITY
 	@Query(value = "SELECT REPAID_DATE FROM LOAN_REPAYMENT_TBL WHERE DUE_DATE IN :dates ORDER BY DUE_DATE", nativeQuery = true)
 	List<Date> findRepaidDatesForMultipleDates(@Param("dates") List<Date> dates);
 
+	@Query(value = "SELECT * FROM LOAN_REPAYMENT_TBL WHERE PARENT_ACCOUNT_KEY IN :encodedKeys and repaid_date is not null ORDER BY DUE_DATE", nativeQuery = true)
+	List<LOAN_REPAYMENT_ENTITY> findRepaidDates(@Param("encodedKeys") List<String> encodedKeys);
 }

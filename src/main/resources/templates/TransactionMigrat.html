@@ -764,7 +764,7 @@
 			});
 
 			// === TAB 4 ===
-			handleAjax("./getBranchData1", "placelist4", function (response) {
+			handleAjax("./getBranchData11", "placelist4", function (response) {
 				var rows = "";
 				for (var i = 0; i < response.length; i++) {
 					var data = response[i];
@@ -871,7 +871,7 @@
 
 			// Inline AJAX with File Uploading message
 			$.ajax({
-				url: './saveBranchData1',  // Your controller endpoint
+				url: './saveBranchData11',  // Your controller endpoint
 				type: 'POST',
 				contentType: 'application/json',
 				data: JSON.stringify(tableData),
@@ -1073,6 +1073,9 @@
 							style="padding: 4px 4px; position: relative; display: flex; justify-content: space-around; margin-top: 10px; width: 100%; height: 43px">
 							<button class="tablinks" onclick="openTab(event, 'tab1')"
 								style="font-size: 16px; padding: 4px 8px; height: 32px;">Disbursement</button>
+							<button class="tablinks" onclick="openTab(event, 'tab4')"
+								style="font-size: 16px; padding: 4px 8px; height: 32px;">Booking
+								Transaction</button>
 							<button class="tablinks" onclick="openTab(event, 'tab2')"
 								style="font-size: 16px; padding: 4px 8px; height: 32px;">Interest
 								Transaction</button>
@@ -1081,9 +1084,6 @@
 								Transaction</button>
 							<button class="tablinks" onclick="openTab(event, 'tab3')"
 								style="font-size: 16px; padding: 4px 8px; height: 32px;">Recovery
-								Transaction</button>
-							<button class="tablinks" onclick="openTab(event, 'tab4')"
-								style="font-size: 16px; padding: 4px 8px; height: 32px;">Booking
 								Transaction</button>
 						</div>
 
@@ -2965,9 +2965,9 @@
 
 			}
 		});
-		
+
 		$('#alert121').on('hidden.bs.modal', function () {
-		    location.reload();
+			location.reload();
 		});
 
 	</script>

@@ -440,4 +440,7 @@ Object[] getcheck1();
 	
 	@Query(value = "SELECT * FROM BGLS_TRM_WRK_TRANSACTIONS WHERE ACCT_NUM = :acctNum", nativeQuery = true)
 	List<TRAN_MAIN_TRM_WRK_ENTITY> getAccountDetails(@Param("acctNum") String acctNum);
+	
+	@Query(value = "SELECT * FROM BGLS_TRM_WRK_TRANSACTIONS WHERE TRAN_DATE = ?1 AND TRAN_PARTICULAR LIKE '%Booking%' AND TRAN_STATUS = 'POSTED' AND ACCT_NUM = '1200001220'", nativeQuery = true)
+	TRAN_MAIN_TRM_WRK_ENTITY getinterestrecivable(Date accountNum);
 }

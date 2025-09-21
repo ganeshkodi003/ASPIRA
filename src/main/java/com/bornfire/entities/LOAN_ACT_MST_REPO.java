@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -98,4 +99,10 @@ public interface LOAN_ACT_MST_REPO extends JpaRepository<LOAN_ACT_MST_ENTITY, St
 	
 	@Query(value = "select * from LOAN_ACCOUNT_MASTER_TBL where DISBURSEMENT_DATE <= ?1 AND recovery_flg = 'N' ORDER BY CREATION_DATE", nativeQuery = true)
 	List<LOAN_ACT_MST_ENTITY> getLoanActDetval31(Date creation_date);
+	
+	@Query(value = "select * from LOAN_ACCOUNT_MASTER_TBL where DISBURSEMENT_DATE <= ?1  ORDER BY CREATION_DATE", nativeQuery = true)
+	List<LOAN_ACT_MST_ENTITY> getLoanActDetval11(Date creation_date);
+	
+	@Query(value = "SELECT ENCODED_KEY FROM LOAN_ACCOUNT_MASTER_TBL WHERE ID = :id", nativeQuery = true)
+	List<String> getEncodedKeysByAccountId(@Param("id") String id);
 }
