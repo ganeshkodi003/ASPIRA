@@ -257,6 +257,9 @@
 		.filterable .filters input[disabled]:-ms-input-placeholder {
 			color: #333;
 		}
+			.big-btn {
+  font-size: 16px;
+}
 	</style>
 	<style>
 		.password-info {
@@ -731,7 +734,7 @@
 								</div>
 								<div class="float-right">
 									<button type="button"
-										class="btn btn-xs btn-primary btns p-2 border btn-filter">Filter</button>
+										class="btn-primary big-btn btn-filter">Filter</button>
 								</div>
 							</div>
 							<div class="card-body" style="overflow-y: auto; border: 1px solid #ddd;">
@@ -791,8 +794,8 @@
 								</div>
 							</div>
 							<div class="card-footer text-center">
-								<button class="btn btn-primary p-2" onclick="Homeln();">Home</button>
-								<button class="btn btn-primary p-2" onclick="back()">Back</button>
+								<button class="btn-primary big-btn" onclick="Homeln();">Home</button>
+								<button class="btn-primary big-btn" onclick="back()">Back</button>
 							</div>
 						</div>
 					</div>
@@ -1364,8 +1367,8 @@
 							</form>
 						</div>
 						<div class="card-footer text-center mt-4">
-							<button class="btn btn-primary p-2" onclick="Homeln();">Home</button>
-							<button class="btn btn-primary p-2" onclick="back();">Back</button>
+							<button class="btn-primary big-btn" onclick="Homeln();">Home</button>
+							<button class="btn-primary big-btn" onclick="back();">Back</button>
 						</div>
 						<table
 							Style="border: 1px solid #ccc; width: 100%; max-width: 100%; margin: 0 auto; box-sizing: border-box;">
@@ -1429,8 +1432,8 @@
 								<h6 style="font-size: 1.2rem;" class="ml-4">LOAN MASTER</h6>
 							</div>
 							<div class="btn-group nav-buttons float-right">
-								<button class="btn btn-primary p-2" onclick="secondexceldownload();">Upload</button>
-								<button class="btn btn-primary p-2 ml-1" onclick="ListLoan();">List</button>
+								<button class="btn-primary big-btn " onclick="secondexceldownload();">Upload</button>
+								<button class="btn-primary big-btn ml-1" onclick="ListLoan();">List</button>
 							</div>
 						</div>
 						<div class="card-body">
@@ -1914,9 +1917,9 @@
 							</form>
 						</div>
 						<div class="card-footer text-center mt-4">
-							<button class="btn btn-primary p-2" onclick="Homeln();">Home</button>
+							<button class="btn-primary big-btn" onclick="Homeln();">Home</button>
 
-							<button class="btn btn-primary p-2" onclick="back();">Back</button>
+							<button class="btn-primary big-btn" onclick="back();">Back</button>
 						</div>
 					</div>
 				</div>
@@ -1933,7 +1936,7 @@
 			<div class="modal-content">
 				<div class="modal-body" style="text-align: center">
 					<p id="alertmsg"></p>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
+					<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 						onclick="refreshPage1()">Ok</button>
 				</div>
 			</div>
@@ -1945,7 +1948,7 @@
 			<div class="modal-content">
 				<div class="modal-body" style="text-align: center">
 					<p id="alertmsg1"></p>
-					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="listPage();">Ok</button>
+					<button type="button" class="btn-primary big-btn" data-dismiss="modal" onclick="listPage();">Ok</button>
 				</div>
 			</div>
 		</div>
@@ -1957,7 +1960,7 @@
 			<div class="modal-content">
 				<div class="modal-body" style="text-align: center">
 					<p id="Normalalertmsg"></p>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
+					<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 						onclick="$('#normalAlert').modal('hide');">Close</button>
 				</div>
 			</div>
@@ -1977,7 +1980,7 @@
 				</div>
 				<div class="modal-body" style="text-align: center;">
 					<h6 id="Normalalertmsg"></h6>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
+					<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 						onclick="$('#normalalert').modal('hide')">Close</button>
 				</div>
 			</div>
@@ -2023,8 +2026,8 @@
 
 				</div>
 				<div class="modal-footer d-flex justify-content-center">
-					<!--<button type="button" class="btn btn-primary active" onclick="sechduleSubmit();">Submit</button>-->
-					<button type="button" class="btn btn-primary active"
+					<!--<button type="button" class="btn-primary big-btn active" onclick="sechduleSubmit();">Submit</button>-->
+					<button type="button" class="btn-primary big-btn active"
 						onclick="$('#scheduleModal').modal('hide');">Close</button>
 				</div>
 			</div>
@@ -2095,7 +2098,7 @@
 				</div>
 				<div class="modal-footer d-flex justify-content-center">
 
-					<button type="button" class="btn btn-primary active"
+					<button type="button" class="btn-primary big-btn active"
 						onclick="$('#scheduleModalView').modal('hide');">Close</button>
 				</div>
 			</div>
@@ -2123,7 +2126,7 @@
 
 					<!-- Footer with Close Button -->
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" data-dismiss="modal"
+						<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 							onclick="openCity(event, 'india');">Close</button>
 						<!-- Calls goBack function -->
 					</div>
@@ -2162,7 +2165,7 @@
 
 					<!-- Modal Footer -->
 					<div class="modal-footer d-flex justify-content-center" style="width: 100%; padding: 10px;">
-						<button type="button" class="btn btn-primary" onclick="submitdatas2()">Submit</button>
+						<button type="button" class="btn-primary big-btn" onclick="submitdatas2()">Submit</button>
 						<button type="button" class="btn btn-secondary" data-dismiss="modal"
 							onclick="refreshPage()">Close</button>
 					</div>
@@ -2191,7 +2194,7 @@
 
 					<!-- Modal Footer -->
 					<div class="modal-footer d-flex justify-content-center" style="width: 100%; padding: 10px;">
-						<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+						<button type="button" class="btn-primary big-btn" data-dismiss="modal">Close</button>
 					</div>
 				</div>
 			</div>

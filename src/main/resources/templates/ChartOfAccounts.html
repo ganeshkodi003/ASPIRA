@@ -5,46 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
-	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/font-awesome/5.9.0/css/all.min.css"
-	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
-	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
-	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
-<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
-<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
-
-<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
-	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
-	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
-<script src="/webjars/jquery/3.4.1/jquery.min.js"
-	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
-<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
-	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
-
-<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
-	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
-
-<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
-	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
-
-<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
-	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
-<script
-	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
-	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
-
-<script src="js/ResponisiveHeight.js"></script>
-
-
-
+<script src="/ASPIRA/js/jquery.min.js"></script>
+<script src="/ASPIRA/js/jquery-ui.min.js"></script>
 <style>
 .btn {
 	line-height: 0.5rem;
@@ -167,6 +129,9 @@ input:hover+.password-info {
 
 .filterable .filters input[disabled]::-webkit-input-placeholder {
 	color: #333;
+}
+.big-btn {
+  font-size: 16px;
 }
 </style>
 
@@ -444,10 +409,7 @@ function verifysubmit(a) {
 				    }
 				};
 </script>
-
 </head>
-
-
 <body>
 
 	<div class="col-sm-2 d-flex align-items-center">
@@ -458,7 +420,6 @@ function verifysubmit(a) {
 	<div class="container-manager">
 		<div class="row">
 			<div class="col-sm-11 ml-5 mt-2">
-
 				<div th:if="${formmode}=='list'">
 					<div class="panel panel-primary filterable">
 						<div class="card w-100 border panel panel-primary filterable">
@@ -469,8 +430,8 @@ function verifysubmit(a) {
 								</div>
 								<div class="float-right">
 									<button type="button"
-										class="btn btn-primary btns p-2 btn-filter">Filter</button>
-									<button type="button" class="btn btn-primary p-2" id="btnadd"
+										class="btn-primary big-btn btn-filter">Filter</button>
+									<button type="button" class="btn-primary big-btn" id="btnadd"
 										style="text-align: center;" onclick="adduser(this);">Add</button>
 								</div>
 							</div>
@@ -567,30 +528,39 @@ function verifysubmit(a) {
 													<td th:case="'N'" style="color: red;">InActive</td>
 												</th:block>
 												<td>
-													<div class="dropdown" style="text-align: center;">
-														<button class="btn btn-primary p-2" type="button"
-															id="dropdownMenuButton" data-toggle="dropdown"
-															style="background-color: #B2BEB5; color: white; border: none; outline: none;"
-															aria-haspopup="true" aria-expanded="false">Action</button>
-														<div class="dropdown-menu"
+													<div class="dropdown action-dropdown">
+														<button class="btn btn-action dropdown-toggle" style="padding:0px"
+															type="button" id="dropdownMenuButton" title="Action"
+															data-toggle="dropdown" aria-haspopup="true"
+															aria-expanded="false">Action</button>
+
+														<div class="dropdown-menu" style="padding:0px"
 															aria-labelledby="dropdownMenuButton">
-															<button type="button" class="dropdown-item"
-																id="btnmodify" th:attr="data-attr=${chartacc?.acct_num}"
-																style="text-align: center;" onclick="modifyuser(this);">Modify</button>
+															<!-- Modify -->
+															<a class="dropdown-item modify-item"
+																th:attr="data-attr=${chartacc?.acct_num}" title="Modify"
+																onclick="modifyuser(this)">Modify</a>
+
 															<div class="dropdown-divider"></div>
-															<button type="button" class="dropdown-item"
-																id="btnmodify" th:attr="data-attr=${chartacc?.acct_num}"
-																style="text-align: center;" onclick="verifyuser(this);">Verify</button>
+
+															<!-- Verify -->
+															<a class="dropdown-item verify-item"
+																th:attr="data-attr=${chartacc?.acct_num}" title="Verify"
+																onclick="verifyuser(this)">Verify</a>
+
 															<div class="dropdown-divider"></div>
-															<button type="button" class="dropdown-item"
-																id="btnDelete" th:data-attribute="${chartacc?.acct_num}"
-																style="text-align: center;" onclick="deleteUser(this);">
-																Delete</button>
+
+															<!-- Delete -->
+															<a class="dropdown-item delete-item"
+																th:attr="data-attribute=${chartacc?.acct_num}"
+																title="Delete" onclick="deleteUser(this)">Delete</a>
+
 															<div class="dropdown-divider"></div>
-															<button type="button" class="dropdown-item"
-																id="btnEnquiry"
-																th:attr="data-attr=${chartacc?.acct_num}"
-																style="text-align: center;" onclick="enquiryuser(this);">view</button>
+
+															<!-- View -->
+															<a class="dropdown-item view-item"
+																th:attr="data-attr=${chartacc?.acct_num}" title="View"
+																onclick="enquiryuser(this)">View</a>
 														</div>
 													</div>
 												</td>
@@ -601,9 +571,9 @@ function verifysubmit(a) {
 							</div>
 							<div class="card-footer text-center border-top-0"
 								style="background-color: #e9ecef">
-								<button type="button" class="btn btn-primary p-2" id="btnHome"
+								<button type="button" class="btn-primary big-btn" id="btnHome"
 									onclick="home();">Home</button>
-								<button type="button" class="btn btn-primary p-2" id="btnBack"
+								<button type="button" class="btn-primary big-btn" id="btnBack"
 									onclick="Back();">Back</button>
 							</div>
 						</div>
@@ -877,11 +847,11 @@ function verifysubmit(a) {
 						</div>
 						<div class="card-footer text-center"
 							style="background-color: #e9ecef">
-							<button type="button" class="btn btn-primary p-2" id="btnHome"
+							<button type="button" class="btn-primary big-btn" id="btnHome"
 								onclick="home();">Home</button>
-							<button type="button" class="btn btn-primary p-2"
+							<button type="button" class="btn-primary big-btn"
 								onclick="addsubmit(this);">Submit</button>
-							<button type="button" class="btn btn-primary p-2" id="btnBack"
+							<button type="button" class="btn-primary big-btn" id="btnBack"
 								onclick="Back();">Back</button>
 						</div>
 
@@ -1149,10 +1119,10 @@ function verifysubmit(a) {
 						</div>
 						<div class="card-footer text-center"
 							style="background-color: #e9ecef">
-							<button type="button" class="btn btn-xs btn-primary mr-2"
+							<button type="button" class="btn-primary big-btn"
 								id="btnHome" onclick="home();">Home</button>
 
-							<button type="button" class="btn btn-xs btn-primary ml-2"
+							<button type="button" class="btn-primary big-btn"
 								id="btnBack" onclick="Back();">Back</button>
 						</div>
 					</div>
@@ -1418,11 +1388,11 @@ function verifysubmit(a) {
 						</div>
 						<div class="card-footer text-center"
 							style="background-color: #e9ecef">
-							<button type="button" class="btn btn-primary p-2" id="btnHome"
+							<button type="button" class="btn-primary big-btn" id="btnHome"
 								onclick="home();">Home</button>
-							<button type="button" class="btn btn-primary p-2" id=""
+							<button type="button" class="btn-primary big-btn" id=""
 								onclick="verifysubmit(this);">Verify</button>
-							<button type="button" class="btn btn-primary p-2" id="btnBack"
+							<button type="button" class="btn-primary big-btn" id="btnBack"
 								onclick="Back();">Back</button>
 						</div>
 					</div>
@@ -1688,13 +1658,13 @@ function verifysubmit(a) {
 						</div>
 						<div class="card-footer text-center"
 							style="background-color: #e9ecef">
-							<button type="button" class="btn btn-primary p-2" id="btnHome"
+							<button type="button" class="btn-primary big-btn" id="btnHome"
 								onclick="home();">Home</button>
-							<button type="button" class="btn btn-primary p-2" id="btnsubmit"
+							<button type="button" class="btn-primary big-btn" id="btnsubmit"
 								th:attr="data-attr=${chartaccount?.acct_num}"
 								onclick="deletesubmit(this);">Delete</button>
 
-							<button type="button" class="btn btn-primary p-2" id="btnBack"
+							<button type="button" class="btn-primary big-btn" id="btnBack"
 								onclick="Back();">Back</button>
 						</div>
 					</div>
@@ -1996,11 +1966,11 @@ function verifysubmit(a) {
 						</div>
 						<div class="card-footer text-center"
 							style="background-color: #e9ecef">
-							<button type="button" class="btn btn-primary p-2" id="btnHome"
+							<button type="button" class="btn-primary big-btn" id="btnHome"
 								onclick="home();">Home</button>
-							<button type="button" class="btn btn-primary p-2"
+							<button type="button" class="btn-primary big-btn"
 								onclick="modifysubmit(this);">Submit</button>
-							<button type="button" class="btn btn-primary p-2" id="btnBack"
+							<button type="button" class="btn-primary big-btn" id="btnBack"
 								onclick="Back();">Back</button>
 						</div>
 

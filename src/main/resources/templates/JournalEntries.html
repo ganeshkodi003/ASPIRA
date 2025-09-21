@@ -194,6 +194,9 @@
 			text-align: left;
 			border-bottom: 1px solid #ddd;
 		}
+		.big-btn {
+  font-size: 16px;
+}
 	</style>
 
 
@@ -2406,31 +2409,35 @@
 											<td th:text="${details.tran_particular}"></td>
 											<td th:text="${details.tran_status}"></td>
 											<td>
-												<div class="dropdown" style="text-align: center;">
-													<button class="btn btn-primary p-2" type="button"
-														id="dropdownMenuButton" data-toggle="dropdown"
-														aria-haspopup="true" aria-expanded="false">
-														Action</button>
-													<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-														<a class="dropdown-item" id="btndelete"
-															th:attr="data-tranid=${details.tran_id}, data-partnid=${details.part_tran_id}, data-acctnum=${details.acct_num}"
+												<div class="dropdown action-dropdown">
+													<button class="btn btn-action dropdown-toggle" style="padding:0px"
+														type="button" id="dropdownMenuButton" title="Action"
+														data-toggle="dropdown" aria-haspopup="true"
+														aria-expanded="false">Action</button>
+
+													<div class="dropdown-menu" style="padding:0px"
+														aria-labelledby="dropdownMenuButton">
+														<!-- Delete (only if status = ENTERED) -->
+														<a class="dropdown-item delete-item"
+															th:attr="data-tranid=${details.tran_id}, 
+                    data-partnid=${details.part_tran_id}, 
+                    data-acctnum=${details.acct_num}"
 															th:if="${details.tran_status} == 'ENTERED'"
-															style="text-align: center;"
-															onclick="deleteuser(this);">Delete</a>
+															title="Delete" onclick="deleteuser(this)">Delete</a>
 
 														<div class="dropdown-divider"
 															th:if="${details.tran_status} == 'ENTERED'"></div>
-														<a class="dropdown-item" id="btnEnquiry"
-															th:attr="data-tranid=${details.tran_id}, data-partnid=${details.part_tran_id}, data-acctnum=${details.acct_num}"
-															style="text-align: center;"
-															onclick="enquiryuser(this);">view</a>
+
+														<!-- View -->
+														<a class="dropdown-item view-item"
+															th:attr="data-tranid=${details.tran_id}, 
+                    data-partnid=${details.part_tran_id}, 
+                    data-acctnum=${details.acct_num}"
+															title="View" onclick="enquiryuser(this)">View</a>
 													</div>
 												</div>
 											</td>
-
-
 										</tr>
-
 									</tbody>
 								</table>
 							</div>
@@ -2438,8 +2445,8 @@
 						<div class="card-footer text-center" style="background-color: #e9ecef">
 
 
-							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+							<button class="btn-primary big-btn" onclick="Home();">Home</button>
+							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 
 						</div>
 					</div>
@@ -2514,8 +2521,8 @@
 						<div class="card-footer text-center" style="background-color: #e9ecef">
 
 
-							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+							<button class="btn-primary big-btn" onclick="Home();">Home</button>
+							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 
 						</div>
 					</div>
@@ -3038,7 +3045,7 @@
 						</div>
 
 						<!--<div class="row formline" style="padding: 10px 0px 5px 1015px;">
-									<button class="btn btn-primary p-2" onclick="uploadfiles(this);">Upload
+									<button class="btn-primary big-btn" onclick="uploadfiles(this);">Upload
 										Files</button>
 								</div>-->
 
@@ -3073,14 +3080,14 @@
 						</form>
 					</div>
 					<div class="card-footer text-center" style="background-color: #e9ecef">
-						<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-						<button class="btn btn-primary p-2 d-none" id="addscreenfunctions"
+						<button class="btn-primary big-btn" onclick="Home();">Home</button>
+						<button class="btn-primary big-btn d-none" id="addscreenfunctions"
 							onclick="addTransactionRows(this);">Add</button>
-						<button class="btn btn-primary d-none p-2" id="transactionAddButton"
+						<button class="btn-primary big-btn d-none p-2" id="transactionAddButton"
 							onclick="transactionSubmit(this);">Submit</button>
-						<!-- <button class="btn btn-primary p-2" id="validatefunctions"
+						<!-- <button class="btn-primary big-btn" id="validatefunctions"
 								onclick="validatefunction(this);">Validate</button> -->
-						<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+						<button class="btn-primary big-btn" onclick="Back();">Back</button>
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
@@ -3610,12 +3617,12 @@
 								</div>
 
 								<div class="d-flex justify-content-end align-items-center mr-3 mb-2">
-									<button id="previous-btn" class="btn btn-primary me-2"
+									<button id="previous-btn" class="btn-primary big-btn me-2"
 										onclick="getPartTranRecords(this);">Previous</button>
 									<span class="mx-1" th:text="${currentPartTran}" id="currentPartTran"></span>
 									<span class="mx-1">/</span>
 									<span class="mx-1" id="maxPartTran" th:text="${maxPartTran}"></span>
-									<button id="next-btn" class="btn btn-primary ms-2"
+									<button id="next-btn" class="btn-primary big-btn ms-2"
 										onclick="getPartTranRecords(this);">Next</button>
 								</div>
 								<br>
@@ -3642,7 +3649,7 @@
 								</div>
 
 								<!--<div class="row formline" style="padding: 10px 0px 5px 1015px;">
-									<button class="btn btn-primary p-2" onclick="uploadfiles(this);">Upload
+									<button class="btn-primary big-btn" onclick="uploadfiles(this);">Upload
 										Files</button>
 								</div>-->
 
@@ -3721,9 +3728,9 @@
 						<div class="card-footer text-center" style="background-color: #e9ecef">
 
 
-							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary p-2" onclick="views(this);">View</button>
-							<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+							<button class="btn-primary big-btn" onclick="Home();">Home</button>
+							<button class="btn-primary big-btn" onclick="views(this);">View</button>
+							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 
 
 						</div>
@@ -4293,7 +4300,7 @@
 									</div>
 
 									<!--<div class="row formline" style="padding: 10px 0px 5px 1015px;">
-									<button class="btn btn-primary p-2" onclick="uploadfiles(this);">Upload
+									<button class="btn-primary big-btn" onclick="uploadfiles(this);">Upload
 										Files</button>
 								</div>-->
 
@@ -4368,12 +4375,12 @@
 									</tbody>
 								</table>
 								<div class="d-flex justify-content-end align-items-center mr-3 mb-2">
-									<button id="previous-btn" class="btn btn-primary me-2"
+									<button id="previous-btn" class="btn-primary big-btn me-2"
 										onclick="getPartTranRecordsmodify(this);">Previous</button>
 									<span class="mx-1" th:text="${currentPartTran}" id="currentPartTran"></span>
 									<span class="mx-1">/</span>
 									<span class="mx-1" id="maxPartTran" th:text="${maxPartTran}"></span>
-									<button id="next-btn" class="btn btn-primary ms-2"
+									<button id="next-btn" class="btn-primary big-btn ms-2"
 										onclick="getPartTranRecordsmodify(this);">Next</button>
 								</div>
 							</div>
@@ -4381,9 +4388,9 @@
 						<div class="card-footer text-center" style="background-color: #e9ecef">
 
 
-							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary p-2" onclick="Submitdatasmodify(this);">Submit</button>
-							<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+							<button class="btn-primary big-btn" onclick="Home();">Home</button>
+							<button class="btn-primary big-btn" onclick="Submitdatasmodify(this);">Submit</button>
+							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 
 
 						</div>
@@ -4487,10 +4494,10 @@
 						</div>
 						<div class="row formline mr-2" style="padding: 10px 10px 2px 50px; justify-content: right;">
 							<div style="background: transparent; color: black;">
-								<button type="button" class="btn btn-success" onclick="addNewRow()">Add</button>
+								<button type="button" class="big-btn btn-success" onclick="addNewRow()">Add</button>
 							</div>
 							<div style="background: transparent; color: red;">
-								<button type="button" class="btn btn-danger" onclick="removeRow(this)">Remove</button>
+								<button type="button" class="big-btn btn-danger ml-1" onclick="removeRow(this)">Remove</button>
 							</div>
 						</div>
 
@@ -4613,9 +4620,9 @@
 						</div>
 
 						<div class="card-footer text-center" style="background-color: #e9ecef">
-							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary p-2" onclick="Submitvalues(this);">Submit</button>
-							<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+							<button class="btn-primary big-btn" onclick="Home();">Home</button>
+							<button class="btn-primary big-btn" onclick="Submitvalues(this);">Submit</button>
+							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 						</div>
 					</div>
 
@@ -4881,7 +4888,7 @@
 						</table>
 					</div>
 					<div class="text-center">
-						<button class="btn btn-primary" onclick="closeModal(this);">Close</button>
+						<button class="btn-primary big-btn" onclick="closeModal(this);">Close</button>
 					</div>
 				</div>
 			</form>
@@ -4933,7 +4940,7 @@
 						</table>
 					</div>
 					<div class="text-center">
-						<button class="btn btn-primary" onclick="closeModalTran(this);">Close</button>
+						<button class="btn-primary big-btn" onclick="closeModalTran(this);">Close</button>
 					</div>
 				</div>
 			</form>
@@ -5010,7 +5017,7 @@
 
 					</div>
 					<div class="text-center">
-						<button class="btn btn-primary" onclick="closeModalmass(this);">Close</button>
+						<button class="btn-primary big-btn" onclick="closeModalmass(this);">Close</button>
 					</div>
 				</div>
 			</form>
@@ -5058,7 +5065,7 @@
 						</table>
 					</div>
 					<div class="text-center">
-						<button class="btn btn-primary" onclick="closeModal1(this);">Close</button>
+						<button class="btn-primary big-btn" onclick="closeModal1(this);">Close</button>
 					</div>
 				</div>
 			</form>
@@ -5105,7 +5112,7 @@
 						</table>
 					</div>
 					<div class="text-center">
-						<button class="btn btn-primary" onclick="closeModal2(this);">Close</button>
+						<button class="btn-primary big-btn" onclick="closeModal2(this);">Close</button>
 					</div>
 				</div>
 			</form>
@@ -5125,7 +5132,7 @@
 				</div>
 				<div class="modal-body" style="text-align: center;">
 					<h6 id="normalalertmsg"></h6>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
+					<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 						onclick="$('#normalalert').modal('hide')">Close</button>
 				</div>
 			</div>
@@ -5151,7 +5158,7 @@
 					</div>
 					<!-- Footer with Close Button -->
 					<div class="modal-footer" style="justify-content: center; width: 100%;">
-						<button type="button" class="btn btn-primary" data-dismiss="modal"
+						<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 							onclick="backs()">Close</button>
 					</div>
 				</div>
@@ -5187,7 +5194,7 @@
 
 					<!-- Footer with Close Button -->
 					<div class="modal-footer" style="justify-content: center; width: 100%;">
-						<button type="button" class="btn btn-primary" data-dismiss="modal"
+						<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 							onclick="refreshPagemulti()">Close</button>
 					</div>
 
@@ -5224,7 +5231,7 @@
 
 					<!-- Footer with Close Button -->
 					<div class="modal-footer" style="justify-content: center; width: 100%;">
-						<button type="button" class="btn btn-primary" data-dismiss="modal"
+						<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 							onclick="refreshPage()">Close</button>
 					</div>
 
@@ -5256,7 +5263,7 @@
 									<input type="file" name="file" id="fileInput"
 										class="form-control form-control-sm bg-white border border-dark"
 										accept=".xml, .xls, .xlsx" />
-									<button type="button" class="btn btn-primary"
+									<button type="button" class="btn-primary big-btn"
 										onclick="submitdatas()">Submit</button>
 								</form>
 							</div>
@@ -5266,7 +5273,7 @@
 
 					<!-- Footer with Close Button -->
 					<div class="modal-footer" style="justify-content: center; width: 100%;">
-						<button type="button" class="btn btn-primary" data-dismiss="modal"
+						<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 							onclick="refreshPage()">Close</button>
 					</div>
 

@@ -206,6 +206,9 @@ input:hover+.password-info {
 .filterable .filters input[disabled]:-ms-input-placeholder {
 	color: #333;
 }
+.big-btn {
+  font-size: 16px;
+}
 </style>
 <script>
 function home() {
@@ -518,7 +521,7 @@ $(function () {
 									<option value="NOTAPPROVED" selected>UnVerified</option>
 									<option value="APPROVED" selected>Verified</option>
 								</select>
-								<button type="button" class="btn btn-xs btn-primary btns p-2 border btn-filter">Filter</button></div>
+								<button type="button" class="btn-primary big-btn btn-filter">Filter</button></div>
 						</div>
 						<div class="card-body"
 							style="overflow-y: auto; border: 1px solid #ddd;">
@@ -557,8 +560,8 @@ $(function () {
 							</div>
 						</div>
 						<div class="card-footer text-center">
-							<button class="btn btn-primary p-2" onclick="home()">Home</button>
-							<button class="btn btn-primary p-2" onclick="back()">Back</button>
+							<button class="btn-primary big-btn" onclick="home()">Home</button>
+							<button class="btn-primary big-btn" onclick="back()">Back</button>
 						</div>
 					</div>
 				</div>
@@ -1327,22 +1330,22 @@ $(function () {
 									</div>
 								</div>
 								<div class="card-footer text-center mt-4">
-									<button class="btn btn-primary p-2">Home</button>
-									<button class="btn btn-primary p-2"
+									<button class="btn-primary big-btn">Home</button>
+									<button class="btn-primary big-btn"
 										th:if="${Boolean} and ${formmode}=='view'"
 										th:attr="data-id=${view?.id},data-account_holderkey=${view?.account_holderkey}" onclick="verifyscreen(this);">
 										Verify</button>
 
 									<!-- Submit Button (Shown when Boolean is false) -->
-									<button type="button" class="btn btn-primary p-2"
+									<button type="button" class="btn-primary big-btn"
 										th:if="!${Boolean} and ${formmode}=='view'"
 										data-dismiss="modal"
 										th:attr="data-id=${view?.id}, data-account_holderkey=${view?.account_holderkey}"
 										onclick="modifyscreen(this);">Modify</button>
-									<button type="button" class="btn btn-primary p-2"
+									<button type="button" class="btn-primary big-btn"
 										th:if="${formmode}=='modify'" data-dismiss="modal"
 										onclick="submitformmodify(this);">Submit</button>
-									<button class="btn btn-primary p-2" onclick="back();">Back</button>
+									<button class="btn-primary big-btn" onclick="back();">Back</button>
 								</div>
 								<!-------------------------------------------------------------------------- footer ------------------------------------------------------------>
 								<table
@@ -1980,10 +1983,10 @@ $(function () {
 									</div>
 								</div>
 								<div class="card-footer text-center mt-4">
-									<button class="btn btn-primary p-2" onclick="home();">Home</button>
-									<button type="button" class="btn btn-primary p-2"
+									<button class="btn-primary big-btn" onclick="home();">Home</button>
+									<button type="button" class="btn-primary big-btn"
 										data-dismiss="modal" onclick="submitformverify(this);">Submit</button>
-									<button class="btn btn-primary p-2" onclick="back();">Back</button>
+									<button class="btn-primary big-btn" onclick="back();">Back</button>
 								</div>
 								<!-------------------------------------------------------------------------- footer ------------------------------------------------------------>
 								<table
@@ -2051,7 +2054,7 @@ $(function () {
 			<div class="modal-content">
 				<div class="modal-body" style="text-align: center">
 					<p id="popupmsg_body"></p>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
+					<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 						onclick="BackToLoanMaint();">Close</button>
 				</div>
 			</div>

@@ -204,6 +204,9 @@ th, td {
 	text-align: left;
 	border-bottom: 1px solid #ddd;
 }
+.big-btn {
+  font-size: 16px;
+}
 </style>
 
 <script>
@@ -1168,7 +1171,7 @@ $(document)
                               <div class="float-right">
 
 									<button type="button"
-										class="btn btn-xs btn-primary btns p-2 border btn-filter">Filter</button>
+										class="btn-primary big-btn btn-filter">Filter</button>
 								</div>
 						</div>
 						<div class="card-body panel panel-primary filterable">
@@ -1248,8 +1251,8 @@ $(document)
 							style="background-color: #e9ecef">
 
 
-							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+							<button class="btn-primary big-btn" onclick="Home();">Home</button>
+							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 
 						</div>
 					</div>
@@ -1751,18 +1754,18 @@ $(document)
 
 								<div
 									class="d-flex justify-content-end align-items-center mr-3 mb-2">
-									<button id="previous-btn" class="btn btn-primary me-2"
+									<button id="previous-btn" class="btn-primary big-btn me-2"
 										onclick="getPartTranRecords(this);">Previous</button>
 									<span class="mx-1" th:text="${currentPartTran}"
 										id="currentPartTran"></span> <span class="mx-1">/</span> <span
 										class="mx-1" id="maxPartTran" th:text="${maxPartTran}"></span>
-									<button id="next-btn" class="btn btn-primary ms-2"
+									<button id="next-btn" class="btn-primary big-btn ms-2"
 										onclick="getPartTranRecords(this);">Next</button>
 								</div>
 
 
 								<!--<div class="row formline" style="padding: 10px 0px 5px 1015px;">
-									<button class="btn btn-primary p-2" onclick="uploadfiles(this);">Upload
+									<button class="btn-primary big-btn" onclick="uploadfiles(this);">Upload
 										Files</button>
 								</div>-->
 								<div class="table-responsive mt-1">
@@ -1952,16 +1955,16 @@ $(document)
 							style="background-color: #e9ecef">
 
 
-							<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary p-2" onclick="opentable();">View</button>
-							<button class="btn btn-primary p-2"
+							<button class="btn-primary big-btn" onclick="Home();">Home</button>
+							<button class="btn-primary big-btn" onclick="opentable();">View</button>
+							<button class="btn-primary big-btn"
 								th:attr="data-tranid=${ledgervalues.tran_id}"
 								onclick="validationAccount(this);">Validate</button>
-							<button class="btn btn-primary p-2" id="transactionAddButton"
+							<button class="btn-primary big-btn" id="transactionAddButton"
 								th:attr="data-tranid=${ledgervalues.tran_id}, data-partnid=${ledgervalues.part_tran_id}, data-acctnum=${ledgervalues.acct_num},
 								data-parttrantype=${ledgervalues.part_tran_type}"
 								onclick="verifysubmit(this);">Post</button>
-							<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 						</div>
 
 						<div class="card-body">
@@ -2053,7 +2056,7 @@ $(document)
 					<!-- Footer with Close Button -->
 					<div class="modal-footer"
 						style="justify-content: center; width: 100%;">
-						<button type="button" class="btn btn-primary" data-dismiss="modal"
+						<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 							onclick="refreshPage()">Close</button>
 					</div>
 
@@ -2087,7 +2090,7 @@ $(document)
 					<!-- Footer with Close Button -->
 					<div class="modal-footer"
 						style="justify-content: center; width: 100%;">
-						<button type="button" class="btn btn-primary" data-dismiss="modal"
+						<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 							onclick="$('#alertsvalNormal').modal('hide');">Close</button>
 					</div>
 
@@ -2157,7 +2160,7 @@ $(document)
 
 					<!-- Footer with Close Button -->
 					<div class="modal-footer" style="justify-content: center;">
-						<button type="button" class="btn btn-primary" data-dismiss="modal"
+						<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 							onclick="accountclosepopup()">Close</button>
 					</div>
 				</div>
@@ -2227,7 +2230,7 @@ $(document)
 
 					<!-- Footer with Close Button -->
 					<div class="modal-footer" style="justify-content: center;">
-						<button type="button" class="btn btn-primary" data-dismiss="modal"
+						<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 							onclick="accountclosepopupval()">Close</button>
 					</div>
 				</div>

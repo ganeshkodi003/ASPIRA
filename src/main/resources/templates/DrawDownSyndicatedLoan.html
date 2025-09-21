@@ -16,47 +16,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
-	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/font-awesome/5.9.0/css/all.min.css"
-	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
-	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
-	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
-<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
-<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
-
-<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
-	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
-	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
-<script src="/webjars/jquery/3.4.1/jquery.min.js"
-	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
-
-
-<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
-	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
-
-<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
-	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
-
-<!-- jQuery UI -->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<link rel="stylesheet"
-	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="js/ResponisiveHeight.js"></script>
-
-
-<script src="js/bootstrap411.js"></script>
-
-
-
-
+<script src="/ASPIRA/js/jquery.min.js"></script>
+<script src="/ASPIRA/js/jquery-ui.min.js"></script>
 <style>
 .modal {
 	display: none;
@@ -292,6 +253,9 @@ button:focus {
 input:hover+.password-info {
 	visibility: visible;
 	opacity: 0.8;
+}
+.big-btn {
+  font-size: 16px;
 }
 </style>
 <script>
@@ -1883,7 +1847,7 @@ function rowadddcorporate() {
 								<h6 style="font-size: 1.2rem;">LEASE LOAN - LIST</h6>
 							</div>
 							<!--<div class="btn-group nav-buttons float-right">
-								<button type="button" class="btn btn-primary p-2" id="btnAdd"
+								<button type="button" class="btn-primary big-btn" id="btnAdd"
 									onclick="addscreen();">ADD</button>
 
 							</div>-->
@@ -1990,9 +1954,9 @@ function rowadddcorporate() {
 							</div>
 						</div>
 						<div class="card-footer text-center">
-							<button class="btn btn-primary p-2" id="btnHome"
+							<button class="btn-primary big-btn" id="btnHome"
 								onclick=" home();">Home</button>
-							<button class="btn btn-primary p-2" id="btnBack"
+							<button class="btn-primary big-btn" id="btnBack"
 								onclick="back();">Back</button>
 						</div>
 					</div>
@@ -2283,9 +2247,9 @@ function rowadddcorporate() {
 											</div>
 										</div>
 										<div class="card-footer text-center mt-2">
-											<button class="btn btn-primary p-2" onclick="home();">Home</button>
-											<button class="btn btn-primary p-2" onclick="submitparam()">Submit</button>
-											<button class="btn btn-primary p-2" onclick="back();">Back</button>
+											<button class="btn-primary big-btn" onclick="home();">Home</button>
+											<button class="btn-primary big-btn" onclick="submitparam()">Submit</button>
+											<button class="btn-primary big-btn" onclick="back();">Back</button>
 										</div>
 									</div>
 
@@ -2400,20 +2364,20 @@ function rowadddcorporate() {
 										</div>
 
 										<div class="card-footer text-center">
-											<button class="btn btn-primary" id="btnHome"
+											<button class="btn-primary big-btn" id="btnHome"
 												onclick="window.location.href='/.Dashboard';">Home</button>
-											<!-- <button class="btn btn-primary"
+											<!-- <button class="btn-primary big-btn"
 										th:if="${formmode}=='modify' OR ${formmode}=='add' ">Validate</button> -->
 
-											<button type="button" class="btn btn-primary"
+											<button type="button" class="btn-primary big-btn"
 												onclick="getRepaymentDetails(this)">Schedule</button>
-											<button type="button" class="btn btn-primary"
+											<button type="button" class="btn-primary big-btn"
 												onclick="getFlowDetails(this)">Flows</button>
-											<button class="btn btn-primary"
+											<button class="btn-primary big-btn"
 												onclick="addRecords(event, 'tab3');"
 												th:attr="data-formmode=${formmode}" id="detsubmit"
 												th:if="${formmode}=='modify' OR ${formmode}=='add' ">Submit</button>
-											<button class="btn btn-primary" id="btnBack"
+											<button class="btn-primary big-btn" id="btnBack"
 												onclick="generalback()">Back</button>
 										</div>
 
@@ -2570,11 +2534,11 @@ function rowadddcorporate() {
 												</tbody>
 											</table>
 											<div class="text-center card-footer">
-												<button class="btn btn-primary p-2" type="button"
+												<button class="btn-primary big-btn" type="button"
 													onclick="rowadd()">Add</button>
-												<button class="btn btn-primary p-2" type="button"
+												<button class="btn-primary big-btn" type="button"
 													onclick="rowdelete()">Remove</button>
-												<button class="btn btn-primary p-2" type="button"
+												<button class="btn-primary big-btn" type="button"
 													onclick="submitfile()">Submit</button>
 											</div>
 										</div>
@@ -2673,11 +2637,11 @@ function rowadddcorporate() {
 												</tbody>
 											</table>
 											<div class="text-center card-footer">
-												<button class="btn btn-primary p-2" type="button"
+												<button class="btn-primary big-btn" type="button"
 													onclick="rowadddcorporate()">Add</button>
-												<button class="btn btn-primary p-2" type="button"
+												<button class="btn-primary big-btn" type="button"
 													onclick="rowdeletecor()">Remove</button>
-												<button class="btn btn-primary p-2" type="button"
+												<button class="btn-primary big-btn" type="button"
 													onclick="submitfileCorporate()">Submit</button>
 											</div>
 										</div>
@@ -3051,13 +3015,13 @@ function rowadddcorporate() {
 									</div>
 
 									<div class="card-footer text-center mt-2">
-										<button class="btn btn-primary p-2" onclick="home();">Home</button>
-										<button class="btn btn-primary p-2"
+										<button class="btn-primary big-btn" onclick="home();">Home</button>
+										<button class="btn-primary big-btn"
 											onclick="SubmitVerify(this)"
 											th:attr="data-customer_id = ${loanDetails?.customer_id},data-loan_accountno = ${loanDetails?.loan_accountno}"
 											th:if="${formmode}=='verify'">Approve</button>
 
-										<button class="btn btn-primary p-2" onclick="back();">Back</button>
+										<button class="btn-primary big-btn" onclick="back();">Back</button>
 									</div>
 								</div>
 
@@ -3261,15 +3225,15 @@ function rowadddcorporate() {
 										</div>
 
 										<div class="card-footer text-center">
-											<button class="btn btn-primary p-2" onclick="home2();">Home</button>
-											<button class="btn btn-primary p-2"
+											<button class="btn-primary big-btn" onclick="home2();">Home</button>
+											<button class="btn-primary big-btn"
 												onclick="SubmitVerify(this)"
 												th:attr="data-customer_id = ${loanDetails?.customer_id},data-loan_accountno = ${loanDetails?.loan_accountno}"
 												th:if="${formmode}=='verify'">Approve</button>
-											<button class="btn btn-primary p-2"
+											<button class="btn-primary big-btn"
 												th:attr="data-loan_accountno = ${loanDetails?.loan_accountno}"
 												onclick="sechduleView(this);">Schedule</button>
-											<button class="btn btn-primary p-2" onclick="back();">Back</button>
+											<button class="btn-primary big-btn" onclick="back();">Back</button>
 										</div>
 
 										<div class="table-responsive d-none" id="demandtable"
@@ -3507,15 +3471,15 @@ function rowadddcorporate() {
 										</div>
 
 										<div class="card-footer text-center">
-											<button class="btn btn-primary p-2" onclick="home2();">Home</button>
-											<button class="btn btn-primary p-2"
+											<button class="btn-primary big-btn" onclick="home2();">Home</button>
+											<button class="btn-primary big-btn"
 												onclick="SubmitVerify(this)"
 												th:attr="data-customer_id = ${loanDetails?.customer_id},data-loan_accountno = ${loanDetails?.loan_accountno}"
 												th:if="${formmode}=='verify'">Approve</button>
-											<button class="btn btn-primary p-2"
+											<button class="btn-primary big-btn"
 												th:attr="data-loan_accountno = ${loanDetails?.loan_accountno}"
 												onclick="sechduleView1(this);">Flows</button>
-											<button class="btn btn-primary p-2" onclick="back();">Back</button>
+											<button class="btn-primary big-btn" onclick="back();">Back</button>
 										</div>
 
 										<div class="table-responsive d-none" id="demandtable1"
@@ -3645,9 +3609,9 @@ function rowadddcorporate() {
 										</div>
 
 										<div class="card-footer text-center mt-2">
-											<button class="btn btn-primary p-2" onclick="home2();">Home</button>
+											<button class="btn-primary big-btn" onclick="home2();">Home</button>
 
-											<button class="btn btn-primary p-2" onclick="back();">Back</button>
+											<button class="btn-primary big-btn" onclick="back();">Back</button>
 										</div>
 									</div>
 
@@ -3932,9 +3896,9 @@ function rowadddcorporate() {
 										</div>
 
 										<div class="card-footer text-center">
-											<button class="btn btn-primary p-2" onclick="home1();">Home</button>
-											<button class="btn btn-primary p-2" onclick="submitparam()">Submit</button>
-											<button class="btn btn-primary p-2" onclick="back();">Back</button>
+											<button class="btn-primary big-btn" onclick="home1();">Home</button>
+											<button class="btn-primary big-btn" onclick="submitparam()">Submit</button>
+											<button class="btn-primary big-btn" onclick="back();">Back</button>
 										</div>
 									</div>
 
@@ -4098,9 +4062,9 @@ function rowadddcorporate() {
 
 										</div>
 										<div class="card-footer text-center">
-											<button class="btn btn-primary p-2" onclick="home2();">Home</button>
-											<button class="btn btn-primary p-2" onclick="submitparam1()">Submit</button>
-											<button class="btn btn-primary p-2" onclick="back();">Back</button>
+											<button class="btn-primary big-btn" onclick="home2();">Home</button>
+											<button class="btn-primary big-btn" onclick="submitparam1()">Submit</button>
+											<button class="btn-primary big-btn" onclick="back();">Back</button>
 										</div>
 									</div>
 
@@ -4304,16 +4268,16 @@ function rowadddcorporate() {
 										</div>
 
 										<div class="card-footer text-center">
-											<button class="btn btn-primary p-2" onclick="home4();">Home</button>
-											<button class="btn btn-primary p-2"
+											<button class="btn-primary big-btn" onclick="home4();">Home</button>
+											<button class="btn-primary big-btn"
 												th:if="${formmode}=='modify'"
 												th:attr="dd_notice_ref = ${getGeneralDetails?.dd_notice_ref}"
 												onclick="ModifySubmit(this)">Submit</button>
-											<button class="btn btn-primary p-2"
+											<button class="btn-primary big-btn"
 												th:if="${formmode}=='modify1'"
 												th:attr="dd_notice_ref = ${getGeneralDetails?.dd_notice_ref}"
 												onclick="ModifySubmit1(this)">Submit</button>
-											<button class="btn btn-primary p-2" onclick="back();">Back</button>
+											<button class="btn-primary big-btn" onclick="back();">Back</button>
 										</div>
 									</div>
 									<table
@@ -4381,7 +4345,7 @@ function rowadddcorporate() {
 			<div class="modal-content">
 				<div class="modal-body" style="text-align: center">
 					<p id="alertmsg"></p>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
+					<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 						onclick="refreshPage1()">Ok</button>
 				</div>
 			</div>
@@ -4395,7 +4359,7 @@ function rowadddcorporate() {
 			<div class="modal-content">
 				<div class="modal-body" style="text-align: center">
 					<p id="alertmsg1"></p>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
+					<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 						onclick="listPage();">Ok</button>
 				</div>
 			</div>
@@ -4408,7 +4372,7 @@ function rowadddcorporate() {
 			<div class="modal-content">
 				<div class="modal-body" style="text-align: center">
 					<p id="Normalalertmsg"></p>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
+					<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 						onclick="$('#normalAlert').modal('hide');">Close</button>
 				</div>
 			</div>
@@ -4429,7 +4393,7 @@ function rowadddcorporate() {
 				</div>
 				<div class="modal-body" style="text-align: center;">
 					<h6 id="Normalalertmsg"></h6>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
+					<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 						onclick="$('#normalalert').modal('hide')">Close</button>
 				</div>
 			</div>
@@ -4477,8 +4441,8 @@ function rowadddcorporate() {
 
 				</div>
 				<div class="modal-footer d-flex justify-content-center">
-					<!--<button type="button" class="btn btn-primary active" onclick="sechduleSubmit();">Submit</button>-->
-					<button type="button" class="btn btn-primary active"
+					<!--<button type="button" class="btn-primary big-btn active" onclick="sechduleSubmit();">Submit</button>-->
+					<button type="button" class="btn-primary big-btn active"
 						onclick="$('#scheduleModal').modal('hide');">Close</button>
 				</div>
 			</div>
@@ -4551,7 +4515,7 @@ function rowadddcorporate() {
 				</div>
 				<div class="modal-footer d-flex justify-content-center">
 
-					<button type="button" class="btn btn-primary active"
+					<button type="button" class="btn-primary big-btn active"
 						onclick="$('#scheduleModalView').modal('hide');">Close</button>
 				</div>
 			</div>
@@ -4581,7 +4545,7 @@ function rowadddcorporate() {
 
 					<!-- Footer with Close Button -->
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" data-dismiss="modal"
+						<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 							onclick="openCity(event, 'india');">Close</button>
 						<!-- Calls goBack function -->
 					</div>

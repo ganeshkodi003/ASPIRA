@@ -215,6 +215,9 @@ input:hover+.password-info {
 .filterable .filters input[disabled]::-webkit-input-placeholder {
 	color: #333;
 }
+.big-btn {
+  font-size: 16px;
+}
 </style>
 <script>
 
@@ -790,7 +793,7 @@ function funcall() {
 								</div>
 								<div class="float-right">
 									<button type="button"
-										class="btn btn-primary btns p-2 btn-filter">Filter</button>
+										class="btn-primary big-btn btn-filter">Filter</button>
 								</div>
 							</div>
 
@@ -886,7 +889,7 @@ function funcall() {
 												</th:block>
 												<!-- <td>
 													<div class="dropdown">
-														<button class="btn btn-primary p-2" type="button"
+														<button class="btn-primary big-btn" type="button"
 															id="dropdownMenuButton" data-toggle="dropdown"
 															style="background-color: #B2BEB5; color: white; border: none; outline: none;"
 															aria-haspopup="true" aria-expanded="false">
@@ -913,8 +916,8 @@ function funcall() {
 								style="background-color: #e9ecef">
 
 
-								<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-								<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+								<button class="btn-primary big-btn" onclick="Home();">Home</button>
+								<button class="btn-primary big-btn" onclick="Back();">Back</button>
 
 							</div>
 
@@ -934,7 +937,7 @@ function funcall() {
 								<h6 style="font-size: 1.2rem; color: black;">ACCOUNT LEDGER</h6>
 							</div>
 							<div class="btn-group nav-buttons float-right">
-								<button type="button" class="btn btn-xs btn-primary btns p-2"
+								<button type="button" class="btn-primary big-btn btns p-2"
 									id="btnAdd" onclick="pdfCustomerdown()">Download</button>
 
 							</div>
@@ -1137,9 +1140,9 @@ function funcall() {
 
 						<div class="card-footer text-center"
 							style="background-color: #e9ecef">
-							<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+							<button type="button" class="btn-primary big-btn" id="btnHome"
 								onclick="Home();">Home</button>
-							<button type="button" class="btn btn-xs btn-primary" id="btnBack"
+							<button type="button" class="btn-primary big-btn" id="btnBack"
 								onclick="Back();">Back</button>
 						</div>
 
@@ -1166,7 +1169,7 @@ function funcall() {
 					</div>
 					<div class="modal-body" style="text-align: center;">
 						<h6 id="normalalertmsg"></h6>
-						<button type="button" class="btn btn-primary" data-dismiss="modal"
+						<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 							onclick="$('#normalalert').modal('hide')">Close</button>
 					</div>
 				</div>

@@ -1,25 +1,27 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ASPIRA</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/ASPIRA/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/ASPIRA/css/fontawesome.min.css">
+	<link rel="stylesheet" href="/ASPIRA/css/jquery-ui.min.css">
+	<link rel="stylesheet" href="/ASPIRA/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="/ASPIRA/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="/ASPIRA/css/fontawesome.min.css">
 
-<link rel="stylesheet" type="text/css"
-	href="/webjars/bootstrap/4.3.1/css/bootstrap.css"
-	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.css}">
-<script src="/webjars/bootstrap/4.3.1/js/bootstrap.js"
-	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.js}"></script>
-<script src="/webjars/jquery/3.4.1/jquery.js"
-	th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
-
-<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
-<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+	<script src="/ASPIRA/js/jquery.min.js"></script>
+	<script src="/ASPIRA/js/popper.min.js"></script>
+	<script src="/ASPIRA/js/bootstrap.min.js"></script>
+	<script src="/ASPIRA/js/jquery-ui.min.js"></script>
+	<script src="/ASPIRA/js/jquery.form.min.js"></script>
+	<script src="/ASPIRA/js/jquery.validate.min.js"></script>
+	<script src="/ASPIRA/js/jquery.dataTables.min.js"></script>
+	<script src="/ASPIRA/js/dataTables.bootstrap4.min.js"></script>
+	<!-- TOAST -->
+	<link rel="stylesheet" th:href="@{/css/jquery.toast.min.css}">
+	<script th:src="@{/js/jquery.toast.min.js}"></script>
 <script>
         // Prevent going back to the previous page
         history.pushState(null, null, location.href);

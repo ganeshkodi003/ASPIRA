@@ -8,95 +8,29 @@
 <script src="/ASPIRA/js/jquery.min.js"></script>
 <script src="/ASPIRA/js/jquery-ui.min.js"></script>
 <style>
-.btns {
-	float: right;
-	margin: 5px;
-}
 .btn {
 	line-height: 0.5rem;
 }
-label {
-	font-size: 16px;
+
+.table-bordered td, .table-bordered th {
+	font-size: smaller;
 }
 
-.col-sm-5 {
-	padding-bottom: 15px;
+.container-manager {
+	width: 83.5%;
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: 17.3%;
+	margin-top: 80px;
+	margin-top: 80px;
 }
 
-.list-body {
-	padding: 0px;
-}
-
-.error {
-	color: red;
-	padding-left: 10px;
-}
-
-.formline {
-	padding-bottom: 4px;
-}
-
-#finusertb {
-	width: 460px;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-	padding: 0px;
-}
-
-.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-	border: 2px solid skyblue !important;
-	border-bottom: unset !important;
-	background-color: unset !important;
-	color: black !important;
-	background-color: unset !important;
-}
-
-nav {
-	border-bottom: 2px solid grey;
-}
-
-body {
-	counter-reset: Serial;
-}
-
-table {
-	border-collapse: separate;
-}
-
-tr td:first-child:before {
-	counter-increment: Serial;
-	content: counter(Serial);
-}
-
-.table thead th {
-	border: unset !important;
-}
-
-.filterable .filters input[disabled] {
-	background-color: transparent;
-	border: none;
-	cursor: auto;
-	box-shadow: none;
-	padding: 0;
-	height: auto;
-}
-
-.filterable .filters input[disabled]::-webkit-input-placeholder {
-	color: #333;
-}
-
-.filterable .filters input[disabled]::-moz-placeholder {
-	color: #333;
-}
-
-.filterable .filters input[disabled]:-ms-input-placeholder {
-	color: #333;
-}
-
-.tablinks.active {
-	background-color: #007bff;
-	color: #fff;
+.table .thead-light th {
+	color: #495057;
+	background-color: #e9ecef;
+	border-color: #dee2e6;
+	width: 23px;
 }
 </style>
 <style>
@@ -147,7 +81,8 @@ tr td:first-child:before {
 	margin-right: auto;
 	border-radius: 10px;
 	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
-	font-family: Arial, sans-serif;
+	/* Adding shadow for depth */
+	font-family: Arial, sans-serif; /* Using a more common font */
 }
 
 .close {
@@ -155,11 +90,36 @@ tr td:first-child:before {
 	font-size: 28px;
 	font-weight: bold;
 }
+</style>
+<style>
+.password-info {
+	visibility: hidden;
+	width: 320px;
+	background-color: #333;
+	color: #fff;
+	text-align: left;
+	border-radius: 10px;
+	padding: 10px;
+	position: absolute;
+	z-index: 1;
+	top: calc(100% + 10px);
+	left: 50%;
+	transform: translateX(-50%);
+	opacity: 0;
+	transition: opacity 0.3s;
+}
 
-.close:hover, .close:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
+input:hover+.password-info {
+	visibility: visible;
+	opacity: 0.8;
+}
+
+.tablinks.active {
+	background-color: #007bff;
+	color: #fff;
+}
+.big-btn {
+  font-size: 16px;
 }
 </style>
 <script>
@@ -1149,37 +1109,37 @@ tr td:first-child:before {
 								</div>
 								<div class="card-footer  text-center"
 									style="background-color: #e9ecef;">
-									<button type="button" class="btn btn-primary " onclick="home()"
+									<button type="button" class="btn-primary big-btn " onclick="home()"
 										id="btnHome">Home</button>
-									<a class="btn btn-primary  text-white" onclick="addUser()"
-										th:if="${formmode}=='view'" id="btnModify">Add</a> <a
-										class="btn btn-primary  text-white" onclick="upload()"
-										id="btnupload">Upload</a> <a
-										class="btn btn-primary  text-white" id="btnModify"
-										th:if="${formmode}=='view'" onclick="modifyData();">Modify</a>
+									<button class="btn-primary big-btn" onclick="addUser()"
+										th:if="${formmode}=='view'" id="btnModify">Add</button> <button
+										class="btn-primary big-btn  text-white" onclick="upload()"
+										id="btnupload">Upload</button> <button
+										class="btn-primary big-btn" id="btnModify"
+										th:if="${formmode}=='view'" onclick="modifyData();">Modify</button>
 
-									<a class="btn btn-primary  text-white" id="btnDelete"
-										th:if="${formmode}=='view'" onclick="deleteData();">Delete</a>
+									<button class="btn-primary big-btn" id="btnDelete"
+										th:if="${formmode}=='view'" onclick="deleteData();">Delete</button>
 
-									<a class="btn btn-primary  text-white"
-										th:if="${formmode}=='view'" id="btnList" onclick="userList();">List</a>
+									<button class="btn-primary big-btn"
+										th:if="${formmode}=='view'" id="btnList" onclick="userList();">List</button>
 
 									<button th:if="${formmode}== 'add'" type="button"
-										class="btn btn-primary " form="RefCodeMaster" id="btnSubmit"
+										class="btn-primary big-btn" form="RefCodeMaster" id="btnSubmit"
 										onclick="submitform(this);"
 										th:attr="data-formmode=${formmode}">Submit</button>
 
-									<button type="button" class="btn btn-primary " id="btnEdit"
+									<button type="button" class="btn-primary big-btn" id="btnEdit"
 										th:if="${formmode}=='edit'"
 										th:attr="data-formmode=${formmode}"
 										onclick="modifyUserData(this);">Submit</button>
 
 									<button th:if="${formmode}== 'delete'" type="button"
-										class="btn btn-primary " form="AdminAssociateProfile"
+										class="btn-primary big-btn" form="AdminAssociateProfile"
 										id="btnSubmit" onclick="deleteUserData(this);"
 										th:attr="data-formmode=${formmode}">Submit</button>
 
-									<button type="button" class="btn btn-primary " id="btnBack"
+									<button type="button" class="btn-primary big-btn" id="btnBack"
 										onclick="back();">Back</button>
 								</div>
 							</div>
@@ -1219,14 +1179,14 @@ tr td:first-child:before {
 							</div>
 							<div class="card-footer text-center"
 								style="background-color: #BBC3CB;">
-								<button type="button" class="btn btn-primary" id="btnHome"
+								<button type="button" class="btn-primary big-btn" id="btnHome"
 									onclick="home();">Home</button>
-								<button type="button" class="btn btn-primary" id="btnHome"
+								<button type="button" class="btn-primary big-btn" id="btnHome"
 									onclick="uploadlist();">List</button>
-								<button type="button" class="btn btn-primary" id="nav"
+								<button type="button" class="btn-primary big-btn" id="nav"
 									onclick="submitexcelgst(this)">Validate</button>
 
-								<button type="button" class="btn btn-primary" id="btnBack"
+								<button type="button" class="btn-primary big-btn" id="btnBack"
 									onclick="back();">Back</button>
 							</div>
 						</div>
@@ -1338,10 +1298,10 @@ tr td:first-child:before {
 							</div>
 							<div class="card-footer text-center"
 								style="background-color: #e9ecef">
-								<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-								<button class="btn btn-primary p-2" id="submitBtn"
+								<button class="btn-primary big-btn" onclick="Home();">Home</button>
+								<button class="btn-primary big-btn" id="submitBtn"
 									onclick="getCheckedValues()">Submit</button>
-								<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+								<button class="btn-primary big-btn" onclick="Back();">Back</button>
 							</div>
 						</div>
 					</div>
@@ -1424,7 +1384,7 @@ tr td:first-child:before {
 
 												<!--	<td>
 													<div class="dropdown ml-5">
-														<button class="btn btn-primary p-2" type="button"
+														<button class="btn-primary big-btn p-2" type="button"
 															id="dropdownMenuButton" data-toggle="dropdown"
 															style="background-color: #B2BEB5; color: white; border: none; outline: none;"
 															aria-haspopup="true" aria-expanded="false">
@@ -1445,8 +1405,8 @@ tr td:first-child:before {
 							</div>
 							<div class="card-footer text-center"
 								style="background-color: #e9ecef">
-								<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-								<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+								<button class="btn-primary big-btn" onclick="Home();">Home</button>
+								<button class="btn-primary big-btn" onclick="Back();">Back</button>
 							</div>
 						</div>
 					</div>
@@ -1533,7 +1493,7 @@ tr td:first-child:before {
 													onclick="modifysubmit(this)"></td>
 												<!--	<td>
 													<div class="dropdown ml-5">
-														<button class="btn btn-primary p-2" type="button"
+														<button class="btn-primary big-btn p-2" type="button"
 															id="dropdownMenuButton" data-toggle="dropdown"
 															style="background-color: #B2BEB5; color: white; border: none; outline: none;"
 															aria-haspopup="true" aria-expanded="false">
@@ -1555,9 +1515,9 @@ tr td:first-child:before {
 
 							<div class="card-footer text-center"
 								style="background-color: #e9ecef">
-								<button class="btn btn-primary p-2" onclick="Home();">Home</button>
+								<button class="btn-primary big-btn" onclick="Home();">Home</button>
 
-								<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+								<button class="btn-primary big-btn" onclick="Back();">Back</button>
 							</div>
 						</div>
 					</div>
@@ -1647,9 +1607,9 @@ tr td:first-child:before {
 
 							<div class="card-footer text-center"
 								style="background-color: #e9ecef">
-								<button class="btn btn-primary p-2" onclick="Home();">Home</button>
+								<button class="btn-primary big-btn" onclick="Home();">Home</button>
 
-								<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+								<button class="btn-primary big-btn" onclick="Back();">Back</button>
 							</div>
 						</div>
 					</div>
@@ -1790,8 +1750,8 @@ tr td:first-child:before {
 						</div>
 						<div class="card-footer text-center"
 							style="background-color: #e9ecef">
-							<button class="btn btn-primary" onclick="Home();">Home</button>
-							<button class="btn btn-primary" onclick="Back();">Back</button>
+							<button class="btn-primary big-btn" onclick="Home();">Home</button>
+							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 						</div>
 
 
@@ -1810,7 +1770,7 @@ tr td:first-child:before {
 
 				<div class="modal-body" style="text-align: center;">
 					<h6 id="alertmsg2"></h6>
-					<button type="button" class="btn btn-primary"
+					<button type="button" class="btn-primary big-btn"
 						onclick="navigateToMainlist(this)">Close</button>
 				</div>
 			</div>
@@ -1825,7 +1785,7 @@ tr td:first-child:before {
 
 				<div class="modal-body" style="text-align: center;">
 					<h6 id="alertmsg"></h6>
-					<button type="button" class="btn btn-primary"
+					<button type="button" class="btn-primary big-btn"
 						onclick="$('#alert').modal('hide')">Close</button>
 				</div>
 			</div>
@@ -1840,7 +1800,7 @@ tr td:first-child:before {
 
 				<div class="modal-body" style="text-align: center;">
 					<h6 id="alertmsg1"></h6>
-					<button type="button" class="btn btn-primary"
+					<button type="button" class="btn-primary big-btn"
 						onclick="$('#alert1').modal('hide')">Close</button>
 				</div>
 			</div>

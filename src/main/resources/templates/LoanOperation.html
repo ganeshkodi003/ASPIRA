@@ -184,6 +184,9 @@ input:hover+.password-info {
 	visibility: visible;
 	opacity: 0.8;
 }
+.big-btn {
+  font-size: 16px;
+}
 </style>
 
 <script>
@@ -2148,8 +2151,8 @@ function closeModal() {
 
 					<div class="card-footer text-center"
 						style="background-color: #e9ecef;">
-						<button class="btn btn-primary P-2" onclick="Home();">Home</button>
-						<button class="btn btn-primary P-2" onclick="back();">Back</button>
+						<button class="btn-primary big-btn" onclick="Home();">Home</button>
+						<button class="btn-primary big-btn" onclick="back();">Back</button>
 					</div>
 				</div>
 			</div>
@@ -2187,7 +2190,7 @@ function closeModal() {
 					</table>
 				</div>
 				<div class="card-footer text-center">
-					<button type="button" class="btn btn-primary p-2"
+					<button type="button" class="btn-primary big-btn"
 						id="selectedAccount" onclick="closemodal();" style="color: white;">Close</button>
 				</div>
 			</div>
@@ -2202,7 +2205,7 @@ function closeModal() {
 
 				<div class="modal-body" style="text-align: center;">
 					<h6 id="alertmsg"></h6>
-					<button type="button" class="btn btn-primary" onclick="closeModal()">Close</button>
+					<button type="button" class="btn-primary big-btn" onclick="closeModal()">Close</button>
 				</div>
 			</div>
 		</div>

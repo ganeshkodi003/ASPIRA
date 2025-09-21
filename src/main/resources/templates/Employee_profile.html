@@ -5,46 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
-	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/font-awesome/5.9.0/css/all.min.css"
-	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
-	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
-<link rel="stylesheet" type="text/css"
-	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
-	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
-<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
-<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
-
-<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
-	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script class="jsbin"
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
-	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
-<script src="/webjars/jquery/3.4.1/jquery.min.js"
-	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
-<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
-	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
-
-<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
-	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
-
-<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
-	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
-
-<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
-	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
-<script
-	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
-	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
-
-
-
+<script src="/ASPIRA/js/jquery.min.js"></script>
+<script src="/ASPIRA/js/jquery-ui.min.js"></script>
 <style>
 .btn {
 	line-height: 0.5rem;
@@ -186,6 +148,9 @@
 input:hover+.password-info {
 	visibility: visible;
 	opacity: 0.8;
+}
+.big-btn {
+  font-size: 16px;
 }
 </style>
 
@@ -502,7 +467,7 @@ function updateFileName() {
 							</div>
 
 							<div class="float-right">
-								<button class="btn btn-primary p-2" onclick="add();">Add</button>
+								<button class="btn-primary big-btn" onclick="add();">Add</button>
 
 							</div>
 
@@ -560,65 +525,45 @@ function updateFileName() {
 											<td th:case="Y" style="color: lightgreen;">Verified</td>
 											<td th:case="N" style="color: red;">UnVerified</td>
 										</th:block>
-
 										<td>
-											<div class="dropdown">
-
-												<button class="btn btn-primary p-2 " type="button"
-													id="dropdownMenuButton" title="action"
-													style="line-height: 0.7; font-size: 11px;background-color: #B2BEB5;color: white;border: none;outline: none"
+											<div class="dropdown action-dropdown">
+												<button class="btn btn-action dropdown-toggle" type="button"
+													id="dropdownMenuButton" title="Action" style="padding:0px"
 													data-toggle="dropdown" aria-haspopup="true"
 													aria-expanded="false">Action</button>
 
-												<div class="dropdown-menu"
-													aria-labelledby="dropdownMenuButton"
-													style="background-color: #e3e3e4; color: #3a4550;">
-
-													<a class="dropdown-item" title=" Verify"
+												<div class="dropdown-menu" style="padding:0px"
+													aria-labelledby="dropdownMenuButton">
+													<a class="dropdown-item verify-item"
 														th:if="${EmployeeData.entity_flg == 'N'}"
 														th:attr="data-resource=${EmployeeData.employee_id}"
-														style="cursor: pointer; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px; text-align: center"
-														id="edit_value" onclick="verify(this)">Verify</a>
+														title="Verify" onclick="verify(this)">Verify</a>
+
 													<div class="dropdown-divider"
 														th:if="${EmployeeData.entity_flg == 'N'}"></div>
 
-													<!-- <a class="dropdown-item" title="View"
+													<a class="dropdown-item modify-item"
 														th:attr="data-resource=${EmployeeData.employee_id}"
-														style="cursor: pointer; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px; text-align: center"
-														onclick="view(this)" id="view_btn">View </a>
-													<div class="dropdown-divider"></div> -->
+														title="Modify" onclick="modify(this)">Modify</a>
 
-													<a class="dropdown-item" title=" Modify"
-														th:attr="data-resource=${EmployeeData.employee_id}"
-														style="cursor: pointer; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px; text-align: center"
-														id="edit_value" onclick="modify(this)">Modify</a>
 													<div class="dropdown-divider"></div>
 
-
-													<a class="dropdown-item" title=" Delete"
+													<a class="dropdown-item delete-item"
 														th:attr="data-resource=${EmployeeData.employee_id}"
-														style="cursor: pointer; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px; text-align: center"
-														id="delete" onclick="Delete(this)">Delete</a>
-
-
-
+														title="Delete" onclick="Delete(this)">Delete</a>
 												</div>
-
 											</div>
 										</td>
 									</tr>
-
 								</tbody>
-
 							</table>
-							
 						</div>
 <div class="card-footer text-center"
 								style="background-color: #e9ecef;">
 
 
-								<button class="btn btn-primary P-2" onclick="Home();">Home</button>
-								<button class="btn btn-primary P-2" onclick="Back();">Back</button>
+								<button class="btn-primary big-btn" onclick="Home();">Home</button>
+								<button class="btn-primary big-btn" onclick="Back();">Back</button>
 
 							</div>
 					</div>
@@ -638,7 +583,7 @@ function updateFileName() {
 
 								<div class="float-right">
 
-									<button class="btn btn-primary P-2" onclick="list()">List</button>
+									<button class="btn-primary big-btn" onclick="list()">List</button>
 
 								</div>
 
@@ -1105,10 +1050,10 @@ function updateFileName() {
 								style="background-color: #e9ecef">
 
 
-								<button class="btn btn-primary P-2" onclick="Home();">Home</button>
-								<button class="btn btn-primary P-2" onclick="employeeSubmit();"
+								<button class="btn-primary big-btn" onclick="Home();">Home</button>
+								<button class="btn-primary big-btn" onclick="employeeSubmit();"
 									type="submit">Submit</button>
-								<button class="btn btn-primary P-2" onclick="Back();">Back</button>
+								<button class="btn-primary big-btn" onclick="Back();">Back</button>
 
 							</div>
 
@@ -1599,8 +1544,8 @@ function updateFileName() {
 							style="background-color: #e9ecef">
 
 
-							<button class="btn btn-primary P-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary P-2" onclick="Back();">Back</button>
+							<button class="btn-primary big-btn" onclick="Home();">Home</button>
+							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 
 						</div>
 						<div class="table-responsive">
@@ -2245,10 +2190,10 @@ function updateFileName() {
 							style="background-color: #e9ecef">
 
 
-							<button class="btn btn-primary P-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary P-2" onclick="modifySubmit();"
+							<button class="btn-primary big-btn" onclick="Home();">Home</button>
+							<button class="btn-primary big-btn" onclick="modifySubmit();"
 								type="submit">Submit</button>
-							<button class="btn btn-primary P-2" onclick="Back();">Back</button>
+							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 
 						</div>
 
@@ -2742,9 +2687,9 @@ function updateFileName() {
 							style="background-color: #e9ecef">
 
 
-							<button class="btn btn-primary P-2" onclick="Home();">Home</button>
-							<button class="btn btn-primary P-2" onclick="verifySubmit();">Verify</button>
-							<button class="btn btn-primary P-2" onclick="Back();">Back</button>
+							<button class="btn-primary big-btn" onclick="Home();">Home</button>
+							<button class="btn-primary big-btn" onclick="verifySubmit();">Verify</button>
+							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 
 						</div>
 
@@ -2821,7 +2766,7 @@ function updateFileName() {
 			<div class="modal-content">
 				<div class="modal-body" style="text-align: center">
 					<p id="alertmsg"></p>
-					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="list();">Close</button>
+					<button type="button" class="btn-primary big-btn" data-dismiss="modal" onclick="list();">Close</button>
 				</div>
 			</div>
 		</div>
@@ -2835,7 +2780,7 @@ function updateFileName() {
 
 				<div class="modal-body" style="text-align: center;">
 					<h6 id="alertmsg"></h6>
-					<button type="button" class="btn btn-primary" onclick="list()">Close</button>
+					<button type="button" class="btn-primary big-btn" onclick="list()">Close</button>
 				</div>
 			</div>
 		</div>
@@ -2849,7 +2794,7 @@ function updateFileName() {
 
 				<div class="modal-body" style="text-align: center;">
 					<h6 id="alertmsg1"></h6>
-					<button type="button" class="btn btn-primary"
+					<button type="button" class="btn-primary big-btn"
 						onclick="$('#alert1').modal('hide')">Close</button>
 				</div>
 			</div>

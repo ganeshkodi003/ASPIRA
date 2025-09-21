@@ -215,6 +215,9 @@ input:hover+.password-info {
 .filterable .filters input[disabled]::-webkit-input-placeholder {
 	color: #333;
 }
+.big-btn {
+  font-size: 16px;
+}
 </style>
 <script th:inline="javascript">
 	/*<![CDATA[*/
@@ -313,7 +316,7 @@ input:hover+.password-info {
 								</div>
 								<div class="float-right">
 									<button type="button"
-										class="btn btn-xs btn-primary btns p-2 border btn-filter">Filter</button>
+										class="btn-primary big-btn btn-filter">Filter</button>
 								</div>
 							</div>
 
@@ -377,8 +380,8 @@ input:hover+.password-info {
 								style="background-color: #e9ecef">
 
 
-								<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-								<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+								<button class="btn-primary big-btn" onclick="Home();">Home</button>
+								<button class="btn-primary big-btn" onclick="Back();">Back</button>
 
 							</div>
 
@@ -598,8 +601,8 @@ input:hover+.password-info {
 
 						<div class="card-footer text-center"
 							style="background-color: #e9ecef">
-							<button class="btn btn-primary" onclick="Home();">Home</button>
-							<button class="btn btn-primary" onclick="Back();">Back</button>
+							<button class="btn-primary big-btn" onclick="Home();">Home</button>
+							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 						</div>
 
 
@@ -632,7 +635,7 @@ input:hover+.password-info {
 				</div>
 				<div class="modal-body" style="text-align: center;">
 					<h6 id="normalalertmsg"></h6>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
+					<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 						onclick="$('#normalalert').modal('hide')">Close</button>
 				</div>
 			</div>

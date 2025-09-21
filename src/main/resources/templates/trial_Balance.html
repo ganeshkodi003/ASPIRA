@@ -115,6 +115,9 @@ input:hover+.password-info {
 	function Back() {
 		window.history.back();
 	}
+	.big-btn {
+		  font-size: 16px;
+		}
 </script>
 
 </head>
@@ -186,30 +189,41 @@ input:hover+.password-info {
 											<td th:case="'N'" style="color: red;">UnActive</td>
 										</th:block>
 										<td>
-											<div class="dropdown" style="text-align: center;">
-												<button class="btn btn-sm btn-info btns" type="button"
-													id="dropdownMenuButton" data-toggle="dropdown"
-													aria-haspopup="true" aria-expanded="false">Action</button>
-												<div class="dropdown-menu"
+											<div class="dropdown action-dropdown">
+												<button class="btn btn-action dropdown-toggle btn-sm" style="padding:0px"
+													type="button" id="dropdownMenuButton" title="Action"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false">Action</button>
+
+												<div class="dropdown-menu" style="padding:0px"
 													aria-labelledby="dropdownMenuButton">
-													<button type="button" class="dropdown-item" id="btnmodify"
-														th:attr="data-attr=${chartacc?.acct_num}"
-														style="text-align: center;" onclick="modifyuser(this);">Modify</button>
+													<!-- Modify -->
+													<a class="dropdown-item modify-item"
+														th:attr="data-attr=${chartacc?.acct_num}" title="Modify"
+														onclick="modifyuser(this)">Modify</a>
+
 													<div class="dropdown-divider"></div>
-													<button type="button" class="dropdown-item" id="btnmodify"
-														th:attr="data-attr=${chartacc?.acct_num}"
-														style="text-align: center;" onclick="verifyuser(this);">Verify</button>
+
+													<!-- Verify -->
+													<a class="dropdown-item verify-item"
+														th:attr="data-attr=${chartacc?.acct_num}" title="Verify"
+														onclick="verifyuser(this)">Verify</a>
+
 													<div class="dropdown-divider"></div>
-													<button type="button" class="dropdown-item" id="btndelete"
+
+													<!-- Delete -->
+													<a class="dropdown-item delete-item"
 														th:attr="data-attribute=${chartacc?.acct_num}"
-														style="text-align: center;" onclick="deleteuser(this);">Delete</button>
+														title="Delete" onclick="deleteuser(this)">Delete</a>
+
 													<div class="dropdown-divider"></div>
-													<button type="button" class="dropdown-item" id="btnEnquiry"
-														th:attr="data-attr=${chartacc?.acct_num}"
-														style="text-align: center;" onclick="enquiryuser(this);">view</button>
+
+													<!-- View -->
+													<a class="dropdown-item view-item"
+														th:attr="data-attr=${chartacc?.acct_num}" title="View"
+														onclick="enquiryuser(this)">View</a>
 												</div>
 											</div>
-											
 										</td>
 									</tr>
 								</tbody>
@@ -217,9 +231,9 @@ input:hover+.password-info {
 						</div>
 							<div class="card-footer text-center border-top-0"
 									style="background-color: #e9ecef">
-									<button type="button" class="btn btn-xs btn-primary mr-2"
+									<button type="button" class="btn-primary big-btn"
 										id="btnHome" onclick="home();">Home</button>
-									<button type="button" class="btn btn-xs btn-primary ml-2"
+									<button type="button" class="btn-primary big-btn"
 										id="btnBack" onclick="back();">Back</button>
 								</div>
 					

@@ -84,8 +84,7 @@ public class BGLSWebSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/webjars/**", "/images/**", "/login*", "/RecievingMail*", "/associatedetails",
-						"/changePasswordReq", "/changePasswordLogin", "/freezeColumn/**", "favicon.ico")
+		.antMatchers("/css/**","/js/**",  "/webfonts/**",  "/images/**", "/login*", "/freezeColumn/**","favicon.ico")
 				.permitAll().anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll()
 				.failureHandler(blrsAuthFailHandle()).successHandler(blrsAuthSuccessHandle())
 				.usernameParameter("userid").and().logout().permitAll().and().logout()

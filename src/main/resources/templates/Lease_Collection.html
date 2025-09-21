@@ -137,6 +137,9 @@
 			animation-name: animatetop;
 			animation-duration: 0.4s
 		}
+		.big-btn {
+  font-size: 16px;
+}
 	</style>
 	<script>
 		/* $(function() {
@@ -501,14 +504,14 @@
 								</div>
 							</div>
 							<div class="card-footer text-center"  style="background-color: #e9ecef;">
-								<button type="button" class="btn btn-primary P-2" id="btnHome"
+								<button type="button" class="btn-primary big-btn" id="btnHome"
 									onclick="home();">Home</button>
-								<button type="button" class="btn btn-primary" id="btnHome"
+								<button type="button" class="btn-primary big-btn" id="btnHome"
 									onclick="uploadlist();">List</button>
-								<button type="button" class="btn btn-primary" id="nav"
+								<button type="button" class="btn-primary big-btn" id="nav"
 									onclick="submitexcelgst(this)">Upload</button>
 
-								<button type="button" class="btn btn-primary" id="btnBack"
+								<button type="button" class="btn-primary big-btn" id="btnBack"
 									onclick="back();">Back</button>
 							</div>
 						</div>
@@ -631,10 +634,10 @@
 
 
 							<div class="card-footer text-center" style="background-color: #e9ecef">
-								<button class="btn btn-primary p-2" onclick="Home();">Home</button>
-								<button class="btn btn-primary p-2" id="submitBtn"
+								<button class="btn-primary big-btn" onclick="Home();">Home</button>
+								<button class="btn-primary big-btn" id="submitBtn"
 									onclick="movetoTransaction(this);">Transactions</button>
-								<button class="btn btn-primary p-2" onclick="Back();">Back</button>
+								<button class="btn-primary big-btn" onclick="Back();">Back</button>
 							</div>
 						</div>
 					</div>
@@ -650,7 +653,7 @@
 								<h4>
 									File Uploaded Successfully <span>&#9989;</span>
 								</h4>
-								<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close"
+								<button type="button" class="btn-primary big-btn" data-dismiss="modal" aria-label="Close"
 									style="margin-top: 20px;">Close</button>
 							</div>
 						</div>
@@ -666,7 +669,7 @@
 								<h4 style="text-align: center;">
 									File Upload Failure<span>&#10060;</span>
 								</h4>
-								<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close"
+								<button type="button" class="btn-primary big-btn" data-dismiss="modal" aria-label="Close"
 									style="margin-left: 200px">Close</button>
 							</div>
 						</div>
@@ -682,7 +685,7 @@
 							</div>
 							<div class="modal-body" style="text-align: center; background-color: #c6ccd2">
 								<p id="alertmsg" style="font-size: 16px;"></p>
-								<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="back();"
+								<button type="button" class="btn-primary big-btn" data-dismiss="modal" onclick="back();"
 									style="width: 120px">Close</button>
 							</div>
 						</div>
@@ -696,7 +699,7 @@
 
 							<div class="modal-body" style="text-align: center;">
 								<h6 id="alertmsg1"></h6>
-								<button type="button" class="btn btn-primary"
+								<button type="button" class="btn-primary big-btn"
 									onclick="$('#alert1').modal('hide')">Close</button>
 							</div>
 						</div>
@@ -710,7 +713,7 @@
 
 							<div class="modal-body" style="text-align: center;">
 								<h6 id="alertmsg2"></h6>
-								<button type="button" class="btn btn-primary"
+								<button type="button" class="btn-primary big-btn"
 									onclick="navigateToMainlist(this)">Close</button>
 							</div>
 						</div>
@@ -738,7 +741,7 @@
 
 								<!-- Footer with Close Button -->
 								<div class="modal-footer" style="justify-content: center; width: 100%;">
-									<button type="button" class="btn btn-primary" data-dismiss="modal"
+									<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 										onclick="refreshPage(this);">Close</button>
 								</div>
 

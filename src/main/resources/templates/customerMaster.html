@@ -270,6 +270,9 @@
 		.filterable .filters input[disabled]:-ms-input-placeholder {
 			color: #333;
 		}
+		.big-btn {
+  font-size: 16px;
+}
 	</style>
 	<script>
 		$(document).ready(function () {
@@ -2309,7 +2312,7 @@
 									CUSTOMER
 									MAINTENANCE - LIST</h6>
 							</div>
-							<button class="btn btn-primary btn-filter float-right">Filter</button>
+							<button class="btn-primary big-btn btn-filter float-right">Filter</button>
 							<div class="float-right mr-4"
 								th:style="${module == 'module2'} ? 'display:block;' : 'display:none;'">
 
@@ -2322,7 +2325,7 @@
 							</div>
 
 							<!--<div class="btn-group nav-buttons float-right">
-							<button type="button" class="btn btn-primary p-2" id="btnAdd"
+							<button type="button" class="btn-primary big-btn" id="btnAdd"
 								onclick="addscreen();">ADD</button>
 						</div>-->
 						</div>
@@ -2381,8 +2384,8 @@
 							</div>
 						</div>
 						<div class="card-footer text-center">
-							<button class="btn btn-primary p-2" onclick="home();">Home</button>
-							<button class="btn btn-primary p-2" onclick="back()">Back</button>
+							<button class="btn-primary big-btn" onclick="home();">Home</button>
+							<button class="btn-primary big-btn" onclick="back()">Back</button>
 						</div>
 					</div>
 				</div>
@@ -2408,16 +2411,13 @@
 
 							<div class=" btn-group nav-buttons  float-right">
 
-								<button class="btn p-2 " onclick="getAcctDetails();">Account
+								<button class="btn-primary big-btn" onclick="getAcctDetails();">Account
 									Details</button>
 							</div>
 
 							<div class="btn-group nav-buttons float-right">
-								<button class="btn btn-primary p-2 " th:if="${module} == 'module1'  and ${formmode}==''"
+								<button class="btn-primary big-btn" th:if="${module} == 'module1'  and ${formmode}==''"
 									onclick="Uploadloan();">Upload</button>
-
-
-
 							</div>
 
 
@@ -2654,19 +2654,19 @@
 									</table>
 								</div>
 								<div class="card-footer text-center mt-2">
-									<button class="btn btn-primary p-2" onclick="home();">Home</button>
+									<button class="btn-primary big-btn" onclick="home();">Home</button>
 
 									<button th:if="${module} == 'module2'   and ${formmode}=='verify'"
-										class="btn ml-2 btn-primary p-2"
+										class="btn-primary big-btn"
 										th:onclick="verifyUser([[${customer?.customer_id}]])">Submit</button>
 									<button th:if="${module} == 'module2' and ${formmode}=='view' and !${Boolean}"
-										class="btn ml-2 btn-primary p-2" th:value=${Boolean}
+										class="btn-primary big-btn" th:value=${Boolean}
 										onclick="ClickId(null, 'modify')">Modify</button>
-									<button class="btn btn-primary p-2" onclick="ClickId(null,'verify');"
+									<button class="btn-primary big-btn" onclick="ClickId(null,'verify');"
 										th:if="${module} == 'module2' and ${Boolean} and ${formmode}=='view'">Verify</button>
-									<button class="btn btn-primary p-2" th:if="${formmode} == 'modify'"
+									<button class="btn-primary big-btn" th:if="${formmode} == 'modify'"
 										onclick="submitForm();">submit</button>
-									<button class="btn btn-primary p-2" onclick="back();">Back</button>
+									<button class="btn-primary big-btn" onclick="back();">Back</button>
 								</div>
 								<table
 									Style="border: 1px solid #ccc; width: 100%; max-width: 100%; margin: 0 auto; box-sizing: border-box;">
@@ -2752,12 +2752,12 @@
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem;" class="ml-3">CUSTOMER MASTER</h6>
 							</div>
-							<div class="btn-group nav-buttons float-right pl-3">
-								<button class="btn btn-primary p-2" onclick="ClickId();">list</button>
+							<div class="btn-group nav-buttons float-right ml-1">
+								<button class="btn-primary big-btn" onclick="ClickId();">list</button>
 
 							</div>
 							<div class="btn-group nav-buttons float-right">
-								<button class="btn btn-primary p-2" onclick="firstexceldownload();">Upload</button>
+								<button class="btn-primary big-btn" onclick="firstexceldownload();">Upload</button>
 
 							</div>
 
@@ -2948,8 +2948,8 @@
 							</form>
 						</div>
 						<div class="card-footer text-center mt-2">
-							<button class="btn btn-primary p-2" onclick="home();">Home</button>
-							<button class="btn btn-primary p-2" onclick="back();">Back</button>
+							<button class="btn-primary big-btn" onclick="home();">Home</button>
+							<button class="btn-primary big-btn" onclick="back();">Back</button>
 						</div>
 					</div>
 				</div>
@@ -2965,7 +2965,7 @@
 			<div class="modal-content">
 				<div class="modal-body" style="text-align: center">
 					<p id="popupmsg_body"></p>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
+					<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 						onclick="BackToLoanMaint();">Close</button>
 				</div>
 			</div>
@@ -2987,7 +2987,7 @@
 			<div class="modal-content">
 				<div class="modal-body" style="text-align: center">
 					<p id="alertmsg1"></p>
-					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="listPage();">Ok</button>
+					<button type="button" class="btn-primary big-btn" data-dismiss="modal" onclick="listPage();">Ok</button>
 				</div>
 			</div>
 		</div>
@@ -2999,7 +2999,7 @@
 			<div class="modal-content">
 				<div class="modal-body" style="text-align: center">
 					<p id="Normalalertmsg"></p>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
+					<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 						onclick="$('#normalAlert').modal('hide');">Close</button>
 				</div>
 			</div>
@@ -3019,7 +3019,7 @@
 				</div>
 				<div class="modal-body" style="text-align: center;">
 					<h6 id="Normalalertmsg"></h6>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
+					<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 						onclick="$('#normalalert').modal('hide')">Close</button>
 				</div>
 			</div>
@@ -3065,8 +3065,8 @@
 
 				</div>
 				<div class="modal-footer d-flex justify-content-center">
-					<!--<button type="button" class="btn btn-primary active" onclick="sechduleSubmit();">Submit</button>-->
-					<button type="button" class="btn btn-primary active"
+					<!--<button type="button" class="btn-primary big-btn active" onclick="sechduleSubmit();">Submit</button>-->
+					<button type="button" class="btn-primary big-btn active"
 						onclick="$('#scheduleModal').modal('hide');">Close</button>
 				</div>
 			</div>
@@ -3137,7 +3137,7 @@
 				</div>
 				<div class="modal-footer d-flex justify-content-center">
 
-					<button type="button" class="btn btn-primary active"
+					<button type="button" class="btn-primary big-btn active"
 						onclick="$('#scheduleModalView').modal('hide');">Close</button>
 				</div>
 			</div>
@@ -3165,7 +3165,7 @@
 
 					<!-- Footer with Close Button -->
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" data-dismiss="modal"
+						<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 							onclick="openCity(event, 'india');">Close</button>
 						<!-- Calls goBack function -->
 					</div>
@@ -3204,8 +3204,8 @@
 
 					<!-- Modal Footer -->
 					<div class="modal-footer d-flex justify-content-center" style="width: 100%; padding: 10px;">
-						<button type="button" class="btn btn-primary" onclick="submitdatas()">Submit</button>
-						<button type="button" class="btn btn-secondary" data-dismiss="modal"
+						<button type="button" class="btn-primary big-btn" onclick="submitdatas()">Submit</button>
+						<button type="button" class="btn-primary big-btn" data-dismiss="modal"
 							onclick="refreshPage()">Close</button>
 					</div>
 				</div>
@@ -3233,7 +3233,7 @@
 
 						<!-- Modal Footer -->
 						<div class="modal-footer d-flex justify-content-center" style="width: 100%; padding: 10px;">
-							<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+							<button type="button" class="btn-primary big-btn" data-dismiss="modal">Close</button>
 						</div>
 					</div>
 				</div>
