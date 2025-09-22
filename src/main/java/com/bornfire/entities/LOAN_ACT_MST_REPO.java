@@ -105,4 +105,7 @@ public interface LOAN_ACT_MST_REPO extends JpaRepository<LOAN_ACT_MST_ENTITY, St
 	
 	@Query(value = "SELECT ENCODED_KEY FROM LOAN_ACCOUNT_MASTER_TBL WHERE ID = :id", nativeQuery = true)
 	List<String> getEncodedKeysByAccountId(@Param("id") String id);
+	
+	@Query(value = "select * from LOAN_ACCOUNT_MASTER_TBL where DISBURSEMENT_DATE <= ?1 AND booking_flg = 'N' ORDER BY CREATION_DATE", nativeQuery = true)
+	List<LOAN_ACT_MST_ENTITY> getLoanActDetval41(Date creation_date);
 }

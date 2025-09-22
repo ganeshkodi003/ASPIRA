@@ -443,4 +443,10 @@ Object[] getcheck1();
 	
 	@Query(value = "SELECT * FROM BGLS_TRM_WRK_TRANSACTIONS WHERE TRAN_DATE = ?1 AND TRAN_PARTICULAR LIKE '%Booking%' AND TRAN_STATUS = 'POSTED' AND ACCT_NUM = '1200001220'", nativeQuery = true)
 	TRAN_MAIN_TRM_WRK_ENTITY getinterestrecivable(Date accountNum);
+
+	@Query(value = "SELECT * FROM BGLS_TRM_WRK_TRANSACTIONS " + "WHERE CAST(TRAN_DATE AS DATE) = :tranDate "
+			+ "AND CAST(VALUE_DATE AS DATE) = :valueDate " + "AND TRAN_PARTICULAR LIKE :likePattern "
+			+ "AND TRAN_STATUS = 'POSTED' " + "AND PART_TRAN_TYPE = 'Debit'", nativeQuery = true)
+	TRAN_MAIN_TRM_WRK_ENTITY getInterestRecivable(@Param("tranDate") Date tranDate, @Param("valueDate") Date valueDate,
+			@Param("likePattern") String likePattern);
 }
