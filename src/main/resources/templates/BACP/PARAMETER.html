@@ -942,6 +942,18 @@ function modifyTab(evt, tabName) {
 }
 </script>
 
+<script>
+	/* function for the table scroll */
+	function adjustHeight() {
+		const cardBody = document.getElementById("cardBody");
+		const viewportHeight = window.innerHeight;
+		cardBody.style.maxHeight = `${viewportHeight * 0.95}px`; // Adjust 80% of the viewport height
+	}
+
+	window.addEventListener("resize", adjustHeight);
+	document.addEventListener("DOMContentLoaded", adjustHeight);
+</script>
+
 
 </head>
 
@@ -1011,7 +1023,7 @@ function modifyTab(evt, tabName) {
 									<button class="btn-primary big-btn btn-filter">Filter</button>
 								</div>
 
-								<div class="">
+								<div class="" id="cardBody">
 									<table class="table  table-bordered  table-hover table-sm"
 										style="table-layout: fixed; width: 100%;" id="usertable">
 										<thead class="thead-light ">
