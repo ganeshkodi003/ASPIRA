@@ -259,29 +259,35 @@ input:hover+.password-info {
 </script>
 
 <script>
-	function enquiryuser(a) {
-		var acctno = a.getAttribute("data-attr");
-		location.href = 'accountLedger?formmode=view&acct_num=' + acctno;
-	}
-	
-	 document.addEventListener("DOMContentLoaded", function() {
-	        const dateInput = document.getElementById("incomedate");
-	        const today = new Date().toISOString().split('T')[0];
-	        dateInput.value = today;
-	    });
-	 
-	 document.addEventListener("DOMContentLoaded", function() {
-		    const dateInput = document.getElementById("incomedate");
-		    const trandateGet = document.getElementById("trandateget").value;
-		    
-		    // Convert 'dd-MM-yyyy' to 'yyyy-MM-dd' format
-		    const parts = trandateGet.split("-");
-		    const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+function enquiryuser(a) {
+    var acctno = a.getAttribute("data-attr");
+    location.href = 'accountLedger?formmode=view&acct_num=' + acctno;
+}
 
-		    // Set the formatted date to the date input
-		    dateInput.value = formattedDate;
-		});
+document.addEventListener("DOMContentLoaded", function() {
+    const dateInput = document.getElementById("incomedate");
+    const trandateGet = document.getElementById("trandateget").value;
+
+    // Convert 'dd-MM-yyyy' to 'yyyy-MM-dd' format
+    const parts = trandateGet.split("-");
+    const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+    // Set the formatted date to the input
+    dateInput.value = formattedDate;
+
+    // Set the max attribute to prevent future selection
+    dateInput.setAttribute('max', formattedDate);
+
+    // Optional: block manual typing beyond max date
+    dateInput.addEventListener('change', function() {
+        if (this.value > formattedDate) {
+            alert('Dates after ' + formattedDate + ' are not allowed!');
+            this.value = formattedDate;
+        }
+    });
+});
 </script>
+
 <script>
 $(document).ready(function() {
     $('#incomedate').on('change', function() {

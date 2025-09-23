@@ -293,13 +293,24 @@ $(document).ready(function() {
 document.addEventListener("DOMContentLoaded", function() {
     const dateInput = document.getElementById("assetDate");
     const trandateGet = document.getElementById("trandateget").value;
-    
+
     // Convert 'dd-MM-yyyy' to 'yyyy-MM-dd' format
     const parts = trandateGet.split("-");
     const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
 
     // Set the formatted date to the date input
     dateInput.value = formattedDate;
+
+    // Set max attribute to prevent future dates beyond trandateget
+    dateInput.setAttribute('max', formattedDate);
+
+    // Optional: Block manually typed dates beyond max
+    dateInput.addEventListener('change', function() {
+        if (this.value > formattedDate) {
+            alert('Dates after ' + formattedDate + ' are not allowed!');
+            this.value = formattedDate;
+        }
+    });
 });
 
 //Filter Table

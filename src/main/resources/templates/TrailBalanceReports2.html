@@ -349,10 +349,16 @@ input:hover+.password-info {
 					});
 	
 </script>
+<script>
+	function adjustHeight() {
+		const cardBody = document.getElementById("cardBody");
+		const viewportHeight = window.innerHeight;
+		cardBody.style.maxHeight = `${viewportHeight * 0.90}px`; // Adjust 80% of the viewport height
+	}
 
-
-
-
+	window.addEventListener("resize", adjustHeight);
+	document.addEventListener("DOMContentLoaded", adjustHeight);
+</script>
 
 </head>
 
@@ -406,7 +412,7 @@ input:hover+.password-info {
 							</div>
 							<div class="card-body">
 
-								<div class="table-responsive mt-2">
+								<div class="table-responsive mt-2" id="cardBody">
 									<table class="table  table-bordered  table-hover table-sm"
 										style="margin-bottom: 0px; font-size: initial;" id="usertable">
 
@@ -568,86 +574,97 @@ input:hover+.password-info {
 <script>
 let balancedate;
 
-document.getElementById('reportDate').addEventListener('change', function() {
-    balancedate = this.value;
-    console.log('Selected Date:', balancedate);
-    var glshTable = $('#GLSHlist');
-    glshTable.css('display', 'none');
+document.addEventListener('DOMContentLoaded', function () {
+    const dateInput = document.getElementById('reportDate');
 
-    
-    
-    $.ajax({
-        url: './trialBalanceReports1',
-        data: { balancedate: balancedate },
-        type: 'GET',
-        success: function(data) {
-            console.log('Data received:', data);
+    // Use the current value of reportDate as the max selectable date
+    const maxDate = dateInput.value;
+    dateInput.setAttribute('max', maxDate);
 
-            // Clear the table body before appending new rows
-            $('#placelist').empty();
+    // Optional: if user types a date after maxDate, reset to maxDate
+    dateInput.addEventListener('change', function() {
+        balancedate = this.value;
 
-            let totalCredits = 0; // Initialize total credits
-            let totalDebits = 0;   // Initialize total debits
-
-            data.forEach(trial => {
-                const row = document.createElement('tr');
-                
-                // Determine the appropriate values for credits and debits
-                const creditValue = trial[7]? trial[7] : 0.00;
-                const debitValue = trial[8]? trial[8] : 0.00; // Use absolute value for debits
-
-                totalCredits += creditValue; // Sum credits
-                totalDebits += debitValue;    // Sum debits
-                
-                const formattedCreditValue = creditValue.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-
-                const formattedDebitValue = debitValue.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-
-                row.innerHTML = `
-                    <td>${trial[0]}</td>
-                    <td>${trial[1]}</td>
-                    <td>${trial[2]}</td>
-                    <td class="text-primary" data-glshcode="${trial[3]}", data-date="${balancedate}" onclick="viewglshDAB(this);">
-                    ${trial[3]}</td>
-                    <td>${trial[4]}</td>
-                    <td>${trial[5]}</td>
-                    <td>${trial[6]}</td>
-                    <td style="text-align: right">
-                        ${formattedCreditValue}
-                    </td>
-                    <td style="text-align: right">
-                        ${formattedDebitValue}
-                    </td>
-                `;
-
-                // Append the new row to the table body
-                $('#placelist').append(row);
-            });
-            const totalCredits1 = totalCredits.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            });
-            const totalDebits1 = totalDebits.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            });
-            
-            document.getElementById('totalCredits').textContent = totalCredits1;
-            document.getElementById('totalDebits').textContent = totalDebits1;
-            
-        },
-        error: function(err) {
-            console.error('Error fetching data:', err);
+        // Prevent future selection beyond maxDate
+        if (balancedate > maxDate) {
+            alert('Dates after ' + maxDate + ' are not allowed!');
+            this.value = maxDate;
+            balancedate = maxDate;
         }
+
+        console.log('Selected Date:', balancedate);
+        const glshTable = $('#GLSHlist');
+        glshTable.css('display', 'none');
+
+        $.ajax({
+            url: './trialBalanceReports1',
+            data: { balancedate: balancedate },
+            type: 'GET',
+            success: function(data) {
+                console.log('Data received:', data);
+
+                // Clear the table body before appending new rows
+                $('#placelist').empty();
+
+                let totalCredits = 0; // Initialize total credits
+                let totalDebits = 0;  // Initialize total debits
+
+                data.forEach(trial => {
+                    const row = document.createElement('tr');
+
+                    const creditValue = trial[7] ? trial[7] : 0.00;
+                    const debitValue = trial[8] ? trial[8] : 0.00;
+
+                    totalCredits += creditValue;
+                    totalDebits += debitValue;
+
+                    const formattedCreditValue = creditValue.toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+
+                    const formattedDebitValue = debitValue.toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+
+                    row.innerHTML = `
+                        <td>${trial[0]}</td>
+                        <td>${trial[1]}</td>
+                        <td>${trial[2]}</td>
+                        <td class="text-primary" data-glshcode="${trial[3]}" data-date="${balancedate}" onclick="viewglshDAB(this);">
+                            ${trial[3]}
+                        </td>
+                        <td>${trial[4]}</td>
+                        <td>${trial[5]}</td>
+                        <td>${trial[6]}</td>
+                        <td style="text-align: right">${formattedCreditValue}</td>
+                        <td style="text-align: right">${formattedDebitValue}</td>
+                    `;
+
+                    $('#placelist').append(row);
+                });
+
+                const totalCredits1 = totalCredits.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                const totalDebits1 = totalDebits.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+
+                document.getElementById('totalCredits').textContent = totalCredits1;
+                document.getElementById('totalDebits').textContent = totalDebits1;
+            },
+            error: function(err) {
+                console.error('Error fetching data:', err);
+            }
+        });
     });
 });
 </script>
+
 
 
 <script>

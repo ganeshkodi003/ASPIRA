@@ -207,89 +207,81 @@
 
 	</script>
 	<script>
-			document.addEventListener('DOMContentLoaded', function () {
-			    const dateInput = document.getElementById('reportDate');
-			    dateInput.addEventListener('change', function () {
-			        const selectedDate = this.value;
-			        console.log('Selected Date:', selectedDate);
-			        $.ajax({
-			            url: './journalbook2',
-			            data: { selectedDate: selectedDate },
-			            type: 'GET',
-			            success: function (data) {
-			                console.log('Data received:', data);
-	
-			                // Clear the table body before appending new rows
-			                $('#placelist').empty();
-	
-			                if (data.length === 0) {
-			                    // If no data, append a single row with "No records found"
-			                    const noRecordsRow = `
-			                        <tr>
-			                            <td colspan="10" style="text-align: center; font-weight: bold;color:red">No records found</td>
-			                        </tr>
-			                    `;
-			                    $('#placelist').append(noRecordsRow);
-			                } else {
-			                    // Loop through and append rows as usual if data exists
-			                    data.forEach(trial => {
-			                        // Format tran_date to dd-MM-yyyy
-			                        const dateObj = new Date(trial.tran_date);
-			                        const formattedDate = `${String(dateObj.getDate()).padStart(2, '0')}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${dateObj.getFullYear()}`;
-	
-			                        // Format tran_amt with commas and two decimal places
-			                        const formattedAmount = parseFloat(trial.tran_amt).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-	
-			                        const row = document.createElement('tr');
-			                        row.innerHTML = `
-			                            <td>${formattedDate}</td>
-			                            <td>${trial.tran_id}</td>
-			                            <td>${trial.part_tran_type}</td>
-			                            <td>${trial.acct_crncy}</td>
-			                            <td >${formattedAmount}</td>
-			                            <td>${trial.acct_num}</td>
-			                            <td>${trial.acct_name}</td>
-			                            <td>${trial.tran_particular}</td>
-			                            <td>${trial.tran_status}</td>
-			                            <td>
-			                                <div class="dropdown" style="text-align: center;">
-			                                    <button class="btn-primary big-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			                                        Action
-			                                    </button>
-			                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-			                                        ${trial.tran_status === 'ENTERED' ? `
-			                                            <a class="dropdown-item" id="btndelete" 
-			                                               data-tranid="${trial.tran_id}" 
-			                                               data-partnid="${trial.part_tran_id}" 
-			                                               data-acctnum="${trial.acct_num}"
-			                                               style="text-align: center;" onclick="deleteuser(this);">Delete</a>
-			                                            <div class="dropdown-divider"></div>
-			                                        ` : ''}
-			                                        <a class="dropdown-item" id="btnEnquiry" 
-			                                           data-tranid="${trial.tran_id}" 
-			                                           data-partnid="${trial.part_tran_id}" 
-			                                           data-acctnum="${trial.acct_num}"
-			                                           style="text-align: center;" onclick="enquiryuser(this);">View</a>
-			                                    </div>
-			                                </div>
-			                            </td>
-			                        `;
-	
-			                        // Append the new row to the table body
-			                        $('#placelist').append(row);
-			                    });
-			                }
-			            },
-			            error: function (err) {
-			                console.error('Error fetching data:', err);
-			            }
-			        });
-			    });
-			});
+	document.addEventListener('DOMContentLoaded', function () {
+	    const dateInput = document.getElementById('reportDate');
 
+	    // Use the current value in reportDate as the max
+	    const maxDate = dateInput.value; // this will restrict future selection
+	    dateInput.setAttribute('max', maxDate);
 
+	    // Optional: if user types a date after maxDate, reset to maxDate
+	    dateInput.addEventListener('change', function () {
+	        const selectedDate = this.value;
 
+	        if (selectedDate > maxDate) {
+	            alert('Dates after ' + maxDate + ' are not allowed!');
+	            this.value = maxDate;
+	            return;
+	        }
+
+	        console.log('Selected Date:', selectedDate);
+
+	        // Your existing AJAX logic
+	        $.ajax({
+	            url: './journalbook2',
+	            data: { selectedDate: selectedDate },
+	            type: 'GET',
+	            success: function (data) {
+	                $('#placelist').empty();
+
+	                if (data.length === 0) {
+	                    $('#placelist').append(`
+	                        <tr>
+	                            <td colspan="10" style="text-align: center; font-weight: bold;color:red">No records found</td>
+	                        </tr>
+	                    `);
+	                } else {
+	                    data.forEach(trial => {
+	                        const dateObj = new Date(trial.tran_date);
+	                        const formattedDate = `${String(dateObj.getDate()).padStart(2,'0')}-${String(dateObj.getMonth()+1).padStart(2,'0')}-${dateObj.getFullYear()}`;
+	                        const formattedAmount = parseFloat(trial.tran_amt).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+	                        $('#placelist').append(`
+	                            <tr>
+	                                <td>${formattedDate}</td>
+	                                <td>${trial.tran_id}</td>
+	                                <td>${trial.part_tran_type}</td>
+	                                <td>${trial.acct_crncy}</td>
+	                                <td>${formattedAmount}</td>
+	                                <td>${trial.acct_num}</td>
+	                                <td>${trial.acct_name}</td>
+	                                <td>${trial.tran_particular}</td>
+	                                <td>${trial.tran_status}</td>
+	                                <td>
+	                                    <div class="dropdown" style="text-align: center;">
+	                                        <button class="btn-primary big-btn" type="button" data-toggle="dropdown">Action</button>
+	                                        <div class="dropdown-menu">
+	                                            ${trial.tran_status === 'ENTERED' ? `
+	                                                <a class="dropdown-item" data-tranid="${trial.tran_id}" data-partnid="${trial.part_tran_id}" data-acctnum="${trial.acct_num}" onclick="deleteuser(this);">Delete</a>
+	                                                <div class="dropdown-divider"></div>
+	                                            ` : ''}
+	                                            <a class="dropdown-item" data-tranid="${trial.tran_id}" data-partnid="${trial.part_tran_id}" data-acctnum="${trial.acct_num}" onclick="enquiryuser(this);">View</a>
+	                                        </div>
+	                                    </div>
+	                                </td>
+	                            </tr>
+	                        `);
+	                    });
+	                }
+	            },
+	            error: function (err) {
+	                console.error('Error fetching data:', err);
+	            }
+	        });
+	    });
+	});
 	</script>
+
 	<script>
 		//Filter Table
 
@@ -434,14 +426,13 @@
 								</div>
 								<div class="d-flex justify-content-end align-items-center float-right"
 									style="flex-wrap: nowrap;">
-									<h6 class="mb-0 mr-2">DATE</h6>
 									<input type="date" name="reportDate"
 										th:value="${#dates.format(session.TRANDATE, 'yyyy-MM-dd')}" id="reportDate"
-										class="form-control form-control-sm bg-white border border-dark" />
+										class="form-control form-control-sm bg-white border border-dark mr-2" />
+										<button type="button" class="btn-primary big-btn btn-filter">Filter</button>
 								</div>
-								<div class="float-right mr-3">
-									<button type="button" class="btn-primary big-btn btn-filter">Filter</button>
-								</div>
+						
+									
 						</div>
 							<div class="card-body">
 								<div class="table-responsive">
@@ -472,15 +463,15 @@
 														class="form-control font-weight-bold" placeholder="AMOUNT"
 														disabled></th>
 											 
-												<th style="text-align: center;width: 20%;"> <input type="text"
+												<th style="text-align: center;"> <input type="text"
 														class="form-control font-weight-bold" placeholder="ACCT NUM"
 														disabled></th>
 												 
-												<th style="text-align: center; width: 20%;"><input type="text"
+												<th style="text-align: center; "><input type="text"
 														class="form-control font-weight-bold" placeholder="ACCT NAME "
 														disabled></th>
 											 
-												<th style="text-align: center; width: 20%;"><input type="text"
+												<th style="text-align: center; ;"><input type="text"
 														class="form-control font-weight-bold"
 														placeholder="TRAN PARTICULAR" disabled></th>
 											 

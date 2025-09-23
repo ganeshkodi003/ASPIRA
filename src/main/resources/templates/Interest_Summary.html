@@ -105,7 +105,7 @@ body {
 
 
 /* Modal Content */
-/* .modal-content {
+.modal-content {
 	background-color: #fefefe;
 	margin: auto;
 	padding: 20px;
@@ -202,8 +202,16 @@ input:hover+.password-info {
 	}
 </script>
 <script>
-	
+	function adjustHeight() {
+		const cardBody = document.getElementById("cardBody");
+		const viewportHeight = window.innerHeight;
+		cardBody.style.maxHeight = `${viewportHeight * 0.90}px`; // Adjust 80% of the viewport height
+	}
+
+	window.addEventListener("resize", adjustHeight);
+	document.addEventListener("DOMContentLoaded", adjustHeight);
 </script>
+
 
 
 
@@ -248,7 +256,7 @@ input:hover+.password-info {
 							</div>
 
 							<div class="card-body">
-								<div class="table-responsive">
+								<div class="table-responsive"id="cardBody">
 									<table class="table table-bordered table-hover table-sm"
 										style="margin-bottom: 0px; font-size: initial;"
 										id="AssosiateTable">
