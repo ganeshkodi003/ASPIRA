@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name="CLIENT_MASTER_TBL")
 public class CLIENT_MASTER_ENTITY {
@@ -43,6 +44,80 @@ public class CLIENT_MASTER_ENTITY {
 	private String	assigned_user_key;
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	asondate;
+	private String	entity_flg;
+	private String	auth_flg;
+	private String	modify_flg;
+	private String	del_flg;
+	private String	entry_user;
+	private String	modify_user;
+	private String	auth_user;
+	@DateTimeFormat(pattern="dd-MM-yyyy HH:mm")
+	private Date	entry_time;
+	@DateTimeFormat(pattern="dd-MM-yyyy HH:mm")
+	private Date	modify_time;
+	@DateTimeFormat(pattern="dd-MM-yyyy HH:mm")
+	private Date	auth_time;
+	
+	public String getEntity_flg() {
+		return entity_flg;
+	}
+	public void setEntity_flg(String entity_flg) {
+		this.entity_flg = entity_flg;
+	}
+	public String getAuth_flg() {
+		return auth_flg;
+	}
+	public void setAuth_flg(String auth_flg) {
+		this.auth_flg = auth_flg;
+	}
+	public String getModify_flg() {
+		return modify_flg;
+	}
+	public void setModify_flg(String modify_flg) {
+		this.modify_flg = modify_flg;
+	}
+	public String getDel_flg() {
+		return del_flg;
+	}
+	public void setDel_flg(String del_flg) {
+		this.del_flg = del_flg;
+	}
+	public String getEntry_user() {
+		return entry_user;
+	}
+	public void setEntry_user(String entry_user) {
+		this.entry_user = entry_user;
+	}
+	public String getModify_user() {
+		return modify_user;
+	}
+	public void setModify_user(String modify_user) {
+		this.modify_user = modify_user;
+	}
+	public String getAuth_user() {
+		return auth_user;
+	}
+	public void setAuth_user(String auth_user) {
+		this.auth_user = auth_user;
+	}
+	public Date getEntry_time() {
+		return entry_time;
+	}
+	public void setEntry_time(Date entry_time) {
+		this.entry_time = entry_time;
+	}
+	public Date getModify_time() {
+		return modify_time;
+	}
+	public void setModify_time(Date modify_time) {
+		this.modify_time = modify_time;
+	}
+	public Date getAuth_time() {
+		return auth_time;
+	}
+	public void setAuth_time(Date auth_time) {
+		this.auth_time = auth_time;
+	}
 	public String getEncoded_key() {
 		return encoded_key;
 	}
@@ -193,12 +268,15 @@ public class CLIENT_MASTER_ENTITY {
 	public void setAsondate(Date asondate) {
 		this.asondate = asondate;
 	}
+	
 	public CLIENT_MASTER_ENTITY(String encoded_key, String customer_id, String client_state, Date creation_date,
 			Date last_modified_date, Date activation_date, Date approved_date, String first_name, String last_name,
 			String mobile_phone, String email_address, String preferred_language, Date birth_date, String gender,
 			String assigned_branch_key, String client_role_key, BigDecimal loan_cycle, BigDecimal group_loan_cycle,
 			String address_line1, String address_line2, String address_line3, String city, String suburb,
-			String assigned_user_key, Date asondate) {
+			String assigned_user_key, Date asondate, String entity_flg, String auth_flg, String modify_flg,
+			String del_flg, String entry_user, String modify_user, String auth_user, Date entry_time, Date modify_time,
+			Date auth_time) {
 		super();
 		this.encoded_key = encoded_key;
 		this.customer_id = customer_id;
@@ -225,10 +303,16 @@ public class CLIENT_MASTER_ENTITY {
 		this.suburb = suburb;
 		this.assigned_user_key = assigned_user_key;
 		this.asondate = asondate;
-	}
-	public CLIENT_MASTER_ENTITY() {
-		super();
-		// TODO Auto-generated constructor stub
+		this.entity_flg = entity_flg;
+		this.auth_flg = auth_flg;
+		this.modify_flg = modify_flg;
+		this.del_flg = del_flg;
+		this.entry_user = entry_user;
+		this.modify_user = modify_user;
+		this.auth_user = auth_user;
+		this.entry_time = entry_time;
+		this.modify_time = modify_time;
+		this.auth_time = auth_time;
 	}
 	@Override
 	public String toString() {
@@ -241,10 +325,14 @@ public class CLIENT_MASTER_ENTITY {
 				+ client_role_key + ", loan_cycle=" + loan_cycle + ", group_loan_cycle=" + group_loan_cycle
 				+ ", address_line1=" + address_line1 + ", address_line2=" + address_line2 + ", address_line3="
 				+ address_line3 + ", city=" + city + ", suburb=" + suburb + ", assigned_user_key=" + assigned_user_key
-				+ ", asondate=" + asondate + "]";
+				+ ", asondate=" + asondate + ", entity_flg=" + entity_flg + ", auth_flg=" + auth_flg + ", modify_flg="
+				+ modify_flg + ", del_flg=" + del_flg + ", entry_user=" + entry_user + ", modify_user=" + modify_user
+				+ ", auth_user=" + auth_user + ", entry_time=" + entry_time + ", modify_time=" + modify_time
+				+ ", auth_time=" + auth_time + "]";
 	}
-	 
-	
-	
-
+	public CLIENT_MASTER_ENTITY() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+ 
 }

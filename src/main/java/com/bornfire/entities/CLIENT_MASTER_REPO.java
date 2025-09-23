@@ -2,8 +2,12 @@ package com.bornfire.entities;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -14,6 +18,9 @@ public interface CLIENT_MASTER_REPO extends JpaRepository<CLIENT_MASTER_ENTITY, 
     
     @Query(value = "SELECT * FROM CLIENT_MASTER_TBL WHERE CUSTOMER_ID = ?1", nativeQuery = true)
     CLIENT_MASTER_ENTITY getClientView(String cust);
+    
+	@Query(value = "select * from CLIENT_MASTER_TBL WHERE DEL_FLG ='N' and CUSTOMER_ID =?1", nativeQuery = true)
+	CLIENT_MASTER_ENTITY  getid(String tr_his_id);
     
     @Query(value = "SELECT * FROM CLIENT_MASTER_TBL", nativeQuery = true)
 	 List<CLIENT_MASTER_ENTITY> getLoanActDet();
@@ -48,7 +55,12 @@ public interface CLIENT_MASTER_REPO extends JpaRepository<CLIENT_MASTER_ENTITY, 
                           "    );\r\n" + //
                           "", nativeQuery = true)
      List<Object[]> getAccDet(String id);
-    
+     
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+ 	@Transactional
+ 	@Query(value = "delete from CLIENT_MASTER_TBL where CUSTOMER_ID IN (:CUSTOMER_ID)", nativeQuery = true)
+ 	int delteid(@Param("CUSTOMER_ID") List<String> CUSTOMER_ID);
+ 	
 
   
 }

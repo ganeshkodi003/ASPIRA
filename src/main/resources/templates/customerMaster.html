@@ -12,12 +12,20 @@
 	VERSION    : 02
 	 
 -->
+<!--
+	CREATED BY : SUIRYA K
+	DATE       : 22-09-25
+	PURPOSE    : duplicate check
+	VERSION    : 03
+	 
+-->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="/ASPIRA/js/jquery.min.js"></script>
 <script src="/ASPIRA/js/jquery-ui.min.js"></script>
 	<style>
+	
 		.modal {
 			display: none;
 			/* Hidden by default */
@@ -61,7 +69,7 @@
 		.modal-content {
 			background-color: #fefefe;
 			margin: auto;
-			padding: 20px;
+			/* //padding: 20px; */
 			border: 1px solid #888;
 			width: 80%;
 			height: 0%;
@@ -176,6 +184,13 @@
 		.borderRemove {
 			border: none;
 		}
+		#datacancel .modal-dialog-centered.modal-dialog-scrollable {
+        justify-content: flex-start !important;
+         }
+		#SuccesPopUp .modal-dialog-centered.modal-dialog-scrollable {
+        justify-content: flex-start !important;
+       }
+	
 	</style>
 	<style>
 		.modal {
@@ -197,9 +212,17 @@
 			border: 1px solid #888;
 			width: 70%;
 			height: 20%;
-			margin-left: 200px;
+		/* 	margin-left: 200px; */
 		}
-
+	.modal-content {
+			background-color: #fefefe;
+			margin: 15% auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 70%;
+			height: 20%;
+		/* 	margin-left: 200px; */
+		}
 		.modal-pass {
 			background-color: #fefefe;
 			margin: 15% auto;
@@ -271,10 +294,28 @@
 			color: #333;
 		}
 		.big-btn {
-  font-size: 16px;
-}
+             font-size: 16px;
+      }
 	</style>
-	<script>
+	<!--  model style-->
+<style>
+#datacancel, #datacancel * {
+	box-sizing: content-box !important;
+}
+
+#SuccesPopUp, #SuccesPopUp * {
+	box-sizing: content-box !important;
+}
+
+#datacancel .modal-dialog-centered.modal-dialog-scrollable {
+	justify-content: flex-start !important;
+}
+
+#SuccesPopUp .modal-dialog-centered.modal-dialog-scrollable {
+	justify-content: flex-start !important;
+}
+</style>
+<script>
 		$(document).ready(function () {
 			$('.dropdown-toggle').dropdown();
 		});
@@ -1684,6 +1725,13 @@
 			});
 		}
 	</script>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
+		// Thymeleaf data injected into JavaScript
+
+		/*]]>*/
+	</script>
 	<script>
 
 		function openAccountledger(a) {
@@ -1842,8 +1890,6 @@
 		}
 
 		function firstexceldownload() {
-			//alert("firstexceldownload function worked ");
-			// Show the Bootstrap modal
 			$("#alert33").modal("show");
 		}
 
@@ -1879,12 +1925,6 @@
 			//alert(url)
 			location.href = url; // Redirect to the appropriate page
 		}
-
-
-
-
-
-
 		function submitForm() {
 			event.preventDefault();
 			var formData = $("#drawDownDetailsAdd").serializeArray();
@@ -1933,10 +1973,10 @@
 			return `${dd}-${MM}-${yyyy} 00:00:00`;
 		}
 
-		function gotoverify() {
-
+		function gotoverify() { 
 			location.href = './customerMaster?formmode=verify&module=module2'
 		}
+		
 		function verifyUser(userId) {
 			event.preventDefault();
 			fetch('./verifyUserById', {
@@ -1960,8 +2000,6 @@
 
 				});
 		}
-
-
 		document.addEventListener("DOMContentLoaded", function () {
 			let form = document.getElementById("drawDownDetailsAdd");
 
@@ -2004,46 +2042,108 @@
 
 	</script>
 	<script th:inline="javascript">
-		/*<![CDATA[*/
-		var dues = [[${module}]]; // Thymeleaf data injected into JavaScript
-		// Thymeleaf data injected into JavaScript
+	document.addEventListener('DOMContentLoaded', function() {
 
-		/*]]>*/
-	</script>
-	<script type="text/javascript">
-		function submitdatas() {
-			$('#alert33').modal('hide');
+	   const fileInput = document.getElementById('fileInput');
+	    const submitBtn = document.getElementById('submitBtn');
 
-			var form = $('#reportform')[0];
-			var data = new FormData(form);
-			// Show uploading modal with message
-			    $('#normalalertvalues .modal-body').html("<h6 class='text-center'>File Uploading...</h6>");
-			    $('#normalalertvalues').modal('show');
-			$.ajax({
-				type: "POST",
-				url: "uploadxmldata1",
-				data: data,
-				processData: false,
-				contentType: false,
-				success: function (response) {
-					console.log(response);
-					showResponse(response); // Pass the correct response
-					// Show success message in modal
-				$('#normalalertvalues .modal-body').html("<h6 class='text-center text-success'>File uploaded successfully!</h6>");
-				},
-				error: function (error) {
-					showResponse("Error: " + error.responseText);
-				}
-			});
+	    // Step 1: Open file chooser when submit button is clicked
+	    submitBtn.addEventListener('click', () => {
+	        fileInput.click();
+	    });
+
+	    // Step 2: When file is selected, upload it
+	    fileInput.addEventListener('change', () => {
+	        if (fileInput.files.length > 0) {
+	            submitData(fileInput.files[0]); // pass the selected file
+	        }
+	    });
+
+	    function submitData(file) {
+	        document.getElementById('loadingModal').style.display = 'flex';
+	        var form = $('#reportform_cust')[0];
+	        var data = new FormData(form);
+	        data.append("overwrite", false);
+	        data.append("fileInput", "CUSTOMER");
+	        data.append("file", file);   
+	        $.ajax({
+	            type: "POST",
+	            url: "UploadCustomerData",
+	            data: data,
+	            processData: false,
+	            contentType: false,
+	            success: function (response) {
+	                document.getElementById('loadingModal').style.display = 'none';
+	                console.log(response);
+	                if (response.status === "duplicate") {
+	                    $('#alertmsgpopup')
+	                        .text(`Duplicate Customer Id(s) found: ${response.id.join(", ")}. Do you want to overwrite them?`)
+	                        .css("white-space", "nowrap");
+	                    window.lastData = data; 
+	                    window.lastType = "CUSTOMER";  
+
+	                    $('#datacancel').modal("show");
+	                    return;
+	                }
+	                showResponse(response);
+	            },
+	            error: function (error) {
+	                document.getElementById('loadingModal').style.display = 'none';
+	                showResponse("Error: " + error.responseText);
+	            }
+	        });
+	    }
+	});
+	
+		function showResponse(response) { 
+		    let message =
+		        "Upload Completed<br>" +
+		        "Total No of Rows Succeeded: " + response.TotalSucceeded + "<br>" +
+		        "Total No of Rows Failed: " + response.TotalFailed + "<br>" +
+		        "Total Rows Processed: " + response.TotalProcessed + "<br>";
+
+		    // ✅ Write to the same modal-body container
+		    $('#Successmsgpopup').html("<h6 class='text-center'>" + message + "</h6>");
+		    $('#SuccesPopUp').modal('show');
 		}
-		function showResponse(responseText) {
-			$("#alertmsg11").text(responseText);
-			$("#normalalertvalues").modal("show"); // Ensure modal is shown
-		}
-
 		function backs() {
 			$("#normalalertvalues").modal("hide");
 		}
+		
+  // DELETE REF
+ function deleteRecUpload(btn) {
+    $('#datacancel').modal('hide');
+    document.getElementById('loadingModal').style.display = 'flex';
+
+    // ✅ Reuse stored FormData
+    var formData = window.lastData;
+    if (!formData) {
+        console.error("No form data found from last upload");
+        return;
+    }
+
+    // ✅ Ensure overwrite is set to true
+    formData.set("overwrite", true);
+
+    $.ajax({
+        url: './UploadCustomerData',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            document.getElementById('loadingModal').style.display = 'none';
+            showResponse(response);
+
+        },
+        error: function(xhr, status, error) {
+            document.getElementById('loadingModal').style.display = 'none';
+            $('#alertmsg').text("Overwrite Upload failed");
+            $('#alert').modal("toggle");
+        }
+    });
+}
+
 	</script>
 
 	<script type="text/javascript">
@@ -2333,10 +2433,6 @@
 								</select>
 							</div>
 
-							<!--<div class="btn-group nav-buttons float-right">
-							<button type="button" class="btn-primary big-btn" id="btnAdd"
-								onclick="addscreen();">ADD</button>
-						</div>-->
 						</div>
 						<div class="card-body" style="overflow-y: auto; border: 1px solid #ddd;">
 							<div class="table-responsive" id="cardBody">
@@ -2357,17 +2453,26 @@
 													placeholder="BRANCH ID" disabled></th>
 											<th style="width: 5%"><input type="text" class="form-control"
 													placeholder="STATUS" disabled></th>
-											<!-- <th style="width: 8%;">S.NO</th>
-												<th style="width: 10%;">CUSTOMER ID</th>
-												<th>CUSTOMER NAME</th>
-												<th>DOB</th>
-												<th>BRANCH ID</th>
-												<th style="width: 10%;">STATUS</th> -->
-
 										</tr>
 									</thead>
+                                     <tbody th:if="${formmode}=='list' and ${module == 'module1'}" >
+										 <tr th:each="list, iterator : ${list}" class="userlist">
+												<td style="font-size: 14px" th:text="${iterator.index +1}"></td>
+												<td style="font-size: 14px" class="text-primary"
+													th:attr="data-id=${list?.customer_id}"
+													th:text="${list?.customer_id}" onclick="ClickId(this);">
+												</td>
+												<td style="font-size: 14px"
+													th:text="${list?.first_name + ' ' + list?.last_name}"></td>
+												<td style="font-size: 14px"
+													th:text="${#dates.format(list?.birth_date, 'dd-MM-yyyy')}"></td>
+												<td style="font-size: 14px"
+													th:text="${list?.assigned_branch_key}"></td>
+												<td style="font-size: 14px" th:text="${list?.client_state}"></td>
 
-									<tbody id="usertable">
+											</tr> 
+									</tbody>
+									<tbody th:if="${formmode}=='list' and ${module == 'module2'}" id="usertable">
 										<!-- <tr th:each="list, iterator : ${list}" class="userlist">
 												<td style="font-size: 14px" th:text="${iterator.index +1}"></td>
 
@@ -2757,26 +2862,26 @@
 
 				<div th:if="${formmode}=='home'">
 					<div class="card">
-						<div class="card-header" style="background-color: #e9ecef; height: 50px">
+						<form id="reportform_cust">
+							<input type="file" id="fileInput" name="file"
+								style="display: none" />
+						</form>
+						<div class="card-header"
+							style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem;" class="ml-3">CUSTOMER MASTER</h6>
 							</div>
 							<div class="btn-group nav-buttons float-right ml-1">
-								<button class="btn-primary big-btn" onclick="ClickId();">list</button>
-
+								<button class="btn-primary big-btn" onclick="ClickId();">List</button>
 							</div>
 							<div class="btn-group nav-buttons float-right">
-								<button class="btn-primary big-btn" onclick="firstexceldownload();">Upload</button>
-
+								<button type="button" class="btn-primary big-btn" id="submitBtn">Upload</button>
 							</div>
-
-
 						</div>
-
-
 						<div class="card-body">
-							<form action="#" method="post" id="drawDownDetailsAdd" autocomplete="off"
-								name="drawDownDetailsData" th:fragment="finuserapply">
+							<form action="#" method="post" id="drawDownDetailsAdd"
+								autocomplete="off" name="drawDownDetailsData"
+								th:fragment="finuserapply">
 								<div class="">
 									<div class="row formline mt-2 ml-2">
 										<div class="col-sm-2"></div>
@@ -2784,7 +2889,8 @@
 											<label>Customer Id</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="customer_id" id="customer_id" readonly />
+											<input type="text" name="customer_id" id="customer_id"
+												readonly />
 										</div>
 										<div class="col-sm-2">
 											<label>Customer Name</label>
@@ -2838,7 +2944,8 @@
 											<label>Client Role Key</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="client_role_key" id="client_role_key" />
+											<input type="text" name="client_role_key"
+												id="client_role_key" />
 										</div>
 									</div>
 
@@ -2864,13 +2971,15 @@
 											<label>Last Modification Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="modification_date" id="modification_date" />
+											<input type="text" name="modification_date"
+												id="modification_date" />
 										</div>
 										<div class="col-sm-2">
 											<label>Activation Date</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="activation_date" id="activation_date" />
+											<input type="text" name="activation_date"
+												id="activation_date" />
 										</div>
 									</div>
 
@@ -2934,7 +3043,8 @@
 											<label>Group Loan Cycle</label>
 										</div>
 										<div class="col-sm-2">
-											<input type="text" name="group_loan_cycle" id="group_loan_cycle" />
+											<input type="text" name="group_loan_cycle"
+												id="group_loan_cycle" />
 										</div>
 									</div>
 
@@ -3190,37 +3300,7 @@
 		</div>
 	</div>
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true"
-		id="alert33">
-		<form action="#" th:object="${reportform}" method="post" enctype="multipart/form-data" id="reportform">
-			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"
-				style="max-width: 600px; height: auto;">
-				<div class="modal-content" style="width: 100%; height: 100%;">
-					<!-- Modal Header -->
-					<div class="modal-header" style="justify-content: center; width: 100%; padding: 10px;">
-						<h5 class="modal-title" id="popupAlert" style="font-size: 18px;">
-							CUSTOMER MASTER - UPLOAD</h5>
-					</div>
 
-					<!-- Modal Body -->
-					<div class="modal-body d-flex flex-row align-items-center justify-content-center"
-						style="text-align: center; flex-grow: 1; min-height: 100px; padding: 10px;">
-						<label for="fileInput" class="mb-0 mr-2 font-weight-bold">Choose
-							File:</label> <input type="file" name="file" id="fileInput"
-							class="form-control form-control-sm bg-white border border-dark" accept=".xml, .xls, .xlsx"
-							style="width: auto; flex-shrink: 1;" />
-					</div>
-
-					<!-- Modal Footer -->
-					<div class="modal-footer d-flex justify-content-center" style="width: 100%; padding: 10px;">
-						<button type="button" class="btn-primary big-btn" onclick="submitdatas()">Submit</button>
-						<button type="button" class="btn-primary big-btn" data-dismiss="modal"
-							onclick="refreshPage()">Close</button>
-					</div>
-				</div>
-			</div>
-		</form>
-	</div>
 
 	<div class="modal fade" data-backdrop="false" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true"
 			id="normalalertvalues">
@@ -3248,6 +3328,55 @@
 				</div>
 			</form>
 		</div>
+	<!-- Delete Confirmation Modal -->
+	<div class="modal fade" id="datacancel" style="background: #000000b0;margin-bottom:10px;"
+		role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+			role="document">
+			<div class="modal-content"  >
+
+				<!-- Modal Header -->
+				
+
+				<!-- Modal Body -->
+				<div class="modal-body">
+					<h5  id="alertmsgpopup" style="font-size: 17px; color: black; padding: 15px;"></h5>
+				</div>
+				<!-- Modal Footer -->
+				<div style="padding: 10px; text-align: center;">
+					<button type="button" class="btn btn-outline-dark me-3"
+						style="font-size: 16px;"  onclick="$('#datacancel').modal('hide')">Cancel</button>
+					<button type="button" class="btn btn-outline-dark me-3" id="refDelete"
+						style="font-size: 16px;" onclick="deleteRecUpload(this);"
+						th:attr="data-formmode=delete">Confirm  , OverWrite</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	
+	<!-- success pop up -->
+	<div class="modal fade" id="SuccesPopUp" style="background: #000000b0;margin-bottom:10px;"
+		role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+			role="document">
+			<div class="modal-content" style="min-height:212px;" >
+				<!-- Modal Body -->
+				<div class="modal-body">
+					<h5  id="Successmsgpopup" style="font-size: 17px; color: black; padding: 15px;"></h5>
+				</div>
+				<!-- Modal Footer -->
+				<div style="padding: 10px; text-align: center;">
+					<button type="button" class="btn btn-outline-dark me-3"
+						style="font-size: 16px;"  onclick="$('#SuccesPopUp').modal('hide')">Cancel</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
 </body>
 
 </html>
