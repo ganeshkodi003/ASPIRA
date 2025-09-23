@@ -951,48 +951,48 @@
 		}
 
 		function recoverysubmit() {
-			var tableData = [];
+					var tableData = [];
 
-			$('#placelist3 tr').each(function () {
-				var row = $(this).find('td');
-				if (row.length > 0) {
-					var rowData = {
-						srl_no: $(row[0]).text().trim(),
-						flow_id: $(row[1]).text().trim(),
-						flow_date: $(row[2]).text().trim(),
-						flow_code: $(row[3]).text().trim(),
-						flow_amount: $(row[4]).text().trim().replace(/,/g, ''),
-						account_number: $(row[5]).text().trim(),
-						account_name: $(row[6]).text().trim()
-					};
-					tableData.push(rowData);
-				}
-			});
+					$('#placelist3 tr').each(function () {
+						var row = $(this).find('td');
+						if (row.length > 0) {
+							var rowData = {
+								srl_no: $(row[0]).text().trim(),
+								flow_id: $(row[1]).text().trim(),
+								flow_date: $(row[2]).text().trim(),
+								flow_code: $(row[3]).text().trim(),
+								flow_amount: $(row[4]).text().trim().replace(/,/g, ''),
+								account_number: $(row[5]).text().trim(),
+								account_name: $(row[6]).text().trim()
+							};
+							tableData.push(rowData);
+						}
+					});
 
-			if (tableData.length === 0) {
-				alert("No data to submit.");
-				return;
-			}
+					if (tableData.length === 0) {
+						alert("No data to submit.");
+						return;
+					}
 
-			$('#alertmsg121').text('File Uploading...');
-			$('#alert121').modal('show');
-
-			$.ajax({
-				url: './saveBranchData3',
-				type: 'POST',
-				contentType: 'application/json',
-				data: JSON.stringify(tableData),
-				success: function (response) {
-					$('#alertmsg121').text('Data saved successfully!');
+					$('#alertmsg121').text('File Uploading...');
 					$('#alert121').modal('show');
-				},
-				error: function () {
-					$('#alert121').modal('hide');
-					$('#alertmsg121').text('Failed to save data.');
-					$('#alert121').modal('show');
+
+					$.ajax({
+						url: './saveBranchData3',
+						type: 'POST',
+						contentType: 'application/json',
+						data: JSON.stringify(tableData),
+						success: function (response) {
+							$('#alertmsg121').text('Data saved successfully!');
+							$('#alert121').modal('show');
+						},
+						error: function () {
+							$('#alert121').modal('hide');
+							$('#alertmsg121').text('Failed to save data.');
+							$('#alert121').modal('show');
+						}
+					});
 				}
-			});
-		}
 	</script>
 </head>
 
@@ -1043,9 +1043,6 @@
 							style="padding: 4px 4px; position: relative; display: flex; justify-content: space-around; margin-top: 10px; width: 100%; height: 43px">
 							<button class="tablinks" onclick="openTab(event, 'tab1')"
 								style="font-size: 16px; padding: 4px 8px; height: 32px;">Disbursement</button>
-							<button class="tablinks" onclick="openTab(event, 'tab4')"
-								style="font-size: 16px; padding: 4px 8px; height: 32px;">Booking
-								Transaction</button>
 							<button class="tablinks" onclick="openTab(event, 'tab2')"
 								style="font-size: 16px; padding: 4px 8px; height: 32px;">Interest
 								Transaction</button>
@@ -1055,6 +1052,9 @@
 							<button class="tablinks" onclick="openTab(event, 'tab3')"
 								style="font-size: 16px; padding: 4px 8px; height: 32px;">Recovery
 								Transaction</button>
+								<button class="tablinks" onclick="openTab(event, 'tab4')"
+																style="font-size: 16px; padding: 4px 8px; height: 32px;">Booking
+																Transaction</button>
 						</div>
 
 						<div id="tab1" class="tabcontent" style="display: block">
