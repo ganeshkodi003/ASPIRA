@@ -4,7 +4,10 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -305,6 +308,7 @@ public interface LOAN_REPAYMENT_REPO extends JpaRepository<LOAN_REPAYMENT_ENTITY
 
 	@Query(value = "SELECT * FROM LOAN_REPAYMENT_TBL WHERE PARENT_ACCOUNT_KEY IN :encodedKeys and repaid_date is not null ORDER BY DUE_DATE", nativeQuery = true)
 	List<LOAN_REPAYMENT_ENTITY> findRepaidDates(@Param("encodedKeys") List<String> encodedKeys);
+ 
 
 	@Query(value = "select * from LOAN_REPAYMENT_TBL where due_date <= ?1 AND PAYMENT_STATE IN ('PENDING','PARTIALLY_PAID') ORDER BY due_date", nativeQuery = true)
 	List<Object[]> getLoanActDetval41(Date creation_date);
@@ -324,5 +328,14 @@ public interface LOAN_REPAYMENT_REPO extends JpaRepository<LOAN_REPAYMENT_ENTITY
 			+ "  AND lr.DUE_DATE <= DATEADD(MONTH, 1, CAST(?1 AS DATE))\r\n"
 			+ "  AND lr.PAYMENT_STATE IN ('PENDING','PARTIALLY_PAID')\r\n" + "ORDER BY lr.DUE_DATE", nativeQuery = true)
 	List<Object[]> findByParentAccountKeyInAndDueDateLessThanEqualdue(@Param("date") Date date);
+
+	
+	@Query(value = "select * from LOAN_REPAYMENT_TBL WHERE DEL_FLG ='N' and encoded_key =?1", nativeQuery = true)
+	LOAN_REPAYMENT_ENTITY  getid(String id);
+	
+	@Modifying(clearAutomatically = true, flushAutomatically = true)
+ 	@Transactional
+ 	@Query(value = "delete from LOAN_REPAYMENT_TBL where encoded_key IN (:encoded_key)", nativeQuery = true)
+ 	int delteid(@Param("encoded_key") List<String> encoded_key);
 
 }

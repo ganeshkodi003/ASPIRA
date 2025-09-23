@@ -3,7 +3,10 @@ package com.bornfire.entities;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -108,4 +111,13 @@ public interface LOAN_ACT_MST_REPO extends JpaRepository<LOAN_ACT_MST_ENTITY, St
 	
 	@Query(value = "select * from LOAN_ACCOUNT_MASTER_TBL where DISBURSEMENT_DATE <= ?1 AND booking_flg = 'N' ORDER BY CREATION_DATE", nativeQuery = true)
 	List<LOAN_ACT_MST_ENTITY> getLoanActDetval41(Date creation_date);
+	
+	@Query(value = "select * from LOAN_ACCOUNT_MASTER_TBL WHERE DEL_FLG ='N' and id =?1", nativeQuery = true)
+	LOAN_ACT_MST_ENTITY  getid(String id);
+	
+	@Modifying(clearAutomatically = true, flushAutomatically = true)
+ 	@Transactional
+ 	@Query(value = "delete from LOAN_ACCOUNT_MASTER_TBL where id IN (:id)", nativeQuery = true)
+ 	int delteid(@Param("id") List<String> id);
+ 	
 }

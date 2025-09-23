@@ -38,7 +38,73 @@ public class LOAN_REPAYMENT_ENTITY {
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private Date	asondate;
 	private String del_flg;
+	private String	entity_flg;
+	private String	auth_flg;
+	private String	modify_flg;
+	private String	entry_user;
+	private String	modify_user;
+	private String	auth_user;
+	@DateTimeFormat(pattern="dd-MM-yyyy HH:mm")
+	private Date	entry_time;
+	@DateTimeFormat(pattern="dd-MM-yyyy HH:mm")
+	private Date	modify_time;
+	@DateTimeFormat(pattern="dd-MM-yyyy HH:mm")
+	private Date	auth_time;
 	
+	public String getEntity_flg() {
+		return entity_flg;
+	}
+	public void setEntity_flg(String entity_flg) {
+		this.entity_flg = entity_flg;
+	}
+	public String getAuth_flg() {
+		return auth_flg;
+	}
+	public void setAuth_flg(String auth_flg) {
+		this.auth_flg = auth_flg;
+	}
+	public String getModify_flg() {
+		return modify_flg;
+	}
+	public void setModify_flg(String modify_flg) {
+		this.modify_flg = modify_flg;
+	}
+	public String getEntry_user() {
+		return entry_user;
+	}
+	public void setEntry_user(String entry_user) {
+		this.entry_user = entry_user;
+	}
+	public String getModify_user() {
+		return modify_user;
+	}
+	public void setModify_user(String modify_user) {
+		this.modify_user = modify_user;
+	}
+	public String getAuth_user() {
+		return auth_user;
+	}
+	public void setAuth_user(String auth_user) {
+		this.auth_user = auth_user;
+	}
+	public Date getEntry_time() {
+		return entry_time;
+	}
+	public void setEntry_time(Date entry_time) {
+		this.entry_time = entry_time;
+	}
+	public Date getModify_time() {
+		return modify_time;
+	}
+	public void setModify_time(Date modify_time) {
+		this.modify_time = modify_time;
+	}
+	public Date getAuth_time() {
+		return auth_time;
+	}
+	public void setAuth_time(Date auth_time) {
+		this.auth_time = auth_time;
+	}
 	public String getEncoded_key() {
 		return encoded_key;
 	}

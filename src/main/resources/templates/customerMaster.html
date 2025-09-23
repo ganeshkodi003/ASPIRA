@@ -184,12 +184,7 @@
 		.borderRemove {
 			border: none;
 		}
-		#datacancel .modal-dialog-centered.modal-dialog-scrollable {
-        justify-content: flex-start !important;
-         }
-		#SuccesPopUp .modal-dialog-centered.modal-dialog-scrollable {
-        justify-content: flex-start !important;
-       }
+
 	
 	</style>
 	<style>
@@ -299,6 +294,7 @@
 	</style>
 	<!--  model style-->
 <style>
+ 
 #datacancel, #datacancel * {
 	box-sizing: content-box !important;
 }
@@ -2068,7 +2064,7 @@
 	        data.append("file", file);   
 	        $.ajax({
 	            type: "POST",
-	            url: "UploadCustomerData",
+	            url: "UploadFileData",
 	            data: data,
 	            processData: false,
 	            contentType: false,
@@ -2126,7 +2122,7 @@
     formData.set("overwrite", true);
 
     $.ajax({
-        url: './UploadCustomerData',
+        url: './UploadFileData',
         type: 'POST',
         data: formData,
         contentType: false,

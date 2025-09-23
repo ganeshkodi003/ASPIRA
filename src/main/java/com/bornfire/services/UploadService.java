@@ -2,6 +2,9 @@ package com.bornfire.services;
 
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,6 +30,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.bornfire.entities.CLIENT_MASTER_ENTITY;
 import com.bornfire.entities.CLIENT_MASTER_REPO;
+import com.bornfire.entities.LOAN_ACT_MST_ENTITY;
+import com.bornfire.entities.LOAN_ACT_MST_REPO;
+import com.bornfire.entities.LOAN_REPAYMENT_ENTITY;
+import com.bornfire.entities.LOAN_REPAYMENT_REPO;
 
 @Service
 @ConfigurationProperties("output")
@@ -41,11 +48,27 @@ public class UploadService {
 	CLIENT_MASTER_REPO clientMasterRepo;
 	
 	@Autowired
+	LOAN_ACT_MST_REPO lOAN_ACT_MST_REPO;
+	
+	@Autowired
+	LOAN_REPAYMENT_REPO lOAN_REPAYMENT_REPO;
+	
+	@Autowired
 	DateParser DateParser;
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public int delteCustId(List<String> duplicateTr) {
 		return clientMasterRepo.delteid(duplicateTr);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public int delteLoanId(List<String> duplicateTr) {
+		return lOAN_ACT_MST_REPO.delteid(duplicateTr);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public int delteRepaymentId(List<String> duplicateTr) {
+		return lOAN_REPAYMENT_REPO.delteid(duplicateTr);
 	}
 
 	public Map<String, Object> saveCustomerFile(MultipartFile file, String userID, String userName,boolean overwrite) throws SQLException {
@@ -157,6 +180,271 @@ public class UploadService {
 		return resultMap;
 	}
 	
+	//LOAN UPLOAD
+	public Map<String, Object> saveLoanFile(MultipartFile file, String userID, String userName,boolean overwrite) throws SQLException {
+		int successCount = 0, failureCount = 0;
+		Map<String, Object> resultMap = new LinkedHashMap<>();
+		logger.info("Start 1");
+		try (InputStream inputStream = file.getInputStream(); Workbook workbook = new XSSFWorkbook(inputStream)) {
+			logger.info("Start 2");
+			List<HashMap<Integer, String>> mapList = new ArrayList<>();
+			for (Sheet s : workbook) {
+			    for (Row r : s) {
+			        if (!isRowEmpty(r)) {
+			            if (r.getRowNum() < 1)
+			                continue;
+
+			            HashMap<Integer, String> map = new HashMap<>();
+			            for (int j = 0; j < 200; j++) {
+			                Cell cell = r.getCell(j);
+			                DataFormatter formatter1 = new DataFormatter();
+			                String text = formatter1.formatCellValue(cell);
+			                map.put(j, text);
+			            }
+			            mapList.add(map);
+			        }
+			    }
+			}
+			logger.info("Start 3");
+			// ✅ Pre-check duplicates check
+			List<String> duplicateid = new ArrayList<>();
+			for (HashMap<Integer, String> item : mapList) {
+				String cust_id = item.get(1); // <-- taking ARN from column index 23
+				// System.out.println(arn);
+				LOAN_ACT_MST_ENTITY checkId = lOAN_ACT_MST_REPO.getid(cust_id);
+				logger.info("Start 3.1");
+				if (checkId != null) {
+					duplicateid.add(cust_id);
+				}
+			}
+
+			if (!duplicateid.isEmpty() && !overwrite) {
+				resultMap.put("status", "duplicate");
+				resultMap.put("id", duplicateid);
+				return resultMap;
+			}
+
+			
+			if (!duplicateid.isEmpty() && overwrite) {
+				// delete existing before inserting
+				delteLoanId(duplicateid);
+			}
+			 
+			//end duplicate check
+			//upload start
+			for (HashMap<Integer, String> item : mapList) {
+				logger.info("Start 4");
+				try {
+					logger.info("Start 5");
+					LOAN_ACT_MST_ENTITY transaction = new LOAN_ACT_MST_ENTITY();
+					
+					transaction.setEncoded_key(item.get(0));
+					transaction.setId(item.get(1));
+					transaction.setAccount_holdertype(item.get(2));
+					transaction.setAccount_holderkey(item.get(3));
+					transaction.setCreation_date(DateParser.parseDateSafe(item.get(4)));
+					transaction.setApproved_date(DateParser.parseDateSafe(item.get(5)));
+					transaction.setLast_modified_date(DateParser.parseDateSafe((item.get(6))));
+					transaction.setClosed_date(DateParser.parseDateSafe(item.get(7)));
+					transaction.setLast_account_appraisaldate(DateParser.parseDateSafe(item.get(8)));
+					transaction.setAccount_state(item.get(9));
+					transaction.setAccount_substate(item.get(10));
+					transaction.setProduct_typekey(item.get(11));
+					transaction.setLoan_name(item.get(12));
+					transaction.setPayment_method(item.get(13));
+					transaction.setAssigned_branchkey(item.get(14));
+					transaction.setLoan_amount(DateParser.parseBigDecimal(item.get(15)));
+					transaction.setInterest_rate(DateParser.parseBigDecimal(item.get(16)));
+					transaction.setPenalty_rate(DateParser.parseBigDecimal(item.get(17)));
+					transaction.setAccrued_interest(DateParser.parseBigDecimal(item.get(18)));
+					transaction.setAccrued_penalty(DateParser.parseBigDecimal(item.get(19)));
+					transaction.setPrincipal_due(DateParser.parseBigDecimal(item.get(20)));
+					transaction.setPrincipal_paid(DateParser.parseBigDecimal(item.get(21)));
+					transaction.setPrincipal_balance(DateParser.parseBigDecimal(item.get(22)));
+					transaction.setInterest_due(DateParser.parseBigDecimal(item.get(23)));
+					transaction.setInterest_paid(DateParser.parseBigDecimal(item.get(24)));
+					transaction.setInterest_balance(DateParser.parseBigDecimal(item.get(25)));
+					transaction.setInterest_fromarrearsbalance(DateParser.parseBigDecimal(item.get(26)));
+					transaction.setInterest_fromarrearsdue(DateParser.parseBigDecimal(item.get(27)));
+					transaction.setInterest_fromarrearspaid(DateParser.parseBigDecimal(item.get(28)));
+					transaction.setFees_due(DateParser.parseBigDecimal(item.get(29)));
+					transaction.setFees_paid(DateParser.parseBigDecimal(item.get(30)));
+					transaction.setFees_balance(DateParser.parseBigDecimal(item.get(31)));
+					transaction.setPenalty_due(DateParser.parseBigDecimal(item.get(32)));
+					transaction.setPenalty_paid(DateParser.parseBigDecimal(item.get(33)));
+					transaction.setPenalty_balance(DateParser.parseBigDecimal(item.get(34)));
+					transaction.setExpected_disbursementdate(DateParser.parseDateSafe(item.get(35)));
+					transaction.setDisbursement_date(DateParser.parseDateSafe(item.get(36)));
+					transaction.setFirst_repaymentdate(DateParser.parseDateSafe(item.get(37)));
+					transaction.setApproved_date(new Date());
+					transaction.setDisbursement_flg("N");
+					transaction.setInterest_flg("N");
+					transaction.setFees_flg("N");
+					transaction.setRecovery_flg("N");
+					transaction.setBooking_flg("N");
+					transaction.setGrace_period(DateParser.parseBigDecimal(item.get(38)));
+					transaction.setRepayment_installments(DateParser.parseBigDecimal(item.get(39)));
+					transaction.setRepayment_periodcount(DateParser.parseBigDecimal(item.get(40)));
+					transaction.setDays_late(DateParser.parseBigDecimal(item.get(41)));
+					transaction.setDays_inarrears(DateParser.parseBigDecimal(item.get(42)));
+					transaction.setRepayment_schedule_method(item.get(43));
+					transaction.setCurrency_code(item.get(44));
+					transaction.setSale_processedbyvgid(item.get(45));
+					transaction.setSale_processedfor(item.get(46));
+					transaction.setSale_referredby(item.get(47));
+					transaction.setEmployment_status(item.get(48));
+					transaction.setJob_title(item.get(49));
+					transaction.setEmployer_name(item.get(50));
+					transaction.setTuscore(DateParser.parseBigDecimal(item.get(51)));
+					transaction.setTuprobability(DateParser.parseBigDecimal(item.get(52)));
+					transaction.setTufullname(item.get(53));
+					transaction.setTureason1(item.get(54));
+					transaction.setTureason2(item.get(55));
+					transaction.setTureason3(item.get(56));
+					transaction.setTureason4(item.get(57));
+					transaction.setDisposable_income(DateParser.parseBigDecimal(item.get(58)));
+					transaction.setManualoverride_amount(DateParser.parseBigDecimal(item.get(59)));
+					transaction.setManualoverride_expiry_date(DateParser.parseDateSafe(item.get(60)));
+					transaction.setCpfees(DateParser.parseBigDecimal(item.get(61)));
+					transaction.setDeposit_amount(DateParser.parseBigDecimal(item.get(62)));
+					transaction.setTotal_product_price(DateParser.parseBigDecimal(item.get(63)));
+					transaction.setRetailer_name(item.get(64));
+					transaction.setRetailer_branch(item.get(65));
+					transaction.setVg_application_id(item.get(66));
+					transaction.setContract_signed(item.get(67));
+					transaction.setDate_of_first_call(DateParser.parseDateSafe(item.get(68)));
+					transaction.setLast_call_outcome(item.get(69));
+					transaction.setAsondate(DateParser.parseDateSafe(item.get(70)));
+					transaction.setDel_flg("N");
+					transaction.setEntry_user(userID);
+					transaction.setEntry_time(new Date());
+					logger.info("Start 7");
+					lOAN_ACT_MST_REPO.save(transaction); 
+					successCount++;
+					//System.out.println("FINAL COUNTS -> Succeeded: " + successCount + ", Failed: " + failureCount);
+				} catch (Exception ex) {
+					failureCount++;
+					ex.printStackTrace();
+				}
+			}
+			logger.info("Start 8");
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultMap.put("status", "error");
+			resultMap.put("message", "File upload failed: " + e.getMessage());
+		}
+		logger.info("Start 9");	
+		resultMap.put("status", "success");
+		resultMap.put("TotalSucceeded", successCount);
+		resultMap.put("TotalFailed", failureCount);
+		resultMap.put("TotalProcessed", (successCount + failureCount));
+
+		return resultMap;
+	}
+	   //REPAYMENT UPLOAD
+		public Map<String, Object> saveRepaymentFile(MultipartFile file, String userID, String userName,boolean overwrite) throws SQLException {
+			int successCount = 0, failureCount = 0;
+			Map<String, Object> resultMap = new LinkedHashMap<>();
+			logger.info("Start 1");
+			try (InputStream inputStream = file.getInputStream(); Workbook workbook = new XSSFWorkbook(inputStream)) {
+				logger.info("Start 2");
+				List<HashMap<Integer, String>> mapList = new ArrayList<>();
+				for (Sheet s : workbook) {
+				    for (Row r : s) {
+				        if (!isRowEmpty(r)) {
+				            if (r.getRowNum() < 1)
+				                continue;
+
+				            HashMap<Integer, String> map = new HashMap<>();
+				            for (int j = 0; j < 200; j++) {
+				                Cell cell = r.getCell(j);
+				                DataFormatter formatter1 = new DataFormatter();
+				                String text = formatter1.formatCellValue(cell);
+				                map.put(j, text);
+				            }
+				            mapList.add(map);
+				        }
+				    }
+				}
+				logger.info("Start 3");
+				// ✅ Pre-check duplicates check
+				List<String> duplicateid = new ArrayList<>();
+				for (HashMap<Integer, String> item : mapList) {
+					String cust_id = item.get(1); // <-- taking ARN from column index 23
+					// System.out.println(arn);
+					LOAN_REPAYMENT_ENTITY checkId = lOAN_REPAYMENT_REPO.getid(cust_id);
+					logger.info("Start 3.1");
+					if (checkId != null) {
+						duplicateid.add(cust_id);
+					}
+				}
+
+				if (!duplicateid.isEmpty() && !overwrite) {
+					resultMap.put("status", "duplicate");
+					resultMap.put("id", duplicateid);
+					return resultMap;
+				}
+
+				
+				if (!duplicateid.isEmpty() && overwrite) {
+					// delete existing before inserting
+					delteRepaymentId(duplicateid);
+				}
+				 
+				//end duplicate check
+				//upload start
+				for (HashMap<Integer, String> item : mapList) {
+					logger.info("Start 4");
+					try {
+						logger.info("Start 5");
+						LOAN_REPAYMENT_ENTITY transaction = new LOAN_REPAYMENT_ENTITY();
+						
+						transaction.setEncoded_key(item.get(0));
+						transaction.setParent_account_key(item.get(1));
+						transaction.setDue_date(DateParser.parseDateSafe(item.get(2)));
+						transaction.setLast_paid_date(DateParser.parseDateSafe(item.get(3)));
+						transaction.setRepaid_date(DateParser.parseDateSafe(item.get(4)));
+						transaction.setPayment_state(item.get(5));
+						transaction.setIs_payment_holiday(item.get(6));
+						transaction.setPrincipal_exp(DateParser.parseBigDecimal(item.get(7)));
+						transaction.setPrincipal_paid(DateParser.parseBigDecimal(item.get(8)));
+						transaction.setPrincipal_due(DateParser.parseBigDecimal(item.get(9)));
+						transaction.setInterest_exp(DateParser.parseBigDecimal(item.get(10)));
+						transaction.setInterest_paid(DateParser.parseBigDecimal(item.get(11)));
+						transaction.setInterest_due(DateParser.parseBigDecimal(item.get(12)));
+						transaction.setFee_exp(DateParser.parseBigDecimal(item.get(13)));
+						transaction.setFee_paid(DateParser.parseBigDecimal(item.get(14)));
+						transaction.setFee_due(DateParser.parseBigDecimal(item.get(15)));
+						transaction.setPenalty_exp(DateParser.parseBigDecimal(item.get(16)));
+						transaction.setPenalty_paid(DateParser.parseBigDecimal(item.get(17)));
+						transaction.setPenalty_due(DateParser.parseBigDecimal(item.get(18)));
+						transaction.setAsondate(DateParser.parseDateSafe(item.get(19)));
+						transaction.setDel_flg("N");
+						transaction.setEntry_user(userID);
+						transaction.setEntry_time(new Date());
+						logger.info("Start 7");
+						lOAN_REPAYMENT_REPO.save(transaction);
+						successCount++;
+						//System.out.println("FINAL COUNTS -> Succeeded: " + successCount + ", Failed: " + failureCount);
+					} catch (Exception ex) {
+						failureCount++;
+						ex.printStackTrace();
+					}
+				}
+				logger.info("Start 8");
+			} catch (Exception e) {
+				e.printStackTrace();
+				resultMap.put("status", "error");
+				resultMap.put("message", "File upload failed: " + e.getMessage());
+			}
+			logger.info("Start 9");	
+			resultMap.put("status", "success");
+			resultMap.put("TotalSucceeded", successCount);
+			resultMap.put("TotalFailed", failureCount);
+			resultMap.put("TotalProcessed", (successCount + failureCount));
+
+			return resultMap;
+		}
 	private boolean isRowEmpty(Row row) {
 		boolean isEmpty = true;
 		DataFormatter dataFormatter = new DataFormatter();

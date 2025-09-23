@@ -30,7 +30,7 @@ public class ASPIRAUploadController {
 	@Autowired
 	UploadService UploadService;
 	
-	 @PostMapping(value = "/UploadCustomerData")
+	 @PostMapping(value = "/UploadFileData")
 	 public ResponseEntity<Map<String, Object>> uploadExcel(@RequestParam("file") MultipartFile file,
 	                                                           @RequestParam("fileInput") String fileInput,
 	                                                           HttpServletRequest request,
@@ -44,9 +44,10 @@ public class ASPIRAUploadController {
 
 	        if ("CUSTOMER".equalsIgnoreCase(fileInput)) {
 	            resultMap = UploadService.saveCustomerFile(file, userID, userName,overwrite);
-	        } else if ("DESTINATION".equalsIgnoreCase(fileInput)) {
-	            // resultMap = uploadService.saveDestinationFile(file, userID, userName, overwrite, fromDate);
-	            resultMap.put("message", "Destination upload not implemented");
+	        } else if ("LOAN".equalsIgnoreCase(fileInput)) {
+	            resultMap = UploadService.saveLoanFile(file, userID, userName, overwrite);
+	        } else if ("REPAYMENT".equalsIgnoreCase(fileInput)) {
+	            resultMap = UploadService.saveLoanFile(file, userID, userName, overwrite);
 	        } else {
 	            resultMap.put("message", "Invalid file type specified");
 	        }
