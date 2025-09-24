@@ -484,6 +484,11 @@
 											</tr>
 										</thead>
 										<tbody id="placelist">
+											<tr th:if="${#lists.isEmpty(jour)}">
+											        <td colspan="10" style="text-align: center; color: red;">
+											            No data available
+											        </td>
+											    </tr>
 											<tr th:each="details : ${jour}">
 
 												<td 

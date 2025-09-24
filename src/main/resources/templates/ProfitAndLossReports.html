@@ -506,6 +506,24 @@ $(document)
 
 
 </script>
+<script>
+    function adjustHeight() {
+        const viewportHeight = window.innerHeight;
+
+        const cardBody1 = document.getElementById("cardBody1");
+        if (cardBody1) {
+            cardBody1.style.maxHeight = `${viewportHeight * 0.90}px`;
+        }
+
+        const cardBody2 = document.getElementById("cardBody2");
+        if (cardBody2) {
+            cardBody2.style.maxHeight = `${viewportHeight * 0.90}px`;
+        }
+    }
+
+    window.addEventListener("resize", adjustHeight);
+    document.addEventListener("DOMContentLoaded", adjustHeight);
+</script>
 
 
 
@@ -539,7 +557,7 @@ $(document)
 								</div>
 
 							</div>
-							<div class="table-responsive">
+							<div class="table-responsive" id="cardBody1">
 								<table class="table table-bordered table-hover table-sm"
 									style="margin-bottom: 0px; font-size: initial;" id="usertable">
 									<thead class="thead-light">
@@ -624,7 +642,7 @@ $(document)
 									</div>
 								</div>
 							</div>
-							<div class="table-responsive">
+							<div class="table-responsive" id="cardBody2">
 								<table class="table  table-bordered  table-hover table-sm"
 									style="margin-bottom: 0px; font-size: initial;" id="usertable">
 									<thead class="thead-light">

@@ -170,6 +170,12 @@ input:hover+.password-info {
 									</tr>
 								</thead>
 								<tbody id="placelist">
+									<!-- Show "No data" row if chartaccount is empty -->
+									    <tr th:if="${#lists.isEmpty(chartaccount)}">
+									        <td colspan="10" style="text-align: center; color: red;">
+									            No data available
+									        </td>
+									    </tr>
 									<tr th:each="chartacc : ${chartaccount}">
 										<td th:text="${chartacc?.classification}"></td>
 										<td th:text="${chartacc?.gl_code}" style="text-align: right;"></td>
