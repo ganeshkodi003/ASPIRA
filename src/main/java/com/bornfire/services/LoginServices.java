@@ -2,6 +2,8 @@ package com.bornfire.services;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -29,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
@@ -44,6 +47,8 @@ import com.bornfire.entities.UserProfile;
 import com.bornfire.entities.UserProfileRep;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -51,7 +56,10 @@ import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-
+import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import org.springframework.core.io.ClassPathResource;
+import java.io.InputStream;
+import org.springframework.core.io.Resource;
 @Service
 @ConfigurationProperties("output")
 @Transactional
@@ -74,6 +82,8 @@ public class LoginServices {
 	@Autowired
 	BGLSBusinessTable_Rep bGLSBusinessTable_Rep;
 
+
+	
 	@NotNull
 	private String exportpath;
 
@@ -630,5 +640,62 @@ public class LoginServices {
 
 		return msg;
 	}
+	
+	private String exportpath1 = System.getProperty("user.home") + File.separator + "exports";
+
+	public File getFileAccountLedger(String filetype, String acct_num) throws JRException, SQLException, IOException {
+	    System.out.println("Generating report for account: " + acct_num);
+
+	    File folder = new File(exportpath1);
+	    if (!folder.exists()) folder.mkdirs();
+
+	    String fileName = "ACCOUNT_LEDGER_" + acct_num;
+	    File outputFile;
+
+	    try {
+	        // Load and compile Jasper
+	        Resource resource = new ClassPathResource("/static/jasper/AspiraAccLedg.jrxml");
+	        if (!resource.exists()) throw new FileNotFoundException("Jasper file not found: " + resource.getFilename());
+
+	        InputStream jasperStream = resource.getInputStream();
+	        JasperReport jasperReport = JasperCompileManager.compileReport(jasperStream);
+
+	        // Set parameters
+	        HashMap<String, Object> parameters = new HashMap<>();
+	        parameters.put("ACCT_NUMBER", acct_num);
+
+	        // Fill report
+	        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, srcdataSource.getConnection());
+
+	        // Export
+	        if ("pdf".equalsIgnoreCase(filetype)) {
+	            fileName += ".pdf";
+	            outputFile = new File(exportpath1, fileName);
+	            JasperExportManager.exportReportToPdfFile(jasperPrint, outputFile.getAbsolutePath());
+	        } else {
+	            fileName += ".xlsx";
+	            outputFile = new File(exportpath1, fileName);
+
+	            SimpleXlsxReportConfiguration reportConfig = new SimpleXlsxReportConfiguration();
+	            reportConfig.setSheetNames(new String[]{fileName});
+
+	            JRXlsxExporter exporter = new JRXlsxExporter();
+	            exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+	            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputFile));
+	            exporter.setConfiguration(reportConfig);
+	            exporter.exportReport();
+	        }
+
+	        System.out.println("Report exported successfully: " + outputFile.getAbsolutePath());
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new JRException("Error generating Account Ledger report", e);
+	    }
+
+	    return outputFile;
+	}
+
+
 
 }
