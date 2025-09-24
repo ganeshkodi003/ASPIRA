@@ -262,7 +262,10 @@ input:hover+.password-info {
 		location.href = './organizationDetails?formmode=ModifyHead';
 	}
 	
-	
+	function modify() {
+
+			location.href = './organizationDetails?formmode=modify';
+		}
 	
 </script>
 
@@ -327,6 +330,8 @@ input:hover+.password-info {
 
 	function AddSubmit() {
 		 let hasError = false;
+		 
+
 		  //for customer check
 		  
 		  /*  hasError = validateField("#branch_head", 'Required') || hasError; 
@@ -348,7 +353,8 @@ input:hover+.password-info {
 		    }
 		   var formElement = document.getElementById('assosiateForm1'); // Get the form element
 		   var formData = new FormData(formElement); 
-	       var photoInput = formElement.querySelector("input[name='photo']");
+	       var photoInput = formElement.querySelector("input[name='photoFile']");
+		   console.log(photoInput.files[0]);
 		   alert(photoInput)
 	        
 		   if (photoInput && photoInput.files.length > 0) {
@@ -390,19 +396,46 @@ input:hover+.password-info {
 		}
 
 
-	function ModifyTab2Submit() {
+	//function ModifyTab2Submit() {
 
-		$.ajax({
-			url : './tab2modify',
-			data : $("#tab2modify").serialize(),
-			type : 'POST',
-			success : function(data) {
-				$("#alertmsg").text(data);
-				$('#alert').modal("show");
-			}
-		});
+	//	$.ajax({
+		//	url : './tab2modify',
+		//	data : $("#tab2modify").serialize(),
+		//	type : 'POST',
+			//success : function(data) {
+			//	$("#alertmsg").text(data);
+			//	$('#alert').modal("show");
+		//	}
+		//});
 
-	}
+	//}
+
+
+
+		
+		function ModifyTab2Submit() {
+		    $.ajax({
+		        url: './tab2modify',
+		        data: $("#tab2modify").serialize(),
+		        type: 'POST',
+		        success: function (data) {
+		            // If backend returns "success" or empty message, redirect to ModifyBranch
+		            if (data.trim() === "success" || data.trim() === "") {
+		                window.location.href = "./organizationDetails?formmode=Modify";
+		            } else {
+		                // Otherwise show the backend validation/error message
+		                $("#alertmsg").text(data);
+		                $('#alert').modal("show");
+		            }
+		        },
+		        error: function (jqXHR, textStatus, errorThrown) {
+		            console.error("Error in AJAX request: " + textStatus, errorThrown);
+		            $("#alertmsg").text("Error while modifying");
+		            $('#alert').modal("show");
+		        }
+		    });
+		}
+
 	function del_bran() {
 
 		$.ajax({
@@ -533,6 +566,8 @@ $(function() {
 				+ record_srl;
 	}
 </script>
+
+
 <script>
 	function validateNumericInput(input) {
 		const errorMessage = document.getElementById('errorMessage');
@@ -2068,8 +2103,7 @@ $(function() {
 						<div class="card-header"
 							style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
-								<h6 style="font-size: 1.2rem; color: black;">BRANCH -
-									MODIFY</h6>
+								<h6 style="font-size: 1.2rem; color: black;">BRANCH -MODIFY</h6>
 							</div>
 
 						</div>
@@ -2613,13 +2647,15 @@ $(function() {
 
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">
-										Pic No <span class="text-danger">*</span>
+										Pic No <!--<span class="text-danger">*</span>-->
 									</div>
 								<div class="col-sm-2 d-flex align-items-center">
 										
-											<input type="file" name="photo"
-												id="photo"
+											<input type="file" name="photoFile" id="photo"
 												class="form-control form-control-sm bg-white border border-dark" />
+												
+												<!--<input type="file" name="photoFile" id="photo">-->
+
 
 										</div>
 								</div>
@@ -2772,7 +2808,10 @@ $(function() {
 						<div class="card-footer text-center "
 							style="background-color: #e9ecef">
 							<button class="btn-primary big-btn" onclick="Home();">Home</button>
-							<button class="btn-primary big-btn" id="submitBtn" onclick="AddSubmit();">Submit</button>
+							<!--<button class="btn-primary big-btn" id="submitBtn" onclick="AddSubmit();">Submit</button>-->
+							
+							<button type="button" class="btn-primary big-btn" id="submitBtn" onclick="AddSubmit();">Submit</button>
+
 							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 
 						</div>

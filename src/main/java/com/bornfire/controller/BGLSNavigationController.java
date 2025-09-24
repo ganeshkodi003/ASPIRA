@@ -103,6 +103,7 @@ import com.bornfire.entities.Lease_Loan_Work_Repo;
 import com.bornfire.entities.NoticeDetailsGeneral0Rep;
 import com.bornfire.entities.NoticeDetailsPayment0Rep;
 import com.bornfire.entities.NoticeDetailsSlabDetails0Rep;
+import com.bornfire.entities.Organization_Branch_Entity;
 import com.bornfire.entities.Organization_Branch_Rep;
 import com.bornfire.entities.Organization_Entity;
 import com.bornfire.entities.Organization_Repo;
@@ -384,6 +385,10 @@ public class BGLSNavigationController {
 		} else if (formmode.equals("modify")) {
 			md.addAttribute("formmode", "modify");
 			md.addAttribute("OrgBranch", organization_Branch_Rep.getOrgBranch(branch_name));
+
+		} else if (formmode.equals("ModifyBranch")) {
+			md.addAttribute("formmode", "ModifyBranch");
+			md.addAttribute("OrgBranch", organization_Branch_Rep.getbranchlist());
 
 		} else if (formmode.equals("view")) {
 			md.addAttribute("formmode", "view");
@@ -3587,6 +3592,7 @@ public class BGLSNavigationController {
 
 		return "Loan_Schedule";
 	}
+	
 
 	/* Aishu */
 	@PostMapping(value = "Modifyloanmain")
@@ -3747,4 +3753,7 @@ public class BGLSNavigationController {
 		}
 		return "TransactionMigrat";
 	}
+	
+	
+
 }
