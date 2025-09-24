@@ -1736,54 +1736,36 @@ public class BGLSNavigationController {
 	public String glcode(@RequestParam(required = false) String formmode, @RequestParam(required = false) String glcode,
 			Model md, HttpServletRequest request, @RequestParam(required = false) String glsh_Code) {
 
-		if (formmode == null || formmode.equals("view")) {
-
-			md.addAttribute("formmode", "view");
-
-		} else if (formmode.equals("list")) {
-
+		if (formmode == null || formmode.equals("list")) {
 			md.addAttribute("formmode", "list");
-
 			md.addAttribute("getvaluelist", generalLedgerRep.getlistvalue());
 		} else if (formmode.equals("view1")) {
-
 			md.addAttribute("formmode", "view1");
 			// md.addAttribute("GeneralLedger", adminOperServices.getGeneralLedger(glcode));
-
 			md.addAttribute("GeneralLedger", chart_Acc_Rep.getaedit(glcode));
 			System.out.println(chart_Acc_Rep.getaedit(glcode) + "GLCODE" + glcode);
 		} else if (formmode.equals("modify")) {
 			md.addAttribute("formmode", "modify");
 			md.addAttribute("BamGeneralLedger", generalLedgerRep.getlistvalue());
-
 		} else if (formmode.equals("edit")) {
-
 			md.addAttribute("formmode", "edit");
-			md.addAttribute("GeneralLedger", generalLedgerRep.getsinglevalue(glcode));
-
+			md.addAttribute("GeneralLedger", generalLedgerRep.getsinglevalue(glsh_Code));
 		} else if (formmode.equals("add")) {
-
 			md.addAttribute("formmode", formmode);
-
 		} else if (formmode.equals("deleteList")) {
 			md.addAttribute("formmode", "deleteList");
 			md.addAttribute("BamGeneralLedger", generalLedgerRep.getRefCodelist());
 		} else if (formmode.equals("delete")) {
 			md.addAttribute("formmode", "delete");
 			System.out.println("the gl code value is " + glcode);
-			md.addAttribute("GeneralLedger", generalLedgerRep.getsinglevalue(glcode));
-
+			md.addAttribute("GeneralLedger", generalLedgerRep.getsinglevalue(glsh_Code));
 		} else if (formmode.equals("upload")) {
-
 			md.addAttribute("formmode", "upload");
-
 		} else if (formmode.equals("uploadlist")) {
-
 			md.addAttribute("formmode", "uploadlist");
 			md.addAttribute("Listofvalues", generalLedgerWork_Rep.getlistvalue());
-		} else if (formmode.equals("viewusinglsh")) {
-
-			md.addAttribute("formmode", "viewusinglsh");
+		} else if (formmode.equals("view")) {
+			md.addAttribute("formmode", "view");
 			md.addAttribute("singlerecord", generalLedgerRep.getsinglevalue(glsh_Code));
 		}
 

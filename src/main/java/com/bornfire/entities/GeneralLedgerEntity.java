@@ -4,13 +4,14 @@ package com.bornfire.entities;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Column;
 
 @Entity
 @Table(name = "BGLS_GENERAL_LED")
 public class GeneralLedgerEntity {
-
-	
     @Column(name="GL_CODE")
     private String glCode;
     @Column(name="GL_DESCRIPTION")
@@ -36,10 +37,12 @@ public class GeneralLedgerEntity {
     private String entry_user;
     private String modify_user;
     private String verify_flg;
+    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private String entry_time;
+    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private String modify_time;
+    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private String verify_time;
-    
     private String total_balance;
     private String no_acct_opened;
     private String no_acct_closed;

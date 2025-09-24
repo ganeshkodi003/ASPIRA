@@ -20,7 +20,12 @@ public class DateParser {
         "MM/dd/yyyy",
         "yyyy-MM-dd",
         "MMM d, yyyy",
-        "dd-MMM-yy" 
+        "dd-MMM-yy" ,
+        "dd-MM-yyyy HH:mm",
+        "dd-MM-yyyy HH:mm:ss",
+        "yyyy-MM-dd HH:mm:ss",
+        "dd/MM/yyyy HH:mm",
+        "dd/MM/yyyy HH:mm:ss"  
     };
 
     public Date parseDate(String trxn_date) throws ParseException {
@@ -106,4 +111,20 @@ public class DateParser {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         return sdf.format(val);
     }
+    
+    
+    public static Long parseLongSafe(String numberStr) {
+        if (numberStr == null || numberStr.trim().isEmpty()) {
+            return null;
+        }
+        try {
+            // Parse as BigDecimal first if needed
+            BigDecimal bd = new BigDecimal(numberStr.trim());
+            return bd.longValue();
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid number format: " + numberStr);
+            return null;
+        }
+    }
+
 }

@@ -1319,7 +1319,7 @@ public class BGLSRestController {
 		String value1 = generalLedgerEntity.getGlCode();
 
 		System.out.println("the getting gl code is " + glcode);
-		System.out.println("the getting glsh code is " + glsh_code);
+		System.out.println("the getting glsh code 234324is " + glsh_code);
 
 		String msg = adminOperServices.addGeneralLedger(generalLedgerEntity, formmode, glsh_code, glcode, userid);
 		return msg;

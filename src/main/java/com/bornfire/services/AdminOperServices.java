@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bornfire.entities.AuditTablePojo;
-import com.bornfire.entities.BGLSAuditTable;
 import com.bornfire.entities.BGLSBusinessTable_Entity;
 import com.bornfire.entities.BGLSBusinessTable_Rep;
 import com.bornfire.entities.BamDocumentMasRep;
@@ -26,6 +25,7 @@ import com.bornfire.entities.GeneralLedgerEntity;
 import com.bornfire.entities.GeneralLedgerRep;
 import com.bornfire.entities.UserProfile;
 import com.bornfire.entities.UserProfileRep;
+import com.ibm.icu.text.SimpleDateFormat;
 
 @Service
 public class AdminOperServices {
@@ -63,14 +63,15 @@ public class AdminOperServices {
 
 		String msg = "";
 		 BGLSBusinessTable_Entity audit = new BGLSBusinessTable_Entity();
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		if (formmode.equals("add")) {
 
 			GeneralLedgerEntity up = getGeneralLedger;
 
 			up.setDelFlg("N");
-
 			up.setModifyFlg("N");
-
+			up.setEntry_user(userid);
+			up.setEntry_time(sdf.format(new Date()));
 			generalLedgerRep.save(up);
 
 			msg = "Added Successfully";
@@ -79,8 +80,6 @@ public class AdminOperServices {
 	        Long auditID = bGLSBusinessTable_Rep.getAuditRefUUID();
 	        Optional<UserProfile> up1 = userProfileRep.findById(userid);
 			UserProfile user = up1.get();
-	       
-	     
 			LocalDateTime currentDateTime = LocalDateTime.now();
 			Date dateValue = Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant());
 			audit.setAudit_date(new Date());
@@ -103,27 +102,25 @@ public class AdminOperServices {
 			
 			bGLSBusinessTable_Rep.save(audit);
 
-		}
-		else if (formmode.equals("edit")) {
-			System.out.println("the getting  gl code is " + GL_CODE);
-			System.out.println("the getting glsh code is " + glsh_code);
+		}else if (formmode.equals("edit")) {
+			System.out.println("the getting  glsh code is " + getGeneralLedger.getGlsh_code());
 			
-			GeneralLedgerEntity up = generalLedgerRep.getsinglevaluedata(GL_CODE,glsh_code);
-			if (Objects.nonNull(up)) {
+			GeneralLedgerEntity up = getGeneralLedger;
+			 
 				up.setGlCode(getGeneralLedger.getGlCode());
 				up.setGlDescription(getGeneralLedger.getGlDescription());
 				up.setModifyFlg("Y");
 				up.setDelFlg("N");
+				up.setModify_user(userid);
+				up.setModify_time(sdf.format(new Date()));
 				generalLedgerRep.save(up);
 				msg = "Modify Successfully";
-			} else {
-				msg = "Data Not Found";
-			}
+			 
 			return msg;
 		}
 		else if (formmode.equals("delete")) {
 			System.out.println("the getting gl code is "+GL_CODE);
-			GeneralLedgerEntity up =generalLedgerRep.getRefMaster(GL_CODE);
+			GeneralLedgerEntity up =generalLedgerRep.getRefMaster(getGeneralLedger.getGlsh_code());
 			up.setDelFlg("Y");
 			generalLedgerRep.save(up);
 			msg = "Deleted Successfully";

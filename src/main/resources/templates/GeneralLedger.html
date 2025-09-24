@@ -34,7 +34,6 @@
 	padding: 0;
 	height: auto;
 }
-
 .container-manager {
 	width: 83.5%;
 	padding-right: 15px;
@@ -170,14 +169,26 @@ input:hover+.password-info {
 		location.href = 'glcode?formmode=list';
 	}
 
-	function modifyData() {
-		location.href = 'glcode?formmode=modify';
+	function modifysubmit(a) {
+		var glsh_Code = a.getAttribute("data-attr");
+		console.log("glsh_Code" + glsh_Code);
+		location.href = 'glcode?formmode=edit&glsh_Code=' + glsh_Code;
+	}
+	function getvalues(a) {
+		var glsh_Code = a.getAttribute("data-attr");
+		console.log("glsh_Code" + glsh_Code);
+		location.href = 'glcode?formmode=view&glsh_Code=' + glsh_Code;
 	}
 
-	function deleteData() {
-		location.href = 'glcode?formmode=deleteList';
+	function getdata(a) {
+		var glsh_Code = a.getAttribute("data-attr");
+		console.log("glsh_Code" + glsh_Code);
+		location.href = 'glcode?formmode=view&glsh_Code=' + glsh_Code;
 	}
-
+	function deletesubmit(a) {
+		var glsh_Code = a.getAttribute("data-attr");
+		location.href = 'glcode?formmode=delete&glsh_Code=' + glsh_Code;
+	}
 	function refTypeDropdown(a) {
 		$("#hideRefType").hide();
 		$("#showRefType").show();
@@ -207,13 +218,10 @@ input:hover+.password-info {
 	function modifyUserData() {
 	    var glCode = document.getElementById("glCode").value;
 	    var glshCode = document.getElementById("glsh_code").value;
-
-	    alert(glCode);
-	    alert(glshCode);
-
+	    //alert(glshCode);
 	    if ($("#BamGeneralLedger").valid()) {
 	        // Append both `glCode` and `glsh_code` to the URL
-	        var url = "./GeneralLedgerAdd?formmode=edit&glcode=" + encodeURIComponent(glCode) + "&glsh_code=" + encodeURIComponent(glshCode);
+	        var url = "./GeneralLedgerAdd?formmode=edit";
 	        $("#BamGeneralLedger").attr('action', url);
 
 	        var options = {
@@ -230,27 +238,30 @@ input:hover+.password-info {
 	}
 
 	function deleteUserData() {
-		//alert("delete");
-		var l = document.getElementById("glCode").value;
-		alert(l);
-		if ($("#BamGeneralLedger").valid()) {
+	    var glCode = document.getElementById("glCode").value;
+	    var glshCode = document.getElementById("glsh_code").value;
+	    //alert(glshCode);
+	    if ($("#BamGeneralLedger").valid()) {
+	        // Append both `glCode` and `glsh_code` to the URL
+	        var url = "./GeneralLedgerAdd?formmode=delete";
+	        $("#BamGeneralLedger").attr('action', url);
 
-			var url = "./GeneralLedgerAdd?formmode=delete" + "&glcode=" + l;
-			$("#BamGeneralLedger").attr('action', url);
+	        var options = {
+	            success: showResponse
+	        };
 
-			var options = {
-				success : showResponse
-			};
+	        $("#BamGeneralLedger").ajaxSubmit(options);
 
-			$("#BamGeneralLedger").ajaxSubmit(options);
-
-			function showResponse(responseText, statusText, xhr, $form) {
-				$("#alertmsg").text(responseText);
-				$('#alert').modal("toggle");
-			}
-			;
-		}
+	        function showResponse(responseText, statusText, xhr, $form) {
+	            $("#alertmsg").text(responseText);
+	            $('#alert').modal("toggle");
+	        }
+	    }
 	};
+	
+	function Close(){
+		location.href = 'glcode?formmode=list' ;
+	}
 
 	//Check to View
 	$(document).ready(
@@ -642,27 +653,7 @@ input:hover+.password-info {
 		location.href = './glcode?formmode=list';
 	}
 
-	function getvalues(a) {
-		var glsh_Code = a.getAttribute("data-attr");
-		console.log("glsh_Code" + glsh_Code);
-		location.href = 'glcode?formmode=viewusinglsh&glsh_Code=' + glsh_Code;
-	}
 
-	function getdata(a) {
-		var glsh_Code = a.getAttribute("data-attr");
-		console.log("glsh_Code" + glsh_Code);
-		location.href = 'glcode?formmode=viewusinglsh&glsh_Code=' + glsh_Code;
-	}
-
-	function modifysubmit(a) {
-		var glsh_Code = a.getAttribute('data-glsh_code');
-		location.href = 'glcode?formmode=edit&glcode=' + glsh_Code;
-	}
-
-	function deletesubmit(a) {
-		var glsh_Code = a.getAttribute('data-glsh_code');
-		location.href = 'glcode?formmode=delete&glcode=' + glsh_Code;
-	}
 </script>
 <style>
 .hover-underline:hover {
@@ -688,460 +679,142 @@ input:hover+.password-info {
 </head>
 
 <body>
-	<div class="container-fluid">
+	<div class="col-sm-2">
+		<div th:insert="BGLSHeaderMenu :: header"></div>
+	</div>
+	<div class="container-manager">
 		<div class="row">
-			<div class="col-sm-2">
-				<div th:insert="BGLSHeaderMenu :: header"></div>
-			</div>
-			<div class="col-sm-10">
-				<div class="container-fluid content"
-					th:if="${formmode}=='add' OR ${formmode}=='view' OR ${formmode}=='edit' OR ${formmode}=='view1' OR ${formmode}=='delete'">
-					<div class="row">
-						<div class="col-sm-11 ">
-							<div class="card">
-								<div class="card-header  "
-									style="background-color: #e9ecef;">
+			<div class="col-sm-11 ml-5 mt-2">
+				<div th:if="${formmode}=='list'">
+					<div class="card panel panel-primary filterable">
+						<div class="card-header "
+							style="background-color: #e9ecef; height: 50px">
+							<div class="float-left">
+								<h6 style="font-size: 1.2rem; color: black;">GENERAL LEDGER</h6>
+							</div>
+							<div class="float-right">
+								<button type="button" class="big-btn btn-primary btn-filter">Filter</button>
+								<button class="btn-primary big-btn"  onclick="addUser()">Add</button>
+							</div>
+						</div>
+						<div class="mt-3"
+							style="padding: 4px 4px; position: relative; display: flex; justify-content: space-around; width: 100%;">
+							<!-- Tab buttons -->
+							<button class="tablinks rounded-pill" id="RefButton"
+								onclick="RefCode(this);"
+								style="font-size: 16px; padding: 4px 8px; height: 40%; width: 18%;">Reference
+								Code Maintenance</button>
+							<button class="tablinks active rounded-pill" id="GLButton"
+								onclick="GLStruct(this);"
+								style="font-size: 16px; padding: 4px 8px; height: 40%; width: 18%;">GL
+								Structure</button>
+							<button class="tablinks rounded-pill" id="param"
+								onclick="SchemeCode(this);"
+								style="font-size: 16px; padding: 4px 8px; height: 40%; width: 18%;">Scheme
+								Codes</button>
+							<button class="tablinks rounded-pill" id="chartOfAccounts"
+								onclick="Chart(this);"
+								style="font-size: 16px; padding: 4px 8px; height: 40%; width: 18%;">Chart
+								of Accounts</button>
+							<button class="tablinks rounded-pill" id="accountLedger"
+								onclick="Account(this);"
+								style="font-size: 16px; padding: 4px 8px; height: 40%; width: 18%;">Account
+								Ledger</button>
 
-									<div class="float-left">
-										<h3 style="font-size: 1.2rem" th:if="${formmode}=='view'">GENERAL
-											LEDGER</h3>
-										<h3 style="font-size: 1.2rem" th:if="${formmode}=='edit'">GENERAL
-											LEDGER- MODIFY</h3>
-										<h3 style="font-size: 1.2rem" th:if="${formmode}=='add'">GENERAL
-											LEDGER- ADD</h3>
-										<h3 style="font-size: 1.2rem" th:if="${formmode}=='delete'">GENERAL
-											LEDGER - DELETE</h3>
-										<h3 style="font-size: 1.2rem" th:if="${formmode}=='view1'">GENERAL
-											LEDGER</h3>
-									</div>
-								</div>
-								<div class="mt-3" th:if="${formmode}=='view'"
-									style="padding: 4px 4px; position: relative; display: flex; justify-content: space-around; width: 100%;">
-									<!-- Tab buttons -->
-									<button class="tablinks rounded-pill" id="RefButton"
-										onclick="RefCode(this);"
-										style="font-size: 16px; padding: 4px 8px; height: 40%; width: 18%;">Reference
-										Code Maintenance</button>
-									<button class="tablinks active rounded-pill" id="GLButton"
-										onclick="GLStruct(this);"
-										style="font-size: 16px; padding: 4px 8px; height: 40%; width: 18%;">GL
-										Structure</button>
-									<button class="tablinks rounded-pill" id="param"
-										onclick="SchemeCode(this);"
-										style="font-size: 16px; padding: 4px 8px; height: 40%; width: 18%;">Scheme
-										Codes</button>
-									<button class="tablinks rounded-pill" id="chartOfAccounts"
-										onclick="Chart(this);"
-										style="font-size: 16px; padding: 4px 8px; height: 40%; width: 18%;">Chart
-										of Accounts</button>
-									<button class="tablinks rounded-pill" id="accountLedger"
-										onclick="Account(this);"
-										style="font-size: 16px; padding: 4px 8px; height: 40%; width: 18%;">Account
-										Ledger</button>
+						</div>
+						<div class="card-body"
+							style="overflow-y: auto; border: 1px solid #ddd;">
+							<div class="table-responsive" id="cardBody">
+								<table class="table table-bordered table-hover table-sm"
+									style="margin-bottom: 0px; font-size: initial;" id="usertable">
+									<thead class="thead-light"
+										style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 1;">
+										<tr class="filters">
+											<th><input type="text"
+												class="form-control font-weight-bold" placeholder="S.NO"
+												disabled></th>
+											<th><input type="text"
+												class="form-control font-weight-bold" placeholder="GL CODE"
+												disabled></th>
+											<th><input type="text"
+												class="form-control font-weight-bold" placeholder="GL DESC"
+												disabled></th>
+											<th><input type="text"
+												class="form-control font-weight-bold"
+												placeholder="BRANCH ID" disabled></th>
+											<th><input type="text"
+												class="form-control font-weight-bold"
+												placeholder="BRANCH DESC" disabled></th>
+											<th><input type="text"
+												class="form-control font-weight-bold"
+												placeholder="GLSH CODE" disabled></th>
+											<th><input type="text"
+												class="form-control font-weight-bold"
+												placeholder="GLSH DESC" disabled></th>
+											<th><input type="text"
+												class="form-control font-weight-bold"
+												placeholder="CRNCY CODE" disabled></th>
+											<th><input type="text" style="text-align: right;"
+												class="form-control font-weight-bold"
+												placeholder="CREDIT BAL" disabled></th>
+											<th><input type="text" style="text-align: right;"
+												class="form-control font-weight-bold"
+												placeholder="DEBIT BAL" disabled></th>
+                                            <th style="width: 8%;text-align: center;" class="font-weight-bold" > Select</th>
+										</tr>
+									</thead>
+									<tbody id="placelist">
+										<tr th:each="chartacc ,index: ${getvaluelist}">
+									 <td th:text="${index.index + 1}" class="text-center"></td>
+											<td th:text="${chartacc?.glCode}" ></td>
+											<td th:text="${chartacc?.glDescription}"></td>
+											<td th:text="${chartacc?.branch_id}"></td>
+											<td th:text="${chartacc?.branch_desc}"></td>
+											<td class="hover-underline" style="color: #007bff;"
+												onclick="getdata(this)"
+												th:attr="data-attr=${chartacc?.glsh_code}"
+												th:text="${chartacc?.glsh_code}"></td>
+											<td th:text="${chartacc?.glsh_desc}"></td>
+											<td th:text="${chartacc?.crncy_code}"></td>
+											<td style="text-align: right;"
+												th:text="${chartacc?.total_balance != null && (T(java.lang.Double).valueOf(chartacc.total_balance) > 0) ? #numbers.formatDecimal(T(java.lang.Double).valueOf(chartacc.total_balance), 2, 2) : '0.00'}">
+											</td>
+											<td style="text-align: right;"
+												th:text="${chartacc?.total_balance != null && (T(java.lang.Double).valueOf(chartacc.total_balance) < 0) ? #numbers.formatDecimal(T(java.lang.Double).valueOf(chartacc.total_balance), 2, 2) : '0.00'}">
+											</td>
+											<td class="text-center">
+																<div class="dropdown action-dropdown">
+														<button class="btn btn-action dropdown-toggle" style="padding:0px"
+															type="button" id="dropdownMenuButton" title="Action"
+															data-toggle="dropdown" aria-haspopup="true"
+															aria-expanded="false">Action</button>
 
-								</div>
-
-								<div class="card-body p-3">
-									<form action="#" class="border border-secondary"
-										th:object="${GeneralLedger}" method="post" autocomplete="off"
-										id="BamGeneralLedger">
-										<div class="form-group mb-0">
-
-											<div class="row formline" style="padding: 10px 0px 3px 0px">
-												<div class="col-sm-1"></div>
-												<div class="col-4 col-lg-2">
-													<label for="">Branch Id</label>
-												</div>
-												<div class="col-4 col-lg-2">
-
-													<input type="text" id="Branch_id"
-														th:if="${formmode}=='view'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="Branch_id" name="Branch_id" th:if="${formmode}=='add'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" style="background-color: #f9fff6;" />
-
-													<input type="text" id="Branch_id"
-														th:if="${formmode}=='view1'"
-														th:value="${GeneralLedger?.branch_id}"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="Branch_id" name="Branch_id"
-														th:if="${formmode}=='edit'"
-														th:value="${GeneralLedger?.Branch_id}"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" style="background-color: #f9fff6;" />
-
-
-
-
-													<input type="text" id="Branch_id"
-														th:if="${formmode}=='delete'"
-														th:value="${GeneralLedger?.Branch_id}" name="Branch_id"
-														class="form-control form-control-sm bg-white border border-dark"
-														readonly style="background-color: #f9fff6;" />
-
-												</div>
-												<div class="col-sm-1"></div>
-												<div class="col-4 col-lg-2">
-													<label for="typeDesc">Branch Description</label>
-												</div>
-												<div class="col-4 col-lg-2">
-
-													<input type="text" id="branch_desc"
-														th:if="${formmode}=='view'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="branch_desc" th:if="${formmode}=='add'"
-														name="branch_desc"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" required /> <input type="text"
-														id="branch_desc" th:if="${formmode}=='view1'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="branch_desc" th:if="${formmode}=='edit'"
-														th:value="${GeneralLedger?.branch_desc}"
-														name="branch_desc"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" required /> <input type="text"
-														id="branch_desc" th:if="${formmode}=='delete'"
-														th:value="${GeneralLedger?.branch_desc}"
-														name="branch_desc"
-														class="form-control form-control-sm bg-white border border-dark"
-														readonly style="background-color: #f9fff6;" />
-
-												</div>
-											</div>
-
-
-											<div class="row formline">
-												<div class="col-sm-1"></div>
-												<div class="col-4 col-lg-2">
-													<label for="refType">GL CODE</label>
-												</div>
-												<div class="col-4 col-lg-2">
-
-													<input type="text" id="glCode" th:if="${formmode}=='view'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="glCode" name="glCode" th:if="${formmode}=='add'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" style="background-color: #f9fff6;" />
-
-													<input type="text" id="glCode" th:if="${formmode}=='view1'"
-														th:value="${GeneralLedger?.gl_code}"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="glCode" name="glCode" th:if="${formmode}=='edit'"
-														th:value="${GeneralLedger?.glCode}"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" style="background-color: #f9fff6;" />
-
-
-
-
-													<input type="text" id="glCode"
-														th:if="${formmode}=='delete'"
-														th:value="${GeneralLedger?.glCode}" name="glCode"
-														class="form-control form-control-sm bg-white border border-dark"
-														readonly style="background-color: #f9fff6;" />
-
-												</div>
-												<div class="col-sm-1"></div>
-												<div class="col-4 col-lg-2">
-													<label for="typeDesc">GL Description</label>
-												</div>
-												<div class="col-4 col-lg-2">
-
-													<input type="text" id="glDescription"
-														th:if="${formmode}=='view'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="glDescription" th:if="${formmode}=='add'"
-														name="glDescription"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" required /> <input type="text"
-														id="glDescription" th:if="${formmode}=='view1'"
-														th:value="${GeneralLedger?.gl_desc}"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="glDescription" th:if="${formmode}=='edit'"
-														th:value="${GeneralLedger?.glDescription}"
-														name="glDescription"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" required /> <input type="text"
-														id="glDescription" th:if="${formmode}=='delete'"
-														th:value="${GeneralLedger?.glDescription}"
-														name="glDescription"
-														class="form-control form-control-sm bg-white border border-dark"
-														readonly style="background-color: #f9fff6;" />
-
-												</div>
-											</div>
-
-											<div class="row formline">
-												<div class="col-sm-1"></div>
-												<div class="col-4 col-lg-2">
-													<label for="">GL Sub Head Code</label>
-												</div>
-												<div class="col-4 col-lg-2">
-
-													<input type="text" id="glsh_code"
-														th:if="${formmode}=='view'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="glsh_code" th:if="${formmode}=='add'"
-														class="form-control form-control-sm bg-white border border-dark"
-														name="glsh_code" autocomplete="off" required /> <input
-														type="text" id="glsh_code" th:if="${formmode}=='view1'"
-														th:value="${GeneralLedger?.glsh_code}"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="glsh_code" th:if="${formmode}=='edit'"
-														th:value="${GeneralLedger?.glsh_code}" name="glsh_code"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" required readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														th:if="${formmode}=='delete'"
-														th:value="${GeneralLedger?.glsh_code}" name="glsh_code"
-														class="form-control form-control-sm bg-white border border-dark"
-														readonly style="background-color: #f9fff6;" />
-
-												</div>
-												<div class="col-sm-1"></div>
-												<div class="col-4 col-lg-2">
-													<label for="refDesc">GLSH Description</label>
-												</div>
-												<div class="col-4 col-lg-2">
-
-													<input type="text" id="glsh_desc"
-														th:if="${formmode}=='view'"
-														class="form-control form-control-sm bg-white border border-dark"
-														readonly style="background-color: #f9fff6;" /> <input
-														type="text" id="glsh_desc" th:if="${formmode}=='add'"
-														class="form-control form-control-sm bg-white border border-dark"
-														name="glsh_desc" autocomplete="off" required /> <input
-														type="text" id="glsh_desc" th:if="${formmode}=='view1'"
-														th:value="${GeneralLedger?.glsh_desc}"
-														class="form-control form-control-sm bg-white border border-dark"
-														readonly style="background-color: #f9fff6;" /> <input
-														type="text" id="glsh_desc" th:if="${formmode}=='edit'"
-														th:value="${GeneralLedger?.glsh_desc}" name="glsh_desc"
-														class="form-control form-control-sm bg-white border border-dark"
-														required /> <input type="text" id="glsh_desc"
-														th:if="${formmode}=='delete'"
-														th:value="${GeneralLedger?.glsh_desc}" name="glsh_desc"
-														class="form-control form-control-sm bg-white border border-dark"
-														readonly style="background-color: #f9fff6;" />
-
-												</div>
-											</div>
-
-											<div class="row formline">
-												<div class="col-sm-1"></div>
-												<div class="col-4 col-lg-2">
-													<label for="">Currency Code</label>
-												</div>
-												<div class="col-4 col-lg-2">
-
-													<input type="text" id="crncy_code"
-														th:if="${formmode}=='view'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="crncy_code" th:if="${formmode}=='add'"
-														class="form-control form-control-sm bg-white border border-dark"
-														name="crncy_code" autocomplete="off" required /> <input
-														type="text" id="crncy_code" th:if="${formmode}=='view1'"
-														th:value="${GeneralLedger?.crncy_code}"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="crncy_code" th:if="${formmode}=='edit'"
-														th:value="${GeneralLedger?.crncy_code}" name="crncy_code"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" /> <input type="text" id="crncy_code"
-														th:if="${formmode}=='delete'"
-														th:value="${GeneralLedger?.crncy_code}" name="crncy_code"
-														class="form-control form-control-sm bg-white border border-dark"
-														readonly style="background-color: #f9fff6;" />
-
-												</div>
-												<div class="col-sm-1"></div>
-												<div class="col-4 col-lg-2">
-													<label for="remarks">Balance Sheet Group</label>
-												</div>
-												<div class="col-4 col-lg-2">
-
-													<input type="text" id="bal_sheet_group"
-														th:if="${formmode}=='view'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="bal_sheet_group" th:if="${formmode}=='add'"
-														class="form-control form-control-sm bg-white border border-dark"
-														name="bal_sheet_group" autocomplete="off" required /> <input
-														type="text" id="bal_sheet_group"
-														th:if="${formmode}=='view1'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="bal_sheet_group" th:if="${formmode}=='edit'"
-														th:value="${GeneralLedger?.bal_sheet_group}"
-														name="bal_sheet_group"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" /> <input type="text"
-														id="bal_sheet_group" th:if="${formmode}=='delete'"
-														th:value="${GeneralLedger?.bal_sheet_group}"
-														name="bal_sheet_group"
-														class="form-control form-control-sm bg-white border border-dark"
-														readonly style="background-color: #f9fff6;" />
-
-												</div>
-											</div>
-
-											<div class="row formline">
-												<div class="col-sm-1"></div>
-												<div class="col-4 col-lg-2">
-													<label for="">Sequence Order</label>
-												</div>
-												<div class="col-4 col-lg-2">
-
-													<input type="text" id="seq_order"
-														th:if="${formmode}=='view'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="seq_order" th:if="${formmode}=='add'"
-														class="form-control form-control-sm bg-white border border-dark"
-														name="seq_order" autocomplete="off" required /> <input
-														type="text" id="seq_order" th:if="${formmode}=='view1'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="seq_order" th:if="${formmode}=='edit'"
-														th:value="${GeneralLedger?.seq_order}" name="seq_order"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" /> <input type="text" id="seq_order"
-														th:if="${formmode}=='delete'"
-														th:value="${GeneralLedger?.seq_order}" name="seq_order"
-														class="form-control form-control-sm bg-white border border-dark"
-														readonly style="background-color: #f9fff6;" />
-
-												</div>
-												<div class="col-sm-1"></div>
-												<div class="col-4 col-lg-2">
-													<label for="remarks">Total Balance</label>
-												</div>
-												<div class="col-4 col-lg-2">
-
-													<input type="text" id="total_balance"
-														th:if="${formmode}=='view'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="total_balance" th:if="${formmode}=='add'"
-														class="form-control form-control-sm bg-white border border-dark"
-														name="remarks" autocomplete="off" required /> <input
-														type="text" id="total_balance"
-														th:if="${formmode}=='view1'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="total_balance" th:if="${formmode}=='edit'"
-														th:value="${GeneralLedger?.remarks}" name="remarks"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" /> <input type="text"
-														id="total_balance" th:if="${formmode}=='delete'"
-														th:value="${GeneralLedger?.remarks}" name="remarks"
-														class="form-control form-control-sm bg-white border border-dark"
-														readonly style="background-color: #f9fff6;" />
-
-												</div>
-
-											</div>
-
-											<div class="row formline">
-												<div class="col-sm-1"></div>
-												<div class="col-4 col-lg-2">
-													<label for="">No of Account Opened</label>
-												</div>
-												<div class="col-4 col-lg-2">
-
-													<input type="text" id="no_acct_opened"
-														th:if="${formmode}=='view'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="no_acct_opened" th:if="${formmode}=='add'"
-														class="form-control form-control-sm bg-white border border-dark"
-														name="no_acct_opened" autocomplete="off" required /> <input
-														type="text" id="no_acct_opened"
-														th:if="${formmode}=='view1'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="no_acct_opened" th:if="${formmode}=='edit'"
-														th:value="${GeneralLedger?.seq_order}"
-														name="no_acct_opened"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" /> <input type="text"
-														id="no_acct_opened" th:if="${formmode}=='delete'"
-														th:value="${GeneralLedger?.seq_order}"
-														name="no_acct_opened"
-														class="form-control form-control-sm bg-white border border-dark"
-														readonly style="background-color: #f9fff6;" />
-
-												</div>
-												<div class="col-sm-1"></div>
-												<div class="col-4 col-lg-2">
-													<label for="remarks">No of Account Closed</label>
-												</div>
-												<div class="col-4 col-lg-2">
-
-													<input type="text" id="no_acct_closed"
-														th:if="${formmode}=='view'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="no_acct_closed" th:if="${formmode}=='add'"
-														class="form-control form-control-sm bg-white border border-dark"
-														name="no_acct_closed" autocomplete="off" required /> <input
-														type="text" id="no_acct_closed"
-														th:if="${formmode}=='view1'"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" readonly
-														style="background-color: #f9fff6;" /> <input type="text"
-														id="no_acct_closed" th:if="${formmode}=='edit'"
-														th:value="${GeneralLedger?.remarks}" name="no_acct_closed"
-														class="form-control form-control-sm bg-white border border-dark"
-														autocomplete="off" /> <input type="text"
-														id="no_acct_closed" th:if="${formmode}=='delete'"
-														th:value="${GeneralLedger?.remarks}" name="no_acct_closed"
-														class="form-control form-control-sm bg-white border border-dark"
-														readonly style="background-color: #f9fff6;" />
-
-												</div>
-
-											</div>
-										</div>
-									</form>
-								</div>
-								<div class="card-footer  text-center"
-									style="background-color: #e9ecef;">
-									<button type="button" class="btn-primary big-btn " onclick="home()"
-										id="btnHome">Home</button>
+														<div class="dropdown-menu" style="padding:0px"
+															aria-labelledby="dropdownMenuButton">
+															<!-- Modify -->
+															<a class="dropdown-item modify-item"
+																th:attr="data-attr=${chartacc?.glsh_code}" title="Modify"
+																onclick="modifysubmit(this)">Modify</a>
+															<div class="dropdown-divider"></div>
+															<!-- Delete -->
+															<a class="dropdown-item delete-item"
+																th:attr="data-attr=${chartacc?.glsh_code}"
+																title="Delete" onclick="deletesubmit(this)">Delete</a>
+														</div>
+													</div>
+										 
+												 
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="card-footer  text-center"
+							style="background-color: #e9ecef;">
+							<button type="button" class="btn-primary big-btn "
+								onclick="home()" id="btnHome">Home</button>
+							<!-- 
 									<button class="btn-primary big-btn" onclick="addUser()"
 										th:if="${formmode}=='view'" id="btnModify">Add</button> <button
 										class="btn-primary big-btn  text-white" onclick="upload()"
@@ -1169,15 +842,403 @@ input:hover+.password-info {
 										class="btn-primary big-btn" form="AdminAssociateProfile"
 										id="btnSubmit" onclick="deleteUserData(this);"
 										th:attr="data-formmode=${formmode}">Submit</button>
-
-									<button type="button" class="btn-primary big-btn" id="btnBack"
-										onclick="back();">Back</button>
-								</div>
-							</div>
+ -->
+							<button type="button" class="btn-primary big-btn" id="btnBack"
+								onclick="back();">Back</button>
 						</div>
 					</div>
 				</div>
+				<!-- start add function -->
+				<div th:if="${formmode}=='add' OR ${formmode}=='edit' or ${formmode}=='delete'" class="col-sm-11 ml-5 mt-2" >
+					<div class="card ">
+						<div class="card-header" style="background-color: #e9ecef;">
+							<h3 style="font-size: 1.2rem" th:if="${formmode}=='edit'">GENERAL
+											LEDGER- MODIFY</h3>
+							<h3 style="font-size: 1.2rem" th:if="${formmode}=='add'">GENERAL
+											LEDGER- ADD</h3>
+							<h3 style="font-size: 1.2rem" th:if="${formmode}=='delete'">GENERAL
+											LEDGER - DELETE</h3>
+						</div>
+						<div class="card-body p-3">
+							<form action="#" class="border border-secondary"
+								th:object="${GeneralLedger}" method="post" autocomplete="off"
+								id="BamGeneralLedger">
+								<div class="form-group  ">
+									<div class="row formline" style="padding: 10px 0px 3px 0px">
+										<div class="col-sm-1"></div>
+										<div class="col-4 col-lg-2">
+											<label for="">Branch Id</label>
+										</div>
+										<div class="col-4 col-lg-2">
+											<input type="text" id="Branch_id" th:if="${formmode}=='view'"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="Branch_id" name="Branch_id" th:if="${formmode}=='add'"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" style="background-color: #f9fff6;" /> <input
+												type="text" id="Branch_id" th:if="${formmode}=='view1'"
+												th:value="${GeneralLedger?.branch_id}"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="Branch_id" name="Branch_id" th:if="${formmode}=='edit'"
+												th:value="${GeneralLedger?.Branch_id}"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" style="background-color: #f9fff6;" /> <input
+												type="text" id="Branch_id" th:if="${formmode}=='delete'"
+												th:value="${GeneralLedger?.Branch_id}" name="Branch_id"
+												class="form-control form-control-sm bg-white border border-dark"
+												readonly style="background-color: #f9fff6;" />
 
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-4 col-lg-2">
+											<label for="typeDesc">Branch Description</label>
+										</div>
+										<div class="col-4 col-lg-2">
+
+											<input type="text" id="branch_desc"
+												th:if="${formmode}=='view'"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="branch_desc" th:if="${formmode}=='add'"
+												name="branch_desc"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" required /> <input type="text"
+												id="branch_desc" th:if="${formmode}=='view1'"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="branch_desc" th:if="${formmode}=='edit'"
+												th:value="${GeneralLedger?.branch_desc}" name="branch_desc"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" required /> <input type="text"
+												id="branch_desc" th:if="${formmode}=='delete'"
+												th:value="${GeneralLedger?.branch_desc}" name="branch_desc"
+												class="form-control form-control-sm bg-white border border-dark"
+												readonly style="background-color: #f9fff6;" />
+
+										</div>
+									</div>
+									<div class="row formline mt-1">
+										<div class="col-sm-1"></div>
+										<div class="col-4 col-lg-2">
+											<label for="refType">GL CODE</label>
+										</div>
+										<div class="col-4 col-lg-2">
+											<input type="text" id="glCode" th:if="${formmode}=='view'"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="glCode" name="glCode" th:if="${formmode}=='add'"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" style="background-color: #f9fff6;" /> <input
+												type="text" id="glCode" th:if="${formmode}=='view1'"
+												th:value="${GeneralLedger?.gl_code}"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="glCode" name="glCode" th:if="${formmode}=='edit'"
+												th:value="${GeneralLedger?.glCode}"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" style="background-color: #f9fff6;" /> <input
+												type="text" id="glCode" th:if="${formmode}=='delete'"
+												th:value="${GeneralLedger?.glCode}" name="glCode"
+												class="form-control form-control-sm bg-white border border-dark"
+												readonly style="background-color: #f9fff6;" />
+
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-4 col-lg-2">
+											<label for="typeDesc">GL Description</label>
+										</div>
+										<div class="col-4 col-lg-2">
+
+											<input type="text" id="glDescription"
+												th:if="${formmode}=='view'"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="glDescription" th:if="${formmode}=='add'"
+												name="glDescription"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" required /> <input type="text"
+												id="glDescription" th:if="${formmode}=='view1'"
+												th:value="${GeneralLedger?.gl_desc}"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="glDescription" th:if="${formmode}=='edit'"
+												th:value="${GeneralLedger?.glDescription}"
+												name="glDescription"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" required /> <input type="text"
+												id="glDescription" th:if="${formmode}=='delete'"
+												th:value="${GeneralLedger?.glDescription}"
+												name="glDescription"
+												class="form-control form-control-sm bg-white border border-dark"
+												readonly style="background-color: #f9fff6;" />
+
+										</div>
+									</div>
+
+									<div class="row formline mt-1">
+										<div class="col-sm-1"></div>
+										<div class="col-4 col-lg-2">
+											<label for="">GL Sub Head Code</label>
+										</div>
+										<div class="col-4 col-lg-2">
+                                                 <input type="text"
+												id="glsh_code" th:if="${formmode}=='add'"
+												class="form-control form-control-sm bg-white border border-dark"
+												name="glsh_code" autocomplete="off" required /> <input
+												type="text" id="glsh_code" th:if="${formmode}=='view1'"
+												th:value="${GeneralLedger?.glsh_code}"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="glsh_code" th:if="${formmode}=='edit'"
+												th:value="${GeneralLedger?.glsh_code}" name="glsh_code"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" required readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												th:if="${formmode}=='delete'"
+												th:value="${GeneralLedger?.glsh_code}" name="glsh_code" id="glsh_code"
+												class="form-control form-control-sm bg-white border border-dark"
+												readonly style="background-color: #f9fff6;" />
+
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-4 col-lg-2">
+											<label for="refDesc">GLSH Description</label>
+										</div>
+										<div class="col-4 col-lg-2">
+
+											<input type="text" id="glsh_desc" th:if="${formmode}=='view'"
+												class="form-control form-control-sm bg-white border border-dark"
+												readonly style="background-color: #f9fff6;" /> <input
+												type="text" id="glsh_desc" th:if="${formmode}=='add'"
+												class="form-control form-control-sm bg-white border border-dark"
+												name="glsh_desc" autocomplete="off" required /> <input
+												type="text" id="glsh_desc" th:if="${formmode}=='view1'"
+												th:value="${GeneralLedger?.glsh_desc}"
+												class="form-control form-control-sm bg-white border border-dark"
+												readonly style="background-color: #f9fff6;" /> <input
+												type="text" id="glsh_desc" th:if="${formmode}=='edit'"
+												th:value="${GeneralLedger?.glsh_desc}" name="glsh_desc"
+												class="form-control form-control-sm bg-white border border-dark"
+												required /> <input type="text" id="glsh_desc"
+												th:if="${formmode}=='delete'"
+												th:value="${GeneralLedger?.glsh_desc}" name="glsh_desc"
+												class="form-control form-control-sm bg-white border border-dark"
+												readonly style="background-color: #f9fff6;" />
+
+										</div>
+									</div>
+
+									<div class="row formline mt-1">
+										<div class="col-sm-1"></div>
+										<div class="col-4 col-lg-2">
+											<label for="">Currency Code</label>
+										</div>
+										<div class="col-4 col-lg-2">
+
+											<input type="text" id="crncy_code"
+												th:if="${formmode}=='view'"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="crncy_code" th:if="${formmode}=='add'"
+												class="form-control form-control-sm bg-white border border-dark"
+												name="crncy_code" autocomplete="off" required /> <input
+												type="text" id="crncy_code" th:if="${formmode}=='view1'"
+												th:value="${GeneralLedger?.crncy_code}"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="crncy_code" th:if="${formmode}=='edit'"
+												th:value="${GeneralLedger?.crncy_code}" name="crncy_code"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" /> <input type="text" id="crncy_code"
+												th:if="${formmode}=='delete'"
+												th:value="${GeneralLedger?.crncy_code}" name="crncy_code"
+												class="form-control form-control-sm bg-white border border-dark"
+												readonly style="background-color: #f9fff6;" />
+
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-4 col-lg-2">
+											<label for="remarks">Balance Sheet Group</label>
+										</div>
+										<div class="col-4 col-lg-2">
+
+											<input type="text" id="bal_sheet_group"
+												th:if="${formmode}=='view'"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="bal_sheet_group" th:if="${formmode}=='add'"
+												class="form-control form-control-sm bg-white border border-dark"
+												name="bal_sheet_group" autocomplete="off" required /> <input
+												type="text" id="bal_sheet_group"
+												th:if="${formmode}=='view1'"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="bal_sheet_group" th:if="${formmode}=='edit'"
+												th:value="${GeneralLedger?.bal_sheet_group}"
+												name="bal_sheet_group"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" /> <input type="text"
+												id="bal_sheet_group" th:if="${formmode}=='delete'"
+												th:value="${GeneralLedger?.bal_sheet_group}"
+												name="bal_sheet_group"
+												class="form-control form-control-sm bg-white border border-dark"
+												readonly style="background-color: #f9fff6;" />
+
+										</div>
+									</div>
+
+									<div class="row formline mt-1">
+										<div class="col-sm-1"></div>
+										<div class="col-4 col-lg-2">
+											<label for="">Sequence Order</label>
+										</div>
+										<div class="col-4 col-lg-2">
+
+											<input type="text" id="seq_order" th:if="${formmode}=='view'"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="seq_order" th:if="${formmode}=='add'"
+												class="form-control form-control-sm bg-white border border-dark"
+												name="seq_order" autocomplete="off" required /> <input
+												type="text" id="seq_order" th:if="${formmode}=='view1'"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="seq_order" th:if="${formmode}=='edit'"
+												th:value="${GeneralLedger?.seq_order}" name="seq_order"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" /> <input type="text" id="seq_order"
+												th:if="${formmode}=='delete'"
+												th:value="${GeneralLedger?.seq_order}" name="seq_order"
+												class="form-control form-control-sm bg-white border border-dark"
+												readonly style="background-color: #f9fff6;" />
+
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-4 col-lg-2">
+											<label for="remarks">Total Balance</label>
+										</div>
+										<div class="col-4 col-lg-2">
+
+											<input type="text" id="total_balance"
+												th:if="${formmode}=='view'"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="total_balance" th:if="${formmode}=='add'"
+												class="form-control form-control-sm bg-white border border-dark"
+												name="remarks" autocomplete="off" required /> <input
+												type="text" id="total_balance" th:if="${formmode}=='view1'"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="total_balance" th:if="${formmode}=='edit'"
+												th:value="${GeneralLedger?.remarks}" name="remarks"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" /> <input type="text" id="total_balance"
+												th:if="${formmode}=='delete'"
+												th:value="${GeneralLedger?.remarks}" name="remarks"
+												class="form-control form-control-sm bg-white border border-dark"
+												readonly style="background-color: #f9fff6;" />
+
+										</div>
+
+									</div>
+
+									<div class="row formline mt-1">
+										<div class="col-sm-1"></div>
+										<div class="col-4 col-lg-2">
+											<label for="">No of Account Opened</label>
+										</div>
+										<div class="col-4 col-lg-2">
+
+											<input type="text" id="no_acct_opened"
+												th:if="${formmode}=='view'"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="no_acct_opened" th:if="${formmode}=='add'"
+												class="form-control form-control-sm bg-white border border-dark"
+												name="no_acct_opened" autocomplete="off" required /> <input
+												type="text" id="no_acct_opened" th:if="${formmode}=='view1'"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="no_acct_opened" th:if="${formmode}=='edit'"
+												th:value="${GeneralLedger?.seq_order}" name="no_acct_opened"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" /> <input type="text"
+												id="no_acct_opened" th:if="${formmode}=='delete'"
+												th:value="${GeneralLedger?.seq_order}" name="no_acct_opened"
+												class="form-control form-control-sm bg-white border border-dark"
+												readonly style="background-color: #f9fff6;" />
+
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-4 col-lg-2">
+											<label for="remarks">No of Account Closed</label>
+										</div>
+										<div class="col-4 col-lg-2">
+
+											<input type="text" id="no_acct_closed"
+												th:if="${formmode}=='view'"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="no_acct_closed" th:if="${formmode}=='add'"
+												class="form-control form-control-sm bg-white border border-dark"
+												name="no_acct_closed" autocomplete="off" required /> <input
+												type="text" id="no_acct_closed" th:if="${formmode}=='view1'"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" readonly
+												style="background-color: #f9fff6;" /> <input type="text"
+												id="no_acct_closed" th:if="${formmode}=='edit'"
+												th:value="${GeneralLedger?.remarks}" name="no_acct_closed"
+												class="form-control form-control-sm bg-white border border-dark"
+												autocomplete="off" /> <input type="text"
+												id="no_acct_closed" th:if="${formmode}=='delete'"
+												th:value="${GeneralLedger?.remarks}" name="no_acct_closed"
+												class="form-control form-control-sm bg-white border border-dark"
+												readonly style="background-color: #f9fff6;" />
+
+										</div>
+
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="card-footer text-center"
+							style="background-color: #e9ecef">
+							<button class="btn-primary big-btn" onclick="Home();">Home</button>
+							<button type="button" class="btn-primary big-btn" th:if="${formmode}=='add'"
+								form="RefCodeMaster" id="btnSubmit" onclick="submitform(this);"
+								th:attr="data-formmode=${formmode}">Submit</button>
+								<button type="button" class="btn-primary big-btn" th:if="${formmode}=='edit'"
+								form="RefCodeMaster" id="btnSubmit" onclick="modifyUserData(this);"
+								th:attr="data-formmode=${formmode}">Submit</button>
+								<button class="btn-primary big-btn" id="btnDelete"
+								th:if="${formmode}=='delete'" onclick="deleteUserData();">Delete</button>
+
+							<button class="btn-primary big-btn" onclick="Back();">Back</button>
+						</div>
+					</div>
+
+				</div>
 				<div class="row" th:if="${formmode}=='upload'">
 					<form action="#" method="post" autocomplete="off"
 						style="width: 100%">
@@ -1190,18 +1251,14 @@ input:hover+.password-info {
 								<div class="panel-heading text-center">
 									<div class="form-group ">
 										<div class="row">
-
 											<div class="col-sm-3">
 												<label class="">Upload</label>
 											</div>
 											<div class="col-sm-2">
-
 												<input type="file" id="fileval" name="fileval"
 													accept=".xlsx,.xls,.csv"
 													class="form-control form-control-sm">
-
 											</div>
-
 											<div class="col-sm-2"></div>
 										</div>
 									</div>
@@ -1223,436 +1280,15 @@ input:hover+.password-info {
 						</div>
 					</form>
 				</div>
-
-				<div th:if="${formmode}=='uploadlist'">
-					<div class="panel panel-primary filterable"
-						style="margin-top: 100px">
-						<div class="card w-100 border panel panel-primary filterable">
-							<div class="card-header"
-								style="background-color: #e9ecef; ">
-								<div class="float-left">
-									<h6 style="font-size: 1.2rem; color: black;">GENERAL
-										LEDGER</h6>
-								</div>
-								<div class="float-right">
-									<button type="button"
-										class="btn btn-xs btn-primary btns p-2 border"
-										id="selectAllBtn" onclick="toggleSelectAll()">Select
-										All</button>
-								</div>
-							</div>
-							<div class="card-body">
-								<div class="table-responsive">
-									<table class="table table-bordered table-hover table-sm"
-										style="margin-bottom: 0px; font-size: initial;" id="usertable">
-										<thead class="thead-light">
-											<tr class="filters">
-												<th style="width: 5%"><input type="text"
-													class="form-control font-weight-bold" placeholder="SRL NO"
-													disabled></th>
-												<th style="width: 5%"><input type="text"
-													class="form-control font-weight-bold" placeholder="GL CODE"
-													disabled></th>
-												<th style="width: 8%"><input type="text"
-													class="form-control font-weight-bold" placeholder="GL DESC"
-													disabled></th>
-												<th style="width: 5%"><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="BRANCH ID" disabled></th>
-												<th style="width: 5%; display: none;"><input
-													type="text" class="form-control font-weight-bold"
-													placeholder="BRANCH DESC" disabled></th>
-												<th style="width: 6%"><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="GLSH CODE" disabled></th>
-												<th style="width: 15%"><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="GLSH DESC" disabled></th>
-												<th style="width: 6%"><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="CRNCY CODE" disabled></th>
-												<th style="width: 6%;"><input type="text"
-													class="form-control font-weight-bold"
-													style="text-align: right;" placeholder="CREDIT BAL"
-													disabled></th>
-												<th style="width: 6%; text-align: right;"><input
-													type="text" class="form-control font-weight-bold"
-													style="text-align: right;" placeholder="DEBIT BAL" disabled></th>
-												<th style="width: 8%"><input type="text"
-													style="text-align: center"
-													class="form-control font-weight-bold" placeholder="SELECT"
-													disabled readonly></th>
-											</tr>
-										</thead>
-										<tbody id="placelist">
-											<tr th:each="chartacc : ${Listofvalues}">
-												<td></td>
-												<td th:text="${chartacc?.glCode}"></td>
-												<td th:text="${chartacc?.glDescription}"></td>
-												<td th:text="${chartacc?.branch_id}"></td>
-												<td style="display: none;"
-													th:text="${chartacc?.branch_desc}"></td>
-												<td th:text="${chartacc?.glsh_code}"></td>
-
-												<td th:text="${chartacc?.glsh_desc}"></td>
-												<td th:text="${chartacc?.crncy_code}"></td>
-												<!--<td
-													th:text="${chartacc?.total_balance != null && (T(java.lang.Double).valueOf(chartacc.total_balance) > 0) ? #numbers.formatDecimal(T(java.lang.Double).valueOf(chartacc.total_balance), 2, 2) : '0.00'}">
-												</td>
-												<td
-													th:text="${chartacc?.total_balance != null && (T(java.lang.Double).valueOf(chartacc.total_balance) < 0) ? #numbers.formatDecimal(T(java.lang.Double).valueOf(chartacc.total_balance), 2, 2) : '0.00'}">
-												</td>-->
-												<td></td>
-												<td></td>
-												<td style="display: none;"
-													th:text="${chartacc?.bal_sheet_group}"></td>
-												<td style="display: none;" th:text="${chartacc?.seq_order}"></td>
-												<td style="display: none;" th:text="${chartacc?.gl_type}"></td>
-												<td style="display: none;"
-													th:text="${chartacc?.gl_type_description}"></td>
-												<td style="display: none;" th:text="${chartacc?.module}"></td>
-												<td style="display: none;" th:text="${chartacc?.remarks}"></td>
-												<td style="display: none;"
-													th:text="${chartacc?.no_acct_closed}"></td>
-												<td style="display: none;"
-													th:text="${chartacc?.no_acct_opened}"></td>
-												<td style="display: none;"
-													th:text="${chartacc?.total_balance}"></td>
-
-												<td style="text-align: center;"><input type="checkbox"
-													class="checkbox" name="btnradio" style="cursor: pointer;"
-													onclick="enquiryuser(this);"></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div class="card-footer text-center"
-								style="background-color: #e9ecef">
-								<button class="btn-primary big-btn" onclick="Home();">Home</button>
-								<button class="btn-primary big-btn" id="submitBtn"
-									onclick="getCheckedValues()">Submit</button>
-								<button class="btn-primary big-btn" onclick="Back();">Back</button>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="container-fluid" th:if="${formmode}=='list'">
-					<div class="panel panel-primary filterable"
-						style="margin-top: 100px">
-						<div class="card w-100 border panel panel-primary filterable">
-							<div class="card-header d-flex justify-content-between align-items-center"
-								style="background-color: #e9ecef;">
-								<h6 style="font-size: 1.2rem; color: black;">GENERAL LEDGER</h6>
-								                <button type="button" class="btn btn-primary btn-filter">Filter</button>
-							</div>
-							<div class="card-body" style="overflow-y: auto; border: 1px solid #ddd;">
-								<div class="table-responsive"id="cardBody" >
-									<table class="table table-bordered table-hover table-sm"
-										style="margin-bottom: 0px; font-size: initial;" id="usertable">
-										<thead class="thead-light"  style="position: sticky; top: 0;background-color: #f8f9fa; z-index: 1;">
-											<tr class="filters">
-												<th><input type="text"
-													class="form-control font-weight-bold" placeholder="S.NO"
-													disabled></th>
-												<th><input type="text"
-													class="form-control font-weight-bold" placeholder="GL CODE"
-													disabled></th>
-												<th><input type="text"
-													class="form-control font-weight-bold" placeholder="GL DESC"
-													disabled></th>
-												<th><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="BRANCH ID" disabled></th>
-												<th><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="BRANCH DESC" disabled></th>
-												<th><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="GLSH CODE" disabled></th>
-												<th><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="GLSH DESC" disabled></th>
-												<th><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="CRNCY CODE" disabled></th>
-												<th><input type="text"
-													style="text-align: right;"
-													class="form-control font-weight-bold"
-													placeholder="CREDIT BAL" disabled></th>
-												<th><input type="text"
-													style="text-align: right;"
-													class="form-control font-weight-bold"
-													placeholder="DEBIT BAL" disabled></th>
-
-												<!--<th style="width: 8%"><input type="text" style="text-align: center;"
-														class="form-control font-weight-bold" placeholder="Action"
-														disabled></th>-->
-											</tr>
-										</thead>
-										<tbody id="placelist">
-											<tr th:each="chartacc : ${getvaluelist}">
-												<td></td>
-												<td th:text="${chartacc?.glCode}"></td>
-												<td th:text="${chartacc?.glDescription}"></td>
-												<td th:text="${chartacc?.branch_id}"></td>
-												<td th:text="${chartacc?.branch_desc}"></td>
-												<td class="hover-underline" style="color: #007bff;"
-													onclick="getdata(this)"
-													th:attr="data-attr=${chartacc?.glsh_code}"
-													th:text="${chartacc?.glsh_code}"></td>
-												<td th:text="${chartacc?.glsh_desc}"></td>
-												<td th:text="${chartacc?.crncy_code}"></td>
-												<td style="text-align: right;"
-													th:text="${chartacc?.total_balance != null && (T(java.lang.Double).valueOf(chartacc.total_balance) > 0) ? #numbers.formatDecimal(T(java.lang.Double).valueOf(chartacc.total_balance), 2, 2) : '0.00'}">
-												</td>
-												<td style="text-align: right;"
-													th:text="${chartacc?.total_balance != null && (T(java.lang.Double).valueOf(chartacc.total_balance) < 0) ? #numbers.formatDecimal(T(java.lang.Double).valueOf(chartacc.total_balance), 2, 2) : '0.00'}">
-												</td>
-
-												<!--	<td>
-													<div class="dropdown ml-5">
-														<button class="btn-primary big-btn p-2" type="button"
-															id="dropdownMenuButton" data-toggle="dropdown"
-															style="background-color: #B2BEB5; color: white; border: none; outline: none;"
-															aria-haspopup="true" aria-expanded="false">
-															Action</button>
-														<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
-															<a class="dropdown-item" id="btnEnquiry"
-																th:attr="data-attr=${chartacc?.glsh_code}"
-																style="text-align: center;"
-																onclick="getvalues(this);">view</a>
-														</div>
-													</div>
-												</td>-->
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div class="card-footer text-center"
-								style="background-color: #e9ecef">
-								<button class="btn-primary big-btn" onclick="Home();">Home</button>
-								<button class="btn-primary big-btn" onclick="Back();">Back</button>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="container-fluid" th:if="${formmode}=='modify'">
-					<div class="panel panel-primary filterable"
-						style="margin-top: 100px">
-						<div class="card w-100 border panel panel-primary filterable">
-							<div class="card-header"
-								style="background-color: #e9ecef; height: 70px">
-								<div class="float-left">
-									<h6 style="font-size: 1.2rem; color: black;">GENERAL
-										LEDGER - MODIFY</h6>
-								</div>
-							</div>
-							<div class="card-body">
-								<div class="table-responsive">
-									<table class="table table-bordered table-hover table-sm"
-										style="margin-bottom: 0px; font-size: initial;" id="usertable">
-										<thead class="thead-light">
-											<tr class="filters">
-												<th style="width: 3%"><input type="text"
-													class="form-control font-weight-bold" placeholder="S.NO"
-													disabled></th>
-												<th style="width: 5%"><input type="text"
-													class="form-control font-weight-bold" placeholder="GL CODE"
-													disabled></th>
-												<th style="width: 5%"><input type="text"
-													class="form-control font-weight-bold" placeholder="GL DESC"
-													disabled></th>
-												<th style="width: 5%"><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="BRANCH ID" disabled></th>
-												<th style="width: 8%"><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="BRANCH DESC" disabled></th>
-												<th style="width: 6%"><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="GLSH CODE" disabled></th>
-												<th style="width: 10%"><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="GLSH DESC" disabled></th>
-												<th style="width: 6%"><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="CRNCY CODE" disabled></th>
-												<th style="width: 6%"><input type="text"
-													style="text-align: right;"
-													class="form-control font-weight-bold"
-													placeholder="CREDIT BAL" disabled></th>
-												<th style="width: 6%"><input type="text"
-													style="text-align: right;"
-													class="form-control font-weight-bold"
-													placeholder="DEBIT BAL" disabled></th>
-												<th style="width: 6%"><input type="text"
-													style="text-align: center;"
-													class="form-control font-weight-bold" placeholder="SELECT"
-													disabled></th>
-
-												<!--<th style="width: 8%"><input type="text" style="text-align: center;"
-														class="form-control font-weight-bold" placeholder="Action"
-														disabled></th>-->
-											</tr>
-										</thead>
-										<tbody id="placelist">
-											<tr th:each="chartacc : ${BamGeneralLedger}">
-												<td></td>
-												<td th:text="${chartacc?.glCode}"></td>
-												<td th:text="${chartacc?.glDescription}"></td>
-												<td th:text="${chartacc?.branch_id}"></td>
-												<td th:text="${chartacc?.branch_desc}"></td>
-												<td th:text="${chartacc?.glsh_code}"></td>
-												<td th:text="${chartacc?.glsh_desc}"></td>
-												<td th:text="${chartacc?.crncy_code}"></td>
-												<td style="text-align: right;"
-													th:text="${chartacc?.total_balance != null && (T(java.lang.Double).valueOf(chartacc.total_balance) > 0) ? #numbers.formatDecimal(T(java.lang.Double).valueOf(chartacc.total_balance), 2, 2) : '0.00'}">
-												</td>
-												<td style="text-align: right;"
-													th:text="${chartacc?.total_balance != null && (T(java.lang.Double).valueOf(chartacc.total_balance) < 0) ? #numbers.formatDecimal(T(java.lang.Double).valueOf(chartacc.total_balance), 2, 2) : '0.00'}">
-												</td>
-												<td style="text-align: center;"><input type="radio"
-													name="radioGroup"
-													th:attr="data-glsh_code=${chartacc?.glsh_code}"
-													onclick="modifysubmit(this)"></td>
-												<!--	<td>
-													<div class="dropdown ml-5">
-														<button class="btn-primary big-btn p-2" type="button"
-															id="dropdownMenuButton" data-toggle="dropdown"
-															style="background-color: #B2BEB5; color: white; border: none; outline: none;"
-															aria-haspopup="true" aria-expanded="false">
-															Action</button>
-														<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
-															<a class="dropdown-item" id="btnEnquiry"
-																th:attr="data-attr=${chartacc?.glsh_code}"
-																style="text-align: center;"
-																onclick="getvalues(this);">view</a>
-														</div>
-													</div>
-												</td>-->
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-
-							<div class="card-footer text-center"
-								style="background-color: #e9ecef">
-								<button class="btn-primary big-btn" onclick="Home();">Home</button>
-
-								<button class="btn-primary big-btn" onclick="Back();">Back</button>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="container-fluid" th:if="${formmode}=='deleteList'">
-					<div class="panel panel-primary filterable"
-						style="margin-top: 100px">
-						<div class="card w-100 border panel panel-primary filterable">
-							<div class="card-header"
-								style="background-color: #e9ecef; height: 70px">
-								<div class="float-left">
-									<h6 style="font-size: 1.2rem; color: black;">GENERAL
-										LEDGER -DELETE</h6>
-								</div>
-
-							</div>
-
-							<div class="card-body">
-								<div class="table-responsive">
-									<table class="table table-bordered table-hover table-sm"
-										style="margin-bottom: 0px; font-size: initial;" id="usertable">
-										<thead class="thead-light">
-											<tr class="filters">
-												<th style="width: 3%"><input type="text"
-													class="form-control font-weight-bold" placeholder="S.NO"
-													disabled></th>
-												<th style="width: 5%"><input type="text"
-													class="form-control font-weight-bold" placeholder="GL CODE"
-													disabled></th>
-												<th style="width: 5%"><input type="text"
-													class="form-control font-weight-bold" placeholder="GL DESC"
-													disabled></th>
-												<th style="width: 5%"><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="BRANCH ID" disabled></th>
-												<th style="width: 8%"><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="BRANCH DESC" disabled></th>
-												<th style="width: 6%"><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="GLSH CODE" disabled></th>
-												<th style="width: 10%"><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="GLSH DESC" disabled></th>
-												<th style="width: 6%"><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="CRNCY CODE" disabled></th>
-												<th style="width: 6%"><input type="text"
-													style="text-align: right;"
-													class="form-control font-weight-bold"
-													placeholder="CREDIT BAL" disabled></th>
-												<th style="width: 6%"><input type="text"
-													style="text-align: right;"
-													class="form-control font-weight-bold"
-													placeholder="DEBIT BAL" disabled></th>
-												<th style="width: 8%"><input type="text"
-													style="text-align: center;"
-													class="form-control font-weight-bold" placeholder="Action"
-													disabled></th>
-											</tr>
-										</thead>
-										<tbody id="placelist">
-											<tr th:each="chartacc : ${BamGeneralLedger}">
-												<td></td>
-												<td th:text="${chartacc?.glCode}"></td>
-												<td th:text="${chartacc?.glDescription}"></td>
-												<td th:text="${chartacc?.branch_id}"></td>
-												<td th:text="${chartacc?.branch_desc}"></td>
-												<td th:text="${chartacc?.glsh_code}"></td>
-												<td th:text="${chartacc?.glsh_desc}"></td>
-												<td th:text="${chartacc?.crncy_code}"></td>
-												<td style="text-align: right;"
-													th:text="${chartacc?.total_balance != null && (T(java.lang.Double).valueOf(chartacc.total_balance) > 0) ? #numbers.formatDecimal(T(java.lang.Double).valueOf(chartacc.total_balance), 2, 2) : '0.00'}">
-												</td>
-												<td style="text-align: right;"
-													th:text="${chartacc?.total_balance != null && (T(java.lang.Double).valueOf(chartacc.total_balance) < 0) ? #numbers.formatDecimal(T(java.lang.Double).valueOf(chartacc.total_balance), 2, 2) : '0.00'}">
-												</td>
-												<td style="text-align: center;"><input type="radio"
-													th:attr="data-glsh_code=${chartacc?.glsh_code}"
-													onclick="deletesubmit(this)"></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-
-							<div class="card-footer text-center"
-								style="background-color: #e9ecef">
-								<button class="btn-primary big-btn" onclick="Home();">Home</button>
-
-								<button class="btn-primary big-btn" onclick="Back();">Back</button>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="container-fluid content"
-					th:if="${formmode}=='viewusinglsh'">
+                <!--  start view function-->
+				<div  
+					th:if="${formmode}=='view'" class="col-sm-11 ml-5 mt-2">
 					<div class="card w-100 border">
 						<div class="card-header"
 							style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">GENERAL LEDGER</h6>
 							</div>
-
 						</div>
 						<div class="card-body">
 							<form action="#" id="" th:object="${values}">
@@ -1666,7 +1302,6 @@ input:hover+.password-info {
 											class="form-control form-control-sm bg-white border border-dark"
 											th:value="${singlerecord?.branch_id}" readonly />
 									</div>
-
 									<div class="col-sm-1">Branch Description</div>
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">
@@ -1674,9 +1309,7 @@ input:hover+.password-info {
 											class="form-control form-control-sm bg-white border border-dark"
 											th:value="${singlerecord?.branch_desc}" readonly />
 									</div>
-
 								</div>
-
 								<div class="row formline"
 									style="padding: 0px 0px 2px 0px; margin-left: -130px">
 									<div class="col-sm-1"></div>
@@ -1695,9 +1328,7 @@ input:hover+.password-info {
 											class="form-control form-control-sm bg-white border border-dark"
 											th:value="${singlerecord?.gl_type_description}" readonly />
 									</div>
-
 								</div>
-
 								<div class="row formline"
 									style="padding: 0px 0px 2px 0px; margin-left: -130px">
 									<div class="col-sm-1"></div>
@@ -1707,7 +1338,6 @@ input:hover+.password-info {
 										<input type="text" name="glsh_code" id="glsh_code"
 											class="form-control form-control-sm bg-white border border-dark"
 											th:value="${singlerecord?.glsh_code}" readonly />
-
 									</div>
 									<div class="col-sm-1">GLSH Description</div>
 									<div class="col-sm-1"></div>
@@ -1717,7 +1347,6 @@ input:hover+.password-info {
 											th:value="${singlerecord?.glsh_desc}" readonly />
 									</div>
 								</div>
-
 								<div class="row formline"
 									style="padding: 0px 0px 2px 0px; margin-left: -130px">
 									<div class="col-sm-1"></div>
@@ -1734,10 +1363,7 @@ input:hover+.password-info {
 											class="form-control form-control-sm bg-white border border-dark"
 											th:value="${singlerecord?.bal_sheet_group}" readonly />
 									</div>
-
-
 								</div>
-
 								<div class="row formline"
 									style="padding: 0px 0px 2px 0px; margin-left: -130px">
 									<div class="col-sm-1"></div>
@@ -1746,17 +1372,16 @@ input:hover+.password-info {
 									<div class="col-sm-2">
 										<input type="text" name="seq_order" id="seq_order"
 											class="form-control form-control-sm bg-white border border-dark"
-											th:value="${singlerecord?.seq_order}" />
+											th:value="${singlerecord?.seq_order}"readonly />
 									</div>
 									<div class="col-sm-1">Total Balance</div>
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">
 										<input type="text" name="total_balance" id="total_balance"
 											class="form-control form-control-sm bg-white border border-dark"
-											th:value="${#numbers.formatDecimal(singlerecord?.total_balance, 0, 2)}" />
+											th:value="${#numbers.formatDecimal(singlerecord?.total_balance, 0, 2)}" readonly />
 									</div>
 								</div>
-
 								<div class="row formline"
 									style="padding: 0px 0px 2px 0px; margin-left: -130px">
 									<div class="col-sm-1"></div>
@@ -1765,12 +1390,12 @@ input:hover+.password-info {
 									<div class="col-sm-2">
 										<input type="text" name="no_acct_opened" id="no_acct_opened"
 											class="form-control form-control-sm bg-white border border-dark"
-											th:value="${singlerecord?.no_acct_opened}" />
+											th:value="${singlerecord?.no_acct_opened}" readonly />
 									</div>
 									<div class="col-sm-2">No of Account Closed</div>
 									<div class="col-sm-2">
 										<input type="text" name="no_acct_closed" id="no_acct_closed"
-											class="form-control form-control-sm bg-white border border-dark"
+											class="form-control form-control-sm bg-white border border-dark" readonly
 											th:value="${singlerecord?.no_acct_closed != null ? #numbers.formatDecimal(singlerecord.no_acct_closed, 0, 2) : '0'}" />
 									</div>
 
@@ -1782,8 +1407,6 @@ input:hover+.password-info {
 							<button class="btn-primary big-btn" onclick="Home();">Home</button>
 							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 						</div>
-
-
 					</div>
 				</div>
 
@@ -1815,7 +1438,7 @@ input:hover+.password-info {
 				<div class="modal-body" style="text-align: center;">
 					<h6 id="alertmsg"></h6>
 					<button type="button" class="btn-primary big-btn"
-						onclick="$('#alert').modal('hide')">Close</button>
+						onclick="Close()">Close</button>
 				</div>
 			</div>
 		</div>
