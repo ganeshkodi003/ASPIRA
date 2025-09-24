@@ -1,5 +1,7 @@
 package com.bornfire.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -26,6 +28,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
 
@@ -34,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -128,6 +132,10 @@ import com.bornfire.services.BGLS_Inventeryservice;
 import com.bornfire.services.LoginServices;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.monitorjbl.xlsx.exceptions.ParseException;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.repo.InputStreamResource;
+
 
 @Controller
 @ConfigurationProperties("default")
@@ -3755,6 +3763,25 @@ public class BGLSNavigationController {
 			md.addAttribute("singlerecord", holidayMaster_Rep.getsinglevalue(record_srl));
 		}
 		return "TransactionMigrat";
+	}
+	
+
+	
+	@RequestMapping(value = "accountledgerdownload", method = RequestMethod.GET)
+	@ResponseBody
+	public FileSystemResource accountLedgerDownload(HttpServletResponse response,
+	        @RequestParam(required = false) String acct_num,
+	        @RequestParam(required = false) String fromdate,
+	        @RequestParam(required = false) String todate
+	) throws IOException, SQLException, JRException {
+
+	    String filetype = "Excel";
+	    File repfile = loginServices.getFileAccountLedger(filetype, acct_num);
+
+	    response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	    response.setHeader("Content-Disposition", "attachment; filename=" + repfile.getName());
+
+	    return new FileSystemResource(repfile);
 	}
 	
 	

@@ -79,6 +79,200 @@ public class Access_Role_Entity {
 	private String entry_user;
 	private String modify_user;
 	private String auth_user;
+	private String calender_maintance;
+	private String user_activities;
+	private String business_activity;
+	private String migration;
+	private String loan_master;
+	private String loan_schedule_migration;
+	private String transaction_migration;
+	private String loan_operation;
+	private String loan_operation_ls;
+	private String loan_closure;
+	private String loan_maintanace;
+	private String loan_collecting;
+	private String customer_master;
+	private String day_end_operation;
+	private String customer_maintenance;
+	private String participating_banks;
+	private String collection_process;
+	private String account_balance_inq;
+	private String interset_summary_inq;
+	private String batch_job_execution;
+	private String batch_job;
+	
+	
+	
+	
+	
+	public String getBatch_job_execution() {
+		return batch_job_execution;
+	}
+
+	public void setBatch_job_execution(String batch_job_execution) {
+		this.batch_job_execution = batch_job_execution;
+	}
+
+	public String getBatch_job() {
+		return batch_job;
+	}
+
+	public void setBatch_job(String batch_job) {
+		this.batch_job = batch_job;
+	}
+
+	public String getAccount_balance_inq() {
+		return account_balance_inq;
+	}
+
+	public void setAccount_balance_inq(String account_balance_inq) {
+		this.account_balance_inq = account_balance_inq;
+	}
+
+	public String getInterset_summary_inq() {
+		return interset_summary_inq;
+	}
+
+	public void setInterset_summary_inq(String interset_summary_inq) {
+		this.interset_summary_inq = interset_summary_inq;
+	}
+
+	public String getDay_end_operation() {
+		return day_end_operation;
+	}
+
+	public void setDay_end_operation(String day_end_operation) {
+		this.day_end_operation = day_end_operation;
+	}
+
+	public String getCustomer_maintenance() {
+		return customer_maintenance;
+	}
+
+	public void setCustomer_maintenance(String customer_maintenance) {
+		this.customer_maintenance = customer_maintenance;
+	}
+
+	public String getParticipating_banks() {
+		return participating_banks;
+	}
+
+	public void setParticipating_banks(String participating_banks) {
+		this.participating_banks = participating_banks;
+	}
+
+	public String getCollection_process() {
+		return collection_process;
+	}
+
+	public void setCollection_process(String collection_process) {
+		this.collection_process = collection_process;
+	}
+
+	public String getCustomer_master() {
+		return customer_master;
+	}
+
+	public void setCustomer_master(String customer_master) {
+		this.customer_master = customer_master;
+	}
+
+	public String getCalender_maintance() {
+		return calender_maintance;
+	}
+
+	public void setCalender_maintance(String calender_maintance) {
+		this.calender_maintance = calender_maintance;
+	}
+
+	public String getUser_activities() {
+		return user_activities;
+	}
+
+	public void setUser_activities(String user_activities) {
+		this.user_activities = user_activities;
+	}
+
+	public String getBusiness_activity() {
+		return business_activity;
+	}
+
+	public void setBusiness_activity(String business_activity) {
+		this.business_activity = business_activity;
+	}
+
+	public String getMigration() {
+		return migration;
+	}
+
+	public void setMigration(String migration) {
+		this.migration = migration;
+	}
+
+	public String getLoan_master() {
+		return loan_master;
+	}
+
+	public void setLoan_master(String loan_master) {
+		this.loan_master = loan_master;
+	}
+
+	public String getLoan_schedule_migration() {
+		return loan_schedule_migration;
+	}
+
+	public void setLoan_schedule_migration(String loan_schedule_migration) {
+		this.loan_schedule_migration = loan_schedule_migration;
+	}
+
+	public String getTransaction_migration() {
+		return transaction_migration;
+	}
+
+	public void setTransaction_migration(String transaction_migration) {
+		this.transaction_migration = transaction_migration;
+	}
+
+	public String getLoan_operation() {
+		return loan_operation;
+	}
+
+	public void setLoan_operation(String loan_operation) {
+		this.loan_operation = loan_operation;
+	}
+
+	public String getLoan_operation_ls() {
+		return loan_operation_ls;
+	}
+
+	public void setLoan_operation_ls(String loan_operation_ls) {
+		this.loan_operation_ls = loan_operation_ls;
+	}
+
+	public String getLoan_closure() {
+		return loan_closure;
+	}
+
+	public void setLoan_closure(String loan_closure) {
+		this.loan_closure = loan_closure;
+	}
+
+	public String getLoan_maintanace() {
+		return loan_maintanace;
+	}
+
+	public void setLoan_maintanace(String loan_maintanace) {
+		this.loan_maintanace = loan_maintanace;
+	}
+
+	public String getLoan_collecting() {
+		return loan_collecting;
+	}
+
+	public void setLoan_collecting(String loan_collecting) {
+		this.loan_collecting = loan_collecting;
+	}
+
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private Date entry_time;
 	@DateTimeFormat(pattern = "dd-MM-yyyy")

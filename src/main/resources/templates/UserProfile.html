@@ -8,8 +8,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> -->
 <script src="/ASPIRA/js/jquery.min.js"></script>
 <script src="/ASPIRA/js/jquery-ui.min.js"></script>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="../static/css/bootstrap.min.css">
+<link rel="stylesheet" href="../static/css/fontawesome.min.css">
 	<style>
 		body {
 			font-size: 0.8rem;
@@ -104,6 +108,36 @@
 		}
 	</style>
 	<style>
+
+		  .toggle-btn {
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    padding:4px;
+  }
+
+  .toggle-btn svg { width:20px; height:20px; }
+
+  .eye-open { display:block; }
+  .eye-closed { display:none; }
+
+  .toggle-btn.active .eye-open { display:none; }
+  .toggle-btn.active .eye-closed { display:block; }
+
+		.info-icon {
+  color: white;
+  font-weight: bold;
+  width: 18px;
+  height: 18px;
+  text-align: center;
+  align-content: center;
+  background: black;
+  border-radius: 50%;
+  position: relative;
+  display: inline-block;
+  cursor: default;
+}
+
 		.modal {
 			display: none;
 			position: fixed;
@@ -186,6 +220,93 @@
 	</style>
 
 	<script>
+
+		function accessechecking(element){
+		var idName = element.id;
+			console.log(idName);
+    if(idName == "admin" ){
+        if($("#admin").is(":checked")){
+            $("#orgnaization_details").prop("checked", true); 
+            $("#user_controls").prop("checked", true); 
+            $("#reference_code_maintenance").prop("checked", true); 
+            $("#audit_trail").prop("checked", true); 
+        }else{
+            $("#orgnaization_details").prop("checked", false); 
+            $("#user_controls").prop("checked", false); 
+            $("#reference_code_maintenance").prop("checked", false); 
+            $("#audit_trail").prop("checked", false); 
+        }
+        
+    }else if(idName == "migration"){
+        if($("#migration").is(":checked")){
+            $("#customer_master").prop("checked", true); 
+            $("#loan_master").prop("checked", true); 
+            $("#loan_schedule_migration").prop("checked", true); 
+            $("#transaction_migration").prop("checked", true); 
+        }else{
+            $("#customer_master").prop("checked", false); 
+            $("#loan_master").prop("checked", false); 
+            $("#loan_schedule_migration").prop("checked", false); 
+            $("#transaction_migration").prop("checked", false); 
+        }
+    }else if(idName == "loan_operation"){
+        if($("#loan_operation").is(":checked")){
+            $("#loan_operation_ls").prop("checked", true); 
+            $("#loan_closure").prop("checked", true); 
+        }else{
+            $("#loan_operation_ls").prop("checked", false); 
+            $("#loan_closure").prop("checked", false); 
+        }
+    }else if(idName == "transaction_maintenance"){
+        if($("#transaction_maintenance").is(":checked")){
+            $("#journal_entries").prop("checked", true); 
+            $("#account_ledger_posting").prop("checked", true); 
+            $("#account_ledger").prop("checked", true); 
+            $("#trial_balance_t").prop("checked", true); 
+            $("#profit_and_loss_account_t").prop("checked", true); 
+        }else{
+            $("#journal_entries").prop("checked", false); 
+            $("#account_ledger_posting").prop("checked", false); 
+            $("#account_ledger").prop("checked", false); 
+            $("#trial_balance_t").prop("checked", false); 
+            $("#profit_and_loss_account_t").prop("checked", false); 
+        }
+    }else if(idName == "collection_process"){
+        if($("#collection_process").is(":checked")){
+            $("#participating_banks").prop("checked", true); 
+            $("#loan_collecting").prop("checked", true); 
+        }else{
+            $("#participating_banks").prop("checked", false); 
+            $("#loan_collecting").prop("checked", false); 
+        }
+    }else if(idName == "batch_job_execution"){
+        if($("#batch_job_execution").is(":checked")){
+            $("#batch_job").prop("checked", true); 
+        }else{
+            $("#batch_job").prop("checked", false); 
+        }
+    }else if(idName == "inquiries_and_reports"){
+        if($("#inquiries_and_reports").is(":checked")){
+            $("#account_balance_inq").prop("checked", true); 
+            $("#interset_summary_inq").prop("checked", true); 
+            $("#journal_book").prop("checked", true); 
+            $("#account_ledgers_i").prop("checked", true); 
+            $("#trial_balance_i").prop("checked", true); 
+            $("#general_ledger").prop("checked", true); 
+            $("#profit_and_loss_account_i").prop("checked", true); 
+            $("#balance_sheet").prop("checked", true); 
+        }else{
+            $("#account_balance_inq").prop("checked", false); 
+            $("#interset_summary_inq").prop("checked", false); 
+            $("#journal_book").prop("checked", false); 
+            $("#account_ledgers_i").prop("checked", false); 
+            $("#trial_balance_i").prop("checked", false); 
+            $("#general_ledger").prop("checked", false); 
+            $("#profit_and_loss_account_i").prop("checked", false); 
+            $("#balance_sheet").prop("checked", false); 
+        }
+    }
+}
 
 		$(function () {
 
@@ -323,25 +444,44 @@
 
 			var cleanValue = input.value.replace(/\D/g, '');
 
-			cleanValue = cleanValue.substring(0, 10);
+			cleanValue = cleanValue.substring(0, 8);
 			input.value = cleanValue;
 		}
 
-		/*Praveen*/
-		function togglePassword() {
-			var passwordField = document.getElementById("password");
-			var eyeIcon = document.getElementById("eyeIcon");
+  $(document).on("click","#pwd-toggle", function(){
+	console.log("sfdsf");
+    var pwdInput = $("#password");
+    var btn = $(this);
 
-			if (passwordField.type === "password") {
-				passwordField.type = "text";
-				eyeIcon.classList.remove("fa-eye-slash");
-				eyeIcon.classList.add("fa-eye");
-			} else {
-				passwordField.type = "password";
-				eyeIcon.classList.remove("fa-eye");
-				eyeIcon.classList.add("fa-eye-slash");
-			}
-		}
+    if(pwdInput.attr("type") === "password"){
+      pwdInput.attr("type", "text");
+      btn.addClass("active").attr("aria-label", "Hide password");
+    } else {
+      pwdInput.attr("type", "password");
+      btn.removeClass("active").attr("aria-label", "Show password");
+    }
+  });
+
+//   // Function to toggle visibility
+//   function togglePassword() {
+// 	console.log("sfdsf");
+// 	var pwdInput = document.getElementById("password");
+//   var toggleBtn = document.getElementById("pwd-toggle");
+//     if (pwdInput.type === "password") {
+//       pwdInput.type = "text";
+//     //   toggleBtn.classList.add("active");
+// 	  $("#password").addClass('active');
+//       toggleBtn.setAttribute("aria-label", "Hide password");
+//     } else {
+//       pwdInput.type = "password";
+//     //   toggleBtn.classList.remove("active");
+// 	  $("#password").removeClass('active');
+//       toggleBtn.setAttribute("aria-label", "Show password");
+//     }
+//   }
+
+  // Event listener for click
+//   toggleBtn.addEventListener("click", togglePassword);
 
 		/*Praveen*/
 		function emailCheck(input) {
@@ -362,6 +502,8 @@
 
 			var userId = $('#userid').val();
 			var acctExpDate = $('#acctexpiryDate').val();
+			var passExDate = $('#passExDate').val();
+			var roleId = $('#roleId').val();
 			var value;
 
 			if (userId === "") {
@@ -370,6 +512,14 @@
 				value = false;
 			} else if (acctExpDate === "") {
 				$("#normalalertmsg").text("Fill Account Expiry Date");
+				$('#normalalert').modal('show');
+				value = false;
+			}else if (passExDate === "") {
+				$("#normalalertmsg").text("Fill Password Expiry Date");
+				$('#normalalert').modal('show');
+				value = false;
+			}else if (roleId === "") {
+				$("#normalalertmsg").text("Fill Role ID");
 				$('#normalalert').modal('show');
 				value = false;
 			}
@@ -385,15 +535,13 @@
 			if (roleId === '') {
 				$("#normalalertmsg").text("Fill Role Id");
 				$('#normalalert').modal('show');
-			} else if (roleId === 'ADM') {
+			} else{
 				$('#finusers').modal('show');
-			} else if (roleId === 'GEN') {
-				$('#generalusers').modal('show');
 			}
 		}
 
 		function openAccessModalView(a) {
-			$('#finusersview').modal('show');
+			$('#finusers').modal('show');
 
 		}
 
@@ -410,7 +558,7 @@
 
 			if (valueCheck()) {
 
-				accessRoleUpdate();
+				// accessRoleUpdate();
 
 				document.getElementById("btnSubmit").disabled = true;
 
@@ -460,10 +608,11 @@
 				} else {
 					var accountExpiryDate = "";
 				}
-
+console.log($('#day_end_operation_user').val() +" -----------44444444444;")
 				var userProfile = {
 
-					userid: $('#userid').val(),
+					userid: $('#userid').val(), 
+					user_id: $('#userid').val(), // For access 
 					username: $('#username').val(),
 					branch_id: $('#branch_id').val(),
 					branch_des: $('#branch_des').val(),
@@ -482,11 +631,80 @@
 					work_class: $('#work_class').val(),
 					acct_access_code: $('#acct_access_code').val(),
 					doc_access_code: $('#doc_access_code').val(),
-					remarks: $('#remarks').val()
+					remarks: $('#remarks').val(),
+					admin: $('#admin').is(':checked') ? 'Y' : 'N',
+					orgnaization_details: $('#orgnaization_details').is(':checked') ? 'Y' : 'N',
+					head_office: $('#head_office').is(':checked') ? 'Y' : 'N',
+					calender_maintance: $('#calender_maintance').is(':checked') ? 'Y' : 'N',
+					branches: $('#branches').is(':checked') ? 'Y' : 'N',
+					exception: $('#exception').is(':checked') ? 'Y' : 'N',
+					user_controls: $('#user_controls').is(':checked') ? 'Y' : 'N',
+					user_profile: $('#user_profile').is(':checked') ? 'Y' : 'N',
+					employee_profile: $('#employee_profile').is(':checked') ? 'Y' : 'N',
+					reference_code_maintenance: $('#reference_code_maintenance').is(':checked') ? 'Y' : 'N',
+					reference_code: $('#reference_code').is(':checked') ? 'Y' : 'N',
+					gl_structure: $('#gl_structure').is(':checked') ? 'Y' : 'N',
+					scheme_codes: $('#scheme_codes').is(':checked') ? 'Y' : 'N',
+					chart_of_accounts: $('#chart_of_accounts').is(':checked') ? 'Y' : 'N',
+					account_ledgers: $('#account_ledgers').is(':checked') ? 'Y' : 'N',
+					audit_trail: $('#audit_trail').is(':checked') ? 'Y' : 'N',
+					user_activities: $('#user_activities').is(':checked') ? 'Y' : 'N',
+					business_activity: $('#business_activity').is(':checked') ? 'Y' : 'N',
+					// budget_controls: $('#budget_controls').is(':checked') ? 'Y' : 'N',
+					migration: $('#migration').is(':checked') ? 'Y' : 'N',
+					customer_master: $('#customer_master').is(':checked') ? 'Y' : 'N',
+					loan_master: $('#loan_master').is(':checked') ? 'Y' : 'N',
+					loan_schedule_migration: $('#loan_schedule_migration').is(':checked') ? 'Y' : 'N',
+					transaction_migration: $('#transaction_migration').is(':checked') ? 'Y' : 'N',
+					loan_operation: $('#loan_operation').is(':checked') ? 'Y' : 'N',
+					loan_operation_ls: $('#loan_operation_ls').is(':checked') ? 'Y' : 'N',
+					loan_closure: $('#loan_closure').is(':checked') ? 'Y' : 'N',
+
+					day_end_operation: $('#day_end_operation_user').is(':checked') ? 'Y' : 'N',
+					customer_maintenance: $('#customer_maintenance').is(':checked') ? 'Y' : 'N',
+					loan_maintanace: $('#loan_maintanace').is(':checked') ? 'Y' : 'N',
+
+					participating_banks: $('#participating_banks').is(':checked') ? 'Y' : 'N',
+					loan_collecting: $('#loan_collecting').is(':checked') ? 'Y' : 'N',
+					collection_process: $('#collection_process').is(':checked') ? 'Y' : 'N',
+					maintenance: $('#maintenance').is(':checked') ? 'Y' : 'N',
+					customer_master_maintenance: $('#customer_master_maintenance').is(':checked') ? 'Y' : 'N',
+					account_master_maintenance: $('#account_master_maintenance').is(':checked') ? 'Y' : 'N',
+					lease_accounts: $('#lease_accounts').is(':checked') ? 'Y' : 'N',
+					deposit_accounts_c: $('#deposit_accounts_c').is(':checked') ? 'Y' : 'N',
+					office_accounts: $('#office_accounts').is(':checked') ? 'Y' : 'N',
+					document_maintenance: $('#document_maintenance').is(':checked') ? 'Y' : 'N',
+					kyc_norms: $('#kyc_norms').is(':checked') ? 'Y' : 'N',
+					transaction_maintenance: $('#transaction_maintenance').is(':checked') ? 'Y' : 'N',
+					journal_entries: $('#journal_entries').is(':checked') ? 'Y' : 'N',
+					account_ledger_posting: $('#account_ledger_posting').is(':checked') ? 'Y' : 'N',
+					account_ledger: $('#account_ledger').is(':checked') ? 'Y' : 'N',
+					trial_balance_t: $('#trial_balance_t').is(':checked') ? 'Y' : 'N',
+					profit_and_loss_account_t: $('#profit_and_loss_account_t').is(':checked') ? 'Y' : 'N',
+					lease_loans: $('#lease_loans').is(':checked') ? 'Y' : 'N',
+					account_maintenance_l: $('#account_maintenance_l').is(':checked') ? 'Y' : 'N',
+					account_statements_l: $('#account_statements_l').is(':checked') ? 'Y' : 'N',
+					flow_details_l: $('#flow_details_l').is(':checked') ? 'Y' : 'N',
+					deposit_accounts: $('#deposit_accounts').is(':checked') ? 'Y' : 'N',
+					account_maintenance_d: $('#account_maintenance_d').is(':checked') ? 'Y' : 'N',
+					account_statements_d: $('#account_statements_d').is(':checked') ? 'Y' : 'N',
+					flow_details_d: $('#flow_details_d').is(':checked') ? 'Y' : 'N',
+
+					inquiries_and_reports: $('#inquiries_and_reports').is(':checked') ? 'Y' : 'N',
+					journal_book: $('#journal_book').is(':checked') ? 'Y' : 'N',
+					account_balance_inq: $('#account_balance_inq').is(':checked') ? 'Y' : 'N',
+					interset_summary_inq: $('#interset_summary_inq').is(':checked') ? 'Y' : 'N',
+					account_ledgers_i: $('#account_ledgers_i').is(':checked') ? 'Y' : 'N',
+					trial_balance_i: $('#trial_balance_i').is(':checked') ? 'Y' : 'N',
+					general_ledger: $('#general_ledger').is(':checked') ? 'Y' : 'N',
+					profit_and_loss_account_i: $('#profit_and_loss_account_i').is(':checked') ? 'Y' : 'N',
+					balance_sheet: $('#balance_sheet').is(':checked') ? 'Y' : 'N',
+					batch_job_execution: $('#batch_job_execution').is(':checked') ? 'Y' : 'N',
+					batch_job: $('#batch_job_execution').is(':checked') ? 'Y' : 'N'
 				};
 
 				console.log(userProfile);
-
+				document.getElementById('loadingModal').style.display = 'flex';
 				$.ajax({
 					type: "POST",
 					contentType: "application/json",
@@ -494,9 +712,23 @@
 					data: JSON.stringify(userProfile),
 					success: function (responseText, statusText, xhr, $form) {
 
-						console.log(responseText);
-						$("#alertmsg").text(responseText);
-						$('#alert').modal("toggle");
+						$.ajax({
+							type: "POST",
+							contentType: "application/json",
+							url: './accessRoleSubmit',
+							data: JSON.stringify(userProfile),
+							success: function (responseText1, statusText, xhr, $form) {
+								document.getElementById('loadingModal').style.display = 'none';
+								$('#Successmsgpopup').html("<h6 class='text-center'>" + responseText + "</h6>");
+								$('#SuccesPopUp').modal('show');
+								// $("#alertmsg").text(responseText);
+								// $('#alert').modal("toggle");
+
+							},
+							error: function (error) {
+								console.error(error);
+							}
+						});
 					},
 					error: function (error) {
 						console.error(error);
@@ -520,15 +752,15 @@
 			event.preventDefault();
 			document.getElementById("btnSubmit").disabled = true;
 			var userId = a.getAttribute('data-userId');
-
+			document.getElementById('loadingModal').style.display = 'flex';
 			$.ajax({
 				type: "POST",
 				url: './verifyUser?userId=' + userId,
 				success: function (responseText, statusText, xhr, $form) {
 
-					console.log(responseText);
-					$("#alertmsg").text(responseText);
-					$('#alert').modal("toggle");
+					document.getElementById('loadingModal').style.display = 'none';
+					$('#Successmsgpopup').html("<h6 class='text-center'>" + responseText + "</h6>");
+					$('#SuccesPopUp').modal('show');
 				},
 				error: function (error) {
 					console.error(error);
@@ -542,7 +774,7 @@
 		/*modify function*/
 		function modifySubmit() {
 
-
+		if (valueCheck()) {
 			event.preventDefault();
 
 
@@ -594,11 +826,15 @@
 			} else {
 				var accountExpiryDate = "";
 			}
-
+console.log($('#day_end_operation_user').val() +" -----------###########;")
+console.log($('#day_end_operation_user').is(':checked') +" ------@@@@@@@@@@@;")
 			var userProfile = {
 
 				userid: $('#userid').val(),
+				user_id: $('#userid').val(), // For access 
 				username: $('#username').val(),
+				branch_id: $('#branch_id').val(),
+				branch_des: $('#branch_des').val(),
 				mob_number: $('#mobNo').val(),
 				email_id: $('#emailId').val(),
 				disable_start_date: disableStartDate,
@@ -614,87 +850,12 @@
 				work_class: $('#work_class').val(),
 				acct_access_code: $('#acct_access_code').val(),
 				doc_access_code: $('#doc_access_code').val(),
-				remarks: $('#remarks').val()
-			};
+				remarks: $('#remarks').val(),
 
-			console.log(userProfile);
-
-			$.ajax({
-				type: "POST",
-				contentType: "application/json",
-				url: './mosifyUser?formmode=' + formmode + '&accountExpiryDate=' + accountExpiryDate,
-				data: JSON.stringify(userProfile),
-				success: function (responseText, statusText, xhr, $form) {
-
-					console.log(responseText);
-					$("#alertmsg").text(responseText);
-					$('#alert').modal("toggle");
-				},
-				error: function (error) {
-					console.error(error);
-				}
-			});
-
-
-		}
-
-		/*Delete verified User*/
-		function deleteRecord(a) {
-			event.preventDefault();
-			var userId = a.getAttribute('data-userId');
-			var deleteType = a.getAttribute('data-flag');
-
-			$.ajax({
-				type: "POST",
-				url: './deleteUser?deleteType=' + deleteType + '&userid=' + userId,
-				success: function (responseText, statusText, xhr, $form) {
-
-					console.log(responseText);
-					$("#alertmsg").text(responseText);
-					$('#alert').modal("toggle");
-				},
-				error: function (error) {
-					console.error(error);
-				}
-			});
-		}
-
-		/*Delete Unverified User*/
-		function deleteUnverifiedRecord(a) {
-			event.preventDefault();
-			var userId = a.getAttribute('data-userId');
-			var deleteType = a.getAttribute('data-flag');
-
-			$.ajax({
-				type: "POST",
-				url: './deleteUser?deleteType=' + deleteType + '&userid=' + userId,
-				success: function (responseText, statusText, xhr, $form) {
-
-					console.log(responseText);
-					$("#alertmsg").text(responseText);
-					$('#alert').modal("toggle");
-				},
-				error: function (error) {
-					console.error(error);
-				}
-			});
-		}
-
-		function accessRoleUpdate() {
-			event.preventDefault();
-
-			var roleId = $('#roleId').val();
-			if (roleId === 'ADM') {
-				console.log("ADMIN");
-				var accessRole = {
-					user_id: $('#userid').val(),
-					role_id: $('#roleId').val(),
-					role_desc: $('#roleDesc').val(),
-					permissions: $('#permission').val(),
-					work_class: $('#work_class').val(),
-					admin: $('#admin').is(':checked') ? 'Y' : 'N',
+				admin: $('#admin').is(':checked') ? 'Y' : 'N',
 					orgnaization_details: $('#orgnaization_details').is(':checked') ? 'Y' : 'N',
 					head_office: $('#head_office').is(':checked') ? 'Y' : 'N',
+					calender_maintance: $('#calender_maintance').is(':checked') ? 'Y' : 'N',
 					branches: $('#branches').is(':checked') ? 'Y' : 'N',
 					exception: $('#exception').is(':checked') ? 'Y' : 'N',
 					user_controls: $('#user_controls').is(':checked') ? 'Y' : 'N',
@@ -707,12 +868,25 @@
 					chart_of_accounts: $('#chart_of_accounts').is(':checked') ? 'Y' : 'N',
 					account_ledgers: $('#account_ledgers').is(':checked') ? 'Y' : 'N',
 					audit_trail: $('#audit_trail').is(':checked') ? 'Y' : 'N',
-					maintenance_activities: $('#maintenance_activities').is(':checked') ? 'Y' : 'N',
-					business_operations: $('#business_operations').is(':checked') ? 'Y' : 'N',
-					budget_controls: $('#budget_controls').is(':checked') ? 'Y' : 'N',
-					customer_on_boarding: $('#customer_on_boarding').is(':checked') ? 'Y' : 'N',
-					customer: $('#customer').is(':checked') ? 'Y' : 'N',
-					account: $('#account').is(':checked') ? 'Y' : 'N',
+					user_activities: $('#user_activities').is(':checked') ? 'Y' : 'N',
+					business_activity: $('#business_activity').is(':checked') ? 'Y' : 'N',
+					// budget_controls: $('#budget_controls').is(':checked') ? 'Y' : 'N',
+					migration: $('#migration').is(':checked') ? 'Y' : 'N',
+					customer_master: $('#customer_master').is(':checked') ? 'Y' : 'N',
+					loan_master: $('#loan_master').is(':checked') ? 'Y' : 'N',
+					loan_schedule_migration: $('#loan_schedule_migration').is(':checked') ? 'Y' : 'N',
+					transaction_migration: $('#transaction_migration').is(':checked') ? 'Y' : 'N',
+					loan_operation: $('#loan_operation').is(':checked') ? 'Y' : 'N',
+					loan_operation_ls: $('#loan_operation_ls').is(':checked') ? 'Y' : 'N',
+					loan_closure: $('#loan_closure').is(':checked') ? 'Y' : 'N',
+
+					day_end_operation: $('#day_end_operation_user').is(':checked') ? 'Y' : 'N',
+					customer_maintenance: $('#customer_maintenance').is(':checked') ? 'Y' : 'N',
+					loan_maintanace: $('#loan_maintanace').is(':checked') ? 'Y' : 'N',
+
+					participating_banks: $('#participating_banks').is(':checked') ? 'Y' : 'N',
+					loan_collecting: $('#loan_collecting').is(':checked') ? 'Y' : 'N',
+					collection_process: $('#collection_process').is(':checked') ? 'Y' : 'N',
 					maintenance: $('#maintenance').is(':checked') ? 'Y' : 'N',
 					customer_master_maintenance: $('#customer_master_maintenance').is(':checked') ? 'Y' : 'N',
 					account_master_maintenance: $('#account_master_maintenance').is(':checked') ? 'Y' : 'N',
@@ -738,115 +912,294 @@
 
 					inquiries_and_reports: $('#inquiries_and_reports').is(':checked') ? 'Y' : 'N',
 					journal_book: $('#journal_book').is(':checked') ? 'Y' : 'N',
+					account_balance_inq: $('#account_balance_inq').is(':checked') ? 'Y' : 'N',
+					interset_summary_inq: $('#interset_summary_inq').is(':checked') ? 'Y' : 'N',
 					account_ledgers_i: $('#account_ledgers_i').is(':checked') ? 'Y' : 'N',
 					trial_balance_i: $('#trial_balance_i').is(':checked') ? 'Y' : 'N',
 					general_ledger: $('#general_ledger').is(':checked') ? 'Y' : 'N',
 					profit_and_loss_account_i: $('#profit_and_loss_account_i').is(':checked') ? 'Y' : 'N',
-					balance_sheet: $('#balance_sheet').is(':checked') ? 'Y' : 'N'
+					balance_sheet: $('#balance_sheet').is(':checked') ? 'Y' : 'N',
+					batch_job_execution: $('#batch_job_execution').is(':checked') ? 'Y' : 'N',
+					batch_job: $('#batch_job_execution').is(':checked') ? 'Y' : 'N'
+			};
 
+			console.log(userProfile);
+			document.getElementById('loadingModal').style.display = 'flex';
+			$.ajax({
+				type: "POST",
+				contentType: "application/json",
+				url: './mosifyUser?formmode=' + formmode + '&accountExpiryDate=' + accountExpiryDate,
+				data: JSON.stringify(userProfile),
+				success: function (responseText, statusText, xhr, $form) {
+					$.ajax({
+							type: "POST",
+							contentType: "application/json",
+							url: './accessRoleSubmit',
+							data: JSON.stringify(userProfile),
+							success: function (responseText1, statusText, xhr, $form) {
+								document.getElementById('loadingModal').style.display = 'none';
+								$('#Successmsgpopup').html("<h6 class='text-center'>" + responseText + "</h6>");
+								$('#SuccesPopUp').modal('show');
 
-
+							},
+							error: function (error) {
+								console.error(error);
+							}
+						});
+				},
+				error: function (error) {
+					console.error(error);
 				}
+			});
+		}else {
 
-				console.log(accessRole);
-
-				$.ajax({
-					type: "POST",
-					contentType: "application/json",
-					url: './accessRoleSubmit',
-					data: JSON.stringify(accessRole),
-					success: function (responseText, statusText, xhr, $form) {
-
-						console.log(responseText);
-
-					},
-					error: function (error) {
-						console.error(error);
-					}
-				});
-			} else {
-				console.log("GENERAL");
-				var accessRole = {
-					user_id: $('#userid').val(),
-					role_id: $('#roleId').val(),
-					role_desc: $('#roleDesc').val(),
-					permissions: $('#permission').val(),
-					work_class: $('#work_class').val(),
-					admin: $('#adming').is(':checked') ? 'Y' : 'N',
-					orgnaization_details: $('#orgnaization_detailsg').is(':checked') ? 'Y' : 'N',
-					head_office: $('#head_officeg').is(':checked') ? 'Y' : 'N',
-					branches: $('#branchesg').is(':checked') ? 'Y' : 'N',
-					exception: $('#exceptiong').is(':checked') ? 'Y' : 'N',
-					user_controls: $('#user_controlsg').is(':checked') ? 'Y' : 'N',
-					user_profile: $('#user_profileg').is(':checked') ? 'Y' : 'N',
-					employee_profile: $('#employee_profileg').is(':checked') ? 'Y' : 'N',
-					reference_code_maintenance: $('#reference_code_maintenanceg').is(':checked') ? 'Y' : 'N',
-					reference_code: $('#reference_codeg').is(':checked') ? 'Y' : 'N',
-					gl_structure: $('#gl_structureg').is(':checked') ? 'Y' : 'N',
-					scheme_codes: $('#scheme_codesg').is(':checked') ? 'Y' : 'N',
-					chart_of_accounts: $('#chart_of_accountsg').is(':checked') ? 'Y' : 'N',
-					account_ledgers: $('#account_ledgersg').is(':checked') ? 'Y' : 'N',
-					audit_trail: $('#audit_trailg').is(':checked') ? 'Y' : 'N',
-					maintenance_activities: $('#maintenance_activitiesg').is(':checked') ? 'Y' : 'N',
-					business_operations: $('#business_operationsg').is(':checked') ? 'Y' : 'N',
-					budget_controls: $('#budget_controlsg').is(':checked') ? 'Y' : 'N',
-					customer_on_boarding: $('#customer_on_boardingg').is(':checked') ? 'Y' : 'N',
-					customer: $('#customerg').is(':checked') ? 'Y' : 'N',
-					account: $('#accountg').is(':checked') ? 'Y' : 'N',
-					maintenance: $('#maintenanceg').is(':checked') ? 'Y' : 'N',
-					customer_master_maintenance: $('#customer_master_maintenanceg').is(':checked') ? 'Y' : 'N',
-					account_master_maintenance: $('#account_master_maintenanceg').is(':checked') ? 'Y' : 'N',
-					lease_accounts: $('#lease_accountsg').is(':checked') ? 'Y' : 'N',
-					deposit_accounts_c: $('#deposit_accounts_cg').is(':checked') ? 'Y' : 'N',
-					office_accounts: $('#office_accountsg').is(':checked') ? 'Y' : 'N',
-					document_maintenance: $('#document_maintenanceg').is(':checked') ? 'Y' : 'N',
-					kyc_norms: $('#kyc_normsg').is(':checked') ? 'Y' : 'N',
-					transaction_maintenance: $('#transaction_maintenanceg').is(':checked') ? 'Y' : 'N',
-					journal_entries: $('#journal_entriesg').is(':checked') ? 'Y' : 'N',
-					account_ledger_posting: $('#account_ledger_postingg').is(':checked') ? 'Y' : 'N',
-					account_ledger: $('#account_ledgerg').is(':checked') ? 'Y' : 'N',
-					trial_balance_t: $('#trial_balance_tg').is(':checked') ? 'Y' : 'N',
-					profit_and_loss_account_t: $('#profit_and_loss_account_tg').is(':checked') ? 'Y' : 'N',
-					lease_loans: $('#lease_loansg').is(':checked') ? 'Y' : 'N',
-					account_maintenance_l: $('#account_maintenance_lg').is(':checked') ? 'Y' : 'N',
-					account_statements_l: $('#account_statements_lg').is(':checked') ? 'Y' : 'N',
-					flow_details_l: $('#flow_details_lg').is(':checked') ? 'Y' : 'N',
-					deposit_accounts: $('#deposit_accountsg').is(':checked') ? 'Y' : 'N',
-					account_maintenance_d: $('#account_maintenance_dg').is(':checked') ? 'Y' : 'N',
-					account_statements_d: $('#account_statements_dg').is(':checked') ? 'Y' : 'N',
-					flow_details_d: $('#flow_details_dg').is(':checked') ? 'Y' : 'N',
-
-					inquiries_and_reports: $('#inquiries_and_reportsg').is(':checked') ? 'Y' : 'N',
-					journal_book: $('#journal_bookg').is(':checked') ? 'Y' : 'N',
-					account_ledgers_i: $('#account_ledgers_ig').is(':checked') ? 'Y' : 'N',
-					trial_balance_i: $('#trial_balance_ig').is(':checked') ? 'Y' : 'N',
-					general_ledger: $('#general_ledgerg').is(':checked') ? 'Y' : 'N',
-					profit_and_loss_account_i: $('#profit_and_loss_account_ig').is(':checked') ? 'Y' : 'N',
-					balance_sheet: $('#balance_sheetg').is(':checked') ? 'Y' : 'N'
-
-
-
-				}
-
-				console.log(accessRole);
-
-				$.ajax({
-					type: "POST",
-					contentType: "application/json",
-					url: './accessRoleSubmit',
-					data: JSON.stringify(accessRole),
-					success: function (responseText, statusText, xhr, $form) {
-
-						console.log(responseText);
-
-					},
-					error: function (error) {
-						console.error(error);
-					}
-				});
-			}
+			event.preventDefault();
 
 		}
+
+		}
+
+		/*Delete verified User*/
+		function deleteRecord(a) {
+			event.preventDefault();
+			var userId = a.getAttribute('data-userId');
+			var deleteType = a.getAttribute('data-flag');
+			document.getElementById('loadingModal').style.display = 'flex';
+			$.ajax({
+				type: "POST",
+				url: './deleteUser?deleteType=' + deleteType + '&userid=' + userId,
+				success: function (responseText, statusText, xhr, $form) {
+
+					document.getElementById('loadingModal').style.display = 'none';
+					$('#Successmsgpopup').html("<h6 class='text-center'>" + responseText + "</h6>");
+					$('#SuccesPopUp').modal('show');
+				},
+				error: function (error) {
+					console.error(error);
+				}
+			});
+		}
+
+		/*Delete Unverified User*/
+		function deleteUnverifiedRecord(a) {
+			event.preventDefault();
+			var userId = a.getAttribute('data-userId');
+			var deleteType = a.getAttribute('data-flag');
+			document.getElementById('loadingModal').style.display = 'flex';
+			$.ajax({
+				type: "POST",
+				url: './deleteUser?deleteType=' + deleteType + '&userid=' + userId,
+				success: function (responseText, statusText, xhr, $form) {
+
+					document.getElementById('loadingModal').style.display = 'none';
+					$('#Successmsgpopup').html("<h6 class='text-center'>" + responseText + "</h6>");
+					$('#SuccesPopUp').modal('show');
+				},
+				error: function (error) {
+					console.error(error);
+				}
+			});
+		}
+
+		// function accessRoleUpdate() {
+		// 	event.preventDefault();
+
+		// 	var roleId = $('#roleId').val();
+		// 	// if (roleId === 'ADM') {
+		// 	// 	console.log("ADMIN");
+		// 		var accessRole = {
+		// 			user_id: $('#userid').val(),
+		// 			role_id: $('#roleId').val(),
+		// 			role_desc: $('#roleDesc').val(),
+		// 			permissions: $('#permission').val(),
+		// 			work_class: $('#work_class').val(),
+		// 			admin: $('#admin').is(':checked') ? 'Y' : 'N',
+		// 			orgnaization_details: $('#orgnaization_details').is(':checked') ? 'Y' : 'N',
+		// 			head_office: $('#head_office').is(':checked') ? 'Y' : 'N',
+		// 			calender_maintance: $('#calender_maintance').is(':checked') ? 'Y' : 'N',
+		// 			branches: $('#branches').is(':checked') ? 'Y' : 'N',
+		// 			exception: $('#exception').is(':checked') ? 'Y' : 'N',
+		// 			user_controls: $('#user_controls').is(':checked') ? 'Y' : 'N',
+		// 			user_profile: $('#user_profile').is(':checked') ? 'Y' : 'N',
+		// 			employee_profile: $('#employee_profile').is(':checked') ? 'Y' : 'N',
+		// 			reference_code_maintenance: $('#reference_code_maintenance').is(':checked') ? 'Y' : 'N',
+		// 			reference_code: $('#reference_code').is(':checked') ? 'Y' : 'N',
+		// 			gl_structure: $('#gl_structure').is(':checked') ? 'Y' : 'N',
+		// 			scheme_codes: $('#scheme_codes').is(':checked') ? 'Y' : 'N',
+		// 			chart_of_accounts: $('#chart_of_accounts').is(':checked') ? 'Y' : 'N',
+		// 			account_ledgers: $('#account_ledgers').is(':checked') ? 'Y' : 'N',
+		// 			audit_trail: $('#audit_trail').is(':checked') ? 'Y' : 'N',
+		// 			user_activities: $('#user_activities').is(':checked') ? 'Y' : 'N',
+		// 			business_activity: $('#business_activity').is(':checked') ? 'Y' : 'N',
+		// 			// budget_controls: $('#budget_controls').is(':checked') ? 'Y' : 'N',
+		// 			migration: $('#migration').is(':checked') ? 'Y' : 'N',
+		// 			customer_master: $('#customer_master').is(':checked') ? 'Y' : 'N',
+		// 			loan_master: $('#loan_master').is(':checked') ? 'Y' : 'N',
+		// 			loan_schedule_migration: $('#loan_schedule_migration').is(':checked') ? 'Y' : 'N',
+		// 			transaction_migration: $('#transaction_migration').is(':checked') ? 'Y' : 'N',
+		// 			loan_operation: $('#loan_operation').is(':checked') ? 'Y' : 'N',
+		// 			loan_operation_ls: $('#loan_operation_ls').is(':checked') ? 'Y' : 'N',
+		// 			loan_closure: $('#loan_closure').is(':checked') ? 'Y' : 'N',
+
+		// 			day_end_operation: $('#day_end_operation').is(':checked') ? 'Y' : 'N',
+		// 			customer_maintenance: $('#customer_maintenance').is(':checked') ? 'Y' : 'N',
+		// 			loan_maintanace: $('#loan_maintanace').is(':checked') ? 'Y' : 'N',
+
+		// 			participating_banks: $('#participating_banks').is(':checked') ? 'Y' : 'N',
+		// 			loan_collecting: $('#loan_collecting').is(':checked') ? 'Y' : 'N',
+		// 			collection_process: $('#collection_process').is(':checked') ? 'Y' : 'N',
+		// 			maintenance: $('#maintenance').is(':checked') ? 'Y' : 'N',
+		// 			customer_master_maintenance: $('#customer_master_maintenance').is(':checked') ? 'Y' : 'N',
+		// 			account_master_maintenance: $('#account_master_maintenance').is(':checked') ? 'Y' : 'N',
+		// 			lease_accounts: $('#lease_accounts').is(':checked') ? 'Y' : 'N',
+		// 			deposit_accounts_c: $('#deposit_accounts_c').is(':checked') ? 'Y' : 'N',
+		// 			office_accounts: $('#office_accounts').is(':checked') ? 'Y' : 'N',
+		// 			document_maintenance: $('#document_maintenance').is(':checked') ? 'Y' : 'N',
+		// 			kyc_norms: $('#kyc_norms').is(':checked') ? 'Y' : 'N',
+		// 			transaction_maintenance: $('#transaction_maintenance').is(':checked') ? 'Y' : 'N',
+		// 			journal_entries: $('#journal_entries').is(':checked') ? 'Y' : 'N',
+		// 			account_ledger_posting: $('#account_ledger_posting').is(':checked') ? 'Y' : 'N',
+		// 			account_ledger: $('#account_ledger').is(':checked') ? 'Y' : 'N',
+		// 			trial_balance_t: $('#trial_balance_t').is(':checked') ? 'Y' : 'N',
+		// 			profit_and_loss_account_t: $('#profit_and_loss_account_t').is(':checked') ? 'Y' : 'N',
+		// 			lease_loans: $('#lease_loans').is(':checked') ? 'Y' : 'N',
+		// 			account_maintenance_l: $('#account_maintenance_l').is(':checked') ? 'Y' : 'N',
+		// 			account_statements_l: $('#account_statements_l').is(':checked') ? 'Y' : 'N',
+		// 			flow_details_l: $('#flow_details_l').is(':checked') ? 'Y' : 'N',
+		// 			deposit_accounts: $('#deposit_accounts').is(':checked') ? 'Y' : 'N',
+		// 			account_maintenance_d: $('#account_maintenance_d').is(':checked') ? 'Y' : 'N',
+		// 			account_statements_d: $('#account_statements_d').is(':checked') ? 'Y' : 'N',
+		// 			flow_details_d: $('#flow_details_d').is(':checked') ? 'Y' : 'N',
+
+		// 			inquiries_and_reports: $('#inquiries_and_reports').is(':checked') ? 'Y' : 'N',
+		// 			journal_book: $('#journal_book').is(':checked') ? 'Y' : 'N',
+		// 			account_balance_inq: $('#account_balance_inq').is(':checked') ? 'Y' : 'N',
+		// 			interset_summary_inq: $('#interset_summary_inq').is(':checked') ? 'Y' : 'N',
+		// 			account_ledgers_i: $('#account_ledgers_i').is(':checked') ? 'Y' : 'N',
+		// 			trial_balance_i: $('#trial_balance_i').is(':checked') ? 'Y' : 'N',
+		// 			general_ledger: $('#general_ledger').is(':checked') ? 'Y' : 'N',
+		// 			profit_and_loss_account_i: $('#profit_and_loss_account_i').is(':checked') ? 'Y' : 'N',
+		// 			balance_sheet: $('#balance_sheet').is(':checked') ? 'Y' : 'N'
+
+
+
+		// 		}
+
+		// 		console.log(accessRole);
+
+				// $.ajax({
+				// 	type: "POST",
+				// 	contentType: "application/json",
+				// 	url: './accessRoleSubmit',
+				// 	data: JSON.stringify(accessRole),
+				// 	success: function (responseText, statusText, xhr, $form) {
+
+				// 		console.log(responseText);
+
+				// 	},
+				// 	error: function (error) {
+				// 		console.error(error);
+				// 	}
+				// });
+		// 	// } else {
+		// 	// 	console.log("GENERAL");
+		// 	// 	var accessRole = {
+		// 	// 		user_id: $('#userid').val(),
+		// 	// 		role_id: $('#roleId').val(),
+		// 	// 		role_desc: $('#roleDesc').val(),
+		// 	// 		permissions: $('#permission').val(),
+		// 	// 		work_class: $('#work_class').val(),
+		// 	// 		admin: $('#adming').is(':checked') ? 'Y' : 'N',
+		// 	// 		orgnaization_details: $('#orgnaization_detailsg').is(':checked') ? 'Y' : 'N',
+		// 	// 		head_office: $('#head_officeg').is(':checked') ? 'Y' : 'N',
+		// 	// 		calender_maintance: $('#calender_maintanceg').is(':checked') ? 'Y' : 'N',
+		// 	// 		branches: $('#branchesg').is(':checked') ? 'Y' : 'N',
+		// 	// 		exception: $('#exceptiong').is(':checked') ? 'Y' : 'N',
+		// 	// 		user_controls: $('#user_controlsg').is(':checked') ? 'Y' : 'N',
+		// 	// 		user_profile: $('#user_profileg').is(':checked') ? 'Y' : 'N',
+		// 	// 		employee_profile: $('#employee_profileg').is(':checked') ? 'Y' : 'N',
+		// 	// 		reference_code_maintenance: $('#reference_code_maintenanceg').is(':checked') ? 'Y' : 'N',
+		// 	// 		reference_code: $('#reference_codeg').is(':checked') ? 'Y' : 'N',
+		// 	// 		gl_structure: $('#gl_structureg').is(':checked') ? 'Y' : 'N',
+		// 	// 		scheme_codes: $('#scheme_codesg').is(':checked') ? 'Y' : 'N',
+		// 	// 		chart_of_accounts: $('#chart_of_accountsg').is(':checked') ? 'Y' : 'N',
+		// 	// 		account_ledgers: $('#account_ledgersg').is(':checked') ? 'Y' : 'N',
+		// 	// 		audit_trail: $('#audit_trailg').is(':checked') ? 'Y' : 'N',
+		// 	// 		user_activities: $('#user_activitiesg').is(':checked') ? 'Y' : 'N',
+		// 	// 		business_activity: $('#business_activityg').is(':checked') ? 'Y' : 'N',
+		// 	// 		// budget_controls: $('#budget_controlsg').is(':checked') ? 'Y' : 'N',
+		// 	// 		migration: $('#migrationg').is(':checked') ? 'Y' : 'N',
+		// 	// 		customer_master: $('#customer_masterg').is(':checked') ? 'Y' : 'N',
+		// 	// 		loan_master: $('#loan_masterg').is(':checked') ? 'Y' : 'N',
+		// 	// 		loan_schedule_migration: $('#loan_schedule_migrationg').is(':checked') ? 'Y' : 'N',
+		// 	// 		transaction_migration: $('#transaction_migrationg').is(':checked') ? 'Y' : 'N',
+		// 	// 		loan_operation: $('#loan_operationg').is(':checked') ? 'Y' : 'N',
+		// 	// 		loan_operation_ls: $('#loan_operation_lsg').is(':checked') ? 'Y' : 'N',
+		// 	// 		loan_closure: $('#loan_closureg').is(':checked') ? 'Y' : 'N',
+
+		// 	// 		day_end_operation: $('#day_end_operationg').is(':checked') ? 'Y' : 'N',
+		// 	// 		customer_maintenance: $('#customer_maintenanceg').is(':checked') ? 'Y' : 'N',
+		// 	// 		loan_maintanace: $('#loan_maintanaceg').is(':checked') ? 'Y' : 'N',
+
+		// 	// 		collection_process: $('#collection_processg').is(':checked') ? 'Y' : 'N',
+		// 	// 		loan_collecting: $('#loan_collectingg').is(':checked') ? 'Y' : 'N',
+		// 	// 		participating_banks: $('#participating_banksg').is(':checked') ? 'Y' : 'N',
+		// 	// 		maintenance: $('#maintenanceg').is(':checked') ? 'Y' : 'N',
+		// 	// 		customer_master_maintenance: $('#customer_master_maintenanceg').is(':checked') ? 'Y' : 'N',
+		// 	// 		account_master_maintenance: $('#account_master_maintenanceg').is(':checked') ? 'Y' : 'N',
+		// 	// 		lease_accounts: $('#lease_accountsg').is(':checked') ? 'Y' : 'N',
+		// 	// 		deposit_accounts_c: $('#deposit_accounts_cg').is(':checked') ? 'Y' : 'N',
+		// 	// 		office_accounts: $('#office_accountsg').is(':checked') ? 'Y' : 'N',
+		// 	// 		document_maintenance: $('#document_maintenanceg').is(':checked') ? 'Y' : 'N',
+		// 	// 		kyc_norms: $('#kyc_normsg').is(':checked') ? 'Y' : 'N',
+		// 	// 		transaction_maintenance: $('#transaction_maintenanceg').is(':checked') ? 'Y' : 'N',
+		// 	// 		journal_entries: $('#journal_entriesg').is(':checked') ? 'Y' : 'N',
+		// 	// 		account_ledger_posting: $('#account_ledger_postingg').is(':checked') ? 'Y' : 'N',
+		// 	// 		account_ledger: $('#account_ledgerg').is(':checked') ? 'Y' : 'N',
+		// 	// 		trial_balance_t: $('#trial_balance_tg').is(':checked') ? 'Y' : 'N',
+		// 	// 		profit_and_loss_account_t: $('#profit_and_loss_account_tg').is(':checked') ? 'Y' : 'N',
+		// 	// 		lease_loans: $('#lease_loansg').is(':checked') ? 'Y' : 'N',
+		// 	// 		account_maintenance_l: $('#account_maintenance_lg').is(':checked') ? 'Y' : 'N',
+		// 	// 		account_statements_l: $('#account_statements_lg').is(':checked') ? 'Y' : 'N',
+		// 	// 		flow_details_l: $('#flow_details_lg').is(':checked') ? 'Y' : 'N',
+		// 	// 		deposit_accounts: $('#deposit_accountsg').is(':checked') ? 'Y' : 'N',
+		// 	// 		account_maintenance_d: $('#account_maintenance_dg').is(':checked') ? 'Y' : 'N',
+		// 	// 		account_statements_d: $('#account_statements_dg').is(':checked') ? 'Y' : 'N',
+		// 	// 		flow_details_d: $('#flow_details_dg').is(':checked') ? 'Y' : 'N',
+
+		// 	// 		inquiries_and_reports: $('#inquiries_and_reportsg').is(':checked') ? 'Y' : 'N',
+		// 	// 		journal_book: $('#journal_bookg').is(':checked') ? 'Y' : 'N',
+		// 	// 		account_balance_inq: $('#account_balance_inqg').is(':checked') ? 'Y' : 'N',
+		// 	// 		interset_summary_inq: $('#interset_summary_inqg').is(':checked') ? 'Y' : 'N',
+		// 	// 		account_ledgers_i: $('#account_ledgers_ig').is(':checked') ? 'Y' : 'N',
+		// 	// 		trial_balance_i: $('#trial_balance_ig').is(':checked') ? 'Y' : 'N',
+		// 	// 		general_ledger: $('#general_ledgerg').is(':checked') ? 'Y' : 'N',
+		// 	// 		profit_and_loss_account_i: $('#profit_and_loss_account_ig').is(':checked') ? 'Y' : 'N',
+		// 	// 		balance_sheet: $('#balance_sheetg').is(':checked') ? 'Y' : 'N'
+
+
+
+		// 	// 	}
+
+		// 	// 	console.log(accessRole);
+
+		// 	// 	$.ajax({
+		// 	// 		type: "POST",
+		// 	// 		contentType: "application/json",
+		// 	// 		url: './accessRoleSubmit',
+		// 	// 		data: JSON.stringify(accessRole),
+		// 	// 		success: function (responseText, statusText, xhr, $form) {
+
+		// 	// 			console.log(responseText);
+
+		// 	// 		},
+		// 	// 		error: function (error) {
+		// 	// 			console.error(error);
+		// 	// 		}
+		// 	// 	});
+		// 	// }
+
+		// }
 
 
 	</script>
@@ -971,9 +1324,9 @@
 												456</td>-->
 											<td style="width: 40%;" th:text="${userProfile.username}">TEST</td>
 
-											<th:block th:switch="${userProfile.entity_flg}" style="text-align: center;">
-												<td th:case="'Y'" style="color: green;">Verified</td>
-												<td th:case="'N'" style="color: red;">UnVerified</td>
+											<th:block th:switch="${userProfile?.auth_flg}" style="text-align: center;">
+												<td th:case="'N'" style="color: green;">Verified</td>
+												<td th:case="'Y'" style="color: red;">UnVerified</td>
 											</th:block>
 											<td>
 												<div class="dropdown action-dropdown">
@@ -984,40 +1337,29 @@
 
 													<div class="dropdown-menu" style="padding:0px"
 														aria-labelledby="dropdownMenuButton">
-														<a class="dropdown-item view-item"
+														<a class="dropdown-item view-item"  
 															th:attr="data-userId=${userProfile?.userid}" title="View"
 															onclick="enquiryuser(this)">View</a>
 
-														<div class="dropdown-divider"
-															th:if="${userProfile.entity_flg}=='N'"></div>
-
-														<a class="dropdown-item verify-item"
-															th:attr="data-userId=${userProfile?.userid}"
-															th:if="${userProfile.entity_flg}=='N'" title="Verify"
+														<a class="dropdown-item verify-item" style="border-top: 1px solid #dee2e6;" th:if='${userProfile?.modify_flg == "N" and userProfile?.auth_flg == "Y" and userProfile?.entry_user != session.USERID}'
+															th:attr="data-userId=${userProfile?.userid}"															
+															 title="Verify"
 															onclick="verifyuser(this)">Verify</a>
 
-														<div class="dropdown-divider"
-															th:if="${userProfile.entity_flg}=='N'"></div>
-
-														<a class="dropdown-item delete-item"
+														<!-- <a class="dropdown-item delete-item" style="border-top: 1px solid #dee2e6;" th:if='${userProfile?.auth_flg == "N" and userProfile?.modify_flg == "Y" and userProfile?.entry_user == session.USERID}'
 															th:attr="data-userId=${userProfile?.userid}"
-															th:if="${userProfile.entity_flg}=='N'" title="Delete"
-															onclick="deleteUnverifiedUser(this)">Delete</a>
+															title="Delete"
+															onclick="deleteUnverifiedUser(this)">Delete</a> -->
 
-														<div class="dropdown-divider"
-															th:if="${userProfile.entity_flg}=='Y'"></div>
-
-														<a class="dropdown-item modify-item"
+														<a class="dropdown-item modify-item" style="border-top: 1px solid #dee2e6;"  th:if='${userProfile?.auth_flg == "N" and userProfile?.modify_flg == "Y" and userProfile?.entry_user == session.USERID}'
 															th:attr="data-userId=${userProfile?.userid}"
-															th:if="${userProfile.entity_flg}=='Y'" title="Modify"
+															title="Modify"
 															onclick="modifyuser(this)">Modify</a>
 
-														<div class="dropdown-divider"
-															th:if="${userProfile.entity_flg}=='Y'"></div>
 
-														<a class="dropdown-item delete-item"
+														<a class="dropdown-item delete-item" style="border-top: 1px solid #dee2e6;" th:if='${userProfile?.auth_flg == "N" and userProfile?.modify_flg == "Y" and userProfile?.entry_user == session.USERID}'
 															th:attr="data-userId=${userProfile?.userid}"
-															th:if="${userProfile.entity_flg}=='Y'" title="Delete"
+															 title="Delete"
 															onclick="deleteuser(this)">Delete</a>
 													</div>
 												</div>
@@ -1063,15 +1405,15 @@
 								<div class="row formline" style="padding: 15px 0px 2px 0px;">
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">
-										<label for="userId">User Id</label>
+										<label for="userId">User Id <b style="color: red">*</b></label>
 									</div>
 									<div class="col-sm-2">
 										<input type="text" id="userid"
 											class="form-control form-control-sm bg-white border border-dark"
 											name="userid" autocomplete="off" required readonly />
-										<i id="searchIcon" class="fa fa-search position-absolute"
+										<i id="searchIcon" class="info-icon position-absolute"
 											onclick="userIdModal();"
-											style="right: 20px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
+											style="right: 20px; top: 50%; transform: translateY(-50%); cursor: pointer;">i</i>
 									</div>
 									<div class="col-sm-1">
 
@@ -1122,7 +1464,7 @@
 
 									<label class="col-sm-2">Mobile No</label>
 									<div class="col-sm-2">
-										<input type="text" id="mobNo" maxlength="10" name="mob_number"
+										<input type="text" id="mobNo" maxlength="8" name="mob_number"
 											oninput="phoneNumber(this);"
 											class="form-control form-control-sm bg-white border border-dark"
 											autocomplete="off" required />
@@ -1151,14 +1493,14 @@
 									<div class="col-sm-2">
 										<input type="text" id="disableDate" name="disable_start_date"
 											class="form-control form-control-sm bg-white border border-dark"
-											autocomplete="off" required />
+											autocomplete="off" placeholder="dd-mm-yyyy" required />
 									</div>
 									<div class="col-sm-1"></div>
 
 
 									<label class="col-sm-2">User Disable Till Date</label>
 									<div class="col-sm-2">
-										<input type="text" name="disable_end_date" id="disableTilDate"
+										<input type="text" name="disable_end_date" id="disableTilDate" placeholder="dd-mm-yyyy"
 											class="form-control form-control-sm bg-white border border-dark" required />
 									</div>
 
@@ -1175,16 +1517,25 @@
 										<input type="password" id="password" name="password" value="Bornfire@123"
 											class="form-control form-control-sm bg-white border border-dark"
 											autocomplete="off" readonly />
-										<i id="eyeIcon" class="fa fa-eye-slash position-absolute"
-											onclick="togglePassword()"
-											style="right: 20px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
+										<button type="button" id="pwd-toggle" class="toggle-btn position-absolute" aria-label="Show password" style="right: 20px; top: 50%; transform: translateY(-50%); cursor: pointer;">
+    <!-- Open Eye -->
+    <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.25 12s3.75-7.5 9.75-7.5 9.75 7.5 9.75 7.5-3.75 7.5-9.75 7.5S2.25 12 2.25 12z"></path>
+      <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"></circle>
+    </svg>
+
+    <!-- Closed Eye -->
+    <svg class="eye-closed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18M9.88 9.88a3 3 0 104.24 4.24M6.1 6.1C4.27 7.57 2.93 9.6 2.25 12c1.5 4.5 6 7.5 9.75 7.5 1.5 0 2.88-.37 4.1-1.02"></path>
+    </svg>
+  </button>
 
 									</div>
 									<div class="col-sm-1"></div>
 
-									<label class="col-sm-2">Password Expiry Date</label>
+									<label class="col-sm-2">Password Expiry Date <b style="color: red">*</b> </label>
 									<div class="col-sm-2">
-										<input type="text" id="passExDate" name="pass_exp_date"
+										<input type="text" id="passExDate" name="pass_exp_date" placeholder="dd-mm-yyyy"
 											class="form-control form-control-sm bg-white border border-dark" required />
 									</div>
 									<div class="col-sm-1"></div>
@@ -1222,9 +1573,9 @@
 								<div class="row formline" style="padding: 0px 0px 2px 0px;">
 									<div class="col-sm-1"></div>
 
-									<label class="col-sm-2">Account Expiry Date</label>
+									<label class="col-sm-2">Account Expiry Date <b style="color: red">*</b></label>
 									<div class="col-sm-2">
-										<input type="text" id="acctexpiryDate" name="acc_exp_date"
+										<input type="text" id="acctexpiryDate" name="acc_exp_date" placeholder="dd-mm-yyyy"
 											class="form-control form-control-sm bg-white border border-dark" required />
 									</div>
 
@@ -1285,7 +1636,7 @@
 									<div class="col-sm-1"></div>
 
 
-									<label class="col-sm-2">Role Id</label>
+									<label class="col-sm-2">Role Id <b style="color: red">*</b></label>
 									<div class="col-sm-2">
 										<select id="roleId" name="role_id"
 											class="form-control form-control-sm bg-white border border-dark"
@@ -1392,16 +1743,16 @@
 										<td class="col-sm-2" style="text-align: right;">
 											<font size="2"><B>Modify User :</B></font>
 										</td>
-										<td class="col-sm-2" style="width: 112px;"><input type="text" id="verifyuser"
-												name="ub.verifyuser" th:value="${user}"
+										<td class="col-sm-2" style="width: 112px;"><input type="text" name="ub.modifyuser" id="modifyuser" th:value="${user}"
+												
 												style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 												disabled>
 										</td>
 										<td class="col-sm-2" style="text-align: right;">
 											<font size="2"><B> Verify User :</B></font>
 										</td>
-										<td class="col-sm-2" style="width: 112px;"><input type="text" id="modifyuser"
-												name="ub.modifyuser"
+										<td class="col-sm-2" style="width: 112px;"><input type="text" id="verifyuser"
+												
 												style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 												disabled>
 										</td>
@@ -1420,8 +1771,7 @@
 										<td style="text-align: right;">
 											<font size="2"><B>Modify Time :</B></font>
 										</td>
-										<td style="width: 112px"><input type="text" id="verifytime" name="ub.verifytime"
-												th:value="${#dates.format(currentDate, 'dd-MM-yyyy HH:mm:ss')}"
+										<td style="width: 112px"><input type="text" id="modifytime" name="ub.modifytime" th:value="${#dates.format(currentDate, 'dd-MM-yyyy HH:mm:ss')}"
 												style="width: 115px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 												disabled>
 										</td>
@@ -1429,7 +1779,7 @@
 											<font size="2"><B> Verify
 													Time :</B></font>
 										</td>
-										<td style="width: 112px"><input type="text" id="modifytime" name="ub.modifytime"
+										<td style="width: 112px"><input type="text" id="verifytime" name="ub.verifytime"
 												style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 												disabled>
 										</td>
@@ -1480,7 +1830,7 @@
 								<div class="row formline" style="padding: 15px 0px 2px 0px;">
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">
-										<label for="userId">User Id</label>
+										<label for="userId">User Id <b style="color: red">*</b></label>
 									</div>
 									<div class="col-sm-2">
 										<input type="text" id="userid" oninput="letterAndNumbers(this);"
@@ -1542,7 +1892,7 @@
 									<label class="col-sm-2">Mobile No</label>
 									<div class="col-sm-2">
 										<input type="text" th:value="${userProfile?.mob_number}" id="mobNo"
-											maxlength="10" name="mob_number"
+											maxlength="8" name="mob_number"
 											class="form-control form-control-sm bg-white border border-dark"
 											autocomplete="off" required readonly />
 									</div>
@@ -1574,7 +1924,7 @@
 											th:value="${#dates.format(userProfile?.disable_start_date, 'dd-MM-yyyy')}"
 											id="disableDate" name="disable_start_date"
 											class="form-control form-control-sm bg-white border border-dark"
-											autocomplete="off" required disabled />
+											autocomplete="off" placeholder="dd-mm-yyyy" required disabled />
 									</div>
 									<div class="col-sm-1"></div>
 
@@ -1583,7 +1933,7 @@
 									<div class="col-sm-2">
 										<input type="text"
 											th:value="${#dates.format(userProfile?.disable_end_date, 'dd-MM-yyyy')}"
-											name="disable_end_date" id="disableTilDate"
+											name="disable_end_date" id="disableTilDate" placeholder="dd-mm-yyyy"
 											class="form-control form-control-sm bg-white border border-dark" required
 											disabled />
 									</div>
@@ -1601,19 +1951,28 @@
 										<input type="password" id="password" name="password" value="Bornfire@123"
 											class="form-control form-control-sm bg-white border border-dark"
 											autocomplete="off" readonly />
-										<i id="eyeIcon" class="fa fa-eye-slash position-absolute"
-											onclick="togglePassword()"
-											style="right: 20px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
+										<button type="button" id="pwd-toggle" class="toggle-btn position-absolute" aria-label="Show password" style="right: 20px; top: 50%; transform: translateY(-50%); cursor: pointer;">
+    <!-- Open Eye -->
+    <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.25 12s3.75-7.5 9.75-7.5 9.75 7.5 9.75 7.5-3.75 7.5-9.75 7.5S2.25 12 2.25 12z"></path>
+      <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"></circle>
+    </svg>
+
+    <!-- Closed Eye -->
+    <svg class="eye-closed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18M9.88 9.88a3 3 0 104.24 4.24M6.1 6.1C4.27 7.57 2.93 9.6 2.25 12c1.5 4.5 6 7.5 9.75 7.5 1.5 0 2.88-.37 4.1-1.02"></path>
+    </svg>
+  </button>
 
 									</div>
 									<div class="col-sm-1"></div>
 
-									<label class="col-sm-2">Password Expiry Date</label>
+									<label class="col-sm-2">Password Expiry Date <b style="color: red">*</b></label>
 
 									<div class="col-sm-2">
 										<input type="text"
 											th:value="${#dates.format(userProfile?.pass_exp_date, 'dd-MM-yyyy')}"
-											id="passExDate" name="pass_exp_date"
+											id="passExDate" name="pass_exp_date" placeholder="dd-mm-yyyy"
 											class="form-control form-control-sm bg-white border border-dark" required
 											disabled />
 									</div>
@@ -1667,10 +2026,10 @@
 								<div class="row formline" style="padding: 0px 0px 2px 0px;">
 									<div class="col-sm-1"></div>
 
-									<label class="col-sm-2">Account Expiry Date</label>
+									<label class="col-sm-2">Account Expiry Date <b style="color: red">*</b></label>
 									<div class="col-sm-2">
 										<input type="text" id="acctexpiryDate" name="acc_exp_date"
-											th:value="${#dates.format(userProfile?.acc_exp_date, 'dd-MM-yyyy')}"
+											th:value="${#dates.format(userProfile?.acc_exp_date, 'dd-MM-yyyy')}" placeholder="dd-mm-yyyy"
 											class="form-control form-control-sm bg-white border border-dark" required
 											disabled />
 									</div>
@@ -1745,7 +2104,7 @@
 									<div class="col-sm-1"></div>
 
 
-									<label class="col-sm-2">Role Id</label>
+									<label class="col-sm-2">Role Id <b style="color: red">*</b></label>
 									<div class="col-sm-2">
 										<select id="roleId" name="role_id"
 											class="form-control form-control-sm bg-white border border-dark"
@@ -1841,10 +2200,10 @@
 								id="btnSubmit"
 								th:attr="data-userId=${userProfile?.userid},data-flag=${userProfile?.entity_flg}"
 								onclick="deleteRecord(this);">Delete</button>
-							<button type="button" th:if="${formmode}=='deleteUnverified'"
+							<!-- <button type="button" th:if="${formmode}=='deleteUnverified'"
 								class="btn-primary big-btn" id="btnSubmit"
 								th:attr="data-userId=${userProfile?.userid},data-flag=${userProfile?.entity_flg}"
-								onclick="deleteUnverifiedRecord(this);">Delete</button>
+								onclick="deleteUnverifiedRecord(this);">Delete</button> -->
 							<button type="button" class="btn-primary big-btn" id="btnBack"
 								onclick="Back();">Back</button>
 
@@ -1869,16 +2228,16 @@
 										<td class="col-sm-2" style="text-align: right;">
 											<font size="2"><B>Modify User :</B></font>
 										</td>
-										<td class="col-sm-2" style="width: 112px;"><input type="text" id="verifyuser"
-												name="ub.verifyuser" th:value="${userProfile?.modify_user}"
+										<td class="col-sm-2" style="width: 112px;"><input type="text" id="modify_user"
+												name="ub.modify_user" th:value="${userProfile?.modify_user}"
 												style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 												disabled>
 										</td>
 										<td class="col-sm-2" style="text-align: right;">
 											<font size="2"><B> Verify User :</B></font>
 										</td>
-										<td class="col-sm-2" style="width: 112px;"><input type="text" id="modifyuser"
-												name="ub.modifyuser" th:value="${userProfile?.auth_user}"
+										<td class="col-sm-2" style="width: 112px;"><input type="text" id="verifyuser"
+												name="ub.verifyuser" th:value="${userProfile?.auth_user}"
 												style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 												disabled>
 										</td>
@@ -1897,7 +2256,7 @@
 										<td style="text-align: right;">
 											<font size="2"><B>Modify Time :</B></font>
 										</td>
-										<td style="width: 112px"><input type="text" id="verifytime" name="ub.verifytime"
+										<td style="width: 112px"><input type="text" id="modifytime" name="ub.modifytime"
 												th:value="${#dates.format(userProfile?.modify_time, 'dd-MM-yyyy')}"
 												style="width: 115px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 												disabled>
@@ -1906,7 +2265,7 @@
 											<font size="2"><B> Verify
 													Time :</B></font>
 										</td>
-										<td style="width: 112px"><input type="text" id="modifytime" name="ub.modifytime"
+										<td style="width: 112px"><input type="text" id="verifytime" name="ub.verifytime"
 												th:value="${#dates.format(userProfile?.auth_time, 'dd-MM-yyyy')}"
 												style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px; "
 												disabled>
@@ -1949,7 +2308,7 @@
 								<div class="row formline" style="padding: 15px 0px 2px 0px;">
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">
-										<label for="userId">User Id</label>
+										<label for="userId">User Id <b style="color: red">*</b></label>
 									</div>
 									<div class="col-sm-2">
 										<input type="text" id="userid" oninput="letterAndNumbers(this);"
@@ -1974,6 +2333,31 @@
 								</div>
 
 
+	<div class="row formline" style="padding: 0px 0px 2px 0px;">
+
+									<div class="col-sm-1"></div>
+
+
+									<label class="col-sm-2">Branch Id</label>
+									<div class="col-sm-2">
+										<input type="text" th:value="${userProfile?.branch_id}" id="branch_id"
+											 name="branch_id"
+											class="form-control form-control-sm bg-white border border-dark"
+											autocomplete="off" required readonly />
+									</div>
+									<div class="col-sm-1"></div>
+
+
+									<label class="col-sm-2">Branch Desc</label>
+									<div class="col-sm-2">
+										<input type="text" th:value="${userProfile?.branch_des}" id="branch_des"
+											name="branch_des"
+											class="form-control form-control-sm bg-white border border-dark"
+											autocomplete="off" required readonly />
+									
+									</div>
+
+								</div>
 
 
 
@@ -1985,7 +2369,7 @@
 									<label class="col-sm-2">Mobile No</label>
 									<div class="col-sm-2">
 										<input type="text" th:value="${userProfile?.mob_number}" id="mobNo"
-											maxlength="10" name="mob_number" oninput="phoneNumber(this);"
+											maxlength="8" name="mob_number" oninput="phoneNumber(this);"
 											class="form-control form-control-sm bg-white border border-dark"
 											autocomplete="off" required />
 									</div>
@@ -2017,7 +2401,7 @@
 											th:value="${#dates.format(userProfile?.disable_start_date, 'dd-MM-yyyy')}"
 											id="disableDate" name="disable_start_date"
 											class="form-control form-control-sm bg-white border border-dark"
-											autocomplete="off" required />
+											autocomplete="off" placeholder="dd-mm-yyyy" required />
 									</div>
 									<div class="col-sm-1"></div>
 
@@ -2027,7 +2411,7 @@
 										<input type="text"
 											th:value="${#dates.format(userProfile?.disable_end_date, 'dd-MM-yyyy')}"
 											name="disable_end_date" id="disableTilDate"
-											class="form-control form-control-sm bg-white border border-dark" required />
+											class="form-control form-control-sm bg-white border border-dark" placeholder="dd-mm-yyyy" required />
 									</div>
 
 								</div>
@@ -2043,19 +2427,28 @@
 										<input type="password" id="password" name="password" value="Bornfire@123"
 											class="form-control form-control-sm bg-white border border-dark"
 											autocomplete="off" readonly />
-										<i id="eyeIcon" class="fa fa-eye-slash position-absolute"
-											onclick="togglePassword()"
-											style="right: 20px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
+<button type="button" id="pwd-toggle" class="toggle-btn position-absolute" aria-label="Show password" style="right: 20px; top: 50%; transform: translateY(-50%); cursor: pointer;">
+    <!-- Open Eye -->
+    <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.25 12s3.75-7.5 9.75-7.5 9.75 7.5 9.75 7.5-3.75 7.5-9.75 7.5S2.25 12 2.25 12z"></path>
+      <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"></circle>
+    </svg>
+
+    <!-- Closed Eye -->
+    <svg class="eye-closed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18M9.88 9.88a3 3 0 104.24 4.24M6.1 6.1C4.27 7.57 2.93 9.6 2.25 12c1.5 4.5 6 7.5 9.75 7.5 1.5 0 2.88-.37 4.1-1.02"></path>
+    </svg>
+  </button>
 
 									</div>
 									<div class="col-sm-1"></div>
 
-									<label class="col-sm-2">Password Expiry Date</label>
+									<label class="col-sm-2">Password Expiry Date <b style="color: red">*</b></label>
 
 									<div class="col-sm-2">
 										<input type="text"
 											th:value="${#dates.format(userProfile?.pass_exp_date, 'dd-MM-yyyy')}"
-											id="passExDate" name="pass_exp_date"
+											id="passExDate" name="pass_exp_date" placeholder="dd-mm-yyyy"
 											class="form-control form-control-sm bg-white border border-dark" required />
 									</div>
 									<div class="col-sm-1"></div>
@@ -2108,9 +2501,9 @@
 								<div class="row formline" style="padding: 0px 0px 2px 0px;">
 									<div class="col-sm-1"></div>
 
-									<label class="col-sm-2">Account Expiry Date</label>
+									<label class="col-sm-2">Account Expiry Date <b style="color: red">*</b></label>
 									<div class="col-sm-2">
-										<input type="text" id="acctexpiryDate" name="acc_exp_date"
+										<input type="text" id="acctexpiryDate" name="acc_exp_date" placeholder="dd-mm-yyyy"
 											th:value="${#dates.format(userProfile?.acc_exp_date, 'dd-MM-yyyy')}"
 											class="form-control form-control-sm bg-white border border-dark" required />
 									</div>
@@ -2187,7 +2580,7 @@
 									<div class="col-sm-1"></div>
 
 
-									<label class="col-sm-2">Role Id</label>
+									<label class="col-sm-2">Role Id <b style="color: red">*</b></label>
 									<div class="col-sm-2">
 										<select id="roleId" name="role_id"
 											class="form-control form-control-sm bg-white border border-dark"
@@ -2303,16 +2696,16 @@
 										<td class="col-sm-2" style="text-align: right;">
 											<font size="2"><B>Modify User :</B></font>
 										</td>
-										<td class="col-sm-2" style="width: 112px;"><input type="text" id="verifyuser"
-												name="ub.verifyuser" th:value="${userProfile?.modify_user}"
+										<td class="col-sm-2" style="width: 112px;"><input type="text" id="modifyuser"
+												name="ub.modifyuser" th:value="${userProfile?.modify_user}"
 												style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 												disabled>
 										</td>
 										<td class="col-sm-2" style="text-align: right;">
 											<font size="2"><B> Verify User :</B></font>
 										</td>
-										<td class="col-sm-2" style="width: 112px;"><input type="text" id="modifyuser"
-												name="ub.modifyuser" th:value="${userProfile?.auth_user}"
+										<td class="col-sm-2" style="width: 112px;"><input type="text" id="verifyuser"
+												name="ub.verifyuser" th:value="${userProfile?.auth_user}"
 												style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 												disabled>
 										</td>
@@ -2331,7 +2724,7 @@
 										<td style="text-align: right;">
 											<font size="2"><B>Modify Time :</B></font>
 										</td>
-										<td style="width: 112px"><input type="text" id="verifytime" name="ub.verifytime"
+										<td style="width: 112px"><input type="text" id="modifytime" name="ub.modifytime"  
 												th:value="${#dates.format(userProfile?.modify_time, 'dd-MM-yyyy')}"
 												style="width: 115px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 												disabled>
@@ -2340,7 +2733,7 @@
 											<font size="2"><B> Verify
 													Time :</B></font>
 										</td>
-										<td style="width: 112px"><input type="text" id="modifytime" name="ub.modifytime"
+										<td style="width: 112px"><input type="text" id="verifytime" name="ub.verifytime"
 												th:value="${#dates.format(userProfile?.auth_time, 'dd-MM-yyyy')}"
 												style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px; "
 												disabled>
@@ -2365,7 +2758,7 @@
 
 	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false" id="alert" tabindex="-1" role="dialog"
+	<!-- <div class="modal fade" data-backdrop="false" data-keyboard="false" id="alert" tabindex="-1" role="dialog"
 		aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content"
@@ -2383,9 +2776,28 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false" id="normalalert" tabindex="-1" role="dialog"
+	<div class="modal fade bd-example-modal-sm" tabindex="-1" id="alert" style="display: none;margin: auto;" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" style="margin: auto;">
+      <div class="modal-header">
+        <h5 class="modal-title">Alert</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="btn-primary big-btn" data-dismiss="modal" aria-hidden="true"
+						onclick="goToList();">×</button>
+        </button>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <h6 id="alertmsg"></h6>
+					<button type="button" class="btn-primary big-btn" data-dismiss="modal"
+						onclick="goToList();">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+	<!-- <div class="modal fade" data-backdrop="false" data-keyboard="false" id="normalalert" tabindex="-1" role="dialog"
 		aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content"
@@ -2403,10 +2815,28 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
+
+<div class="modal fade bd-example-modal-sm" tabindex="-1" id="normalalert" style="display: none;margin: auto;" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" style="margin: auto;width: 600px;" >
+      <div class="modal-header">
+        <h5 class="modal-title">Alert</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <h6 id="normalalertmsg"></h6>
+		<button type="button" class="btn-primary big-btn" data-dismiss="modal"
+						onclick="$('#normalalert').modal('hide')">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
-<div class="modal fade" id="finusersview" data-backdrop="false" data-keyboard="false">
+<div class="modal fade" th:if="${formmode}=='not_equal'" id="finusersview" data-backdrop="false" data-keyboard="false">
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
 			style="max-width: 800px;max-height: 160vh;">
 			<div class="modal-content" style="border: 2px solid black;height: 160vh;">
@@ -2425,7 +2855,7 @@
 								for="admin">Admin
 							</label>
 							<ul>
-								<li><input type="checkbox" id="orgnaization_details" value="Y" name="orgnaization_details"
+								<li><input type="checkbox" id="orgnaization_details"  name="orgnaization_details"
 										style="margin-right: 10px; margin-top: 10px" checked />
 									<label for="orgnaization_details">Oraganization Details
 									</label>
@@ -2435,12 +2865,12 @@
 									<label for="usercontrol">user control
 									</label>
 								</li>
-								<li><input type="checkbox" id="parameters" value="Y" name="parameters"
+								<li><input type="checkbox" id="parameters"  name="parameters"
 										style="margin-right: 10px; margin-top: 10px" checked />
 									<label for="parameters">parameters
 									</label>
 								</li>
-									<li><input type="checkbox" id="audit_trail" value="Y" name="audit_trail"
+									<li><input type="checkbox" id="audit_trail"  name="audit_trail"
 										style="margin-right: 10px; margin-top: 10px" checked />
 									<label for="audit_trail">Audit Trail
 									</label>
@@ -2449,21 +2879,21 @@
 						</li>
 
 					
-						<li><input type="checkbox" id="day_end_operation" name="day_end_operation"
+						<!-- <li><input type="checkbox" id="day_end_operation" name="day_end_operation"
 								style="margin-right: 10px; margin-top: 10px" checked /> <label
 								for="day_end_operation"> Day End Operation
 							</label>
-							</li>
+							</li> -->
 			
-						<li><input type="checkbox" id="customer_onbording" value="Y" name="customer_onbording"
+						<li><input type="checkbox" id="customer_onbording"  name="customer_onbording"
 								style="margin-right: 10px" checked /> <label for="customer_onbording">Customer Onbording</label>
 							<ul>
-								<li><input type="checkbox" id="minimal_data" value="Y" name="minimal_data"
+								<li><input type="checkbox" id="minimal_data"  name="minimal_data"
 										style="margin-right: 10px; margin-top: 10px" checked />
 									<label for="minimal_data">Minimal Data
 									</label>
 								</li>
-								<li><input type="checkbox" id="kyc_compliance" value="Y" name="kyc_compliance"
+								<li><input type="checkbox" id="kyc_compliance"  name="kyc_compliance"
 										style="margin-right: 10px; margin-top: 10px" checked />
 									<label for="kyc_compliance">KYC Compilance
 									</label>
@@ -2473,12 +2903,12 @@
 								 <label
 								for="compliance_department">Compliance Department</label>
 								</li>
-								<li><input type="checkbox" id="hold_reject" value="Y" name="hold_reject"
+								<li><input type="checkbox" id="hold_reject"  name="hold_reject"
 										style="margin-right: 10px; margin-top: 10px" checked />
 									<label for="hold_reject">Hold And Reject
 									</label>
 								</li>
-								<li><input type="checkbox" id="Customer_detail_for_collection" value="Y" name="Customer_detail_for_collection"
+								<li><input type="checkbox" id="Customer_detail_for_collection"  name="Customer_detail_for_collection"
 										style="margin-right: 10px; margin-top: 10px" checked />
 									<label for="Customer_detail_for_collection">Customer Detail For Collection
 									</label>
@@ -2491,7 +2921,7 @@
 								name="customer_maker" style="margin-right: 10px" checked /> <label
 								for="customer_maker">Customer Maker</label>
 							<ul>
-								<li><input type="checkbox" id="Customer_maintenance" value="Y" name="Customer_maintenance"
+								<li><input type="checkbox" id="Customer_maintenance"  name="Customer_maintenance"
 										style="margin-right: 10px; margin-top: 10px" checked />
 									<label for="Customer_maintenance">Customer Maintanance</label>
 									</label>
@@ -2504,13 +2934,13 @@
 								style="margin-right: 10px" checked />
 							<label for="Lease_loans">Lease Loans</label>
 							<ul>
-								<li><input type="checkbox" id="lease_account_open" value="Y"
+								<li><input type="checkbox" id="lease_account_open" 
 										name="lease_account_open" style="margin-right: 10px; margin-top: 10px"
 										checked />
 									<label for="lease_account_open">Lease Account Open
 									</label>
 								</li>
-								<li><input type="checkbox" id="lease_loan_maintanance" value="Y" name="lease_loan_maintanance"
+								<li><input type="checkbox" id="lease_loan_maintanance"  name="lease_loan_maintanance"
 										style="margin-right: 10px; margin-top: 10px" checked />
 									<label for="lease_loan_maintanance">Lease Loan Maintanance
 									</label>
@@ -2562,48 +2992,48 @@
 								style="margin-right: 10px" checked />
 							<label for="transaction_maintanance">Transaction Maintanance</label>
 					<ul>
-						<li><input type="checkbox" id="journal_entries" value="Y"
+						<li><input type="checkbox" id="journal_entries" 
 								name="journal_entries" style="margin-right: 10px; margin-top: 10px" checked/>
 							<label for="journal_entries">Journal Entries</label>
 						</li>
-						<li><input type="checkbox" id="account_ledger_posting" value="Y"
+						<li><input type="checkbox" id="account_ledger_posting" 
 								name="account_ledger_posting" style="margin-right: 10px; margin-top: 10px" checked/> <label
 								for="account_ledger_posting">
 								Account Ledger Posting</label></li>
 
-						<li><input type="checkbox" id="account_ledger" value="Y" name="account_ledger"
+						<li><input type="checkbox" id="account_ledger"  name="account_ledger"
 								style="margin-right: 10px; margin-top: 10px" checked/> <label for="account_ledger">
 								Account Ledger</label></li>
 
-						<li><input type="checkbox" id="trial_balance" value="Y" name="trial_balance"
+						<li><input type="checkbox" id="trial_balance"  name="trial_balance"
 								style="margin-right: 10px; margin-top: 10px" checked/> <label for="trial_balance">
 								Trail Balance>
 
-						<li><input type="checkbox" id="Profit_and_lose" value="Y" name="Profit_and_lose"
+						<li><input type="checkbox" id="Profit_and_lose"  name="Profit_and_lose"
 								style="margin-right: 10px; margin-top: 10px" checked/> <label for="Profit_and_lose">
 								Profit And Lose Account</label></li>
 
-						<li><input type="checkbox" id="day_end_operation" value="Y" name="day_end_operation"
+						<!-- <li><input type="checkbox" id="day_end_operation"  name="day_end_operation"
 								style="margin-right: 10px; margin-top: 10px" checked/> <label for="day_end_operation">
-								Day End Operation</label></li>
+								Day End Operation</label></li> -->
 
 					</ul>
 					</li>
 
-					<li><input type="checkbox" id="collection_process" value="Y" name="collection_process"
+					<li><input type="checkbox" id="collection_process"  name="collection_process"
 								style="margin-right: 10px; margin-top: 10px" checked/> <label for="collection_process">
 								Collection Process</label>
 
 
 					<ul>
-						<li><input type="checkbox" id="participating_banks" value="Y" name="participating_banks"
+						<li><input type="checkbox" id="participating_banks"  name="participating_banks"
 								style="margin-right: 10px; margin-top: 10px"checked /> <label for="participating_banks">Participating Banks
 								
 							</label></li>
 
-						<li><input type="checkbox" id="lease_collecting" value="Y" name="lease_collecting"
+						<li><input type="checkbox" id="loan_collecting"  name="loan_collecting"
 								style="margin-right: 10px; margin-top: 10px"checked /> <label
-								for="lease_collecting">Lease Collecting</label>
+								for="loan_collecting">Loan Collection</label>
 
 						</li>
 
@@ -2613,12 +3043,12 @@
 					
 					</li>
 
-<li><input type="checkbox" id="batch_job_execution" value="Y" name="batch_job_execution"
+<li><input type="checkbox" id="batch_job_execution"  name="batch_job_execution"
 								style="margin-right: 10px; margin-top: 10px" checked/> <label
 								for="batch_job_execution">Batch Job Execution</label>
 
 					<ul>
-						<li><input type="checkbox" id="batch_job" value="Y" name="batch_job"
+						<li><input type="checkbox" id="batch_job"  name="batch_job"
 								style="margin-right: 10px; margin-top: 10px" checked/> <label
 								for="batch_job">Batch Job
 							</label></li>
@@ -2629,43 +3059,43 @@
 					</ul>
 					</li>
 
-				<li><input type="checkbox" id="inquries_and_report" value="Y" name="batch_job"
+				<li><input type="checkbox" id="inquries_and_report"  name="batch_job"
 								style="margin-right: 10px; margin-top: 10px" checked/> <label
 								for="inquries_and_report"> Inquires And Report
 							</label>
 
 					<ul>
-						<li><input type="checkbox" id="account_balance" value="Y" name="account_balance"
+						<li><input type="checkbox" id="account_balance"  name="account_balance"
 								style="margin-right: 10px; margin-top: 10px"  checked/> <label
 								for="account_balance">Account Balance
 							</label></li>
-						<li><input type="checkbox" id="interset_summary" value="Y" name="interset_summary"
+						<li><input type="checkbox" id="interset_summary"  name="interset_summary"
 								style="margin-right: 10px; margin-top: 10px" checked/> <label
 								for="interset_summary">Interest Summary</label>
 						</li>
 
-						<li><input type="checkbox" id="jounal_book" value="Y" name="jounal_book"
-								style="margin-right: 10px; margin-top: 10px" checked /> <label for="jounal_book">Journal
+						<li><input type="checkbox" id="jounal_book"  name="jounal_book"
+								style="margin-right: 10px; margin-top: 10px"  /> <label for="jounal_book">Journal
 								Book</label>
 						</li>
-							<li><input type="checkbox" id="account_ledger" value="Y" name="account_ledger"
-								style="margin-right: 10px; margin-top: 10px" checked/> <label for="account_ledger">Account Ledger
+							<li><input type="checkbox" id="account_ledger" name="account_ledger"
+								style="margin-right: 10px; margin-top: 10px" /> <label for="account_ledger">Account Ledger
 								Book</label>
 						</li>
-							<li><input type="checkbox" id="trial_balance" value="Y" name="trial_balance"
-								style="margin-right: 10px; margin-top: 10px" checked/> <label for="trial_balance">Trial Balance
+							<li><input type="checkbox" id="trial_balance"  name="trial_balance"
+								style="margin-right: 10px; margin-top: 10px" /> <label for="trial_balance">Trial Balance
 								</label>
 						</li>
-							<li><input type="checkbox" id="general_ledger" value="Y" name="general_ledger"
-								style="margin-right: 10px; margin-top: 10px" checked/> <label for="general_ledger">Journal Ledger
+							<li><input type="checkbox" id="general_ledger"  name="general_ledger"
+								style="margin-right: 10px; margin-top: 10px" /> <label for="general_ledger">Journal Ledger
 								</label>
 						</li>
-							<li><input type="checkbox" id="profit_and_lost" value="Y" name="profit_and_lost"
-								style="margin-right: 10px; margin-top: 10px" checked/> <label for="profit_and_lost">Profit And Lost Account
+							<li><input type="checkbox" id="profit_and_lost" name="profit_and_lost"
+								style="margin-right: 10px; margin-top: 10px"/> <label for="profit_and_lost">Profit And Lost Account
 								</label>
 						</li>
-							<li><input type="checkbox" id="balance_sheet" value="Y" name="balance_sheet"
-								style="margin-right: 10px; margin-top: 10px" checked/> <label for="balance_sheet">Balance Sheet
+							<li><input type="checkbox" id="balance_sheet"  name="balance_sheet"
+								style="margin-right: 10px; margin-top: 10px" /> <label for="balance_sheet">Balance Sheet
 								</label>
 						</li>
 
@@ -2680,7 +3110,7 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="finusersview1" data-backdrop="false" data-keyboard="false">
+	<div class="modal fade" th:if="${formmode}=='not_equal'" id="finusersview1" data-backdrop="false" data-keyboard="false">
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
 			style="max-width: 800px;max-height: 160vh;">
 			<div class="modal-content" style="border: 2px solid black;height: 160vh;">
@@ -2692,7 +3122,7 @@
 				<!-- Modal body -->
 				<div class="modal-body">
 					<input type="checkbox" id="" name="admin" style="margin-right: 10px"
-						th:checked="${access?.admin == 'Y'}" disabled />Admin
+						  th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.admin == 'Y'}" disabled />Admin
 
 					<ul>
 						<li><input type="checkbox" id="" name="orgnaization_details"
@@ -2711,6 +3141,12 @@
 										style="margin-right: 10px; margin-top: 10px"
 										th:checked="${access?.branches == 'Y'}" disabled />
 									<label for="branches">Branches
+									</label>
+								</li>
+								<li><input type="checkbox" id="" name="calender_maintance"
+										style="margin-right: 10px; margin-top: 10px"
+										th:checked="${access?.calender_maintance == 'Y'}" disabled />
+									<label for="calender_maintance">Calendar Maintenance 
 									</label>
 								</li>
 								<li><input type="checkbox" id="" value="Y" name="exception"
@@ -2760,7 +3196,7 @@
 								<li><input type="checkbox" id="" value="Y" name="scheme_codes"
 										style="margin-right: 10px; margin-top: 10px"
 										th:checked="${access?.scheme_codes == 'Y'}" disabled />
-									<label for="scheme_codes">Parameter
+									<label for="scheme_codes">Scheme Code
 									</label>
 								</li>
 								<li><input type="checkbox" id="" value="Y" name="chart_of_accounts"
@@ -2783,46 +3219,83 @@
 							<label for="audit_trail">Audit Trial</label>
 							<ul>
 								<li><input type="checkbox" id="" value="Y"
-										name="maintenance_activities" style="margin-right: 10px; margin-top: 10px"
-										th:checked="${access?.maintenance_activities == 'Y'}" disabled />
-									<label for="maintenance_activities">Maintanance Activities
+										name="user_activities" style="margin-right: 10px; margin-top: 10px"
+										th:checked="${access?.user_activities == 'Y'}" disabled />
+									<label for="user_activities">User Activities
 									</label>
 								</li>
-								<li><input type="checkbox" id="" value="Y" name="business_operations"
+								<li><input type="checkbox" id="" value="Y" name="business_activity"
 										style="margin-right: 10px; margin-top: 10px"
-										th:checked="${access?.business_operations == 'Y'}" disabled />
-									<label for="business_operations">Buisness Operations
+										th:checked="${access?.business_activity == 'Y'}" disabled />
+									<label for="business_activity">Buisness Activity
 									</label>
 								</li>
 
 							</ul>
 						</li>
-						<li><input type="checkbox" id="" value='Y' name="budget_controls"
+						<!-- <li><input type="checkbox" id="" value='Y' name="budget_controls"
 								style="margin-right: 10px" th:checked="${access?.budget_controls == 'Y'}" disabled />
 							<label for="budget_controls">Budget Control</label>
-						</li>
+						</li> -->
 					</ul>
 
-					<input type="checkbox" id="" value="Y" name="customer_on_boarding"
-						style="margin-right: 10px" th:checked="${access?.customer_on_boarding == 'Y'}"
-						disabled />Customer Onboarding
+					<input type="checkbox" id="" value="Y" name="migration"
+						style="margin-right: 10px" th:checked="${access?.migration == 'Y'}"
+						disabled />Migration
 
 					<ul>
-						<li><input type="checkbox" id="" value="Y" name="customer"
-								style="margin-right: 10px; margin-top: 10px" th:checked="${access?.customer == 'Y'}"
-								disabled /> <label for="customer">Customer
+						<li><input type="checkbox" id="" value="Y" name="customer_master"
+								style="margin-right: 10px; margin-top: 10px" th:checked="${access?.customer_master == 'Y'}"
+								disabled /> <label for="customer_master">Customer Master
 							</label></li>
-						<li><input type="checkbox" id="" value="Y" name="account"
-								style="margin-right: 10px; margin-top: 10px" th:checked="${access?.account == 'Y'}"
-								disabled /> <label for="account">Account</label>
+						<li><input type="checkbox" id="" value="Y" name="loan_master"
+								style="margin-right: 10px; margin-top: 10px" th:checked="${access?.loan_master == 'Y'}"
+								disabled /> <label for="loan_master">Loan Master</label>
+						</li>
+
+						<li><input type="checkbox" id="" value="Y" name="loan_schedule_migration"
+								style="margin-right: 10px; margin-top: 10px" th:checked="${access?.loan_schedule_migration == 'Y'}"
+								disabled /> <label for="loan_schedule_migration">Loan Schedule
+							</label></li>
+						<li><input type="checkbox" id="" value="Y" name="transaction_migration"
+								style="margin-right: 10px; margin-top: 10px" th:checked="${access?.transaction_migration == 'Y'}"
+								disabled /> <label for="transaction_migration">Transaction</label>
 						</li>
 
 					</ul>
+<div>
+					<!-- <input type="checkbox" id="" value="Y" name="day_end_operation"
+						style="margin-right: 10px" th:checked="${access?.day_end_operation == 'Y'}"
+						disabled /><label> Day End Operation </label>   <br> -->
 
-					<input type="checkbox" id="" value='Y' name="maintenance" style="margin-right: 10px"
-						th:checked="${access?.maintenance == 'Y'}" disabled />Maintanance
+					<input type="checkbox" id="" value="Y" name="customer_maintenance"
+					style="margin-right: 10px" th:checked="${access?.customer_maintenance == 'Y'}"
+					disabled /><label> Customer Maintanance</label>   <br>
+
+					<input type="checkbox" id="" value="Y" name="loan_maintanace"
+					style="margin-right: 10px" th:checked="${access?.loan_maintanace == 'Y'}"
+					disabled /><label> Loan Maintanance</label>   <br>
+</div>				
+
+					<input type="checkbox" id="" value="Y" name="loan_operation"
+						style="margin-right: 10px" th:checked="${access?.loan_operation == 'Y'}"
+						disabled />Loan Operation
 
 					<ul>
+						<li><input type="checkbox" id="" value="Y" name="loan_operation_ls"
+								style="margin-right: 10px; margin-top: 10px" th:checked="${access?.loan_operation_ls == 'Y'}"
+								disabled /> <label for="loan_operation_ls">Loan Operation
+							</label></li>
+						<li><input type="checkbox" id="" value="Y" name="loan_closure"
+								style="margin-right: 10px; margin-top: 10px" th:checked="${access?.loan_closure == 'Y'}"
+								disabled /> <label for="loan_closure">Loan Closure</label>
+						</li>
+					</ul>
+
+					<!-- <input type="checkbox" id="" value='Y' name="maintenance" style="margin-right: 10px"
+						th:checked="${access?.maintenance == 'Y'}" disabled />Maintanance -->
+
+					<!-- <ul>
 						<li><input type="checkbox" id="" value="Y"
 								name="customer_master_maintenance" style="margin-right: 10px; margin-top: 10px"
 								th:checked="${access?.customer_master_maintenance == 'Y'}" disabled />
@@ -2861,7 +3334,7 @@
 								disabled /> <label for="kyc_norms">
 								KYC Norms</label></li>
 
-					</ul>
+					</ul> -->
 
 					<input type="checkbox" id="" value="Y" name="transaction_maintenance"
 						style="margin-right: 10px" th:checked="${access?.transaction_maintenance == 'Y'}"
@@ -2906,26 +3379,19 @@
 					</ul>
 
 
-					<input type="checkbox" id="" value="Y" name="lease_loans" style="margin-right: 10px"
-						th:checked="${access?.lease_loans == 'Y'}" disabled />Lease Loans
+					<input type="checkbox" id="" value="Y" name="collection_process" style="margin-right: 10px"
+						th:checked="${access?.collection_process == 'Y'}" disabled />Collection Process
 
 					<ul>
-						<li><input type="checkbox" id="" value="Y" name="account_maintenance_l"
+						<li><input type="checkbox" id="" value="Y" name="participating_banks"
 								style="margin-right: 10px; margin-top: 10px"
-								th:checked="${access?.account_maintenance_l == 'Y'}" disabled /> <label
-								for="account_maintenance_l">Account Maintenace
+								th:checked="${access?.participating_banks == 'Y'}" disabled /> <label
+								for="participating_banks">Participating Banks
 							</label></li>
-						<li><input type="checkbox" id="" value="Y" name="account_statements_l"
+						<li><input type="checkbox" id="" value="Y" name="loan_collecting"
 								style="margin-right: 10px; margin-top: 10px"
-								th:checked="${access?.account_statements_l == 'Y'}" disabled /> <label
-								for="account_statements_l">Account Statements</label>
-						</li>
-
-						<li><input type="checkbox" id="" value="Y" name="flow_details_l"
-								style="margin-right: 10px; margin-top: 10px"
-								th:checked="${access?.flow_details_l == 'Y'}" disabled /> <label
-								for="flow_details_l">Flow
-								Details</label>
+								th:checked="${access?.loan_collecting == 'Y'}" disabled /> <label
+								for="loan_collecting">Loan Collection</label>
 						</li>
 
 					</ul>
@@ -2957,9 +3423,18 @@
 
 					<input type="checkbox" id="" value="Y" name="inquiries_and_reports"
 						style="margin-right: 10px" th:checked="${access?.inquiries_and_reports == 'Y'}"
-						disabled />Inquiries and Reports
+						disabled />Inquiries & Reports
 
 					<ul>
+						<li><input type="checkbox" id="" value="Y" name="account_balance_inq"
+								style="margin-right: 10px; margin-top: 10px" th:checked="${access?.account_balance_inq == 'Y'}"
+								disabled /> <label for="account_balance_inq">Account Balance
+							</label></li>
+							<li><input type="checkbox" id="" value="Y" name="interset_summary_inq"
+								style="margin-right: 10px; margin-top: 10px" th:checked="${access?.interset_summary_inq == 'Y'}"
+								disabled /> <label for="interset_summary_inq">Interest Summary
+							</label></li>
+
 						<li><input type="checkbox" id="" value="Y" name="journal_book"
 								style="margin-right: 10px; margin-top: 10px" th:checked="${access?.journal_book == 'Y'}"
 								disabled /> <label for="journal_book">Journal Book
@@ -3009,7 +3484,7 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="generalusers" data-backdrop="false" data-keyboard="false">
+	<div class="modal fade" th:if="${formmode}=='not_equal'" id="generalusers" data-backdrop="false" data-keyboard="false">
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
 			style="max-width: 800px;max-height: 160vh;">
 			<div class="modal-content" style="border: 2px solid black;height: 160vh;">
@@ -3036,6 +3511,17 @@
 								<li><input type="checkbox" id="branchesg" name="branches"
 										style="margin-right: 10px; margin-top: 10px" />
 									<label for="branches">Branches
+									</label>
+								</li>
+								<!-- <li><input type="checkbox" id="" name="calender_maintance"
+										style="margin-right: 10px; margin-top: 10px"
+										th:checked="${access?.calender_maintance == 'Y'}" disabled />
+									<label for="calender_maintance">Calendar Maintenance 
+									</label>
+								</li> -->
+								<li><input type="checkbox" id="calender_maintanceg" value="Y" name="calender_maintance"
+										style="margin-right: 10px; margin-top: 10px" />
+									<label for="calender_maintance">Calender Maintance
 									</label>
 								</li>
 								<li><input type="checkbox" id="exceptiong" value="Y" name="exception"
@@ -3077,7 +3563,7 @@
 								</li>
 								<li><input type="checkbox" id="scheme_codesg" value="Y" name="scheme_codes"
 										style="margin-right: 10px; margin-top: 10px" />
-									<label for="scheme_codes">Parameter
+									<label for="scheme_codes">Scheme Code
 									</label>
 								</li>
 								<li><input type="checkbox" id="chart_of_accountsg" value="Y" name="chart_of_accounts"
@@ -3097,42 +3583,74 @@
 								style="margin-right: 10px" />
 							<label for="audit_trail">Audit Trial</label>
 							<ul>
-								<li><input type="checkbox" id="maintenance_activitiesg" value="Y"
-										name="maintenance_activities" style="margin-right: 10px; margin-top: 10px" />
-									<label for="maintenance_activities">Maintanance Activities
+								<li><input type="checkbox" id="user_activitiesg" value="Y"
+										name="user_activities" style="margin-right: 10px; margin-top: 10px" />
+									<label for="user_activities">User Activities
 									</label>
 								</li>
-								<li><input type="checkbox" id="business_operationsg" value="Y"
-										name="business_operations" style="margin-right: 10px; margin-top: 10px" />
-									<label for="business_operations">Buisness Operations
+								<li><input type="checkbox" id="business_activityg" value="Y"
+										name="business_activity" style="margin-right: 10px; margin-top: 10px" />
+									<label for="business_activity">Buisness Activity
 									</label>
 								</li>
 
 							</ul>
 						</li>
-						<li><input type="checkbox" id="budget_controlsg" value='Y' name="budget_controls"
+						<!-- <li><input type="checkbox" id="budget_controlsg" value='Y' name="budget_controls"
 								style="margin-right: 10px" checked />
 							<label for="budget_controls">Budget Control</label>
-						</li>
+						</li> -->
 					</ul>
 
-					<input type="checkbox" id="customer_on_boardingg" value="Y" name="customer_on_boarding"
-						style="margin-right: 10px" checked />Customer Onboarding
+					<input type="checkbox" id="migrationg" value="Y" name="migration"
+						style="margin-right: 10px" checked />Migration
 
 					<ul>
-						<li><input type="checkbox" id="customerg" value="Y" name="service_charges_fees"
-								style="margin-right: 10px; margin-top: 10px" checked /> <label for="customerg">Customer
+						<li><input type="checkbox" id="customer_masterg" value="Y" name="customer_master"
+								style="margin-right: 10px; margin-top: 10px" checked /> <label for="customer_masterg">Customer Master
 							</label></li>
-						<li><input type="checkbox" id="accountg" value="Y" name="wallet_fees_charges"
+						<li><input type="checkbox" id="loan_masterg" value="Y" name="loan_master"
 								style="margin-right: 10px; margin-top: 10px" checked /> <label
-								for="accountg">Account</label>
+								for="loan_masterg">Loan Master</label>
 						</li>
+						<li><input type="checkbox" id="loan_schedule_migrationg" value="Y" name="loan_schedule_migration"
+								style="margin-right: 10px; margin-top: 10px" checked /> <label
+								for="loan_schedule_migrationg">Loan Schedule</label>
+						</li>
+						<li><input type="checkbox" id="transaction_migrationg" value="Y" name="transaction_migration"
+								style="margin-right: 10px; margin-top: 10px" checked /> <label
+								for="transaction_migrationg">Transaction</label>
+						</li>
+					</ul>
+					<div>
+						<!-- <input type="checkbox" id="day_end_operationg" value="Y" name="day_end_operation"
+							style="margin-right: 10px" th:checked="${access?.day_end_operation == 'Y'}"
+							/><label> Day End Operation </label>   <br> -->
 
+						<input type="checkbox" id="customer_maintenanceg" value="Y" name="customer_maintenance"
+						style="margin-right: 10px" th:checked="${access?.customer_maintenance == 'Y'}"
+						/><label> Customer Maintanance</label>   <br>
+
+						<input type="checkbox" id="loan_maintanaceg" value="Y" name="loan_maintanace"
+						style="margin-right: 10px" th:checked="${access?.loan_maintanace == 'Y'}"
+						/><label> Loan Maintanance</label>   <br>
+					</div>					
+					<input type="checkbox" id="loan_operationg" value="Y" name="loan_operationg"
+						style="margin-right: 10px" checked />Loan Operation
+
+					<ul>
+						<li><input type="checkbox" id="loan_operation_lsg" value="Y" name="loan_operation_ls"
+								style="margin-right: 10px; margin-top: 10px" checked /> <label for="loan_operation_lsg">Loan Operation
+							</label></li>
+						<li><input type="checkbox" id="loan_closureg" value="Y" name="loan_closure"
+								style="margin-right: 10px; margin-top: 10px" checked /> <label
+								for="loan_closureg">Loan Closure</label>
+						</li>
 					</ul>
 
-					<input type="checkbox" id="maintenanceg" value='Y' name="maintenanceg" style="margin-right: 10px"
-						checked />Maintanance
-
+					<!-- <input type="checkbox" id="maintenanceg" value='Y' name="maintenanceg" style="margin-right: 10px"
+						checked />Maintanance -->
+<!-- 
 					<ul>
 						<li><input type="checkbox" id="customer_master_maintenanceg" value="Y"
 								name="customer_master_maintenance" style="margin-right: 10px; margin-top: 10px"
@@ -3165,7 +3683,7 @@
 								style="margin-right: 10px; margin-top: 10px" checked /> <label for="kyc_norms">
 								KYC Norms</label></li>
 
-					</ul>
+					</ul> -->
 
 					<input type="checkbox" id="transaction_maintenanceg" value="Y" name="transaction_maintenance"
 						style="margin-right: 10px" checked />Transaction Maintenance
@@ -3204,50 +3722,44 @@
 					</ul>
 
 
-					<input type="checkbox" id="lease_loansg" value="Y" name="lease_loans" style="margin-right: 10px"
-						checked />Lease Loans
+					<input type="checkbox" id="collection_processg" value="Y" name="collection_process" style="margin-right: 10px"
+						checked />Collection Process
 
 					<ul>
-						<li><input type="checkbox" id="account_maintenance_lg" value="Y" name="account_maintenance_l"
+						<li><input type="checkbox" id="participating_banksg" value="Y" name="participating_banks"
 								style="margin-right: 10px; margin-top: 10px" checked /> <label
-								for="account_maintenance_l">Account Maintenace
+								for="participating_banks">Participating Banks
 							</label></li>
-						<li><input type="checkbox" id="account_statements_lg" value="Y" name="account_statements_l"
+						<li><input type="checkbox" id="loan_collectingg" value="Y" name="loan_collecting"
 								style="margin-right: 10px; margin-top: 10px" checked /> <label
-								for="account_statements_l">Account Statements</label>
+								for="loan_collecting">Loan Collection</label>
 						</li>
-
-						<li><input type="checkbox" id="flow_details_lg" value="Y" name="flow_details_l"
-								style="margin-right: 10px; margin-top: 10px" checked /> <label for="flow_details_l">Flow
-								Details</label>
-						</li>
-
 					</ul>
 
-					<input type="checkbox" id="deposit_accountsg" value="Y" name="deposit_accounts"
-						style="margin-right: 10px" checked />Deposit Accounts
+					<input type="checkbox" id="batch_job_execution" value="Y" name="batch_job_execution"
+						style="margin-right: 10px" checked />Batch Job Execution
 
 					<ul>
-						<li><input type="checkbox" id="account_maintenance_dg" value="Y" name="account_maintenance_d"
+						<li><input type="checkbox" id="batch_job" value="Y" name="batch_job"
 								style="margin-right: 10px; margin-top: 10px" checked /> <label
-								for="account_maintenance_d">Account Maintenace
+								for="batch_job">Batch Job
 							</label></li>
-						<li><input type="checkbox" id="account_statements_dg" value="Y" name="account_statements_d"
-								style="margin-right: 10px; margin-top: 10px" checked /> <label
-								for="account_statements_d">Account Statements</label>
-						</li>
-
-						<li><input type="checkbox" id="flow_details_dg" value="Y" name="flow_details_d"
-								style="margin-right: 10px; margin-top: 10px" checked /> <label for="flow_details_d">Flow
-								Details</label>
-						</li>
-
 					</ul>
 
 					<input type="checkbox" id="inquiries_and_reportsg" value="Y" name="inquiries_and_reports"
-						style="margin-right: 10px" checked />Inquiries and Reports
+						style="margin-right: 10px" checked />Inquiries & Reports
 
 					<ul>
+						<li><input type="checkbox" id="account_balance_inqg" value="Y" name="account_balance_inq"
+								style="margin-right: 10px; margin-top: 10px" checked /> <label
+								for="account_balance_inq">Account Balance
+							</label></li>
+						<li><input type="checkbox" id="interset_summary_inqg" value="Y" name="interset_summary_inq"
+								style="margin-right: 10px; margin-top: 10px" checked /> <label
+								for="interset_summary_inq">Interest Summary
+							</label>
+						</li>
+
 						<li><input type="checkbox" id="journal_bookg" value="Y" name="journal_book"
 								style="margin-right: 10px; margin-top: 10px" checked /> <label
 								for="journal_book">Journal Book
@@ -3292,10 +3804,10 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="finusers" data-backdrop="false" data-keyboard="false">
+	<div class="modal fade" id="finusers" data-backdrop="false" data-keyboard="false" style="margin: auto;">
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-			style="max-width: 800px;max-height: 160vh;">
-			<div class="modal-content" style="border: 2px solid black;height: 160vh;">
+			style="max-width: 800px;max-height: 100vh;">
+			<div class="modal-content" style="border: 2px solid black;height: 100vh;margin: auto;">
 				<!-- Modal Header -->
 				<div class="modal-header" style="background-color: #e6eaed;">
 					<h4 class="modal-title" style="color: black;">User Access Modules </h4>
@@ -3303,177 +3815,210 @@
 				</div>
 				<!-- Modal body -->
 				<div class="modal-body">
-					<input type="checkbox" id="admin" name="admin" style="margin-right: 10px" checked />Admin
+					<input type="checkbox" onclick="accessechecking(this)" id="admin" name="admin" style="margin-right: 10px"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.admin == 'Y'}" />Admin
 
 					<ul>
 						<li><input type="checkbox" id="orgnaization_details" name="orgnaization_details"
-								style="margin-right: 10px; margin-top: 10px" checked /> <label
+								style="margin-right: 10px; margin-top: 10px"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.orgnaization_details == 'Y'}" /> <label
 								for="orgnaization_details">Oraganization Details
 							</label>
-							<ul>
-								<li><input type="checkbox" id="head_office" value="Y" name="head_office"
-										style="margin-right: 10px; margin-top: 10px" checked />
+							<!-- <ul>
+								<li><input type="checkbox" id="head_office" name="head_office"
+										style="margin-right: 10px; margin-top: 10px"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.head_office == 'Y'}" />
 									<label for="head_office">Head Office
 									</label>
 								</li>
 								<li><input type="checkbox" id="branches" name="branches"
-										style="margin-right: 10px; margin-top: 10px" checked />
+										style="margin-right: 10px; margin-top: 10px"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.branches == 'Y'}" />
 									<label for="branches">Branches
 									</label>
 								</li>
-								<li><input type="checkbox" id="exception" value="Y" name="exception"
-										style="margin-right: 10px; margin-top: 10px" checked />
+								<li><input type="checkbox" id="calender_maintance"  name="calender_maintance"
+										style="margin-right: 10px; margin-top: 10px"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.calender_maintance == 'Y'}" />
+									<label for="calender_maintance">Calender Maintance
+									</label>
+								</li>
+								<li><input type="checkbox" id="exception"  name="exception"
+										style="margin-right: 10px; margin-top: 10px"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.exception == 'Y'}" />
 									<label for="exception">Exception
 									</label>
 								</li>
-							</ul>
+							</ul> -->
 						</li>
-						<li><input type="checkbox" id="user_controls" value="Y" name="user_controls"
-								style="margin-right: 10px" checked /> <label for="user_controls">User Control</label>
-							<ul>
-								<li><input type="checkbox" id="user_profile" value="Y" name="user_profile"
-										style="margin-right: 10px; margin-top: 10px" checked />
+						<li><input type="checkbox" id="user_controls"  name="user_controls"
+								style="margin-right: 10px"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.user_controls == 'Y'}" /> <label for="user_controls">User Control</label>
+							<!-- <ul>
+								<li><input type="checkbox" id="user_profile"  name="user_profile"
+										style="margin-right: 10px; margin-top: 10px"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.user_profile == 'Y'}" />
 									<label for="user_profile">User Profile
 									</label>
 								</li>
-								<li><input type="checkbox" id="employee_profile" value="Y" name="employee_profile"
-										style="margin-right: 10px; margin-top: 10px" checked />
+								<li><input type="checkbox" id="employee_profile"  name="employee_profile"
+										style="margin-right: 10px; margin-top: 10px"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.employee_profile == 'Y'}" />
 									<label for="employee_profile">Employee Profile
 									</label>
 								</li>
 
-							</ul>
+							</ul> -->
 						</li>
-						<li><input type="checkbox" id="reference_code_maintenance" value='Y'
-								name="reference_code_maintenance" style="margin-right: 10px" checked /> <label
+						<li><input type="checkbox" id="reference_code_maintenance" 
+								name="reference_code_maintenance" style="margin-right: 10px"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.reference_code_maintenance == 'Y'}" /> <label
 								for="reference_code_maintenance">Parameters</label>
-							<ul>
-								<li><input type="checkbox" id="reference_code" value="Y" name="reference_code"
-										style="margin-right: 10px; margin-top: 10px" checked />
+							<!-- <ul>
+								<li><input type="checkbox" id="reference_code" name="reference_code"
+										style="margin-right: 10px; margin-top: 10px"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.reference_code == 'Y'}" />
 									<label for="reference_code">Reference Code Maintanance</label>
 									</label>
 								</li>
-								<li><input type="checkbox" id="gl_structure" value="Y" name="gl_structure"
-										style="margin-right: 10px; margin-top: 10px" checked />
+								<li><input type="checkbox" id="gl_structure"  name="gl_structure"
+										style="margin-right: 10px; margin-top: 10px"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.gl_structure == 'Y'}" />
 									<label for="gl_structure">GL Structure
 									</label>
 								</li>
-								<li><input type="checkbox" id="scheme_codes" value="Y" name="scheme_codes"
-										style="margin-right: 10px; margin-top: 10px" checked />
-									<label for="scheme_codes">Parameter
+								<li><input type="checkbox" id="scheme_codes"  name="scheme_codes"
+										style="margin-right: 10px; margin-top: 10px"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.scheme_codes == 'Y'}" />
+									<label for="scheme_codes">Scheme Code
 									</label>
 								</li>
-								<li><input type="checkbox" id="chart_of_accounts" value="Y" name="chart_of_accounts"
-										style="margin-right: 10px; margin-top: 10px" checked />
+								<li><input type="checkbox" id="chart_of_accounts"  name="chart_of_accounts"
+										style="margin-right: 10px; margin-top: 10px"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.chart_of_accounts == 'Y'}" />
 									<label for="chart_of_accounts">Chart of Accounts
 									</label>
 								</li>
-								<li><input type="checkbox" id="account_ledgers" value="Y" name="account_ledgers"
-										style="margin-right: 10px; margin-top: 10px" checked />
+								<li><input type="checkbox" id="account_ledgers" name="account_ledgers"
+										style="margin-right: 10px; margin-top: 10px"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.account_ledgers == 'Y'}" />
 									<label for="account_ledgers">Account Ledgers
 									</label>
 								</li>
-							</ul>
+							</ul> -->
 						</li>
 
-						<li><input type="checkbox" id="audit_trail" value='Y' name="audit_trail"
-								style="margin-right: 10px" checked />
+						<li><input type="checkbox" id="audit_trail" name="audit_trail"
+								style="margin-right: 10px"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.audit_trail == 'Y'}" />
 							<label for="audit_trail">Audit Trial</label>
-							<ul>
-								<li><input type="checkbox" id="maintenance_activities" value="Y"
-										name="maintenance_activities" style="margin-right: 10px; margin-top: 10px"
-										checked />
-									<label for="maintenance_activities">Maintanance Activities
+							<!-- <ul>
+								<li><input type="checkbox" id="user_activities"
+										name="user_activities" style="margin-right: 10px; margin-top: 10px"
+										  th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.user_activities == 'Y'}" />
+									<label for="user_activities">User Activities
 									</label>
 								</li>
-								<li><input type="checkbox" id="business_operations" value="Y" name="business_operations"
-										style="margin-right: 10px; margin-top: 10px" checked />
-									<label for="business_operations">Buisness Operations
+								<li><input type="checkbox" id="business_activity" name="business_activity"
+										style="margin-right: 10px; margin-top: 10px"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.business_activity == 'Y'}" />
+									<label for="business_activity">Buisness Activity
 									</label>
 								</li>
 
-							</ul>
+							</ul> -->
 						</li>
-						<li><input type="checkbox" id="budget_controls" value='Y' name="budget_controls"
+						<!-- <li><input type="checkbox" id="budget_controls" value='Y' name="budget_controls"
 								style="margin-right: 10px" />
 							<label for="budget_controls">Budget Control</label>
-						</li>
+						</li> -->
 					</ul>
 
-					<input type="checkbox" id="customer_on_boarding" value="Y" name="customer_on_boarding"
-						style="margin-right: 10px" />Customer Onboarding
+					<input type="checkbox" id="migration"  name="migration"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.migration == 'Y'}"
+						onclick="accessechecking(this)" style="margin-right: 10px" />Migration
 
 					<ul>
-						<li><input type="checkbox" id="customer" value="Y" name="customer"
-								style="margin-right: 10px; margin-top: 10px" /> <label for="customer">Customer
+						<li><input type="checkbox" id="customer_master"  name="customer_master"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.customer_master == 'Y'}"
+								style="margin-right: 10px; margin-top: 10px" /> <label for="customer_master">Customer Master
 							</label></li>
-						<li><input type="checkbox" id="account" value="Y" name="account"
-								style="margin-right: 10px; margin-top: 10px" /> <label for="account">Account</label>
+						<li><input type="checkbox" id="loan_master"  name="loan_master"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.loan_master == 'Y'}"
+								style="margin-right: 10px; margin-top: 10px" /> <label for="loan_master">Loan Master</label>
 						</li>
-
+						<li><input type="checkbox" id="loan_schedule_migration" name="loan_schedule_migration"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.loan_schedule_migration == 'Y'}"
+								style="margin-right: 10px; margin-top: 10px" /> <label for="loan_schedule_migration">Loan Schedule</label>
+						</li>
+						<li><input type="checkbox" id="transaction_migration" name="transaction_migration"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.transaction_migration == 'Y'}"
+								style="margin-right: 10px; margin-top: 10px" /> <label for="transaction_migration">Transaction</label>
+						</li>
 					</ul>
+<div>
+					<input type="checkbox" id="day_end_operation_user" name="day_end_operation_user"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.day_end_operation == 'Y'}"
+						style="margin-right: 10px"
+						 /><label> Day End Operation </label>   <br>
 
-					<input type="checkbox" id="maintenance" value='Y' name="maintenance"
-						style="margin-right: 10px" />Maintanance
+					<input type="checkbox" id="customer_maintenance" name="customer_maintenance"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.customer_maintenance == 'Y'}"
+					style="margin-right: 10px"
+					 /><label> Customer Maintanance</label>   <br>
+
+					<input type="checkbox" id="loan_maintanace" name="loan_maintanace"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.loan_maintanace == 'Y'}"
+					style="margin-right: 10px"
+					 /><label> Loan Maintanance</label>   <br>
+</div>
+					<input type="checkbox" id="loan_operation" name="loan_operation"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.loan_operation == 'Y'}"
+						style="margin-right: 10px" onclick="accessechecking(this)" />Loan Operation
 
 					<ul>
-						<li><input type="checkbox" id="customer_master_maintenance" value="Y"
+						<li><input type="checkbox" id="loan_operation_ls"  name="loan_operation_ls"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.loan_operation_ls == 'Y'}"
+								style="margin-right: 10px; margin-top: 10px" /> <label for="loan_operation_ls">Loan Operation
+							</label></li>
+						<li><input type="checkbox" id="loan_closure"  name="loan_closure"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.loan_closure == 'Y'}"
+								style="margin-right: 10px; margin-top: 10px" /> <label for="loan_closure">Loan Closure</label>
+						</li>
+					</ul>
+
+					<!-- <input type="checkbox" id="maintenance" value='Y' name="maintenance"
+						style="margin-right: 10px" />Maintanance -->
+
+					<!-- <ul>
+						<li><input type="checkbox" id="customer_master_maintenance" 
 								name="customer_master_maintenance" style="margin-right: 10px; margin-top: 10px" />
 							<label for="customer_master_maintenance">Customer Master Maintanance</label>
 						</li>
-						<li><input type="checkbox" id="account_master_maintenance" value="Y"
+						<li><input type="checkbox" id="account_master_maintenance" 
 								name="account_master_maintenance" style="margin-right: 10px; margin-top: 10px" /> <label
 								for="account_master_maintenance">
 								Account Master Maintenance</label></li>
 
-						<li><input type="checkbox" id="lease_accounts" value="Y" name="lease_accounts"
+						<li><input type="checkbox" id="lease_accounts"  name="lease_accounts"
 								style="margin-right: 10px; margin-top: 10px" /> <label for="lease_accounts">
 								Lease Accounts</label></li>
 
-						<li><input type="checkbox" id="deposit_accounts_c" value="Y" name="deposit_accounts_c"
+						<li><input type="checkbox" id="deposit_accounts_c"  name="deposit_accounts_c"
 								style="margin-right: 10px; margin-top: 10px" /> <label for="deposit_accounts_c">
 								Deposit Accounts</label></li>
 
-						<li><input type="checkbox" id="office_accounts" value="Y" name="office_accounts"
+						<li><input type="checkbox" id="office_accounts"  name="office_accounts"
 								style="margin-right: 10px; margin-top: 10px" /> <label for="office_accounts">
 								Office Accounts</label></li>
 
-						<li><input type="checkbox" id="document_maintenance" value="Y" name="document_maintenance"
+						<li><input type="checkbox" id="document_maintenance"  name="document_maintenance"
 								style="margin-right: 10px; margin-top: 10px" /> <label for="document_maintenance">
 								Document Maintenance</label></li>
 
-						<li><input type="checkbox" id="kyc_norms" value="Y" name="kyc_norms"
+						<li><input type="checkbox" id="kyc_norms"  name="kyc_norms"
 								style="margin-right: 10px; margin-top: 10px" /> <label for="kyc_norms">
 								KYC Norms</label></li>
 
-					</ul>
+					</ul> -->
 
-					<input type="checkbox" id="transaction_maintenance" value="Y" name="transaction_maintenance"
-						style="margin-right: 10px" />Transaction Maintenance
+					<input type="checkbox" id="transaction_maintenance"  name="transaction_maintenance"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.transaction_maintenance == 'Y'}"
+						style="margin-right: 10px" onclick="accessechecking(this)" />Transaction Maintenance
 
 					<ul>
-						<li><input type="checkbox" id="journal_entries" value="Y" name="journal_entries"
-								style="margin-right: 10px; margin-top: 10px" /> <label for="journal_entries">Journal
-								Entries
-							</label></li>
+						<li><input type="checkbox" id="journal_entries"  name="journal_entries"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.journal_entries == 'Y'}"
+								style="margin-right: 10px; margin-top: 10px" /> <label for="journal_entries">Journal Entries</label>
+							</li>
 
-						<li><input type="checkbox" id="account_ledger_posting" value="Y" name="account_ledger_posting"
+						<li><input type="checkbox" id="account_ledger_posting"  name="account_ledger_posting"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.account_ledger_posting == 'Y'}"
 								style="margin-right: 10px; margin-top: 10px" /> <label
 								for="account_ledger_posting">Account Ledger Posting</label>
 
 						</li>
 
-						<li><input type="checkbox" id="account_ledger" value="Y" name="account_ledger"
+						<li><input type="checkbox" id="account_ledger"  name="account_ledger"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.account_ledger == 'Y'}"
 								style="margin-right: 10px; margin-top: 10px" /> <label for="account_ledger">Account
 								Ledger</label>
 
 						</li>
-						<li><input type="checkbox" id="trial_balance_t" value="Y" name="trial_balance_t"
+						<li><input type="checkbox" id="trial_balance_t"  name="trial_balance_t"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.trial_balance_t == 'Y'}"
 								style="margin-right: 10px; margin-top: 10px" /> <label for="trial_balance_t">Trial
 								Balance</label>
 
 						</li>
-						<li><input type="checkbox" id="profit_and_loss_account_t" value="Y"
+						<li><input type="checkbox" id="profit_and_loss_account_t"    th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.profit_and_loss_account_t == 'Y'}"
 								name="profit_and_loss_account_t" style="margin-right: 10px; margin-top: 10px" /> <label
 								for="profit_and_loss_account_t">Profit and Loss Account</label>
 
@@ -3482,74 +4027,66 @@
 					</ul>
 
 
-					<input type="checkbox" id="lease_loans" value="Y" name="lease_loans"
-						style="margin-right: 10px" />Lease Loans
+					<input type="checkbox" id="collection_process"  name="collection_process"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.collection_process == 'Y'}"
+						style="margin-right: 10px" onclick="accessechecking(this)" />Collection Process
 
 					<ul>
-						<li><input type="checkbox" id="account_maintenance_l" value="Y" name="account_maintenance_l"
+						<li><input type="checkbox" id="participating_banks"  name="participating_banks"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.participating_banks == 'Y'}"
 								style="margin-right: 10px; margin-top: 10px" /> <label
-								for="account_maintenance_l">Account Maintenace
+								for="participating_banks">Participating Banks
 							</label></li>
-						<li><input type="checkbox" id="account_statements_l" value="Y" name="account_statements_l"
+						<li><input type="checkbox" id="loan_collecting"  name="loan_collecting"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.loan_collecting == 'Y'}"
 								style="margin-right: 10px; margin-top: 10px" /> <label
-								for="account_statements_l">Account Statements</label>
+								for="loan_collecting">Loan Collection</label>
 						</li>
-
-						<li><input type="checkbox" id="flow_details_l" value="Y" name="flow_details_l"
-								style="margin-right: 10px; margin-top: 10px" /> <label for="flow_details_l">Flow
-								Details</label>
-						</li>
-
 					</ul>
 
-					<input type="checkbox" id="deposit_accounts" value="Y" name="deposit_accounts"
-						style="margin-right: 10px" />Deposit Accounts
+					<input type="checkbox" id="batch_job_execution"  name="batch_job_execution"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.batch_job_execution == 'Y'}"
+						style="margin-right: 10px" onclick="accessechecking(this)" />Batch Job Execution
 
 					<ul>
-						<li><input type="checkbox" id="account_maintenance_d" value="Y" name="account_maintenance_d"
+						<li><input type="checkbox" id="batch_job"  name="batch_job"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.batch_job == 'Y'}"
 								style="margin-right: 10px; margin-top: 10px" /> <label
-								for="account_maintenance_d">Account Maintenace
+								for="batch_job">Batch Job
 							</label></li>
-						<li><input type="checkbox" id="account_statements_d" value="Y" name="account_statements_d"
-								style="margin-right: 10px; margin-top: 10px" /> <label
-								for="account_statements_d">Account Statements</label>
-						</li>
-
-						<li><input type="checkbox" id="flow_details_d" value="Y" name="flow_details_d"
-								style="margin-right: 10px; margin-top: 10px" /> <label for="flow_details_d">Flow
-								Details</label>
-						</li>
-
 					</ul>
 
-					<input type="checkbox" id="inquiries_and_reports" value="Y" name="inquiries_and_reports"
-						style="margin-right: 10px" />Inquiries and Reports
+					<input type="checkbox" id="inquiries_and_reports"  name="inquiries_and_reports"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.inquiries_and_reports == 'Y'}"
+						style="margin-right: 10px" onclick="accessechecking(this)" />Inquiries & Reports
 
 					<ul>
-						<li><input type="checkbox" id="journal_book" value="Y" name="journal_book"
+						<li><input type="checkbox" id="account_balance_inq"  name="account_balance_inq"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.account_balance_inq == 'Y'}"
+								style="margin-right: 10px; margin-top: 10px" /> <label for="account_balance_inq">Account Balance
+							</label></li>
+
+						<li><input type="checkbox" id="interset_summary_inq"  name="interset_summary_inq"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.interset_summary_inq == 'Y'}"
+							style="margin-right: 10px; margin-top: 10px" /> <label for="interset_summary_inq">Interest Summary
+						</label></li>
+
+						<li><input type="checkbox" id="journal_book"  name="journal_book"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.journal_book == 'Y'}"
 								style="margin-right: 10px; margin-top: 10px" /> <label for="journal_book">Journal Book
 							</label></li>
-						<li><input type="checkbox" id="account_ledgers_i" value="Y" name="account_ledgers_i"
+						<li><input type="checkbox" id="account_ledgers_i"  name="account_ledgers_i"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.account_ledgers_i == 'Y'}"
 								style="margin-right: 10px; margin-top: 10px" /> <label for="account_ledgers_i">Account
 								Ledgers</label>
 						</li>
 
-						<li><input type="checkbox" id="trial_balance_i" value="Y" name="trial_balance_i"
+						<li><input type="checkbox" id="trial_balance_i"  name="trial_balance_i"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.trial_balance_i == 'Y'}"
 								style="margin-right: 10px; margin-top: 10px" /> <label for="trial_balance_i">Trial
 								Balance</label>
 						</li>
 
-						<li><input type="checkbox" id="general_ledger" value="Y" name="general_ledger"
+						<li><input type="checkbox" id="general_ledger"  name="general_ledger"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.general_ledger == 'Y'}"
 								style="margin-right: 10px; margin-top: 10px" /> <label for="general_ledger">General
 								Ledger</label>
 						</li>
 
-						<li><input type="checkbox" id="profit_and_loss_account_i" value="Y"
+						<li><input type="checkbox" id="profit_and_loss_account_i"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.profit_and_loss_account_i == 'Y'}"
 								name="profit_and_loss_account_i" style="margin-right: 10px; margin-top: 10px" /> <label
 								for="profit_and_loss_account_i">Profit and Loss Account</label>
 						</li>
 
-						<li><input type="checkbox" id="balance_sheet" value="Y" name="balance_sheet"
+						<li><input type="checkbox" id="balance_sheet"  name="balance_sheet"   th:disabled="${formmode != 'add' and formmode != 'modify'}"  th:checked="${access?.balance_sheet == 'Y'}"
 								style="margin-right: 10px; margin-top: 10px" /> <label for="balance_sheet">Balance
 								Sheet</label>
 						</li>
@@ -3558,7 +4095,7 @@
 
 
 					<div>
-						<button type="button" class="btn-primary big-btn" data-dismiss="modal">SUBMIT</button>
+						<button type="button" th:if="${formmode == 'add' or formmode == 'modify'}" class="btn-primary big-btn" data-dismiss="modal">SUBMIT</button>
 					</div>
 				</div>
 			</div>
@@ -3614,7 +4151,25 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="SuccesPopUp" style="background: #000000b0;margin-bottom:10px;margin: auto;"
+		role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+			role="document">
+			<div class="modal-content" style="height:200px;margin-left:0px;" >
+				<!-- Modal Body -->
+				<div class="modal-body">
+					<h5  id="Successmsgpopup" style="font-size: 17px; color: black; padding: 15px;"></h5>
+				</div>
+				<!-- Modal Footer -->
+				<div style="padding: 10px; text-align: center;">
+					<button type="button" class="btn btn-outline-dark me-3"
+						style="font-size: 16px;"  onclick="goToList();" >Close</button>
+				</div>
 
+			</div>
+		</div>
+	</div>
 
 
 </body>

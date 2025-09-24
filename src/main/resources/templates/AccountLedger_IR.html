@@ -1,224 +1,227 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <!--
 	CREATED BY : PRAVEEN
 	DATE : 17-09-24
 -->
 
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="/ASPIRA/js/jquery.min.js"></script>
-<script src="/ASPIRA/js/jquery-ui.min.js"></script>
-<style>
-body {
-	font-size: 0.8rem;
-}
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="/ASPIRA/js/jquery.min.js"></script>
+	<script src="/ASPIRA/js/jquery-ui.min.js"></script>
+	<style>
+		body {
+			font-size: 0.8rem;
+		}
 
-.btn {
-	line-height: 0.5rem;
-}
+		.btn {
+			line-height: 0.5rem;
+		}
 
-.table-bordered td, .table-bordered th {
-	font-size: smaller;
-}
+		.table-bordered td,
+		.table-bordered th {
+			font-size: smaller;
+		}
 
-.container-manager {
-	width: 83.5%;
-	padding-right: 15px;
-	padding-left: 15px;
-	margin-right: auto;
-	margin-left: 17.3%;
-	margin-top: 80px;
-	margin-top: 80px;
-}
+		.container-manager {
+			width: 83.5%;
+			padding-right: 15px;
+			padding-left: 15px;
+			margin-right: auto;
+			margin-left: 17.3%;
+			margin-top: 80px;
+			margin-top: 80px;
+		}
 
-.table .thead-light th {
-	color: #495057;
-	background-color: #e9ecef;
-	border-color: #dee2e6;
-	width: 23px;
-}
+		.table .thead-light th {
+			color: #495057;
+			background-color: #e9ecef;
+			border-color: #dee2e6;
+			width: 23px;
+		}
 
-.tablinks {
-	background-color: #f2f2f2;
-	color: #000;
-}
+		.tablinks {
+			background-color: #f2f2f2;
+			color: #000;
+		}
 
-.tablinks.active {
-	background-color: #007bff;
-	color: #fff;
-}
+		.tablinks.active {
+			background-color: #007bff;
+			color: #fff;
+		}
 
-.tab {
-	overflow: hidden;
-	border: 1px solid #ccc;
-	background-color: #f1f1f1;
-}
+		.tab {
+			overflow: hidden;
+			border: 1px solid #ccc;
+			background-color: #f1f1f1;
+		}
 
-.scroll {
-	max-height: 60vh;
-	overflow-y: scroll;
-	overflow-x: hidden;
-}
+		.scroll {
+			max-height: 60vh;
+			overflow-y: scroll;
+			overflow-x: hidden;
+		}
 
-.tab button {
-	background-color: inherit;
-	float: left;
-	border: none;
-	outline: none;
-	cursor: pointer;
-	padding: 14px 16px;
-	transition: 0.3s;
-	font-size: 17px;
-}
+		.tab button {
+			background-color: inherit;
+			float: left;
+			border: none;
+			outline: none;
+			cursor: pointer;
+			padding: 14px 16px;
+			transition: 0.3s;
+			font-size: 17px;
+		}
 
-.tab button:hover {
-	background-color: #ddd;
-}
+		.tab button:hover {
+			background-color: #ddd;
+		}
 
-.tabcontent {
-	display: none;
-	padding: 6px 12px;
-	border: 0px solid #ccc;
-	border-top: none;
-}
+		.tabcontent {
+			display: none;
+			padding: 6px 12px;
+			border: 0px solid #ccc;
+			border-top: none;
+		}
 
-#myPieChart {
-	width: 100px;
-	height: 100px;
-}
-</style>
-<style>
-.modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.4);
-	margin-left: 350px;
-}
+		#myPieChart {
+			width: 100px;
+			height: 100px;
+		}
+	</style>
+	<style>
+		.modal {
+			display: none;
+			position: fixed;
+			z-index: 1;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgba(0, 0, 0, 0.4);
+			margin-left: 350px;
+		}
 
-.modal-content {
-	background-color: #fefefe;
-	margin: 15% auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 70%;
-	height: 50%;
-	margin-left: 200px;
-}
+		.modal-content {
+			background-color: #fefefe;
+			margin: 15% auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 70%;
+			height: 50%;
+			margin-left: 200px;
+		}
 
-.modal-pass {
-	background-color: #fefefe;
-	margin: 15% auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 40%;
-	height: 25%;
-	margin-left: 400PX;
-	margin-right: auto;
-	border-radius: 10px;
-	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
-	font-family: Arial, sans-serif;
-}
+		.modal-pass {
+			background-color: #fefefe;
+			margin: 15% auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 40%;
+			height: 25%;
+			margin-left: 400PX;
+			margin-right: auto;
+			border-radius: 10px;
+			box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+			font-family: Arial, sans-serif;
+		}
 
-.close {
-	color: red;
-	font-size: 28px;
-	font-weight: bold;
-}
+		.close {
+			color: red;
+			font-size: 28px;
+			font-weight: bold;
+		}
 
-.close:hover, .close:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+		}
 
-.table-responsive {
-	max-height: 600px;
-	overflow-y: auto;
-}
+		.table-responsive {
+			max-height: 600px;
+			overflow-y: auto;
+		}
 
-.table-responsive1 {
-	max-height: 420px;
-	overflow-y: auto;
-}
+		.table-responsive1 {
+			max-height: 420px;
+			overflow-y: auto;
+		}
 
-table {
-	width: 100%;
-	border-collapse: collapse;
-}
+		table {
+			width: 100%;
+			border-collapse: collapse;
+		}
 
-thead {
-	top: 0;
-	background-color: #f9f9f9;
-	z-index: 10;
-}
+		thead {
+			top: 0;
+			background-color: #f9f9f9;
+			z-index: 10;
+		}
 
-th, td {
-	padding: 12px;
-	text-align: left;
-	border-bottom: 1px solid #ddd;
-}
-</style>
-<style>
-.password-info {
-	visibility: hidden;
-	width: 320px;
-	background-color: #333;
-	color: #fff;
-	text-align: left;
-	border-radius: 10px;
-	padding: 10px;
-	position: absolute;
-	z-index: 1;
-	top: calc(100% + 10px);
-	left: 50%;
-	transform: translateX(-50%);
-	opacity: 0;
-	transition: opacity 0.3s;
-}
+		th,
+		td {
+			padding: 12px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+	</style>
+	<style>
+		.password-info {
+			visibility: hidden;
+			width: 320px;
+			background-color: #333;
+			color: #fff;
+			text-align: left;
+			border-radius: 10px;
+			padding: 10px;
+			position: absolute;
+			z-index: 1;
+			top: calc(100% + 10px);
+			left: 50%;
+			transform: translateX(-50%);
+			opacity: 0;
+			transition: opacity 0.3s;
+		}
 
-input:hover+.password-info {
-	visibility: visible;
-	opacity: 0.8;
-}
+		input:hover+.password-info {
+			visibility: visible;
+			opacity: 0.8;
+		}
 
-.filterable .filters input[disabled] {
-	background-color: transparent;
-	border: none;
-	cursor: auto;
-	box-shadow: none;
-	padding: 0;
-	height: auto;
-}
+		.filterable .filters input[disabled] {
+			background-color: transparent;
+			border: none;
+			cursor: auto;
+			box-shadow: none;
+			padding: 0;
+			height: auto;
+		}
 
-.filterable .filters input[disabled]::-webkit-input-placeholder {
-	color: #333;
-}
+		.filterable .filters input[disabled]::-webkit-input-placeholder {
+			color: #333;
+		}
 
-.filterable .filters input[disabled]::-moz-placeholder {
-	color: #333;
-}
+		.filterable .filters input[disabled]::-moz-placeholder {
+			color: #333;
+		}
 
-.filterable .filters input[disabled]:-ms-input-placeholder {
-	color: #333;
-}
+		.filterable .filters input[disabled]:-ms-input-placeholder {
+			color: #333;
+		}
 
-.filterable .filters input[disabled]::-webkit-input-placeholder {
-	color: #333;
-}
-.big-btn {
-  font-size: 16px;
-}
-</style>
-<script th:inline="javascript">
+		.filterable .filters input[disabled]::-webkit-input-placeholder {
+			color: #333;
+		}
+
+		.big-btn {
+			font-size: 16px;
+		}
+	</style>
+	<script th:inline="javascript">
 		/*<![CDATA[*/
 
 		function Home() {
@@ -272,13 +275,14 @@ input:hover+.password-info {
 	</script>
 
 
-<style>
-/* Hide the "Part Tran Id" and "Test" columns */
-.part-tran-id-col, .test-col {
-	display: none;
-}
-</style>
-<script>
+	<style>
+		/* Hide the "Part Tran Id" and "Test" columns */
+		.part-tran-id-col,
+		.test-col {
+			display: none;
+		}
+	</style>
+	<script>
 		function formatDecimal(value, decimalPlaces) {
 			return parseFloat(value).toFixed(decimalPlaces).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		}
@@ -602,6 +606,18 @@ input:hover+.password-info {
 				+ '&part_tran_id=' + navi2 + '&acct_num=' + acctnum;
 		}
 
+		function DownloadExcel() {
+		    var a = document.getElementById("acct_num").value;
+		    var b = document.getElementById("fromdate").value;
+		    var c = document.getElementById("todate").value;
+
+		    if (!a || !b || !c) {
+		        alert("Please fill in all fields.");
+		        return;
+		    }
+
+		    location.href = './accountledgerdownload?acct_num=' + a + '&fromdate=' + b + '&todate=' + c;
+		}
 
 	</script>
 
@@ -632,15 +648,13 @@ input:hover+.password-info {
 					<div class="panel panel-primary filterable">
 						<div class="card w-100 border panel panel-primary filterable">
 
-							<div class="card-header"
-								style="background-color: #e9ecef; height: 50px">
+							<div class="card-header" style="background-color: #e9ecef; height: 50px">
 								<div class="float-left">
 									<h6 style="font-size: 1.2rem; color: black;">ACCOUNT
 										LEDGER</h6>
 								</div>
 								<div class="float-right">
-									<button type="button"
-										class="btn-primary big-btn btn-filter">Filter</button>
+									<button type="button" class="btn-primary big-btn btn-filter">Filter</button>
 								</div>
 							</div>
 
@@ -654,36 +668,29 @@ input:hover+.password-info {
 										<thead class="thead-light">
 											<tr class="filters">
 												<th style="width: 8%"><input type="text"
-													class="form-control font-weight-bold" placeholder="HEAD"
-													disabled></th>
-												<th><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="ACCT NUM" disabled></th>
+														class="form-control font-weight-bold" placeholder="HEAD"
+														disabled></th>
+												<th><input type="text" class="form-control font-weight-bold"
+														placeholder="ACCT NUM" disabled></th>
 												<th style="width: 35%"><input type="text"
-													class="form-control font-weight-bold"
-													placeholder="ACCT NAME" disabled></th>
-												<th><input type="text"
-													class="form-control font-weight-bold" placeholder="CUR"
-													disabled></th>
+														class="form-control font-weight-bold" placeholder="ACCT NAME"
+														disabled></th>
+												<th><input type="text" class="form-control font-weight-bold"
+														placeholder="CUR" disabled></th>
 												<th style="text-align: right"><input type="text"
-													style="text-align: right"
-													class="form-control font-weight-bold" placeholder="CREDITS"
-													disabled></th>
+														style="text-align: right" class="form-control font-weight-bold"
+														placeholder="CREDITS" disabled></th>
 												<th style="text-align: right"><input type="text"
-													style="text-align: right"
-													class="form-control font-weight-bold" placeholder="DEBITS"
-													disabled></th>
+														style="text-align: right" class="form-control font-weight-bold"
+														placeholder="DEBITS" disabled></th>
 												<th style="text-align: right"><input type="text"
-													style="text-align: right"
-													class="form-control font-weight-bold" placeholder="BALANCE"
-													disabled></th>
-												<th><input type="text"
-													class="form-control font-weight-bold" placeholder="STATUS"
-													disabled></th>
-												<th style="width: 8%"><input type="text"
-													style="text-align: center"
-													class="form-control font-weight-bold" placeholder="ACTION"
-													disabled readonly></th>
+														style="text-align: right" class="form-control font-weight-bold"
+														placeholder="BALANCE" disabled></th>
+												<th><input type="text" class="form-control font-weight-bold"
+														placeholder="STATUS" disabled></th>
+												<th style="width: 8%"><input type="text" style="text-align: center"
+														class="form-control font-weight-bold" placeholder="ACTION"
+														disabled readonly></th>
 												<!-- <th style="font-weight: bold; font-size: 16px; width: 8%">ACTION</th> -->
 											</tr>
 
@@ -695,32 +702,28 @@ input:hover+.password-info {
 												<td th:text="${chartacc?.acct_name}"></td>
 												<td th:text="${chartacc?.acct_crncy}"></td>
 
-												<td
-													th:text="${chartacc?.cr_amt == 0 ? '0.00' :#numbers.formatDecimal(chartacc?.cr_amt, 0, 'COMMA', 2, 'POINT')}"
+												<td th:text="${chartacc?.cr_amt == 0 ? '0.00' :#numbers.formatDecimal(chartacc?.cr_amt, 0, 'COMMA', 2, 'POINT')}"
 													style="text-align: right;"></td>
-												<td
-													th:text="${chartacc?.dr_amt == 0 ? '0.00' :#numbers.formatDecimal(chartacc?.dr_amt, 0, 'COMMA', 2, 'POINT')}"
+												<td th:text="${chartacc?.dr_amt == 0 ? '0.00' :#numbers.formatDecimal(chartacc?.dr_amt, 0, 'COMMA', 2, 'POINT')}"
 													style="text-align: right;"></td>
-												<td
-													th:text="${chartacc?.acct_bal == 0 ? '0.00' :#numbers.formatDecimal(chartacc?.acct_bal, 0, 'COMMA', 2, 'POINT')}"
+												<td th:text="${chartacc?.acct_bal == 0 ? '0.00' :#numbers.formatDecimal(chartacc?.acct_bal, 0, 'COMMA', 2, 'POINT')}"
 													style="text-align: right;"></td>
 												<th:block th:switch="${chartacc.entity_flg}">
 													<td th:case="'Y'" style="color: green;">Active</td>
 													<td th:case="'N'" style="color: red;">UnActive</td>
 												</th:block>
 
-												<td style="text-align: center;"><input type="radio"
-													id="btnEnquiry" name="btnradio" style="cursor: pointer;"
-													th:attr="data-attr=${chartacc?.acct_num}"
-													onclick="enquiryuser(this);"></td>
+												<td style="text-align: center;"><input type="radio" id="btnEnquiry"
+														name="btnradio" style="cursor: pointer;"
+														th:attr="data-attr=${chartacc?.acct_num}"
+														onclick="enquiryuser(this);"></td>
 											</tr>
 										</tbody>
 									</table>
 								</div>
 							</div>
 
-							<div class="card-footer text-center"
-								style="background-color: #e9ecef">
+							<div class="card-footer text-center" style="background-color: #e9ecef">
 
 
 								<button class="btn-primary big-btn" onclick="Home();">Home</button>
@@ -738,17 +741,24 @@ input:hover+.password-info {
 
 
 					<div class="card w-100 border">
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
-							<div class="float-left">
-								<h6 style="font-size: 1.2rem; color: black;">ACCOUNT LEDGER</h6>
-							</div>
-
+						<div class="card-header" style="background-color: #e9ecef; height: 50px; display: flex; align-items: center; justify-content: space-between;">
+						    <div>
+						        <h6 style="font-size: 1.2rem; color: black; margin: 0;">ACCOUNT LEDGER</h6>
+						    </div>
+						    <div class="btn-group">
+						        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+						            aria-haspopup="true" aria-expanded="false">
+						            Download
+						        </button>
+						        <div class="dropdown-menu">
+						            <span class="dropdown-item" onclick="DownloadExcel()" id="downloadButton2">Download Excel</span>
+						        </div>
+						    </div>
 						</div>
+
 						<div class="card-body">
 							<form action="#" id="" th:object="${Accountvalue}">
-								<div class="row formline"
-									style="padding: 0px 0px 2px 0px; margin-left: -130px">
+								<div class="row formline" style="padding: 0px 0px 2px 0px; margin-left: -130px">
 									<div class="col-sm-1"></div>
 
 									<div class="col-sm-2">Acct Num</div>
@@ -772,8 +782,7 @@ input:hover+.password-info {
 									</div>
 								</div>
 
-								<div class="row formline"
-									style="padding: 0px 0px 2px 0px; margin-left: -130px">
+								<div class="row formline" style="padding: 0px 0px 2px 0px; margin-left: -130px">
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">Acct Bal</div>
 									<div class="col-sm-2">
@@ -796,8 +805,7 @@ input:hover+.password-info {
 									</div>
 								</div>
 
-								<div class="row formline"
-									style="padding: 0px 0px 2px 0px; margin-left: -130px">
+								<div class="row formline" style="padding: 0px 0px 2px 0px; margin-left: -130px">
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">GL Sub Head</div>
 
@@ -824,16 +832,14 @@ input:hover+.password-info {
 
 								</div>
 
-								<div class="row formline"
-									style="padding: 0px 0px 2px 0px; margin-left: -130px">
+								<div class="row formline" style="padding: 0px 0px 2px 0px; margin-left: -130px">
 									<div class="col-sm-1"></div>
 
 
 									<div class="col-sm-2">Home Currency Bal</div>
 									<div class="col-sm-2">
 										<input type="text" name="" id=""
-											class="form-control form-control-sm bg-white border border-dark"
-											readonly />
+											class="form-control form-control-sm bg-white border border-dark" readonly />
 									</div>
 									<!-- <div class="col-sm-1">Acct Type</div>
 									<div class="col-sm-2">
@@ -875,8 +881,7 @@ input:hover+.password-info {
 									</div>
 
 								</div> -->
-								<div class="row formline"
-									style="padding: 0px 0px 2px 0px; margin-left: -130px">
+								<div class="row formline" style="padding: 0px 0px 2px 0px; margin-left: -130px">
 									<div class="col-sm-1"></div>
 
 									<div class="col-sm-2">From Date</div>
@@ -894,10 +899,8 @@ input:hover+.password-info {
 									<div class="col-sm-2">Acct Status</div>
 									<div class="col-sm-2">
 										<input type="text" name="acct_status" id="acct_status"
-											class="form-control form-control-sm bg-white border border-dark"
-											th:value="${chartaccount?.acct_status == 'Y' ? 'ACTIVE' :
-											chartaccount?.acct_status == 'ACTIVE' ? 'ACTIVE' : 'INACTIVE' }"
-											readonly />
+											class="form-control form-control-sm bg-white border border-dark" th:value="${chartaccount?.acct_status == 'Y' ? 'ACTIVE' :
+											chartaccount?.acct_status == 'ACTIVE' ? 'ACTIVE' : 'INACTIVE' }" readonly />
 									</div>
 
 								</div>
@@ -926,28 +929,23 @@ input:hover+.password-info {
 										<tr th:if="${#lists.isEmpty(dataList)}">
 											<td colspan="7" style="text-align: center;">No records</td>
 										</tr>
-										<tr th:each="data : ${dataList}"
-											th:unless="${#lists.isEmpty(dataList)}">
+										<tr th:each="data : ${dataList}" th:unless="${#lists.isEmpty(dataList)}">
 											<td th:text="${#dates.format(data[0], 'dd-MM-yyyy')}"
 												style="text-align: left;"></td>
 
-											<td><a href="#" th:text="${data[1]}"
-												style="text-align: left;" th:data-resource="${data[1]}"
-												,
+											<td><a href="#" th:text="${data[1]}" style="text-align: left;"
+													th:data-resource="${data[1]}" ,
 													th:data-resource1="${chartaccount?.acct_num}"
-												onclick="navigate(this)"></a></td>
+													onclick="navigate(this)"></a></td>
 
-											<td th:text="${data[2]}"
-												style="width: 30%; text-align: left;"></td>
+											<td th:text="${data[2]}" style="width: 30%; text-align: left;"></td>
 											<td th:text="${data[3]}" style="text-align: left;"></td>
-											<td
-												th:text="${data[5]== 0 ? '0.00' :#numbers.formatDecimal(data[5], 0, 'COMMA', 2, 'POINT')}"
+											<td th:text="${data[5]== 0 ? '0.00' :#numbers.formatDecimal(data[5], 0, 'COMMA', 2, 'POINT')}"
 												style="text-align: right;"></td>
-											<td
-												th:text="${data[6]== 0 ? '0.00' :#numbers.formatDecimal(data[6], 0, 'COMMA', 2, 'POINT')}"
+											<td th:text="${data[6]== 0 ? '0.00' :#numbers.formatDecimal(data[6], 0, 'COMMA', 2, 'POINT')}"
 												style="text-align: right;"></td>
 											<td style="text-align: right;"><span class="balancelist"
-												th:text="0.00"></span></td>
+													th:text="0.00"></span></td>
 										</tr>
 									</tbody>
 
@@ -960,13 +958,11 @@ input:hover+.password-info {
 						<div id="loadingMessage" style="display: none;">Loading,
 							please wait...</div>
 
-						<div class="row formline" style="display: none;"
-							id="invisibledate">
+						<div class="row formline" style="display: none;" id="invisibledate">
 							<div class="col-sm-1"></div>
 							<div class="col-sm-2">Previous Date</div>
 							<div class="col-sm-2">
-								<input type="text" id="minusdate" class="form-control-sm"
-									readonly />
+								<input type="text" id="minusdate" class="form-control-sm" readonly />
 							</div>
 
 							<div class="col-sm-1"></div>
@@ -977,8 +973,7 @@ input:hover+.password-info {
 							</div>
 						</div>
 						<!-- Table to display transaction records -->
-						<table class="table table-bordered table-hover table-sm"
-							id="transactionTable"
+						<table class="table table-bordered table-hover table-sm" id="transactionTable"
 							style="margin-bottom: 0px; font-size: initial; display: none; margin-top: 20px;">
 							<thead class="thead-light">
 								<tr class="filters">
@@ -1000,8 +995,7 @@ input:hover+.password-info {
 							</tbody>
 						</table>
 						<!---------------------------------------------------------------------------------------------------->
-						<div class="card-footer text-center"
-							style="background-color: #e9ecef">
+						<div class="card-footer text-center" style="background-color: #e9ecef">
 							<button class="btn-primary big-btn" onclick="Home();">Home</button>
 							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 						</div>
@@ -1021,17 +1015,16 @@ input:hover+.password-info {
 
 	<!---------------------Modal Alerts------------------------------------------------------>
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false"
-		id="normalalert" tabindex="-1" role="dialog" aria-hidden="true">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+	<div class="modal fade" data-backdrop="false" data-keyboard="false" id="normalalert" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content"
 				style="position: fixed; left: 50%; bottom: 35%; right: 20%; transform: translate(-50%, 0%); width: 30%; height: 25%;">
 				<div class="modal-header">
 					<h5 class="modal-title">Alerts</h5>
 
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true" onclick="$('#normalalert').modal('hide')">×</button>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+						onclick="$('#normalalert').modal('hide')">×</button>
 				</div>
 				<div class="modal-body" style="text-align: center;">
 					<h6 id="normalalertmsg"></h6>
@@ -1046,8 +1039,8 @@ input:hover+.password-info {
 
 </body>
 <script>
-	
-	
+
+
 
 	function setFirstDate() {
 
@@ -1055,11 +1048,11 @@ input:hover+.password-info {
 		var dateElements = document.querySelectorAll('#list1 tbody tr td:nth-child(1)');
 
 		if (dateElements.length > 0) {
-			var firstDate = dateElements[0].textContent.trim(); 
-			
-			if(firstDate === "No records"){
+			var firstDate = dateElements[0].textContent.trim();
+
+			if (firstDate === "No records") {
 				document.getElementById('fromdate').value = document.getElementById('todate').value;
-			}else{
+			} else {
 				document.getElementById('fromdate').value = firstDate;
 			}
 		}
