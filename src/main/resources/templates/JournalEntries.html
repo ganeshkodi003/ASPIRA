@@ -23,6 +23,23 @@
 		.table-bordered th {
 			font-size: smaller;
 		}
+		.filterable1 .filters1 input[disabled]::-webkit-input-placeholder {
+			color: #333;
+		}
+		.filterable1 .filters1 input[disabled]::-moz-placeholder {
+			color: #333;
+		}
+	    .filterable1 .filters1 input[disabled]:-ms-input-placeholder {
+			color: #333;
+		}
+		.filterable1 .filters1 input[disabled] {
+			background-color: transparent;
+			border: none;
+			cursor: auto;
+			box-shadow: none;
+			padding: 0;
+			height: auto;
+		}
 
 		.container-manager {
 			width: 83.5%;
@@ -702,7 +719,7 @@
 
 
 	</script>
-	<script>
+<script>
 		$(document)
 			.ready(
 				function () {
@@ -849,11 +866,6 @@
 		document.getElementById("filtercurrency").addEventListener("input",
 			filtermodalmass);
 		// Add similar event listeners for other filter input fields
-
-
-
-
-
 	</script>
 
 	<script>
@@ -2334,7 +2346,54 @@
 			return formattedNumber;
 		}
 	</script>
+	<script>
+	$(document).ready(function () {
 
+	    $('.filterable1 .btn-filter1').click(function () {
+	        var $panel = $(this).parents('.filterable1'),
+	            $filters = $panel.find('.filters1 input'),
+	            $tbody = $panel.find('.table tbody');
+
+	        if ($filters.prop('disabled') == true) {
+	            $filters.prop('disabled', false);
+	            $filters.first().focus();
+	        } else {
+	            $filters.val('').prop('disabled', true);
+	            $tbody.find('.no-result').remove();
+	            $tbody.find('tr').show();
+	        }
+	    });
+
+	    $('.filterable1 .filters1 input').keyup(function (e) {
+	        if (e.keyCode === 9) return; // ignore tab key
+
+	        var $input = $(this),
+	            inputContent = $input.val().toLowerCase(),
+	            $panel = $input.parents('.filterable1'),
+	            column = $panel.find('.filters1 th').index($input.parents('th')),
+	            $table = $panel.find('.table'),
+	            $rows = $table.find('tbody tr');
+
+	        var $filteredRows = $rows.filter(function () {
+	            var value = $(this).find('td').eq(column).text().toLowerCase();
+	            return value.indexOf(inputContent) === -1;
+	        });
+
+	        $rows.show();
+	        $filteredRows.hide();
+	        $table.find('tbody .no-result').remove();
+
+	        if ($filteredRows.length === $rows.length) {
+	            $table.find('tbody').prepend(
+	                $('<tr class="no-result text-center"><td colspan="' +
+	                  $panel.find('.filters1 th').length +
+	                  '">No result found</td></tr>')
+	            );
+	        }
+	    });
+
+	});
+	</script>
 
 
 </head>
@@ -2361,13 +2420,16 @@
 				<div th:if="${formmode}=='list1'">
 
 
-					<div class="card w-100 border">
+					<div class="card w-100 border panel panel-primary filterable1">
 						<div class="card-header" style="background-color: #e9ecef; height: 50px">
-							<div class="float-left">
-								<h6 style="font-size: 1.2rem; color: black;">TRANSACTION
-									MAINTANANCE - LIST</h6>
-							</div>
-
+						    <div class="float-left">
+						        <h6 style="font-size: 1.2rem; color: black;">
+						            TRANSACTION MAINTANANCE - LIST
+						        </h6>
+						    </div>
+						    <div class="d-flex align-items-center justify-content-end">
+						        <button type="button"  class="btn-primary big-btn btn-filter1">Filter</button>
+						    </div>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -2375,20 +2437,37 @@
 									style="margin-bottom: 0px; font-size: initial; table-layout: fixed; width: 100%;"
 									id="usertable">
 									<thead class="thead-light">
-
-
-										<tr>
-											<th style="text-align: center">TRAN DATE</th>
-											<th style="text-align: center">TRAN ID</th>
-											<th style="text-align: center">PA TRAN TY</th>
-											<th style="text-align: center">CURRENCY</th>
-											<th style="text-align: center">AMOUNT</th>
-											<th style="text-align: center">ACCT NUM</th>
-											<th style="text-align: center; width: 20%;">ACCT NAME</th>
-											<th style="text-align: center; width: 20%;">TRAN
-												PARTICULAR</th>
-											<th style="text-align: center">STATUS</th>
-											<th style="text-align: center">SELECT</th>
+										<tr class="filters1">
+										    <th><input type="text"
+										        class="form-control font-weight-bold"
+										        placeholder="TRAN DATE" disabled></th>
+										    <th><input type="text"
+										        class="form-control font-weight-bold"
+										        placeholder="TRAN ID" disabled></th>
+										    <th><input type="text"
+										        class="form-control font-weight-bold"
+										        placeholder="PA TRAN TY" disabled></th>
+										    <th><input type="text"
+										        class="form-control font-weight-bold"
+										        placeholder="CURRENCY" disabled></th>
+										    <th><input type="text"
+										        class="form-control font-weight-bold text-right"
+										        placeholder="AMOUNT" disabled></th>
+										    <th><input type="text"
+										        class="form-control font-weight-bold"
+										        placeholder="ACCT NUM" disabled></th>
+										    <th><input type="text"
+										        class="form-control font-weight-bold"
+										        placeholder="ACCT NAME" disabled></th>
+										    <th><input type="text"
+										        class="form-control font-weight-bold"
+										        placeholder="TRAN PARTICULAR" disabled></th>
+										    <th><input type="text"
+										        class="form-control font-weight-bold"
+										        placeholder="STATUS" disabled></th>
+										    <th><input type="text"
+										        class="form-control font-weight-bold"
+										        placeholder="SELECT" disabled></th>
 										</tr>
 									</thead>
 									<tbody id="placelist">
