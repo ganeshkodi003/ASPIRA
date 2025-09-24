@@ -1723,6 +1723,7 @@ public class BGLSNavigationController {
 	}
 
 	/* Thanveer */
+	/* SURIYA */
 	@RequestMapping(value = "glcode", method = { RequestMethod.GET, RequestMethod.POST })
 	public String glcode(@RequestParam(required = false) String formmode, @RequestParam(required = false) String glcode,
 			Model md, HttpServletRequest request, @RequestParam(required = false) String glsh_Code) {
