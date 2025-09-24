@@ -5,13 +5,14 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface Reference_code_Rep extends JpaRepository<Reference_Code_Entity, String>{ 
 
 	@Query(value="SELECT * FROM BGLS_REF_MASTER where DEL_FLG='N' order by REF_TYPE", nativeQuery = true)
-	List<Reference_Code_Entity> getRefList(); 
+	List<Reference_Code_Entity> getRefList();
 	
 	@Query(value="SELECT Distinct REF_TYPE FROM BGLS_REF_MASTER where DEL_FLG='N' order by REF_TYPE", nativeQuery = true)
 	List<String> getReferenceType();
@@ -67,4 +68,8 @@ public interface Reference_code_Rep extends JpaRepository<Reference_Code_Entity,
 	
 	@Query(value="SELECT REF_ID, REF_ID_DESC FROM BGLS_REF_MASTER where REF_TYPE_DESC='CURR' AND DEL_FLG='N'", nativeQuery = true)
 	List<String> getCurr();
+
+	@Query(value = "SELECT * FROM BGLS_REF_MASTER WHERE REF_ID = ?1 AND DEL_FLG = 'N'", nativeQuery = true)
+Reference_Code_Entity getRefById( String refId);
+
 }

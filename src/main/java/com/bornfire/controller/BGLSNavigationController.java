@@ -40,6 +40,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -103,7 +104,6 @@ import com.bornfire.entities.Lease_Loan_Work_Repo;
 import com.bornfire.entities.NoticeDetailsGeneral0Rep;
 import com.bornfire.entities.NoticeDetailsPayment0Rep;
 import com.bornfire.entities.NoticeDetailsSlabDetails0Rep;
-import com.bornfire.entities.Organization_Branch_Entity;
 import com.bornfire.entities.Organization_Branch_Rep;
 import com.bornfire.entities.Organization_Entity;
 import com.bornfire.entities.Organization_Repo;
@@ -3758,5 +3758,24 @@ public class BGLSNavigationController {
 	}
 	
 	
+
+
+	@RequestMapping(value = "customer", method = { RequestMethod.GET, RequestMethod.POST })
+	public String customer(@RequestParam(required = false) String id,Model md) {
+
+		md.addAttribute("refdetails",reference_code_Rep.getRefById(id) );
+		md.addAttribute("refType", reference_code_Rep.getReferenceType());
+
+		return "ReferenceCodeID";
+	}
+
+	@RequestMapping(value = "customer/edit", method = { RequestMethod.GET, RequestMethod.POST })
+	public String customerEdit(@RequestParam(required = false) String id,Model md) {
+
+		md.addAttribute("refdetails",reference_code_Rep.getRefById(id) );
+		md.addAttribute("refType", reference_code_Rep.getReferenceType());
+		
+		return "ReferenceCodeIDEdit";
+	}
 
 }
