@@ -66,14 +66,18 @@ public interface LOAN_ACT_MST_REPO extends JpaRepository<LOAN_ACT_MST_ENTITY, St
 			+ "    d.ACCT_BAL, " + "    zbd.LAST_ZERO_BAL_DATE, " + "    nd.NEXT_DUE_DATE", nativeQuery = true)
 	Object[] getCustomer(Date tran_date, String holderKey, String id, String encodedKey);
 
-	@Query(value = "SELECT a.ENCODED_KEY, B.DUE_DATE as dueDate, B.REPAID_DATE as repaidDate, "
-			+ "B.PRINCIPAL_EXP as principalExp, B.PRINCIPAL_PAID as principalPaid, B.PRINCIPAL_DUE as principalDue, "
-			+ "B.INTEREST_EXP as interestExp, B.INTEREST_PAID as interestPaid, B.INTEREST_DUE as interestDue, "
-			+ "B.FEE_EXP as feeExp, B.FEE_PAID as feePaid, B.FEE_DUE as feeDue, "
-			+ "B.PENALTY_EXP as penaltyExp, B.PENALTY_PAID as penaltyPaid, B.PENALTY_DUE as penaltyDue "
-			+ "FROM LOAN_ACCOUNT_MASTER_TBL A " + "JOIN LOAN_REPAYMENT_TBL B ON A.ENCODED_KEY = B.PARENT_ACCOUNT_KEY "
-			+ "WHERE A.ENCODED_KEY = ?1 AND DEL_FLG = 'N'" + "ORDER BY B.DUE_DATE ASC", nativeQuery = true)
+	@Query(value = "SELECT a.ENCODED_KEY, b.DUE_DATE as dueDate, b.REPAID_DATE as repaidDate, "
+	        + "b.PRINCIPAL_EXP as principalExp, b.PRINCIPAL_PAID as principalPaid, b.PRINCIPAL_DUE as principalDue, "
+	        + "b.INTEREST_EXP as interestExp, b.INTEREST_PAID as interestPaid, b.INTEREST_DUE as interestDue, "
+	        + "b.FEE_EXP as feeExp, b.FEE_PAID as feePaid, b.FEE_DUE as feeDue, "
+	        + "b.PENALTY_EXP as penaltyExp, b.PENALTY_PAID as penaltyPaid, b.PENALTY_DUE as penaltyDue "
+	        + "FROM LOAN_ACCOUNT_MASTER_TBL a "
+	        + "JOIN LOAN_REPAYMENT_TBL b ON a.ENCODED_KEY = b.PARENT_ACCOUNT_KEY "
+	        + "WHERE a.ENCODED_KEY = ?1 AND a.DEL_FLG = 'N' AND b.DEL_FLG = 'N' "
+	        + "ORDER BY b.DUE_DATE ASC",
+	       nativeQuery = true)
 	List<Object> getDues(String encodedKey);
+
 
 	@Query(value = "SELECT * FROM LOAN_ACCOUNT_MASTER_TBL where  last_modified_date > approved_date", nativeQuery = true)
 	List<LOAN_ACT_MST_ENTITY> getLoanActFilterUnverified();
