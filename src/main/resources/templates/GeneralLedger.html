@@ -15,6 +15,25 @@
 .table-bordered td, .table-bordered th {
 	font-size: smaller;
 }
+.filterable .filters input[disabled]::-webkit-input-placeholder {
+	color: #333;
+}
+
+.filterable .filters input[disabled]::-moz-placeholder {
+	color: #333;
+}
+
+.filterable .filters input[disabled]:-ms-input-placeholder {
+	color: #333;
+}
+.filterable .filters input[disabled] {
+	background-color: transparent;
+	border: none;
+	cursor: auto;
+	box-shadow: none;
+	padding: 0;
+	height: auto;
+}
 
 .container-manager {
 	width: 83.5%;
@@ -1323,12 +1342,10 @@ input:hover+.password-info {
 					<div class="panel panel-primary filterable"
 						style="margin-top: 100px">
 						<div class="card w-100 border panel panel-primary filterable">
-							<div class="card-header"
-								style="background-color: #e9ecef;  ">
-								<div class="float-left">
-									<h6 style="font-size: 1.2rem; color: black;">GENERAL
-										LEDGER</h6>
-								</div>
+							<div class="card-header d-flex justify-content-between align-items-center"
+								style="background-color: #e9ecef;">
+								<h6 style="font-size: 1.2rem; color: black;">GENERAL LEDGER</h6>
+								                <button type="button" class="btn btn-primary btn-filter">Filter</button>
 							</div>
 							<div class="card-body" style="overflow-y: auto; border: 1px solid #ddd;">
 								<div class="table-responsive"id="cardBody" >
@@ -1336,35 +1353,35 @@ input:hover+.password-info {
 										style="margin-bottom: 0px; font-size: initial;" id="usertable">
 										<thead class="thead-light"  style="position: sticky; top: 0;background-color: #f8f9fa; z-index: 1;">
 											<tr class="filters">
-												<th style="width: 3%"><input type="text"
+												<th><input type="text"
 													class="form-control font-weight-bold" placeholder="S.NO"
 													disabled></th>
-												<th style="width: 5%"><input type="text"
+												<th><input type="text"
 													class="form-control font-weight-bold" placeholder="GL CODE"
 													disabled></th>
-												<th style="width: 5%"><input type="text"
+												<th><input type="text"
 													class="form-control font-weight-bold" placeholder="GL DESC"
 													disabled></th>
-												<th style="width: 5%"><input type="text"
+												<th><input type="text"
 													class="form-control font-weight-bold"
 													placeholder="BRANCH ID" disabled></th>
-												<th style="width: 8%"><input type="text"
+												<th><input type="text"
 													class="form-control font-weight-bold"
 													placeholder="BRANCH DESC" disabled></th>
-												<th style="width: 6%"><input type="text"
+												<th><input type="text"
 													class="form-control font-weight-bold"
 													placeholder="GLSH CODE" disabled></th>
-												<th style="width: 10%"><input type="text"
+												<th><input type="text"
 													class="form-control font-weight-bold"
 													placeholder="GLSH DESC" disabled></th>
-												<th style="width: 6%"><input type="text"
+												<th><input type="text"
 													class="form-control font-weight-bold"
 													placeholder="CRNCY CODE" disabled></th>
-												<th style="width: 6%"><input type="text"
+												<th><input type="text"
 													style="text-align: right;"
 													class="form-control font-weight-bold"
 													placeholder="CREDIT BAL" disabled></th>
-												<th style="width: 6%"><input type="text"
+												<th><input type="text"
 													style="text-align: right;"
 													class="form-control font-weight-bold"
 													placeholder="DEBIT BAL" disabled></th>
