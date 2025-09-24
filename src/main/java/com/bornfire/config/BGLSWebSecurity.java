@@ -45,6 +45,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bornfire.entities.Access_Role_Entity;
+import com.bornfire.entities.Access_Role_Repo;
 import com.bornfire.entities.BGLSAuditTable;
 import com.bornfire.entities.BGLSAuditTable_Rep;
 import com.bornfire.entities.BGLS_CONTROL_TABLE_REP;
@@ -60,6 +62,9 @@ public class BGLSWebSecurity extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserProfileRep userProfileRep;
 
+	@Autowired
+	Access_Role_Repo access_Role_Repo;
+	
 	@Autowired
 	BGLSAuditTable_Rep bGLSAuditTable_Rep;
 
@@ -224,11 +229,13 @@ public class BGLSWebSecurity extends WebSecurityConfigurerAdapter {
 				Optional<UserProfile> up = userProfileRep.findById(authentication.getName());
 				
 				BGLS_Control_Table up1 = bGLS_CONTROL_TABLE_REP.getTranDate();
+				
 				System.out.println(up1.getTran_date());
 				
 				
 				
 				UserProfile user = up.get();
+				Access_Role_Entity access_role =  access_Role_Repo.getRole(user.getUserid());
 				/*
 				 * user.setNo_of_attmp(0); user.setUser_locked_flg("N");
 				 */
@@ -255,6 +262,45 @@ public class BGLSWebSecurity extends WebSecurityConfigurerAdapter {
 				// request.getSession().setAttribute("birthday", user.getDob());
 				request.getSession().setAttribute("LOGIN_TIME",
 						LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+
+				// ------------    For Screen Accesss  ----------------------
+				
+				request.getSession().setAttribute("SCREEN_ACCESS_ADMIN", (access_role != null && access_role.getAdmin() != null ) ? access_role.getAdmin() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_ORGNAIZATION_DETAILS", (access_role != null && access_role.getOrgnaization_details() != null ) ? access_role.getOrgnaization_details() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_USER_CONTROLS", (access_role != null && access_role.getUser_controls() != null ) ? access_role.getUser_controls() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_REFERENCE_CODE_MAINTENANCE", (access_role != null && access_role.getReference_code_maintenance() != null ) ? access_role.getReference_code_maintenance() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_AUDIT_TRAIL", (access_role != null && access_role.getAudit_trail() != null ) ? access_role.getAudit_trail() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_DAY_END_OPERATION_USER", (access_role != null && access_role.getDay_end_operation() != null) ? access_role.getDay_end_operation() : "N");
+				request.getSession().setAttribute("SCREEN_ACCESS_CUSTOMER_MAINTENANCE", (access_role != null && access_role.getCustomer_maintenance() != null) ? access_role.getCustomer_maintenance() : "N");
+				request.getSession().setAttribute("SCREEN_ACCESS_LOAN_MAINTENANCE", (access_role != null && access_role.getLoan_maintanace() != null) ? access_role.getLoan_maintanace() : "N");
+				request.getSession().setAttribute("SCREEN_ACCESS_MIGRATION", (access_role != null && access_role.getMigration() != null ) ? access_role.getMigration() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_CUSTOMER_MASTER", (access_role != null && access_role.getCustomer_master() != null ) ? access_role.getCustomer_master() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_LOAN_MASTER", (access_role != null && access_role.getLoan_master() != null ) ? access_role.getLoan_master() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_LOAN_SCHEDULE_MIGRATION", (access_role != null && access_role.getLoan_schedule_migration() != null ) ? access_role.getLoan_schedule_migration() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_TRANSACTION_MIGRATION", (access_role != null && access_role.getTransaction_migration() != null ) ? access_role.getTransaction_migration() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_LOAN_OPERATION", (access_role != null && access_role.getLoan_operation() != null ) ? access_role.getLoan_operation() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_LOAN_OPERATION_LS", (access_role != null && access_role.getLoan_operation_ls() != null ) ? access_role.getLoan_operation_ls() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_LOAN_CLOSURE", (access_role != null && access_role.getLoan_closure() != null ) ? access_role.getLoan_closure() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_TRANSACTION_MAINTENANCE", (access_role != null && access_role.getTransaction_maintenance() != null ) ? access_role.getTransaction_maintenance() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_JOURNAL_ENTRIES", (access_role != null && access_role.getJournal_entries() != null ) ? access_role.getJournal_entries() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_ACCOUNT_LEDGER_POSTING", (access_role != null && access_role.getAccount_ledger_posting() != null ) ? access_role.getAccount_ledger_posting() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_ACCOUNT_LEDGER", (access_role != null && access_role.getAccount_ledger() != null ) ? access_role.getAccount_ledger() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_TRIAL_BALANCE_T", (access_role != null && access_role.getTrial_balance_t() != null ) ? access_role.getTrial_balance_t() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_PROFIT_AND_LOSS_ACCOUNT_T", (access_role != null && access_role.getProfit_and_loss_account_t() != null ) ? access_role.getProfit_and_loss_account_t() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_COLLECTION_PROCESS", (access_role != null && access_role.getCollection_process() != null ) ? access_role.getCollection_process() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_PARTICIPATING_BANKS", (access_role != null && access_role.getParticipating_banks() != null ) ? access_role.getParticipating_banks() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_LOAN_COLLECTING", (access_role != null && access_role.getLoan_collecting() != null ) ? access_role.getLoan_collecting() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_BATCH_JOB_EXECUTION", (access_role != null && access_role.getBatch_job_execution() != null ) ? access_role.getBatch_job_execution() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_BATCH_JOB", (access_role != null && access_role.getBatch_job() != null ) ? access_role.getBatch_job() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_INQUIRIES_AND_REPORTS", (access_role != null && access_role.getInquiries_and_reports() != null ) ? access_role.getInquiries_and_reports() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_ACCOUNT_BALANCE_INQ", (access_role != null && access_role.getAccount_balance_inq() != null ) ? access_role.getAccount_balance_inq() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_INTERSET_SUMMARY_INQ", (access_role != null && access_role.getInterset_summary_inq() != null ) ? access_role.getInterset_summary_inq() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_JOURNAL_BOOK", (access_role != null && access_role.getJournal_book() != null ) ? access_role.getJournal_book() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_ACCOUNT_LEDGERS_I", (access_role != null && access_role.getAccount_ledgers_i() != null ) ? access_role.getAccount_ledgers_i() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_TRIAL_BALANCE_I", (access_role != null && access_role.getTrial_balance_i() != null ) ? access_role.getTrial_balance_i() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_GENERAL_LEDGER", (access_role != null && access_role.getGeneral_ledger() != null ) ? access_role.getGeneral_ledger() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_PROFIT_AND_LOSS_ACCOUNT_I", (access_role != null && access_role.getProfit_and_loss_account_i() != null ) ? access_role.getProfit_and_loss_account_i() : 'N' );
+				request.getSession().setAttribute("SCREEN_ACCESS_BALANCE_SHEET", (access_role != null && access_role.getBalance_sheet() != null ) ? access_role.getBalance_sheet() : 'N' );
 
 				BGLSAuditTable audit = new BGLSAuditTable();
 				LocalDateTime currentDateTime = LocalDateTime.now();

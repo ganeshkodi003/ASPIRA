@@ -420,7 +420,7 @@ a {
 				id="Dashboard" href="#" onclick="contentLoad(this)">Home</a></li>
 
 
-			<li class="nav-item"><a class="nav-link nav-link-collapse pl-3"
+			<li class="nav-item" th:if="${session.SCREEN_ACCESS_ADMIN} == 'Y' " ><a class="nav-link nav-link-collapse pl-3"
 				href="#" id="hasSubItems" data-toggle="collapse"
 				data-target="#collapseSubItems1" aria-controls="collapseSubItems1"
 				aria-expanded="false">Admin</a>
@@ -430,15 +430,15 @@ a {
 
 
 
-					<li class="nav-item"><a class="nav-link"
+					<li class="nav-item" th:if="${session.SCREEN_ACCESS_ORGNAIZATION_DETAILS} == 'Y' " ><a class="nav-link" 
 						id="organizationDetails" href="#" onclick="contentLoad(this)">Organization
 							Details </a></li>
-					<li class="nav-item"><a class="nav-link" id="userProfile"
+					<li class="nav-item" th:if="${session.SCREEN_ACCESS_USER_CONTROLS} == 'Y' " ><a class="nav-link" id="userProfile" 
 						href="#" onclick="contentLoad(this)">User Control</a></li>
 					<!--<li class="nav-item"><a class="nav-link" id="employeeProfile"
 						href="#" onclick="contentLoad(this)">Employee Profile</a></li>-->
 
-					<li class="nav-item"><a class="nav-link" id="refCodeMain"
+					<li class="nav-item" th:if="${session.SCREEN_ACCESS_REFERENCE_CODE_MAINTENANCE} == 'Y' " ><a class="nav-link" id="refCodeMain" 
 						href="#" onclick="contentLoad(this)">Parameters</a></li>
 					<!--<li class="nav-item"><a class="nav-link" id="chartOfAccounts"
 						href="#" onclick="contentLoad(this)">Chart of Accounts</a></li>
@@ -451,7 +451,7 @@ a {
 					<!-- <li class="nav-item"><a class="nav-link" id="calendermaintenance"
 						href="#" onclick="contentLoad(this)">Calender Maintenance</a></li> -->
 
-					<li class="nav-item"><a class="nav-link"
+					<li class="nav-item" th:if="${session.SCREEN_ACCESS_AUDIT_TRAIL} == 'Y' " ><a class="nav-link" 
 						id="audittraildetails" href="#" onclick="contentLoad(this)">
 							Audit Trail </a></li>
 
@@ -465,28 +465,28 @@ a {
 				</ul></li>
 
 			<!-- Migration Menu -->
-			<li class="nav-item">
+			<li class="nav-item" th:if="${session.SCREEN_ACCESS_MIGRATION} == 'Y' " >
 			    <a class="nav-link nav-link-collapse pl-3"
 			       href="#" id="migrationMenu" data-toggle="collapse"
 			       data-target="#collapseMigration1" aria-controls="collapseMigration1"
 			       aria-expanded="false">Migration</a>
 
 			    <ul class="nav-second-level collapse" id="collapseMigration1" data-parent="#navAccordion">
-			        <li class="nav-item"><a class="nav-link p-1"
+			        <li class="nav-item" th:if="${session.SCREEN_ACCESS_CUSTOMER_MASTER} == 'Y' " ><a class="nav-link p-1" 
 			            id="customerMaster?module=module1" href="#"
 			            onclick="contentLoad(this)">Customer Master</a></li>
-			        <li class="nav-item"><a class="nav-link p-1" id="loanMaster"
+			        <li class="nav-item" th:if="${session.SCREEN_ACCESS_LOAN_MASTER} == 'Y' " ><a class="nav-link p-1" id="loanMaster" 
 			            href="#" onclick="contentLoad(this)">Loan Master</a></li>
-			        <li class="nav-item"><a class="nav-link p-1" id="loanSchedule"
+			        <li class="nav-item" th:if="${session.SCREEN_ACCESS_LOAN_SCHEDULE_MIGRATION} == 'Y' " ><a class="nav-link p-1" id="loanSchedule" 
 			            href="#" onclick="contentLoad(this)">Loan Schedule</a></li>
-			        <li class="nav-item"><a class="nav-link p-1" id="TransactionMigration"
+			        <li class="nav-item" th:if="${session.SCREEN_ACCESS_TRANSACTION_MIGRATION} == 'Y' " ><a class="nav-link p-1" id="TransactionMigration" 
 			            href="#" onclick="contentLoad(this)">Transaction</a></li>
 			    </ul>
 			</li>
-			<li class="nav-item"><a class="nav-link nav-link-collapse pl-3 "
+			<li class="nav-item" th:if="${session.SCREEN_ACCESS_DAY_END_OPERATION_USER} == 'Y' " ><a class="nav-link nav-link-collapse pl-3 " 
 				id="day_end_operation" href="#" onclick="contentLoad(this)"> Day
 					End Operation </a></li>
-			<li class="nav-item"><a class="nav-link nav-link-collapse pl-3 "
+			<li class="nav-item" th:if="${session.SCREEN_ACCESS_CUSTOMER_MAINTENANCE} == 'Y' "  ><a class="nav-link nav-link-collapse pl-3 " 
 				id="customerMaster?formmode=list&module=module2" href="#"
 				onclick="contentLoad(this)"> Customer Maintenance </a></li>
 
@@ -548,20 +548,20 @@ a {
 						href="#" onclick="contentLoad(this)">Customer Maintenance </a></li>
 				</ul></li>-->
 
-			<li class="nav-item"><a class="nav-link nav-link-collapse pl-3 "
+			<li class="nav-item" th:if="${session.SCREEN_ACCESS_LOAN_MAINTENANCE} == 'Y' "  ><a class="nav-link nav-link-collapse pl-3 " 
 				id="Loan_Maintenance" href="#" onclick="contentLoad(this)">Loan
 					Maintenance</a></li>
 
-		<li class="nav-item">
-    <a class="nav-link nav-link-collapse pl-3" href="#" id="hasSubItems1" data-toggle="collapse"
-        data-target="#collapseSubItemsLoan" aria-controls="collapseSubItemsLoan" aria-expanded="false">
-        Loan Operation
-    </a>
-    <ul class="nav-second-level collapse" id="collapseSubItemsLoan" data-parent="#navAccordion">
-        <li class="nav-item"><a class="nav-link" id="loanOperation" href="#" onclick="contentLoad(this)">Loan Operation</a></li>
-        <li class="nav-item"><a class="nav-link" id="loanClosure" href="#" onclick="contentLoad(this)">Loan Closure</a></li>
-    </ul>
-</li>
+			<li class="nav-item" th:if="${session.SCREEN_ACCESS_LOAN_OPERATION} == 'Y' " >
+				<a class="nav-link nav-link-collapse pl-3" href="#" id="hasSubItems1" data-toggle="collapse" 
+					data-target="#collapseSubItemsLoan" aria-controls="collapseSubItemsLoan" aria-expanded="false">
+					Loan Operation
+				</a>
+				<ul class="nav-second-level collapse" id="collapseSubItemsLoan" data-parent="#navAccordion">
+					<li th:if="${session.SCREEN_ACCESS_LOAN_OPERATION_LS} == 'Y' " class="nav-item"><a class="nav-link" id="loanOperation" href="#" onclick="contentLoad(this)">Loan Operation</a></li>
+					<li th:if="${session.SCREEN_ACCESS_LOAN_CLOSURE} == 'Y' " class="nav-item"><a class="nav-link" id="loanClosure" href="#" onclick="contentLoad(this)">Loan Closure</a></li>
+				</ul>
+			</li>
 
 			<!-- <li class="nav-item"><a class="nav-link nav-link-collapse pl-3"
 				href="#" id="hasSubItems" data-toggle="collapse"
@@ -666,26 +666,26 @@ a {
 				</ul></li> -->
 
 
-			<li class="nav-item"><a class="nav-link nav-link-collapse pl-3"
-				href="#" id="hasSubItems" data-toggle="collapse"
+			<li class="nav-item" th:if="${session.SCREEN_ACCESS_TRANSACTION_MAINTENANCE} == 'Y' " ><a class="nav-link nav-link-collapse pl-3"
+				href="#" id="hasSubItems" data-toggle="collapse"  
 				data-target="#collapseSubItems4" aria-controls="collapseSubItems4"
 				aria-expanded="false">Transaction Maintanance</a>
 
 				<ul class="nav-second-level collapse" id="collapseSubItems4"
 					data-parent="#navAccordion">
 
-					<li class="nav-item"><a class="nav-link" id="journalEntries"
+					<li class="nav-item"  th:if="${session.SCREEN_ACCESS_JOURNAL_ENTRIES} == 'Y' " ><a class="nav-link" id="journalEntries"   
 						href="#" onclick="contentLoad(this)">Journal Entries</a></li>
 
-					<li class="nav-item"><a class="nav-link"
+					<li class="nav-item" th:if="${session.SCREEN_ACCESS_ACCOUNT_LEDGER_POSTING} == 'Y' " ><a class="nav-link"
 						id="accountLedgerPost" href="#" onclick="contentLoad(this)">Account
 							Ledger Posting</a></li>
-					<li class="nav-item"><a class="nav-link" id="accountLedger"
+					<li class="nav-item" th:if="${session.SCREEN_ACCESS_ACCOUNT_LEDGER} == 'Y' " ><a class="nav-link" id="accountLedger"
 						href="#" onclick="contentLoad(this)">Account ledger</a></li>
 
-					<li class="nav-item"><a class="nav-link" id="trialBalance"
+					<li class="nav-item" th:if="${session.SCREEN_ACCESS_TRIAL_BALANCE_T} == 'Y' " ><a class="nav-link" id="trialBalance"
 						href="#" onclick="contentLoad(this)"> Trial Balance </a></li>
-					<li class="nav-item"><a class="nav-link"
+					<li class="nav-item"  th:if="${session.SCREEN_ACCESS_PROFIT_AND_LOSS_ACCOUNT_T} == 'Y' "  ><a class="nav-link"
 						id="profitAndLossAccount" href="#" onclick="contentLoad(this)">
 							Profit & Loss Account </a></li>
 					<!-- 	<li class="nav-item"><a class="nav-link"
@@ -757,27 +757,27 @@ a {
 				</ul>
 			</li>-->
 
-			<li class="nav-item"><a class="nav-link nav-link-collapse pl-3"
+			<li class="nav-item" th:if="${session.SCREEN_ACCESS_COLLECTION_PROCESS} == 'Y' " ><a class="nav-link nav-link-collapse pl-3" 
 				href="#" id="hasSubItems" data-toggle="collapse"
 				data-target="#collapseSubItems15" aria-controls="collapseSubItems15"
 				aria-expanded="false">Collection Process</a>
 				<ul class="nav-second-level collapse" id="collapseSubItems15"
 					data-parent="#navAccordion">
-					<li class="nav-item"><a class="nav-link"
+					<li class="nav-item" th:if="${session.SCREEN_ACCESS_PARTICIPATING_BANKS} == 'Y' " ><a class="nav-link"
 						id="participatingJobs" href="#" onclick="contentLoad(this)">Participating
 							Banks</a></li>
 
-					<li class="nav-item"><a class="nav-link" id="leasecollection"
+					<li class="nav-item"  th:if="${session.SCREEN_ACCESS_LOAN_COLLECTING} == 'Y' " ><a class="nav-link"  ><a class="nav-link" id="leasecollection"
 						href="#" onclick="contentLoad(this)">Loan Collection</a></li>
 				</ul></li>
 
-			<li class="nav-item"><a class="nav-link nav-link-collapse pl-3"
+			<li class="nav-item" th:if="${session.SCREEN_ACCESS_BATCH_JOB_EXECUTION} == 'Y' " ><a class="nav-link nav-link-collapse pl-3"  
 				href="#" id="hasSubItems" data-toggle="collapse"
 				data-target="#collapseSubItems12" aria-controls="collapseSubItems12"
 				aria-expanded="false">Batch Job Execution</a>
 				<ul class="nav-second-level collapse" id="collapseSubItems12"
 					data-parent="#navAccordion">
-					<li class="nav-item"><a class="nav-link" id="interestBatchJob"
+					<li class="nav-item" th:if="${session.SCREEN_ACCESS_BATCH_JOB} == 'Y' " ><a class="nav-link" id="interestBatchJob"
 						href="#" onclick="contentLoad(this)">Batch Job</a></li>
 
 
@@ -789,35 +789,35 @@ a {
 
 
 
-			<li class="nav-item"><a class="nav-link nav-link-collapse pl-3"
+			<li class="nav-item" th:if="${session.SCREEN_ACCESS_INQUIRIES_AND_REPORTS} == 'Y' " ><a class="nav-link nav-link-collapse pl-3"
 				href="#" id="hasSubItems" data-toggle="collapse"
 				data-target="#collapseSubItems7" aria-controls="collapseSubItems7"
 				aria-expanded="false">Inquiries & Reports </a>
 				<ul class="nav-second-level collapse" id="collapseSubItems7"
 					data-parent="#navAccordion">
-					<li class="nav-item"><a class="nav-link" id="Account_Balances"
+					<li class="nav-item" th:if="${session.SCREEN_ACCESS_ACCOUNT_BALANCE_INQ} == 'Y' " ><a class="nav-link" id="Account_Balances" 
 						href="#" onclick="contentLoad(this)"> Account Balances </a></li>
-					<li class="nav-item"><a class="nav-link" id="interest_summary"
+					<li class="nav-item" th:if="${session.SCREEN_ACCESS_INTERSET_SUMMARY_INQ} == 'Y' " ><a class="nav-link" id="interest_summary"
 						href="#" onclick="contentLoad(this)"> Interest Summary </a></li>
-					<li class="nav-item"><a class="nav-link" id="journalbook"
+					<li class="nav-item"  th:if="${session.SCREEN_ACCESS_JOURNAL_BOOK} == 'Y' "  ><a class="nav-link" id="journalbook"
 						href="#" onclick="contentLoad(this)"> Journal Book </a></li>
-					<li class="nav-item"><a class="nav-link" id="accountLedger2"
+					<li class="nav-item"  th:if="${session.SCREEN_ACCESS_ACCOUNT_LEDGERS_I} == 'Y' "  ><a class="nav-link" id="accountLedger2"
 						href="#" onclick="contentLoad(this)"> Account Ledger </a></li>
 
 
 					<!-- <li class="nav-item"><a class="nav-link"
 						id="trialBalanceReports" href="#" onclick="contentLoad(this)">Trial
 							Balance </a></li> -->
-					<li class="nav-item"><a class="nav-link"
+					<li class="nav-item"  th:if="${session.SCREEN_ACCESS_TRIAL_BALANCE_I} == 'Y' "  ><a class="nav-link"
 						id="trialBalanceReports2" href="#" onclick="contentLoad(this)">Trial
 							Balance </a></li>
-					<li class="nav-item"><a class="nav-link" id="generalLedger"
+					<li class="nav-item" th:if="${session.SCREEN_ACCESS_GENERAL_LEDGER} == 'Y' " ><a class="nav-link" id="generalLedger"
 						href="#" onclick="contentLoad(this)"> General Ledger </a></li>
 
-					<li class="nav-item"><a class="nav-link"
+					<li class="nav-item"  th:if="${session.SCREEN_ACCESS_PROFIT_AND_LOSS_ACCOUNT_I} == 'Y' "  ><a class="nav-link"
 						id="profitAndLossAccountReports" href="#"
 						onclick="contentLoad(this)">Profile and Loss Account </a></li>
-					<li class="nav-item"><a class="nav-link" id="balanceSheet"
+					<li class="nav-item"   th:if="${session.SCREEN_ACCESS_BALANCE_SHEET} == 'Y' "  ><a class="nav-link" id="balanceSheet"
 						href="#" onclick="contentLoad(this)"> Balance Sheet </a></li>
 
 					<!--<li class="nav-item"><a class="nav-link" id="outsytandingItems" href="#"

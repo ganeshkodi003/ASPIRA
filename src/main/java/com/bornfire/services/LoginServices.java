@@ -117,31 +117,35 @@ public class LoginServices {
 
 		if (formmode.equals("add")) {
 
-			UserProfile up = new UserProfile(userProfile);
+			String encryptedPassword = PasswordEncryption.getEncryptedPassword(userProfile.getPassword());
 
-			String encryptedPassword = PasswordEncryption.getEncryptedPassword(up.getPassword());
-
-			if (up.getLogin_status().equals("Active")) {
-				up.setUser_locked_flg("N");
+			if (userProfile.getLogin_status().equals("Active")) {
+				userProfile.setUser_locked_flg("N");
 			} else {
-				up.setUser_locked_flg("Y");
+				userProfile.setUser_locked_flg("Y");
 			}
 
-			if (up.getUser_status().equals("Active")) {
-				up.setDisable_flg("N");
+			if (userProfile.getUser_status().equals("Active")) {
+				userProfile.setDisable_flg("N");
 			} else {
-				up.setDisable_flg("Y");
+				userProfile.setDisable_flg("Y");
 			}
 
-			up.setEntity_flg("N");
-			up.setEntry_time(new Date());
-			up.setEntry_user(inputUser);
-			up.setModify_user(inputUser);
-			up.setModify_time(new Date());
-			up.setDel_flg("N");
-			up.setLogin_flg("N");
-			up.setNo_of_attmp(0);
-			up.setPassword(encryptedPassword);
+			userProfile.setEntity_flg("Y");
+			userProfile.setModify_flg("N");
+			userProfile.setAuth_flg("Y");
+			userProfile.setDel_flg("N");
+			
+			userProfile.setEntry_time(new Date());
+			userProfile.setEntry_user(inputUser);
+			userProfile.setModify_user(inputUser);
+			userProfile.setModify_time(new Date());
+			
+			userProfile.setLogin_flg("N");
+			userProfile.setNo_of_attmp(0);
+			userProfile.setPassword(encryptedPassword);
+			
+			System.out.println(userProfile.getMob_number() +" -------------");
 
 			/*
 			 * Emailsent emailfun = new Emailsent(); try { String message =
@@ -149,7 +153,7 @@ public class LoginServices {
 			 * Auto-generated catch block e.printStackTrace(); }
 			 */
 
-			userProfileRep.save(up);
+			userProfileRep.save(userProfile);
 			
 			 //FOR AUIDT
 			 BGLSBusinessTable_Entity audit = new BGLSBusinessTable_Entity();
@@ -201,18 +205,24 @@ public class LoginServices {
 			} else {
 				up.setDisable_flg("Y");
 			}
+			System.out.println(up.getBranch_id()+" ------ "+up.getBranch_des());
 
+			up.setEntity_flg("Y");
+			up.setModify_flg("N");
+			up.setAuth_flg("Y");
+			up.setDel_flg("N");
+			
 			up.setModify_time(new Date());
 			up.setModify_user(inputUser);
-			up.setModify_flg("Y");
-			up.setDel_flg("N");
+//			up.setModify_flg("Y");
+//			up.setDel_flg("N");
 			up.setLogin_flg("N");
 			up.setNo_of_attmp(0);
 			up.setEntry_user(original.getEntry_user());
 			up.setEntry_time(original.getEntry_time());
 			up.setAuth_user(original.getAuth_user());
 			up.setAuth_time(original.getAuth_time());
-			up.setEntity_flg("N");
+//			up.setEntity_flg("Y");
 			up.setPassword(encryptedPassword);
 
 			userProfileRep.save(up);
@@ -232,6 +242,9 @@ public class LoginServices {
 		Access_Role_Entity accessRole = access_Role_Repo.getRole(userId);
 		if (Objects.nonNull(userProfile.getUserid())) {
 			userProfile.setEntity_flg("Y");
+			userProfile.setModify_flg("Y");
+			userProfile.setAuth_flg("N");
+			userProfile.setDel_flg("N");
 			userProfile.setAuth_user(inputUser);
 			userProfile.setAuth_time(new Date());
 			userProfileRep.save(userProfile);

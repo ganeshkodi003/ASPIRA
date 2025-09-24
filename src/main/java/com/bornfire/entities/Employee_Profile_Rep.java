@@ -24,7 +24,7 @@ public interface Employee_Profile_Rep extends JpaRepository<Employee_Profile, St
 	@Query(value = "SELECT MAX(CAST(CASE WHEN PATINDEX('%[0-9]%', EMPLOYEE_ID) > 0 THEN SUBSTRING(EMPLOYEE_ID, PATINDEX('%[0-9]%', EMPLOYEE_ID), LEN(EMPLOYEE_ID)) ELSE '0' END AS INT)) AS max_numeric_part FROM BGLS_EMPLOYEE_PROFILE", nativeQuery = true)
 	String getSrlNo();
 
-	@Query(value="SELECT * FROM BGLS_EMPLOYEE_PROFILE where entity_flg='Y'", nativeQuery = true)
+	@Query(value="SELECT * FROM BGLS_EMPLOYEE_PROFILE e WHERE e.entity_flg = 'Y' AND NOT EXISTS ( SELECT 1 FROM BGLS_USER_PROFILE_TABLE u WHERE u.DEL_FLG = 'N' AND u.[USER_ID] = e.[employee_id]  )", nativeQuery = true)
 	List<Employee_Profile> getEmployeeVeifiedList();
 
 	
