@@ -197,6 +197,8 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 				}
 			}
 		});
+	});
+
 		/*$("#Todate").datepicker({
 			dateFormat: 'dd/mm/yy',
 			maxDate: new Date(), // Set max date to current date
@@ -215,7 +217,6 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 				}
 			}
 		});*/
-	});
 
 	function formatDate1(dateString) {
 		var dateParts = dateString.split("/");
@@ -289,12 +290,13 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 		$('#usertable').DataTable({
 			"destroy" : true,
 			"scrollCollapse" : true,
-			"paging" : true,
+			"paging" : false,
 			"autoWidth" : false,
 			"ordering" : true,
 			"searching" : false,
 			"pageLength" : 10,
 			"lengthChange" : false,
+			"info": false   //  hides "Showing X to Y of Z entries"
 		});
 	});
 
@@ -355,7 +357,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 		<div th:if="${formmode}=='list'">
 			<div class="card">
 
-				<div class="card-header" id="modheadtitle"
+				<!--<div class="card-header" id="modheadtitle"
 					style="height: 47px;background-color: #e9ecef; font-size: 1.2rem;">
 					<h4>User Activity Details -List</h4>
 				</div>
@@ -372,9 +374,30 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 						<input type="text" id="Fromdate" th:value="${Fromdate}"
 							class="form-control form-control-sm bg-white border border-dark" name="cust_id"
 							autocomplete="off" readonly />
-					</div>
+					</div>-->
 					 
+					<div class="card-header d-flex justify-content-between align-items-center"
+					      id="modheadtitle"  style="height: 47px; background-color: #e9ecef; font-size: 1.2rem;">
+					        
+					        <!-- Left side -->
+					        <h4 class="mb-0">User Activity Details - List</h4>
+							<div class="d-flex align-items-center" style="white-space: nowrap;">
+							    <label for="Fromdate" class="me-2 mb-0" style="font-size: 0.9rem; white-space: nowrap;">
+							        Search records By Date :
+							    </label>
+							    <!--<input type="text" id="Fromdate" th:value="${Fromdate}"
+							        class="form-control form-control-sm bg-white border border-dark"
+							        name="cust_id" autocomplete="off" readonly />-->
+									
+									
+									<input type="text" id="Fromdate" th:value="${Fromdate}" 
+									       class="form-control form-control-sm bg-white border border-dark" 
+									       name="Fromdate" autocomplete="off" readonly />
 
+
+							</div>
+
+					    </div>
 				<!-- <div class="col-sm-1">
 					<label for="custName">To Date</label>
 				</div>
