@@ -47,7 +47,7 @@ public class ASPIRAUploadController {
 	        } else if ("LOAN".equalsIgnoreCase(fileInput)) {
 	            resultMap = UploadService.saveLoanFile(file, userID, userName, overwrite);
 	        } else if ("REPAYMENT".equalsIgnoreCase(fileInput)) {
-	            resultMap = UploadService.saveLoanFile(file, userID, userName, overwrite);
+	            resultMap = UploadService.saveRepaymentFile(file, userID, userName, overwrite);
 	        } else {
 	            resultMap.put("message", "Invalid file type specified");
 	        }
