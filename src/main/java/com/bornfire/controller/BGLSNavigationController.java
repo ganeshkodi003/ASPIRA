@@ -2176,30 +2176,31 @@ public class BGLSNavigationController {
 	/* pon prasanth */
 
 	@RequestMapping(value = "useractivities", method = { RequestMethod.GET, RequestMethod.POST })
-	public String useractivities(@RequestParam(required = false) String formmode, Model model, String cust_id,
-			@RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") Date Fromdate,
-			HttpServletRequest request) {
-		LocalDate today = LocalDate.now(); // Get today's date
-		Date fromDateToUse; // Declare a variable for the date to use
+	public String useractivities(@RequestParam(required = false) String formmode, Model model, 
+	                             String cust_id,
+	                             @RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") Date Fromdate,
+	                             HttpServletRequest request) {
 
-		if (Fromdate != null) {
-			// If Fromdate has a value, use it
-			fromDateToUse = Fromdate;
-		} else {
+	    // Get today's date
+	    LocalDate today = LocalDate.now();
 
-			// If Fromdate has no value, use today's date
-			fromDateToUse = Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		}
+	    // Determine the date to use: either Fromdate or today
+	    Date fromDateToUse = (Fromdate != null) ? Fromdate
+	                                            : Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-		if (formmode == null || formmode.equals("list")) {
-			model.addAttribute("formmode", "list");
+	    // Pass the date to the view
+	    model.addAttribute("Fromdate", new SimpleDateFormat("dd-MM-yyyy").format(fromDateToUse));
 
-			// Fetch the audit list based on the determined date
-			model.addAttribute("AuditList", bGLSAuditTable_Rep.getauditListLocalvals(fromDateToUse));
-		}
+	    if (formmode == null || formmode.equals("list")) {
+	        model.addAttribute("formmode", "list");
 
-		return "AuditTrailValues";
+	        // Fetch the audit list based on the determined date
+	        model.addAttribute("AuditList", bGLSAuditTable_Rep.getauditListLocalvals(fromDateToUse));
+	    }
+
+	    return "AuditTrailValues";
 	}
+
 
 //suriya
 	@RequestMapping(value = "dscr", method = { RequestMethod.GET, RequestMethod.POST })
@@ -2329,27 +2330,28 @@ public class BGLSNavigationController {
 			@RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") Date Fromdate,
 			HttpServletRequest request) {
 
-		LocalDate today = LocalDate.now(); // Get today's date
-		Date fromDateToUse; // Declare a variable for the date to use
-
-		if (Fromdate != null) {
+		//LocalDate today = LocalDate.now(); // Get today's date
+		//Date fromDateToUse; // Declare a variable for the date to use
+		
+		  LocalDate today = LocalDate.now();
+		    Date fromDateToUse = (Fromdate != null) ? Fromdate
+		                                            : Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		
+		    model.addAttribute("Fromdate", new SimpleDateFormat("dd-MM-yyyy").format(fromDateToUse));
+		    
+		//if (Fromdate != null) {
 			// If Fromdate has a value, use it
-			fromDateToUse = Fromdate;
-		} else {
+			//fromDateToUse = Fromdate;
+		//} else {
 			// If Fromdate has no value, use today's date
-			fromDateToUse = Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		}
-
+		//	fromDateToUse = Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		//}
 		if (formmode == null || formmode.equals("list")) {
 			model.addAttribute("formmode", "list");
-
-			// Fetch the audit list based on the determined date
-			// model.addAttribute("AuditList",
-			// bGLSBusinessTable_Rep.getauditListLocalvaluesbusiness(fromDateToUse));
 			model.addAttribute("AuditList", AdminOperServices.getauditListLocal(fromDateToUse));
 
 		}
-
+	   
 		return "BusinessTrail";
 	}
 
