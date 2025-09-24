@@ -655,6 +655,10 @@ input:hover+.password-info {
 					});
 		});
 
+function rowClick(refId) {
+    // Example: navigate to URL with refId
+    window.location.href = './customer?id=' + refId;
+}
 
 
 	</script>
@@ -748,18 +752,29 @@ input:hover+.password-info {
 									    <th><input type="text" 
 											class="form-control font-weight-bold text-center" 
 											placeholder="MODULE ID" disabled></th>
+									    <th><input type="text" 
+											class="form-control font-weight-bold text-center" 
+											placeholder="ACTION" disabled></th>
 									</tr>
 								</thead>
 								<tbody id="placelist">
 
-									<tr th:each="EmployeeData,iterator : ${refList}">
-
-										
+									<tr th:each="EmployeeData,iterator : ${refList}"
+    th:attr="onclick=|rowClick('${EmployeeData.ref_id}')|">
 										<td th:text="${EmployeeData.ref_type}"></td>
 										<td th:text="${#strings.replace(EmployeeData.ref_type_desc, '_', ' ')}"></td>
 										<td th:text="${EmployeeData.ref_id}"></td>
 										<td th:text="${EmployeeData.ref_id_desc}"></td>
 										<td th:text="${EmployeeData.module_id}"></td>
+										<td class="text-center" style="width: 100px;">
+											<label style="display: inline-block; font-weight: 500; cursor: pointer;">
+												<input type="radio" name="editMode" 
+													th:value="${EmployeeData.ref_id}" 
+													style="transform: scale(1.3); margin-right: 5px;">
+											</label>
+										</td>
+
+
 										
 									</tr>
 
