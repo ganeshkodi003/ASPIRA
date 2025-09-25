@@ -11,8 +11,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "BGLS_ORG_BRANCH")
 public class Organization_Branch_Entity {
-	private String branch_code;
 	@Id
+	private String branch_code;
 	private String branch_name;
 	private String add_1;
 	private String add_2;
@@ -39,6 +39,7 @@ public class Organization_Branch_Entity {
 	private String	del_flg;
 	private String	modify_flg;
 	private String	entity_flg;
+	private String	remarks;
 	@Lob
 	private byte[]	photo;
 	public String getBranch_code() {
@@ -202,6 +203,12 @@ public class Organization_Branch_Entity {
 	}
 	public void setEntity_flg(String entity_flg) {
 		this.entity_flg = entity_flg;
+	}
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 	public byte[] getPhoto() {
 		return photo;

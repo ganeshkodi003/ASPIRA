@@ -369,7 +369,7 @@ public class BGLSNavigationController {
 	/* PRAVEEN */
 	@RequestMapping(value = "organizationDetails", method = { RequestMethod.GET, RequestMethod.POST })
 	public String organizationDetails(@RequestParam(required = false) String formmode,
-			@RequestParam(required = false) String branch_name, Model md, HttpServletRequest req,
+			@RequestParam(required = false) String branch_name, String branch_code,Model md, HttpServletRequest req,
 			@RequestParam(required = false) BigDecimal record_srl) {
 
 		String userid = (String) req.getSession().getAttribute("USERID");
@@ -388,12 +388,12 @@ public class BGLSNavigationController {
 			md.addAttribute("organization", organization.get(0));
 		} else if (formmode.equals("DeleteBranch")) {
 			md.addAttribute("formmode", "DeleteBranch");
-			md.addAttribute("OrgBranch", organization_Branch_Rep.getOrgBranch(branch_name));
+			md.addAttribute("OrgBranch", organization_Branch_Rep.getOrgBranch1(branch_code));
 		} else if (formmode.equals("AddBranch")) {
 			md.addAttribute("formmode", "AddBranch");
 		} else if (formmode.equals("modify")) {
 			md.addAttribute("formmode", "modify");
-			md.addAttribute("OrgBranch", organization_Branch_Rep.getOrgBranch(branch_name));
+			md.addAttribute("OrgBranch", organization_Branch_Rep.getOrgBranch1(branch_code));
 
 		} else if (formmode.equals("ModifyBranch")) {
 			md.addAttribute("formmode", "ModifyBranch");
@@ -401,7 +401,7 @@ public class BGLSNavigationController {
 
 		} else if (formmode.equals("view")) {
 			md.addAttribute("formmode", "view");
-			md.addAttribute("OrgBranch", organization_Branch_Rep.getOrgBranch(branch_name));
+			md.addAttribute("OrgBranch", organization_Branch_Rep.getOrgBranch1(branch_code));
 
 		} else if (formmode.equals("addholiday")) {
 			md.addAttribute("formmode", "addholiday");

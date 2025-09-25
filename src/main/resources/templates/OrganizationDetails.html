@@ -10,602 +10,654 @@ CREATED ON	: 21.09.2025
 PURPOSE		: FUNCTIONLITY
 VERSION     : 2.0
  -->
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="/ASPIRA/js/jquery.min.js"></script>
-<script src="/ASPIRA/js/jquery-ui.min.js"></script>
-<style>
-body {
-	font-size: 0.8rem;
-}
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="/ASPIRA/js/jquery.min.js"></script>
+	<script src="/ASPIRA/js/jquery-ui.min.js"></script>
+	<style>
+		body {
+			font-size: 0.8rem;
+		}
 
-.btn {
-	line-height: 0.5rem;
-}
+		.btn {
+			line-height: 0.5rem;
+		}
 
-.table-bordered td, .table-bordered th {
-	font-size: smaller;
-}
+		.table-bordered td,
+		.table-bordered th {
+			font-size: smaller;
+		}
 
-.container-manager {
-	width: 83.5%;
-	padding-right: 15px;
-	padding-left: 15px;
-	margin-right: auto;
-	margin-left: 17.3%;
-	margin-top: 80px;
-	margin-top: 80px;
-}
+		.container-manager {
+			width: 83.5%;
+			padding-right: 15px;
+			padding-left: 15px;
+			margin-right: auto;
+			margin-left: 17.3%;
+			margin-top: 80px;
+			margin-top: 80px;
+		}
 
-.table .thead-light th {
-	color: #495057;
-	background-color: #e9ecef;
-	border-color: #dee2e6;
-	width: 23px;
-}
+		.table .thead-light th {
+			color: #495057;
+			background-color: #e9ecef;
+			border-color: #dee2e6;
+			width: 23px;
+		}
 
-.scroll {
-	max-height: 60vh;
-	overflow-y: scroll;
-	overflow-x: hidden;
-}
+		.scroll {
+			max-height: 60vh;
+			overflow-y: scroll;
+			overflow-x: hidden;
+		}
 
-.tablinks {
-	background-color: #f1f1f1;
-	/* Default background color */
-	border: none;
-	color: black;
-	padding: 10px 20px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	transition: background-color 0.3s;
-}
+		.tablinks {
+			background-color: #f1f1f1;
+			/* Default background color */
+			border: none;
+			color: black;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			transition: background-color 0.3s;
+		}
 
-.tablinks.active {
-	background-color: #2084a9;
-	color: white;
-}
+		.tablinks.active {
+			background-color: #2084a9;
+			color: white;
+		}
 
-.tab {
-	overflow: hidden;
-	border: 1px solid #ccc;
-	background-color: #f2f2f2;
-}
+		.tab {
+			overflow: hidden;
+			border: 1px solid #ccc;
+			background-color: #f2f2f2;
+		}
 
-.tab button {
-	background-color: inherit;
-	float: left;
-	border: none;
-	outline: none;
-	cursor: pointer;
-	padding: 14px 56px;
-	transition: 0.3s;
-	font-size: 17px;
-}
+		.tab button {
+			background-color: inherit;
+			float: left;
+			border: none;
+			outline: none;
+			cursor: pointer;
+			padding: 14px 56px;
+			transition: 0.3s;
+			font-size: 17px;
+		}
 
-.tab button:hover {
-	background-color: #ddd;
-}
+		.tab button:hover {
+			background-color: #ddd;
+		}
 
-.tabcontent {
-	display: none;
-	padding: 0px;
-	border-top: 1px solid #ccc;
-}
+		.tabcontent {
+			display: none;
+			padding: 0px;
+			border-top: 1px solid #ccc;
+		}
 
-.active {
-	background-color: #2084a9;
-}
+		.active {
+			background-color: #2084a9;
+		}
 
-#myPieChart {
-	width: 100px;
-	height: 100px;
-}
-</style>
-<style>
-.modal {
-	display: none;
-	/* Hidden by default */
-	position: absolute;
-	/* Stay in place */
-	z-index: 1;
-	/* Location of the box */
-	left: 0;
-	top: 0;
-	width: 100%;
-	/* Full width */
-	height: 100%;
-	/* Full height */
-	overflow: auto;
-	/* Enable scroll if needed */
-	background-color: rgb(0, 0, 0);
-	/* Fallback color */
-	background-color: rgba(0, 0, 0, 0.4);
-	/* Black w/ opacity */
-}
+		#myPieChart {
+			width: 100px;
+			height: 100px;
+		}
+	</style>
+	<style>
+		.modal {
+			display: none;
+			/* Hidden by default */
+			position: absolute;
+			/* Stay in place */
+			z-index: 1;
+			/* Location of the box */
+			left: 0;
+			top: 0;
+			width: 100%;
+			/* Full width */
+			height: 100%;
+			/* Full height */
+			overflow: auto;
+			/* Enable scroll if needed */
+			background-color: rgb(0, 0, 0);
+			/* Fallback color */
+			background-color: rgba(0, 0, 0, 0.4);
+			/* Black w/ opacity */
+		}
 
-/* Modal Content */
-.modal-content {
-	background-color: #fefefe;
-	margin: auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 100%;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
-		rgba(0, 0, 0, 0.19);
-	-webkit-animation-name: animatetop;
-	-webkit-animation-duration: 0.4s;
-	animation-name: animatetop;
-	animation-duration: 0.4s
-}
+		/* Modal Content */
+		.modal-content {
+			background-color: #fefefe;
+			margin: auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 100%;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			-webkit-animation-name: animatetop;
+			-webkit-animation-duration: 0.4s;
+			animation-name: animatetop;
+			animation-duration: 0.4s
+		}
 
-.modal-pass {
-	background-color: #fefefe;
-	margin: 15% auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 40%;
-	height: 25%;
-	margin-left: 400PX;
-	margin-right: auto;
-	border-radius: 10px;
-	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
-	font-family: Arial, sans-serif;
-}
+		.modal-pass {
+			background-color: #fefefe;
+			margin: 15% auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 40%;
+			height: 25%;
+			margin-left: 400PX;
+			margin-right: auto;
+			border-radius: 10px;
+			box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+			font-family: Arial, sans-serif;
+		}
 
-.close {
-	color: red;
-	font-size: 28px;
-	font-weight: bold;
-}
+		.close {
+			color: red;
+			font-size: 28px;
+			font-weight: bold;
+		}
 
-.close:hover, .close:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
-</style>
-<style>
-.password-info {
-	visibility: hidden;
-	width: 320px;
-	background-color: #333;
-	color: #fff;
-	text-align: left;
-	border-radius: 10px;
-	padding: 10px;
-	position: absolute;
-	z-index: 1;
-	top: calc(100% + 10px);
-	left: 50%;
-	transform: translateX(-50%);
-	opacity: 0;
-	transition: opacity 0.3s;
-}
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+		}
+	</style>
+	<style>
+		.password-info {
+			visibility: hidden;
+			width: 320px;
+			background-color: #333;
+			color: #fff;
+			text-align: left;
+			border-radius: 10px;
+			padding: 10px;
+			position: absolute;
+			z-index: 1;
+			top: calc(100% + 10px);
+			left: 50%;
+			transform: translateX(-50%);
+			opacity: 0;
+			transition: opacity 0.3s;
+		}
 
-input:hover+.password-info {
-	visibility: visible;
-	opacity: 0.8;
-}
+		input:hover+.password-info {
+			visibility: visible;
+			opacity: 0.8;
+		}
 
-.subtablinks {
-	background-color: #f1f1f1;
-	/* Default background color */
-	border: none;
-	color: black;
-	padding: 10px 20px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	transition: background-color 0.3s;
-}
+		.subtablinks {
+			background-color: #f1f1f1;
+			/* Default background color */
+			border: none;
+			color: black;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			transition: background-color 0.3s;
+		}
 
-.subtablinks.active {
-	background-color: #2084a9;
-	color: white;
-}
+		.subtablinks.active {
+			background-color: #2084a9;
+			color: white;
+		}
 
-.hover-underline:hover {
-	text-decoration: underline;
-	text-decoration-color: #007bff;
-	cursor: pointer;
-	/* Sets underline color to blue */
-}
-.big-btn {
-  font-size: 16px;
-}
-</style>
-<script>
-	function Home() {
+		.hover-underline:hover {
+			text-decoration: underline;
+			text-decoration-color: #007bff;
+			cursor: pointer;
+			/* Sets underline color to blue */
+		}
 
-		location.href = 'Dashboard';
-	}
+		.big-btn {
+			font-size: 16px;
+		}
+	</style>
+	<script>
+		function Home() {
 
-	function Back() {
-		window.history.back();
-	}
+			location.href = 'Dashboard';
+		}
 
-	$(function() {
-		$(
+		function Back() {
+			window.history.back();
+		}
+
+		$(function () {
+			$(
 				"#doj,#dob,#date_of_offer,#date_of_appointment_letter,#aed,#ped,#dsd,#ded")
 				.datepicker({
-					dateFormat : "dd-mm-yy",
-					changeMonth : true,
-					changeYear : true
+					dateFormat: "dd-mm-yy",
+					changeMonth: true,
+					changeYear: true
 
 				});
-	});
-</script>
-<script>
-	function AddBranch() {
+		});
+	</script>
+	<script>
+		function AddBranch() {
 
-		location.href = './organizationDetails?formmode=AddBranch';
+			location.href = './organizationDetails?formmode=AddBranch';
 
-	}
+		}
 
-	function list() {
+		function list() {
 
-		location.href = './organizationDetails?formmode=list';
-	}
+			location.href = './organizationDetails?formmode=list';
+		}
 
-	function add() {
+		function add() {
 
-		location.href = './organizationDetails?formmode=add';
-	}
+			location.href = './organizationDetails?formmode=add';
+		}
 
-	function Modify() {
+		function Modify() {
 
-		location.href = './organizationDetails?formmode=ModifyHead';
-	}
-	
-	function modify() {
+			location.href = './organizationDetails?formmode=ModifyHead';
+		}
+
+		function modify() {
 
 			location.href = './organizationDetails?formmode=modify';
 		}
-	
-</script>
 
-<script>
-	function view(a) {
-		var branch = a.getAttribute('data-resource');
+	</script>
 
-		location.href = './organizationDetails?formmode=view&branch_name='
-				+ branch;
-	}
+	<script>
+		function view(a) {
+			var branch = a.getAttribute('data-resource');
 
-
-	function branchfunction(a){
-		var branch = a.getAttribute('data-resource');
-		var mod_flg = a.getAttribute('data-modify_flg');
-		if(mod_flg == "Y"){
-			location.href = './organizationDetails?formmode=DeleteBranch&branch_name='
-				+ branch;
-		}else{
-			location.href = './organizationDetails?formmode=modify&branch_name='
+			location.href = './organizationDetails?formmode=view&branch_code='
 				+ branch;
 		}
-	}
 
-	/* 	function openTab(evt, tabName) {
 
-	 var tabcontent = document.getElementsByClassName("tabcontent");
-	 for (let i = 0; i < tabcontent.length; i++) {
-	 tabcontent[i].style.display = "none";
-	 }
+		//function branchfunction(a) {
+		//	var branch = a.getAttribute('data-resource');
+		//	var mod_flg = a.getAttribute('data-modify_flg');
+		//	if (mod_flg == "Y") {
+		//		location.href = './organizationDetails?formmode=DeleteBranch&branch_name='
+		//			+ branch;
+			//} else {
+			//	location.href = './organizationDetails?formmode=modify&branch_name='
+			//		+ branch;
+		//	}
+		//}
+		function branchfunction(a) {
+		    var branch = a.getAttribute('data-resource');
+		    // Always go to modify screen
+		    location.href = './organizationDetails?formmode=modify&branch_code=' + branch;
+		}
+		function deleteBranch(a) {
+		    var branch = a.getAttribute('data-resource');
+		    // Redirect to delete screen
+		    location.href = './organizationDetails?formmode=DeleteBranch&branch_code=' + branch;
+		}
 
-	 let tablinks = document.getElementsByClassName("tablinks");
-	 for (let i = 0; i < tablinks.length; i++) {
-	 tablinks[i].classList.remove("active");
-	 }
-
-	 document.getElementById(tabName).style.display = "block";
-	 evt.currentTarget.classList.add("active");
-
-	 //document.getElementById("submitBtn").style.display = (tabName === 'tab2') ? 'block' : 'none';
-	 } */
-	 function showError(element, message) {
-		    var errorSpan = $('<span class="error-message"></span>').text(message);
-		    errorSpan.css('color', 'red');
-		    element.after(errorSpan);
+		/* 	function openTab(evt, tabName) {
+	
+		 var tabcontent = document.getElementsByClassName("tabcontent");
+		 for (let i = 0; i < tabcontent.length; i++) {
+		 tabcontent[i].style.display = "none";
+		 }
+	
+		 let tablinks = document.getElementsByClassName("tablinks");
+		 for (let i = 0; i < tablinks.length; i++) {
+		 tablinks[i].classList.remove("active");
+		 }
+	
+		 document.getElementById(tabName).style.display = "block";
+		 evt.currentTarget.classList.add("active");
+	
+		 //document.getElementById("submitBtn").style.display = (tabName === 'tab2') ? 'block' : 'none';
+		 } */
+		function showError(element, message) {
+			var errorSpan = $('<span class="error-message"></span>').text(message);
+			errorSpan.css('color', 'red');
+			element.after(errorSpan);
 		}
 
 		function hideError(element) {
-		    element.next('.error-message').remove();
+			element.next('.error-message').remove();
 		}
 
 		function validateField(selector, message) {
-		    const element = $(selector);
-		    if (!element.val()) {
-		        showError(element, message);
-		        return true;
-		    } else {
-		        hideError(element);
-		        return false;
-		    }
+			const element = $(selector);
+			if (!element.val()) {
+				showError(element, message);
+				return true;
+			} else {
+				hideError(element);
+				return false;
+			}
 		}
 
-	function AddSubmit() {
-		 let hasError = false;
-		 
+		//	function AddSubmit() {
+		//	 let hasError = false;
 
-		  //for customer check
-		  
-		  /*  hasError = validateField("#branch_head", 'Required') || hasError; 
-		   hasError = validateField("#branch_code", 'Required') || hasError; 
-	       hasError = validateField("#swift_code", 'Required') || hasError; 
-		   hasError = validateField("#designation", 'Required') || hasError; 
-           hasError = validateField("#land_line", 'Required') || hasError; 
-		   hasError =validateField("#branch_name", 'Required') || hasError;
-		   hasError =  validateField("#mobile", 'Required') || hasError; 
-		   hasError =  validateField("#photo", 'Required') || hasError; 
-		   hasError =  validateField("#cont_person", 'Required') || hasError; 
-		   hasError =  validateField("#fax", 'Required') || hasError;  */
-		   
-		
-		   if (hasError) {
-		        $('#alert1').modal("toggle");
-		        $('#alertmsg1').text("Enter the Required fields..");
-		        return; // Exit the function if there are validation errors
-		    }
-		   var formElement = document.getElementById('assosiateForm1'); // Get the form element
-		   var formData = new FormData(formElement); 
-	       var photoInput = formElement.querySelector("input[name='photoFile']");
-		   console.log(photoInput.files[0]);
-		   alert(photoInput)
-	        
-		   if (photoInput && photoInput.files.length > 0) {
-	            formData.append("photoFile", photoInput.files[0]);
-	        }else {
-	            console.error("Photo input not found or no file selected.");
-	            $('#alert1').modal("toggle");
-	            $('#alertmsg1').text("Please select a photo.");
-	            return; // Exit the function if the photo input is not found or no file is selected
-	        }  
+
+		//for customer check
+
+		/*  hasError = validateField("#branch_head", 'Required') || hasError; 
+		 hasError = validateField("#branch_code", 'Required') || hasError; 
+		 hasError = validateField("#swift_code", 'Required') || hasError; 
+		 hasError = validateField("#designation", 'Required') || hasError; 
+		 hasError = validateField("#land_line", 'Required') || hasError; 
+		 hasError =validateField("#branch_name", 'Required') || hasError;
+		 hasError =  validateField("#mobile", 'Required') || hasError; 
+		 hasError =  validateField("#photo", 'Required') || hasError; 
+		 hasError =  validateField("#cont_person", 'Required') || hasError; 
+		 hasError =  validateField("#fax", 'Required') || hasError;  */
+
+
+		//   if (hasError) {
+		//     $('#alert1').modal("toggle");
+		//      $('#alertmsg1').text("Enter the Required fields..");
+		//    return; // Exit the function if there are validation errors
+		// }
+		// var formElement = document.getElementById('assosiateForm1'); // Get the form element
+		// var formData = new FormData(formElement); 
+		// var photoInput = formElement.querySelector("input[name='photoFile']");
+		// console.log(photoInput.files[0]);
+		// alert(photoInput)
+
+		//  if (photoInput && photoInput.files.length > 0) {
+		//       formData.append("photoFile", photoInput.files[0]);
+		//  }else {
+		//      console.error("Photo input not found or no file selected.");
+		//     $('#alert1').modal("toggle");
+		//     $('#alertmsg1').text("Please select a photo.");
+		//     return; // Exit the function if the photo input is not found or no file is selected
+		//  }  
+		//$.ajax({
+		//	url : './OrgBranchAdd',
+		//	data: formData,
+		//    type: 'POST',
+		//    processData: false,  // Don't process the data
+		//   contentType: false, 
+		//	success : function(data) {
+		//		$("#alertmsg").text(data);
+		//		$('#alert').modal("show");
+		//	}
+		//});
+
+		//}
+		function AddSubmit() {
+			let hasError = false;
+
+			// Basic required field validation example
+			if ($('#branch_code').val().trim() === '') {
+				hasError = true;
+			}
+
+			if (hasError) {
+				$('#alert1').modal("toggle");
+				$('#alertmsg1').text("Enter the required fields.");
+				return;
+			}
+
+			var formElement = document.getElementById('assosiateForm1');
+			var formData = new FormData(formElement);
+
 			$.ajax({
-				url : './OrgBranchAdd',
+				url: './OrgBranchAdd',
+				type: 'POST',
 				data: formData,
-			    type: 'POST',
-			    processData: false,  // Don't process the data
-			    contentType: false, 
-				success : function(data) {
+				processData: false,
+				contentType: false,
+				success: function (data) {
+					$("#alertmsg").text(data);
+					$('#alert').modal("show");
+
+					// Reset form if added successfully
+					if (data.includes("success")) {
+						formElement.reset();
+					}
+				},
+				error: function (err) {
+					console.error(err);
+					$('#alert1').modal("toggle");
+					$('#alertmsg1').text("Error while adding branch.");
+				}
+			});
+		}
+
+		function ModifyTab1Submit() {
+
+			$.ajax({
+				url: './tab1modify',
+				data: $("#tab1modify").serialize(),
+				type: 'POST',
+				success: function (data) {
+					$("#alertmsg").text(data);
+					$('#alert').modal("show");
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.error("Error in AJAX request: " + textStatus, errorThrown);
+				}
+			});
+		}
+
+
+		//function ModifyTab2Submit() {
+
+		//	$.ajax({
+		//	url : './tab2modify',
+		//	data : $("#tab2modify").serialize(),
+		//	type : 'POST',
+		//success : function(data) {
+		//	$("#alertmsg").text(data);
+		//	$('#alert').modal("show");
+		//	}
+		//});
+
+		//}
+
+
+
+
+		function ModifyTab2Submit() {
+			$.ajax({
+				url: './tab2modify',
+				data: $("#tab2modify").serialize(),
+				type: 'POST',
+				success: function (data) {
+					// If backend returns "success" or empty message, redirect to ModifyBranch
+					if (data.trim() === "success" || data.trim() === "") {
+						window.location.href = "./organizationDetails?formmode=Modify";
+					} else {
+						// Otherwise show the backend validation/error message
+						$("#alertmsg").text(data);
+						$('#alert').modal("show");
+					}
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.error("Error in AJAX request: " + textStatus, errorThrown);
+					$("#alertmsg").text("Error while modifying");
+					$('#alert').modal("show");
+				}
+			});
+		}
+
+		function del_bran() {
+
+			$.ajax({
+				url: './tab2Del',
+				data: $("#tab2Del").serialize(),
+				type: 'POST',
+				success: function (data) {
 					$("#alertmsg").text(data);
 					$('#alert').modal("show");
 				}
 			});
-		
-	}
 
-	 function ModifyTab1Submit() {
-
-		    $.ajax({
-		        url: './tab1modify',
-		        data: $("#tab1modify").serialize(),
-		        type: 'POST',
-		        success: function(data) {
-		            $("#alertmsg").text(data);
-		            $('#alert').modal("show");
-		        },
-		        error: function(jqXHR, textStatus, errorThrown) {
-		            console.error("Error in AJAX request: " + textStatus, errorThrown);
-		        }
-		    });
 		}
+	</script>
 
-
-	//function ModifyTab2Submit() {
-
-	//	$.ajax({
-		//	url : './tab2modify',
-		//	data : $("#tab2modify").serialize(),
-		//	type : 'POST',
-			//success : function(data) {
-			//	$("#alertmsg").text(data);
-			//	$('#alert').modal("show");
-		//	}
-		//});
-
-	//}
-
-
-
-		
-		function ModifyTab2Submit() {
-		    $.ajax({
-		        url: './tab2modify',
-		        data: $("#tab2modify").serialize(),
-		        type: 'POST',
-		        success: function (data) {
-		            // If backend returns "success" or empty message, redirect to ModifyBranch
-		            if (data.trim() === "success" || data.trim() === "") {
-		                window.location.href = "./organizationDetails?formmode=Modify";
-		            } else {
-		                // Otherwise show the backend validation/error message
-		                $("#alertmsg").text(data);
-		                $('#alert').modal("show");
-		            }
-		        },
-		        error: function (jqXHR, textStatus, errorThrown) {
-		            console.error("Error in AJAX request: " + textStatus, errorThrown);
-		            $("#alertmsg").text("Error while modifying");
-		            $('#alert').modal("show");
-		        }
-		    });
-		}
-
-	function del_bran() {
-
-		$.ajax({
-			url : './tab2Del',
-			data : $("#tab2Del").serialize(),
-			type : 'POST',
-			success : function(data) {
-				$("#alertmsg").text(data);
-				$('#alert').modal("show");
+	<script>
+		function openTab(evt, tabName) {
+			// Hide all main tab content
+			let i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
 			}
-		});
 
-	}
-</script>
-
-<script>
-	function openTab(evt, tabName) {
-		// Hide all main tab content
-		let i, tabcontent, tablinks;
-		tabcontent = document.getElementsByClassName("tabcontent");
-		for (i = 0; i < tabcontent.length; i++) {
-			tabcontent[i].style.display = "none";
-		}
-
-		// Remove active class from main tabs
-		tablinks = document.getElementsByClassName("tablinks");
-		for (i = 0; i < tablinks.length; i++) {
-			tablinks[i].className = tablinks[i].className
+			// Remove active class from main tabs
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className
 					.replace(" active", "");
+			}
+
+			// Show selected main tab and set as active
+			document.getElementById(tabName).style.display = "block";
+			evt.currentTarget.className += " active";
 		}
 
-		// Show selected main tab and set as active
-		document.getElementById(tabName).style.display = "block";
-		evt.currentTarget.className += " active";
-	}
+		function openSubTab(evt, subTabName) {
+			// Hide all sub-tab content
+			let i, subtabcontent, subtablinks;
+			subtabcontent = document.getElementsByClassName("subtabcontent");
+			for (i = 0; i < subtabcontent.length; i++) {
+				subtabcontent[i].style.display = "none";
+			}
 
-	function openSubTab(evt, subTabName) {
-		// Hide all sub-tab content
-		let i, subtabcontent, subtablinks;
-		subtabcontent = document.getElementsByClassName("subtabcontent");
-		for (i = 0; i < subtabcontent.length; i++) {
-			subtabcontent[i].style.display = "none";
-		}
-
-		// Remove active class from sub-tabs
-		subtablinks = document.getElementsByClassName("subtablinks");
-		for (i = 0; i < subtablinks.length; i++) {
-			subtablinks[i].className = subtablinks[i].className.replace(
+			// Remove active class from sub-tabs
+			subtablinks = document.getElementsByClassName("subtablinks");
+			for (i = 0; i < subtablinks.length; i++) {
+				subtablinks[i].className = subtablinks[i].className.replace(
 					" active", "");
+			}
+
+			// Show selected sub-tab and set as active
+			document.getElementById(subTabName).style.display = "block";
+			evt.currentTarget.className += " active";
 		}
-
-		// Show selected sub-tab and set as active
-		document.getElementById(subTabName).style.display = "block";
-		evt.currentTarget.className += " active";
-	}
-</script>
-<script>
-$(function() {
-    $("#date_of_regn, #as_on").datepicker({
-        dateFormat: "dd-mm-yy",  // Format as 'DD-MM-YYYY'
-        changeMonth: true,        // Allows changing month
-        changeYear: true,         // Allows changing year
-        yearRange: "1900:2024",   // Year range
-        maxDate: new Date()       // Restricts to today or earlier
-    });
-});
-</script>
-<script>
-	function addHoliday() {
-
-		location.href = './organizationDetails?formmode=addholiday';
-
-	}
-	function UploadHoliday() {
-
-		location.href = './organizationDetails?formmode=UploadHoliday';
-
-	}
-	function ModifyHoliday() {
-
-		location.href = './organizationDetails?formmode=ModifyHoliday';
-	}
-
-	function ListHoliday() {
-
-		location.href = './organizationDetails?formmode=listholiday';
-	}
-</script>
-<script>
-	function submitexcelgst() {
-		event.preventDefault(); // Prevent default form submission behavior
-
-		var fileInput = document.getElementById('fileval');
-		console.log(fileInput);
-
-		// Check if a file is selected
-		if (fileInput && fileInput.files.length > 0) {
-			var file = fileInput.files[0];
-			//alert(file.name); // Alert with the file name
-
-			var formData = new FormData();
-			formData.append('file', file);
-
-			$.ajax({
-				url : './calenderuploadexcel',
-				data : formData,
-				type : 'POST',
-				contentType : false,
-				processData : false,
-				cache : false, // Disable cache to avoid potential issues
-				success : function(data) {
-					alert('File uploaded successfully: ' + data);
-					console.log("Successfully Upload")
-				},
-				error : function(xhr, status, error) {
-					alert('Error occurred while uploading file: ' + error);
-				}
+	</script>
+	<script>
+		$(function () {
+			$("#date_of_regn, #as_on").datepicker({
+				dateFormat: "dd-mm-yy",  // Format as 'DD-MM-YYYY'
+				changeMonth: true,        // Allows changing month
+				changeYear: true,         // Allows changing year
+				yearRange: "1900:2024",   // Year range
+				maxDate: new Date()       // Restricts to today or earlier
 			});
-		} else {
-			alert('Please select a file before uploading.');
-		}
-	}
+		});
+	</script>
+	<script>
+		function addHoliday() {
 
-	function getdata(a) {
-		var record_srl = a.getAttribute("data-attr");
-		console.log("record_srl" + record_srl);
-		location.href = 'organizationDetails?formmode=viewrecord&record_srl='
+			location.href = './organizationDetails?formmode=addholiday';
+
+		}
+		function UploadHoliday() {
+
+			location.href = './organizationDetails?formmode=UploadHoliday';
+
+		}
+		function ModifyHoliday() {
+
+			location.href = './organizationDetails?formmode=ModifyHoliday';
+		}
+
+		function ListHoliday() {
+
+			location.href = './organizationDetails?formmode=listholiday';
+		}
+	</script>
+	<script>
+		function submitexcelgst() {
+			event.preventDefault(); // Prevent default form submission behavior
+
+			var fileInput = document.getElementById('fileval');
+			console.log(fileInput);
+
+			// Check if a file is selected
+			if (fileInput && fileInput.files.length > 0) {
+				var file = fileInput.files[0];
+				//alert(file.name); // Alert with the file name
+
+				var formData = new FormData();
+				formData.append('file', file);
+
+				$.ajax({
+					url: './calenderuploadexcel',
+					data: formData,
+					type: 'POST',
+					contentType: false,
+					processData: false,
+					cache: false, // Disable cache to avoid potential issues
+					success: function (data) {
+						alert('File uploaded successfully: ' + data);
+						console.log("Successfully Upload")
+					},
+					error: function (xhr, status, error) {
+						alert('Error occurred while uploading file: ' + error);
+					}
+				});
+			} else {
+				alert('Please select a file before uploading.');
+			}
+		}
+
+		function getdata(a) {
+			var record_srl = a.getAttribute("data-attr");
+			console.log("record_srl" + record_srl);
+			location.href = 'organizationDetails?formmode=viewrecord&record_srl='
 				+ record_srl;
-	}
-</script>
-
-
-<script>
-	function validateNumericInput(input) {
-		const errorMessage = document.getElementById('errorMessage');
-		// Remove any non-numeric characters
-		input.value = input.value.replace(/[^0-9]/g, '');
-
-		// Show an error message if needed (optional)
-		if (/[^0-9]/.test(input.value)) {
-			errorMessage.style.display = 'block';
-		} else {
-			errorMessage.style.display = 'none';
 		}
-	}
-	
-	function validatePanCard(input) {
-        const errorMessage = document.getElementById('errorMessage');
-        const value = input.value;
+	</script>
 
-        // Allow only alphanumeric characters
-        input.value = value.replace(/[^a-zA-Z0-9]/g, '');
 
-        // Check if the length is exactly 10
-        if (input.value.length !== 10) {
-            errorMessage.style.display = 'block';
-        } else {
-            errorMessage.style.display = 'none';
-        }
-    }
-	
-	function validateAddress(input) {
-        const value = input.value;
+	<script>
+		function validateNumericInput(input) {
+			const errorMessage = document.getElementById('errorMessage');
+			// Remove any non-numeric characters
+			input.value = input.value.replace(/[^0-9]/g, '');
 
-        // Check if the length is less than 3 characters
-        if (value.length < 3 && value.length > 0) {
-            alert("Please fill in more than 3 letters.");
-        }
-    }
-</script>
+			// Show an error message if needed (optional)
+			if (/[^0-9]/.test(input.value)) {
+				errorMessage.style.display = 'block';
+			} else {
+				errorMessage.style.display = 'none';
+			}
+		}
+
+		function validatePanCard(input) {
+			const errorMessage = document.getElementById('errorMessage');
+			const value = input.value;
+
+			// Allow only alphanumeric characters
+			input.value = value.replace(/[^a-zA-Z0-9]/g, '');
+
+			// Check if the length is exactly 10
+			if (input.value.length !== 10) {
+				errorMessage.style.display = 'block';
+			} else {
+				errorMessage.style.display = 'none';
+			}
+		}
+
+		function validateAddress(input) {
+			const value = input.value;
+
+			// Check if the length is less than 3 characters
+			if (value.length < 3 && value.length > 0) {
+				alert("Please fill in more than 3 letters.");
+			}
+		}
+	</script>
 </head>
 
 
@@ -632,8 +684,7 @@ $(function() {
 				<div th:if="${formmode}=='add'">
 					<div class="card ">
 
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">ORGANIZATION
 									DETAILS</h6>
@@ -657,8 +708,8 @@ $(function() {
 
 						<div id="tab1" class="tabcontent" style="display: block">
 							<div class="card-body">
-								<form class=" border border-secondary" action="#" method="post"
-									id="assosiateForm" autocomplete="off">
+								<form class=" border border-secondary" action="#" method="post" id="assosiateForm"
+									autocomplete="off">
 									<div class="row formline" style="padding: 10px 0px 2px 0px;">
 
 
@@ -667,8 +718,8 @@ $(function() {
 
 
 										<div class="col-sm-2">
-											<input type="text" name="" id=""
-												th:value="${organization?.org_name}" readonly
+											<input type="text" name="" id="" th:value="${organization?.org_name}"
+												readonly
 												class="form-control form-control-sm bg-white border border-dark" />
 
 										</div>
@@ -676,8 +727,8 @@ $(function() {
 										<div class="col-sm-1"></div>
 										<div class="col-sm-2">Organization Type</div>
 										<div class="col-sm-2">
-											<input type="text" name="" id=""
-												th:value="${organization?.org_type}" readonly
+											<input type="text" name="" id="" th:value="${organization?.org_type}"
+												readonly
 												class="form-control form-control-sm bg-white border border-dark" />
 										</div>
 									</div>
@@ -701,8 +752,7 @@ $(function() {
 										<div class="col-sm-2">Certificate and Registration</div>
 										<div class="col-sm-2">
 
-											<input type="text" name="" id=""
-												th:value="${organization?.reg_no}" readonly
+											<input type="text" name="" id="" th:value="${organization?.reg_no}" readonly
 												class="form-control form-control-sm bg-white border border-dark" />
 
 										</div>
@@ -716,8 +766,8 @@ $(function() {
 
 
 										<div class="col-sm-2">
-											<input type="text" name="" id=""
-												th:value="${organization?.pan_card}" readonly
+											<input type="text" name="" id="" th:value="${organization?.pan_card}"
+												readonly
 												class="form-control form-control-sm bg-white border border-dark" />
 										</div>
 
@@ -725,8 +775,8 @@ $(function() {
 										<div class="col-sm-2">VAT Reference</div>
 										<div class="col-sm-2">
 
-											<input type="text" name="" id=""
-												th:value="${organization?.tan_card}" readonly
+											<input type="text" name="" id="" th:value="${organization?.tan_card}"
+												readonly
 												class="form-control form-control-sm bg-white border border-dark" />
 
 
@@ -741,8 +791,8 @@ $(function() {
 
 
 										<div class="col-sm-2">
-											<input type="text" name="" id=""
-												th:value="${organization?.no_of_emp}" readonly
+											<input type="text" name="" id="" th:value="${organization?.no_of_emp}"
+												readonly
 												class="form-control form-control-sm bg-white border border-dark" />
 
 										</div>
@@ -752,8 +802,7 @@ $(function() {
 										<div class="col-sm-2">
 
 											<input type="text" name="" id=""
-												th:value="${#dates.format(organization?.as_on, 'dd-MM-yyyy')}"
-												readonly
+												th:value="${#dates.format(organization?.as_on, 'dd-MM-yyyy')}" readonly
 												class="form-control form-control-sm bg-white border border-dark" />
 
 										</div>
@@ -766,8 +815,8 @@ $(function() {
 
 
 										<div class="col-sm-2">
-											<input type="text" name="" id=""
-												th:value="${organization?.reg_addr_1}" readonly
+											<input type="text" name="" id="" th:value="${organization?.reg_addr_1}"
+												readonly
 												class="form-control form-control-sm bg-white border border-dark" />
 
 										</div>
@@ -776,8 +825,8 @@ $(function() {
 										<div class="col-sm-2">Registered Office Address 2</div>
 										<div class="col-sm-2">
 
-											<input type="text" name="" id=""
-												th:value="${organization?.reg_addr_2}" readonly
+											<input type="text" name="" id="" th:value="${organization?.reg_addr_2}"
+												readonly
 												class="form-control form-control-sm bg-white border border-dark" />
 
 										</div>
@@ -791,8 +840,8 @@ $(function() {
 
 
 										<div class="col-sm-2">
-											<input type="text" name="" id=""
-												th:value="${organization?.corp_addr_1}" readonly
+											<input type="text" name="" id="" th:value="${organization?.corp_addr_1}"
+												readonly
 												class="form-control form-control-sm bg-white border border-dark" />
 
 										</div>
@@ -800,8 +849,8 @@ $(function() {
 										<div class="col-sm-1"></div>
 										<div class="col-sm-2">Corporate Office Address 2</div>
 										<div class="col-sm-2">
-											<input type="text" name="" id=""
-												th:value="${organization?.cor_addr_2}" readonly
+											<input type="text" name="" id="" th:value="${organization?.cor_addr_2}"
+												readonly
 												class="form-control form-control-sm bg-white border border-dark" />
 
 
@@ -816,23 +865,21 @@ $(function() {
 
 
 										<div class="col-sm-2 ">
-											<input type="" name="" id=""
-												th:value="${organization?.web_site}" readonly
+											<input type="" name="" id="" th:value="${organization?.web_site}" readonly
 												class="form-control form-control-sm bg-white border border-dark" />
 
 										</div>
 
 										<div class="col-sm-1 pl-3">
 											<a th:href="${organization?.web_site}" target="_blank"> <img
-												th:src="@{/images/link.png}" class="img-fluid"
-												style="max-width: 30px; max-height: 25px;" id="showmenu"
-												alt="Bornfire">
+													th:src="@{/images/link.png}" class="img-fluid"
+													style="max-width: 30px; max-height: 25px;" id="showmenu"
+													alt="Bornfire">
 											</a>
 										</div>
 										<div class="col-sm-2">Email</div>
 										<div class="col-sm-2">
-											<input type="text" name="" id=""
-												th:value="${organization?.email}" readonly
+											<input type="text" name="" id="" th:value="${organization?.email}" readonly
 												class="form-control form-control-sm bg-white border border-dark" />
 										</div>
 									</div>
@@ -851,11 +898,10 @@ $(function() {
 							</div>
 						</div>
 
-						<div id="tab2" class="tabcontent" style="display: none">
-
+						<div id="tab2" class="tabcontent" >
+							<!--<div th:if="${formmode} =='AddBranch'">-->
 							<div class="card-body">
-								<div class="card-header "
-									style="background-color: #e9ecef; HEIGHT: 50px">
+								<div class="card-header " style="background-color: #e9ecef; HEIGHT: 50px">
 
 									<div class="float-left">
 										<h6 style="font-size: 1.2rem; color: black;">LIST OF
@@ -874,8 +920,7 @@ $(function() {
 								</div>
 
 								<table class="table table-bordered  table-hover table-sm"
-									style="margin-bottom: 0px; font-size: initial;"
-									id="AssosiateTable">
+									style="margin-bottom: 0px; font-size: initial;" id="AssosiateTable">
 									<thead class="thead-light">
 
 										<tr>
@@ -890,22 +935,58 @@ $(function() {
 
 									<tbody id="placelist">
 
-										<tr th:each="EmployeeData,iterator : ${OrgBranch}">
+										<tr th:each="EmployeeData,iterator : ${OrgBranch}" >
 
 											<td th:text="${iterator.index +1}"></td>
-											<td th:text="${EmployeeData.branch_code}"></td>
-											<td th:text="${EmployeeData.branch_name}"
-												th:attr="data-resource=${EmployeeData.branch_name}"
-												class="text-primary" onclick="view(this)"></td>
+											<td th:text="${EmployeeData.branch_code}"
+											th:attr="data-resource=${EmployeeData.branch_code}" class="text-primary"
+											onclick="view(this)"></td>
+											
+											<td th:text="${EmployeeData.branch_name}"></td>
 											<td th:text="${EmployeeData.swift_code}"></td>
 											<td th:text="${EmployeeData.branch_head}"></td>
 
 
-											<td align="center"><input type="radio" name="" id=""
+											<!--<td align="center"><input type="radio" name="" id=""
 												readonly
 												th:attr="data-resource=${EmployeeData.branch_name},
 										          data-modify_flg=${EmployeeData.modify_flg}	"
-												onclick="branchfunction(this)" /></td>
+												onclick="branchfunction(this)" /></td>-->
+
+											<td style="text-align: center">
+												<div class="dropdown action-dropdown">
+													<button class="btn btn-action dropdown-toggle" style="padding:0px"
+														type="button" id="dropdownMenuButton" title="Action"
+														data-toggle="dropdown" aria-haspopup="true"
+														aria-expanded="false">Action</button>
+
+													<div class="dropdown-menu" style="padding:0px"
+														aria-labelledby="dropdownMenuButton">
+														<!-- Modify -->
+														<!--<a class="dropdown-item modify-item"
+															th:attr="data-attr=${EmployeeData?.branch_name}" title="Modify"
+															onclick="branchfunction(this)">Modify</a>-->
+															
+															<a class="dropdown-item modify-item"
+															   href="javascript:void(0)"
+															   th:attr="data-resource=${EmployeeData.branch_code},
+															            data-modify_flg=${EmployeeData.modify_flg}"
+															   onclick="branchfunction(this)">
+															    Modify
+															</a>
+														<div class="dropdown-divider"></div>
+												
+														<!-- Delete -->
+														<a class="dropdown-item delete-item"
+														   href="javascript:void(0)"
+														   th:attr="data-resource=${EmployeeData.branch_code}"
+														   onclick="deleteBranch(this)">
+														   Delete
+														</a>
+														
+													</div>
+												</div>
+											</td>
 										</tr>
 
 									</tbody>
@@ -913,8 +994,7 @@ $(function() {
 								</table>
 
 
-								<div class="card-footer text-center"
-									style="background-color: #e9ecef;">
+								<div class="card-footer text-center" style="background-color: #e9ecef;">
 
 
 									<button class="btn-primary big-btn" onclick="Home();">Home</button>
@@ -930,30 +1010,26 @@ $(function() {
 							<div class="tab mt-2"
 								style="padding: 4px 4px; position: relative; display: flex; justify-content: space-around; margin-top: 10px; width: 100%; height: 43px">
 								<!-- Submodule Tab buttons for Calendar Maintenance -->
-								<button class="subtablinks"
-									onclick="openSubTab(event, 'tabCalendarMaster')"
+								<button class="subtablinks" onclick="openSubTab(event, 'tabCalendarMaster')"
 									style="font-size: 16px; padding: 4px 8px; height: 32px;">Calendar
 									Master</button>
-								<button class="subtablinks"
-									onclick="openSubTab(event, 'tabHolidayMaster')"
+								<button class="subtablinks" onclick="openSubTab(event, 'tabHolidayMaster')"
 									style="font-size: 16px; padding: 4px 8px; height: 32px;">Holiday
 									Master</button>
 							</div>
 
 
-							<div id="tabCalendarMaster" class="subtabcontent"
-								style="display: block;">
+							<div id="tabCalendarMaster" class="subtabcontent" style="display: block;">
 								<div class="card-body">
-									<form class=" border border-secondary " action="#"
-										method="post" id="assosiateForm" autocomplete="off">
+									<form class=" border border-secondary " action="#" method="post" id="assosiateForm"
+										autocomplete="off">
 										<div style="width: 1000px; margin-left: 400px">
 											<div class="row formline" style="padding: 10px 0px 2px 0px;">
 												<div class="col-sm-1"></div>
 												<div class="col-sm-2">Organization Name</div>
 												<div class="col-sm-1"></div>
 												<div class="col-sm-2">
-													<input type="text" name="" id="" readonly
-														style="width: 200px"
+													<input type="text" name="" id="" readonly style="width: 200px"
 														class="form-control form-control-sm bg-white border border-dark"
 														value='ABSA BANK LTD' />
 
@@ -979,8 +1055,8 @@ $(function() {
 													<input type="text" name="startTime" id="startTime"
 														style="width: 100px" value="8:00 AM" readonly
 														class="form-control form-control-sm bg-white border border-dark me-1" />
-													<input type="text" name="endTime" id="endTime"
-														style="width: 100px" value="5:00 PM" readonly
+													<input type="text" name="endTime" id="endTime" style="width: 100px"
+														value="5:00 PM" readonly
 														class="form-control form-control-sm bg-white border border-dark ms-1" />
 												</div>
 											</div>
@@ -989,8 +1065,7 @@ $(function() {
 												<div class="col-sm-2">Weekly Holiday</div>
 												<div class="col-sm-1"></div>
 												<div class="col-sm-2">
-													<input type="text" name="" id="" style="width: 200px"
-														readonly
+													<input type="text" name="" id="" style="width: 200px" readonly
 														class="form-control form-control-sm bg-white border border-dark" />
 												</div>
 
@@ -1001,8 +1076,7 @@ $(function() {
 												<div class="col-sm-2">Remarks</div>
 												<div class="col-sm-1"></div>
 												<div class="col-sm-2">
-													<input type="text" name="" id="" style="width: 200px"
-														readonly
+													<input type="text" name="" id="" style="width: 200px" readonly
 														class="form-control form-control-sm bg-white border border-dark" />
 												</div>
 
@@ -1010,19 +1084,17 @@ $(function() {
 										</div>
 									</form>
 								</div>
-								<div class="card-footer text-center "
-									style="background-color: #e9ecef">
+								<div class="card-footer text-center " style="background-color: #e9ecef">
 									<button class="btn-primary big-btn" onclick="Home();">Home</button>
 									<button class="btn-primary big-btn" onclick="Modify();">Modify</button>
 									<button class="btn-primary big-btn" onclick="Back();">Back</button>
 								</div>
 							</div>
 
-							<div id="tabHolidayMaster" class="subtabcontent"
-								style="display: none;">
+							<div id="tabHolidayMaster" class="subtabcontent" style="display: none;">
 								<div class="card-body">
-									<form class=" border border-secondary" action="#" method="post"
-										id="assosiateForm" autocomplete="off">
+									<form class=" border border-secondary" action="#" method="post" id="assosiateForm"
+										autocomplete="off">
 										<div class="row formline" style="padding: 10px 0px 2px 0px;">
 
 
@@ -1108,8 +1180,7 @@ $(function() {
 									</form>
 
 								</div>
-								<div class="card-footer text-center "
-									style="background-color: #e9ecef">
+								<div class="card-footer text-center " style="background-color: #e9ecef">
 
 
 									<button class="btn-primary big-btn" onclick="Home();">Home</button>
@@ -1127,8 +1198,7 @@ $(function() {
 				<!-- ---------------------------------------------------------------------------------------------------------------- -->
 				<div th:if="${formmode} =='addholiday'">
 					<div class="card">
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">Holiday
 									Master-Add</h6>
@@ -1137,8 +1207,8 @@ $(function() {
 						</div>
 
 						<div class="card-body">
-							<form class=" border border-secondary" action="#" method="post"
-								id="" autocomplete="off" enctype="multipart/form-data">
+							<form class=" border border-secondary" action="#" method="post" id="" autocomplete="off"
+								enctype="multipart/form-data">
 								<div class="row formline" style="padding: 10px 0px 2px 0px;">
 
 
@@ -1225,13 +1295,11 @@ $(function() {
 							</form>
 
 						</div>
-						<div class="card-footer text-center "
-							style="background-color: #e9ecef">
+						<div class="card-footer text-center " style="background-color: #e9ecef">
 
 
 							<button class="btn-primary big-btn" onclick="Home();">Home</button>
-							<button class="btn-primary big-btn" id="submitBtn"
-								onclick="AddSubmit();">Submit</button>
+							<button class="btn-primary big-btn" id="submitBtn" onclick="AddSubmit();">Submit</button>
 
 							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 
@@ -1239,8 +1307,7 @@ $(function() {
 					</div>
 				</div>
 				<div th:if="${formmode}=='UploadHoliday'">
-					<form action="#" method="post" autocomplete="off"
-						style="width: 100%">
+					<form action="#" method="post" autocomplete="off" style="width: 100%">
 						<div class="card">
 							<div class="card-header" style="background-color: #BBC3CB;">
 								<div class="float-right"></div>
@@ -1259,8 +1326,7 @@ $(function() {
 											</div>
 											<div class="col-sm-2">
 
-												<input type="file" id="fileval" name="fileval"
-													accept=".xlsx,.xls,.csv"
+												<input type="file" id="fileval" name="fileval" accept=".xlsx,.xls,.csv"
 													class="form-control form-control-sm">
 
 											</div>
@@ -1272,8 +1338,7 @@ $(function() {
 
 								</div>
 							</div>
-							<div class="card-footer text-center"
-								style="background-color: #BBC3CB;">
+							<div class="card-footer text-center" style="background-color: #BBC3CB;">
 								<button type="button" class="btn-primary big-btn" id="btnHome"
 									onclick="home();">Home</button>
 
@@ -1289,8 +1354,7 @@ $(function() {
 
 				<div th:if="${formmode} =='ModifyHoliday'">
 					<div class="card">
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">Holiday
 									Master-Modify</h6>
@@ -1300,8 +1364,8 @@ $(function() {
 
 
 						<div class="card-body">
-							<form class=" border border-secondary" action="#" method="post"
-								id="tab1modify" autocomplete="off">
+							<form class=" border border-secondary" action="#" method="post" id="tab1modify"
+								autocomplete="off">
 								<div class="row formline" style="padding: 10px 0px 2px 0px;">
 
 
@@ -1386,8 +1450,7 @@ $(function() {
 							</form>
 
 						</div>
-						<div class="card-footer text-center "
-							style="background-color: #e9ecef">
+						<div class="card-footer text-center " style="background-color: #e9ecef">
 
 
 							<button class="btn-primary big-btn" onclick="Home();">Home</button>
@@ -1406,8 +1469,7 @@ $(function() {
 				<div th:if="${formmode}=='listholiday'">
 					<div class="panel panel-primary filterable">
 						<div class="card w-100 border panel panel-primary filterable">
-							<div class="card-header"
-								style="background-color: #e9ecef; height: 70px">
+							<div class="card-header" style="background-color: #e9ecef; height: 70px">
 								<div class="float-left">
 									<h6 style="font-size: 1.2rem; color: black;">Holiday
 										Master-List</h6>
@@ -1418,8 +1480,7 @@ $(function() {
 							<div class="card-body">
 								<div class="table-responsive">
 									<table class="table table-bordered  table-hover table-sm"
-										style="margin-bottom: 0px; font-size: initial;"
-										id="AssosiateTable">
+										style="margin-bottom: 0px; font-size: initial;" id="AssosiateTable">
 										<thead class="thead-light">
 
 											<tr>
@@ -1436,13 +1497,12 @@ $(function() {
 											<tr th:each="chartacc : ${Listofvalues}">
 
 												<td class="hover-underline" onclick="getdata(this)"
-													style="color: #007bff;"
-													th:attr="data-attr=${chartacc?.record_srl}"
+													style="color: #007bff;" th:attr="data-attr=${chartacc?.record_srl}"
 													th:text="${chartacc?.record_srl}"></td>
 												<td th:text="${chartacc?.cal_year}"></td>
 												<td th:text="${chartacc?.cal_month}"></td>
-												<td
-													th:text="${#dates.format(chartacc?.record_date, 'dd-MM-yyyy')}"></td>
+												<td th:text="${#dates.format(chartacc?.record_date, 'dd-MM-yyyy')}">
+												</td>
 												<td th:text="${#dates.format(chartacc?.record_date, 'dd')}"></td>
 												<td th:text="${chartacc?.holiday_desc}"></td>
 
@@ -1458,8 +1518,7 @@ $(function() {
 								</div>
 							</div>
 
-							<div class="card-footer text-center"
-								style="background-color: #e9ecef">
+							<div class="card-footer text-center" style="background-color: #e9ecef">
 								<button class="btn-primary big-btn" onclick="Home();">Home</button>
 								<button class="btn-primary big-btn" id="submitBtn"
 									onclick="getCheckedValues()">Submit</button>
@@ -1473,8 +1532,7 @@ $(function() {
 				<div th:if="${formmode}=='viewrecord'">
 					<div class="card ">
 
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">Holiday
 									Master-View</h6>
@@ -1482,16 +1540,15 @@ $(function() {
 
 						</div>
 						<div class="card-body">
-							<form class=" border border-secondary" action="#" method="post"
-								id="tab1modify" autocomplete="off">
+							<form class=" border border-secondary" action="#" method="post" id="tab1modify"
+								autocomplete="off">
 								<div class="row formline" style="padding: 10px 0px 2px 0px;">
 
 
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">Organization</div>
 									<div class="col-sm-2">
-										<input type="text" name="orgn" id="orgn"
-											th:value="${singlerecord?.orgn}"
+										<input type="text" name="orgn" id="orgn" th:value="${singlerecord?.orgn}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -1534,8 +1591,7 @@ $(function() {
 									<div class="col-sm-2">
 										<input type="text" name="record_date" id="record_date"
 											th:value="${#dates.format(singlerecord?.record_date, 'dd-MM-yyyy')}"
-											readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 								</div>
@@ -1564,8 +1620,7 @@ $(function() {
 									<div class="col-sm-2">
 										<input type="text" name="holiday_flg" id="holiday_flg"
 											th:value="${#strings.equals(singlerecord?.holiday_flg, 'Y') ? 'ACTIVE' : 'INACTIVE'}"
-											readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 									<div class="col-sm-1"></div>
@@ -1581,8 +1636,7 @@ $(function() {
 							</form>
 
 						</div>
-						<div class="card-footer text-center "
-							style="background-color: #e9ecef">
+						<div class="card-footer text-center " style="background-color: #e9ecef">
 
 
 							<button class="btn-primary big-btn" onclick="Home();">Home</button>
@@ -1599,8 +1653,7 @@ $(function() {
 				<div th:if="${formmode}=='view'">
 					<div class="card ">
 
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">BRANCH - VIEW</h6>
 							</div>
@@ -1608,8 +1661,7 @@ $(function() {
 						</div>
 
 						<div class="card-body">
-							<form class=" border border-secondary" action="#" method="post"
-								id="" autocomplete="off">
+							<form class=" border border-secondary" action="#" method="post" id="" autocomplete="off">
 								<div class="row formline" style="padding: 10px 0px 2px 0px;">
 
 
@@ -1675,9 +1727,8 @@ $(function() {
 									<div class="col-sm-2">Pic No</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="pic_no" id="pic_no"
-											th:value="${OrgBranch?.pic_no}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="pic_no" id="pic_no" th:value="${OrgBranch?.pic_no}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 
 									</div>
@@ -1701,8 +1752,7 @@ $(function() {
 									<div class="col-sm-2">Fax</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="fax" id="fax"
-											th:value="${OrgBranch?.fax}" readonly
+										<input type="text" name="fax" id="fax" th:value="${OrgBranch?.fax}" readonly
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -1716,9 +1766,8 @@ $(function() {
 
 
 									<div class="col-sm-2">
-										<input type="number" name="mobile" id="mobile"
-											th:value="${OrgBranch?.mobile}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="number" name="mobile" id="mobile" th:value="${OrgBranch?.mobile}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 
@@ -1740,9 +1789,8 @@ $(function() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="website" id="website"
-											th:value="${OrgBranch?.website}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="website" id="website" th:value="${OrgBranch?.website}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 
@@ -1750,9 +1798,8 @@ $(function() {
 									<div class="col-sm-2">Mail Id</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="mail_id" id="mail_id"
-											th:value="${OrgBranch?.mail_id}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="mail_id" id="mail_id" th:value="${OrgBranch?.mail_id}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 								</div>
@@ -1765,18 +1812,16 @@ $(function() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="add_1" id="add_1"
-											th:value="${OrgBranch?.add_1}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="add_1" id="add_1" th:value="${OrgBranch?.add_1}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">Address 2</div>
 									<div class="col-sm-2">
-										<input type="text" name="add_2" id="add_2"
-											th:value="${OrgBranch?.add_2}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="add_2" id="add_2" th:value="${OrgBranch?.add_2}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 
 									</div>
@@ -1790,8 +1835,7 @@ $(function() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="city" id="city"
-											th:value="${OrgBranch?.city}" readonly
+										<input type="text" name="city" id="city" th:value="${OrgBranch?.city}" readonly
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -1799,9 +1843,8 @@ $(function() {
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">State</div>
 									<div class="col-sm-2">
-										<input type="text" name="state" id="state"
-											th:value="${OrgBranch?.state}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="state" id="state" th:value="${OrgBranch?.state}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 									</div>
 								</div>
 
@@ -1813,9 +1856,8 @@ $(function() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="country" id="country"
-											th:value="${OrgBranch?.country}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="country" id="country" th:value="${OrgBranch?.country}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 
@@ -1832,8 +1874,7 @@ $(function() {
 							</form>
 
 						</div>
-						<div class="card-footer text-center "
-							style="background-color: #e9ecef">
+						<div class="card-footer text-center " style="background-color: #e9ecef">
 
 
 							<button class="btn-primary big-btn" onclick="Home();">Home</button>
@@ -1849,8 +1890,7 @@ $(function() {
 				<div th:if="${formmode}=='DeleteBranch'">
 					<div class="card ">
 
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">BRANCH -
 									DELETE</h6>
@@ -1859,8 +1899,8 @@ $(function() {
 						</div>
 
 						<div class="card-body">
-							<form class=" border border-secondary" action="#" method="post"
-								id="tab2Del" autocomplete="off">
+							<form class=" border border-secondary" action="#" method="post" id="tab2Del"
+								autocomplete="off">
 								<div class="row formline" style="padding: 10px 0px 2px 0px;">
 
 
@@ -1926,9 +1966,8 @@ $(function() {
 									<div class="col-sm-2">Pic No</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="pic_no" id="pic_no"
-											th:value="${OrgBranch?.pic_no}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="pic_no" id="pic_no" th:value="${OrgBranch?.pic_no}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 
 									</div>
@@ -1952,8 +1991,7 @@ $(function() {
 									<div class="col-sm-2">Fax</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="fax" id="fax"
-											th:value="${OrgBranch?.fax}" readonly
+										<input type="text" name="fax" id="fax" th:value="${OrgBranch?.fax}" readonly
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -1967,9 +2005,8 @@ $(function() {
 
 
 									<div class="col-sm-2">
-										<input type="number" name="mobile" id="mobile"
-											th:value="${OrgBranch?.mobile}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="number" name="mobile" id="mobile" th:value="${OrgBranch?.mobile}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 
@@ -1991,9 +2028,8 @@ $(function() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="website" id="website"
-											th:value="${OrgBranch?.website}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="website" id="website" th:value="${OrgBranch?.website}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 
@@ -2001,9 +2037,8 @@ $(function() {
 									<div class="col-sm-2">Mail Id</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="mail_id" id="mail_id"
-											th:value="${OrgBranch?.mail_id}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="mail_id" id="mail_id" th:value="${OrgBranch?.mail_id}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 								</div>
@@ -2016,18 +2051,16 @@ $(function() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="add_1" id="add_1"
-											th:value="${OrgBranch?.add_1}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="add_1" id="add_1" th:value="${OrgBranch?.add_1}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">Address 2</div>
 									<div class="col-sm-2">
-										<input type="text" name="add_2" id="add_2"
-											th:value="${OrgBranch?.add_2}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="add_2" id="add_2" th:value="${OrgBranch?.add_2}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 
 									</div>
@@ -2041,8 +2074,7 @@ $(function() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="city" id="city"
-											th:value="${OrgBranch?.city}" readonly
+										<input type="text" name="city" id="city" th:value="${OrgBranch?.city}" readonly
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2050,9 +2082,8 @@ $(function() {
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">State</div>
 									<div class="col-sm-2">
-										<input type="text" name="state" id="state"
-											th:value="${OrgBranch?.state}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="state" id="state" th:value="${OrgBranch?.state}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 									</div>
 								</div>
 
@@ -2064,9 +2095,8 @@ $(function() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="country" id="country"
-											th:value="${OrgBranch?.country}" readonly
-											class="form-control form-control-sm bg-white border border-dark" />
+										<input type="text" name="country" id="country" th:value="${OrgBranch?.country}"
+											readonly class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
 
@@ -2083,8 +2113,7 @@ $(function() {
 							</form>
 
 						</div>
-						<div class="card-footer text-center "
-							style="background-color: #e9ecef">
+						<div class="card-footer text-center " style="background-color: #e9ecef">
 
 
 							<button class="btn-primary big-btn" onclick="Home();">Home</button>
@@ -2100,8 +2129,7 @@ $(function() {
 				<div th:if="${formmode}=='modify'">
 					<div class="card ">
 
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">BRANCH -MODIFY</h6>
 							</div>
@@ -2110,8 +2138,8 @@ $(function() {
 
 
 						<div class="card-body">
-							<form class=" border border-secondary" action="#" method="post"
-								id="tab2modify" autocomplete="off">
+							<form class=" border border-secondary" action="#" method="post" id="tab2modify"
+								autocomplete="off">
 								<div class="row formline" style="padding: 10px 0px 2px 0px;">
 
 
@@ -2122,7 +2150,7 @@ $(function() {
 									<div class="col-sm-2">
 										<input type="text" name="branch_code" id="branch_code"
 											th:value="${OrgBranch?.branch_code}"
-											class="form-control form-control-sm bg-white border border-dark" />
+											class="form-control form-control-sm bg-white border border-dark" readonly/>
 
 									</div>
 
@@ -2131,8 +2159,7 @@ $(function() {
 									<div class="col-sm-2">
 										<input type="text" name="branch_name" id="branch_name"
 											th:value="${OrgBranch?.branch_name}"
-											class="form-control form-control-sm bg-white border border-dark"
-											readonly />
+											class="form-control form-control-sm bg-white border border-dark" />
 									</div>
 								</div>
 
@@ -2175,11 +2202,10 @@ $(function() {
 									</div>
 
 									<div class="col-sm-1"></div>
-									<div class="col-sm-2">Pic No</div>
+									<div class="col-sm-2">remarks</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="pic_no" id="pic_no"
-											th:value="${OrgBranch?.pic_no}"
+										<input type="text" name="remarks" id="remarks" th:value="${OrgBranch?.remarks}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 
@@ -2204,8 +2230,7 @@ $(function() {
 									<div class="col-sm-2">Fax</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="fax" id="fax"
-											th:value="${OrgBranch?.fax}"
+										<input type="text" name="fax" id="fax" th:value="${OrgBranch?.fax}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2219,8 +2244,7 @@ $(function() {
 
 
 									<div class="col-sm-2">
-										<input type="number" name="mobile" id="mobile"
-											th:value="${OrgBranch?.mobile}"
+										<input type="number" name="mobile" id="mobile" th:value="${OrgBranch?.mobile}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2243,8 +2267,7 @@ $(function() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="website" id="website"
-											th:value="${OrgBranch?.website}"
+										<input type="text" name="website" id="website" th:value="${OrgBranch?.website}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2253,8 +2276,7 @@ $(function() {
 									<div class="col-sm-2">Mail Id</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="mail_id" id="mail_id"
-											th:value="${OrgBranch?.mail_id}"
+										<input type="text" name="mail_id" id="mail_id" th:value="${OrgBranch?.mail_id}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2268,8 +2290,7 @@ $(function() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="add_1" id="add_1"
-											th:value="${OrgBranch?.add_1}"
+										<input type="text" name="add_1" id="add_1" th:value="${OrgBranch?.add_1}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2277,8 +2298,7 @@ $(function() {
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">Address 2</div>
 									<div class="col-sm-2">
-										<input type="text" name="add_2" id="add_2"
-											th:value="${OrgBranch?.add_2}"
+										<input type="text" name="add_2" id="add_2" th:value="${OrgBranch?.add_2}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 
@@ -2293,8 +2313,7 @@ $(function() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="city" id="city"
-											th:value="${OrgBranch?.city}"
+										<input type="text" name="city" id="city" th:value="${OrgBranch?.city}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2302,8 +2321,7 @@ $(function() {
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">State</div>
 									<div class="col-sm-2">
-										<input type="text" name="state" id="state"
-											th:value="${OrgBranch?.state}"
+										<input type="text" name="state" id="state" th:value="${OrgBranch?.state}"
 											class="form-control form-control-sm bg-white border border-dark" />
 									</div>
 								</div>
@@ -2316,8 +2334,7 @@ $(function() {
 
 
 									<div class="col-sm-2">
-										<input type="text" name="country" id="country"
-											th:value="${OrgBranch?.country}"
+										<input type="text" name="country" id="country" th:value="${OrgBranch?.country}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2335,8 +2352,7 @@ $(function() {
 							</form>
 
 						</div>
-						<div class="card-footer text-center "
-							style="background-color: #e9ecef">
+						<div class="card-footer text-center " style="background-color: #e9ecef">
 
 
 							<button class="btn-primary big-btn" onclick="Home();">Home</button>
@@ -2354,8 +2370,7 @@ $(function() {
 
 				<div th:if="${formmode} =='ModifyHead'">
 					<div class="card">
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">HEAD OFFICE -
 									MODIFY</h6>
@@ -2365,8 +2380,8 @@ $(function() {
 
 
 						<div class="card-body">
-							<form class=" border border-secondary" action="#" method="post"
-								id="tab1modify" autocomplete="off">
+							<form class=" border border-secondary" action="#" method="post" id="tab1modify"
+								autocomplete="off">
 								<div class="row formline" style="padding: 10px 0px 2px 0px;">
 
 
@@ -2377,8 +2392,7 @@ $(function() {
 									<div class="col-sm-2">
 										<input type="text" name="org_name" id="org_name"
 											th:value="${organization?.org_name}"
-											class="form-control form-control-sm bg-white border border-dark"
-											readonly />
+											class="form-control form-control-sm bg-white border border-dark" readonly />
 
 									</div>
 
@@ -2409,8 +2423,7 @@ $(function() {
 									<div class="col-sm-2">Certificate and Registration</div>
 									<div class="col-sm-2">
 
-										<input type="text" name="reg_no" id="reg_no"
-											th:value="${organization?.reg_no}"
+										<input type="text" name="reg_no" id="reg_no" th:value="${organization?.reg_no}"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2449,8 +2462,7 @@ $(function() {
 									<div class="col-sm-2">No of Employees</div>
 									<div class="col-sm-2">
 										<input type="text" name="no_of_emp" id="no_of_emp"
-											th:value="${organization?.no_of_emp}"
-											oninput="validateNumericInput(this)"
+											th:value="${organization?.no_of_emp}" oninput="validateNumericInput(this)"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2475,8 +2487,7 @@ $(function() {
 
 									<div class="col-sm-2">
 										<input type="text" name="reg_addr_1" id="reg_addr_1"
-											th:value="${organization?.reg_addr_1}"
-											oninput="validateAddress(this)"
+											th:value="${organization?.reg_addr_1}" oninput="validateAddress(this)"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2486,8 +2497,7 @@ $(function() {
 									<div class="col-sm-2">
 
 										<input type="text" name="reg_addr_2" id="reg_addr_2"
-											th:value="${organization?.reg_addr_2}"
-											oninput="validateAddress(this)"
+											th:value="${organization?.reg_addr_2}" oninput="validateAddress(this)"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2502,8 +2512,7 @@ $(function() {
 
 									<div class="col-sm-2">
 										<input type="text" name="corp_addr_1" id="corp_addr_1"
-											th:value="${organization?.corp_addr_1}"
-											oninput="validateAddress(this)"
+											th:value="${organization?.corp_addr_1}" oninput="validateAddress(this)"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 									</div>
@@ -2512,8 +2521,7 @@ $(function() {
 									<div class="col-sm-2">Corporate Office Address 2</div>
 									<div class="col-sm-2">
 										<input type="text" name="cor_addr_2" id="cor_addr_2"
-											th:value="${organization?.cor_addr_2}"
-											oninput="validateAddress(this)"
+											th:value="${organization?.cor_addr_2}" oninput="validateAddress(this)"
 											class="form-control form-control-sm bg-white border border-dark" />
 
 
@@ -2537,8 +2545,7 @@ $(function() {
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">Email</div>
 									<div class="col-sm-2">
-										<input type="text" name="email" id="email"
-											th:value="${organization?.email}"
+										<input type="text" name="email" id="email" th:value="${organization?.email}"
 											class="form-control form-control-sm bg-white border border-dark" />
 									</div>
 								</div>
@@ -2549,8 +2556,7 @@ $(function() {
 							</form>
 
 						</div>
-						<div class="card-footer text-center "
-							style="background-color: #e9ecef">
+						<div class="card-footer text-center " style="background-color: #e9ecef">
 
 
 							<button class="btn-primary big-btn" onclick="Home();">Home</button>
@@ -2565,10 +2571,9 @@ $(function() {
 					</div>
 				</div>
 
-				<div th:if="${formmode} =='AddBranch'">
+				<div id="addBranchForm" th:if="${formmode} =='AddBranch'">
 					<div class="card">
-						<div class="card-header"
-							style="background-color: #e9ecef; height: 50px">
+						<div class="card-header" style="background-color: #e9ecef; height: 50px">
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">BRANCH - ADD</h6>
 							</div>
@@ -2576,8 +2581,8 @@ $(function() {
 						</div>
 
 						<div class="card-body">
-							<form class=" border border-secondary" action="#" method="post" enctype="multipart/form-data" 
-								id="assosiateForm1" autocomplete="off">
+							<form class=" border border-secondary" action="#" method="post"
+								enctype="multipart/form-data" id="assosiateForm1" autocomplete="off">
 								<div class="row formline" style="padding: 10px 0px 2px 0px;">
 
 
@@ -2647,17 +2652,17 @@ $(function() {
 
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2">
-										Pic No <!--<span class="text-danger">*</span>-->
+										Remarks<!--Pic No <span class="text-danger">*</span>-->
 									</div>
-								<div class="col-sm-2 d-flex align-items-center">
-										
-											<input type="file" name="photoFile" id="photo"
-												class="form-control form-control-sm bg-white border border-dark" />
-												
-												<!--<input type="file" name="photoFile" id="photo">-->
+									<div class="col-sm-2 d-flex align-items-center">
 
+										<!--<input type="file" name="photoFile" id="photo"
+												class="form-control form-control-sm bg-white border border-dark" />-->
+										<!--<input type="file" name="photoFile" id="photo">-->
+										<input type="text" name="remarks" id="remarks"
+											class="form-control form-control-sm bg-white border border-dark" />
 
-										</div>
+									</div>
 								</div>
 
 								<div class="row formline" style="padding: 0px 0px 2px 0px;">
@@ -2805,12 +2810,12 @@ $(function() {
 							</form>
 
 						</div>
-						<div class="card-footer text-center "
-							style="background-color: #e9ecef">
+						<div class="card-footer text-center " style="background-color: #e9ecef">
 							<button class="btn-primary big-btn" onclick="Home();">Home</button>
 							<!--<button class="btn-primary big-btn" id="submitBtn" onclick="AddSubmit();">Submit</button>-->
-							
-							<button type="button" class="btn-primary big-btn" id="submitBtn" onclick="AddSubmit();">Submit</button>
+
+							<button type="button" class="btn-primary big-btn" id="submitBtn"
+								onclick="AddSubmit();">Submit</button>
 
 							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 
@@ -2821,24 +2826,25 @@ $(function() {
 		</div>
 	</div>
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false"
-		id="alert" tabindex="-1" role="dialog" aria-hidden="true">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+	<div class="modal fade" data-backdrop="false" data-keyboard="false" id="alert" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
 
 				<div class="modal-body" style="text-align: center;">
 					<h6 id="alertmsg"></h6>
-					<button type="button" class="btn-primary big-btn" onclick="add()">Close</button>
+					<!--<button type="button" class="btn-primary big-btn" onclick="tab2()">Close</button>-->
+					
+					<button type="button" class="btn-primary big-btn" onclick="add();">Close</button>
+
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="modal fade" data-backdrop="false" data-keyboard="false"
-		id="alert1" tabindex="-1" role="dialog" aria-hidden="true">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+	<div class="modal fade" data-backdrop="false" data-keyboard="false" id="alert1" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
 
 				<div class="modal-body" style="text-align: center;">
@@ -2850,4 +2856,14 @@ $(function() {
 		</div>
 	</div>
 </body>
+<script>
+	function closeModalGoToBranches() {
+	    $('#alert').modal('hide');
+		window.history.back();
+		//location.href = './organizationDetails?formmode=list';
+	    // Hide Add Branch form
+	    document.getElementById('addBranchForm').style.display = 'none';
+	}
+
+</script>
 </html>
