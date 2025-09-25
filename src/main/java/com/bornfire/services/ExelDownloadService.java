@@ -331,7 +331,7 @@ public class ExelDownloadService {
 				}
 
 				saveAudit(userID, userName, "Repayment File Download!", "ASPIRA_LOAN_REPAYMENT_TABLE", auditRefNo);
-				response.setHeader("Content-Disposition", "inline; filename=source_data.xlsx");
+				response.setHeader("Content-Disposition", "inline; filename=Loan_Master_Data.xlsx");
 				
 			}
 			else {
