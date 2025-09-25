@@ -767,9 +767,10 @@
 				return rows;
 			});
 		}
-
+		
 		function disbursementsubmit() {
 			var tableData = [];
+			
 
 			// Collect data from the table
 			$('#placelist1 tr').each(function () {
@@ -783,14 +784,15 @@
 					flow_amount: $(row[4]).text().trim().replace(/,/g, ''), // remove comma
 					account_number: $(row[5]).text().trim(),
 					account_name: $(row[6]).text().trim()
+					
 				};
 
 				tableData.push(rowData);
 			});
 
 			// Show the file uploading popup
-			$('#alertmsg121').text('File Uploading...');
-			$('#alert121').modal('show');
+			const currentvalue = document.getElementById('currentvalue').value;
+			document.getElementById('loadingModal').style.display = 'flex';
 
 			// Inline AJAX with File Uploading message
 			$.ajax({
@@ -799,14 +801,23 @@
 				contentType: 'application/json',
 				data: JSON.stringify(tableData),
 				success: function (response) {
+					document.getElementById('loadingModal').style.display = 'none';
+					let formattedAmount = Number(response.totalAmount)
+				    .toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+					let message =
+					    "Disbursement Migration Completed<br>" +
+					    "Migration Date: " + currentvalue + "<br>" +
+					    "Total Disbursed Amount: " + formattedAmount  + "<br>" +
+					    "Total Records Migrated: " + response.totalRecords + "<br>" +
+					    "Failed Records: " + response.failedRecords + "<br>"; 
 
-					// Show the success popup with the database response
-					$('#alertmsg121').text('Data saved successfully!');
-					$('#alert121').modal('show');
+					// ✅ Write to the same modal-body container
+					$('#Successmsgpopup').html("<h6 class='text-center'>" + message + "</h6>");
+					$('#SuccesPopUp').modal('show');
 				},
 				error: function () {
 					// Hide the uploading popup first
-					$('#alert121').modal('hide');
+					document.getElementById('loadingModal').style.display = 'none';
 
 					// Show error message in the popup
 					$('#alertmsg121').text('Failed to save data.');
@@ -836,8 +847,8 @@
 			});
 
 			// Show the file uploading popup
-			$('#alertmsg121').text('File Uploading...');
-			$('#alert121').modal('show');
+			const currentvalue = document.getElementById('currentvalue').value;
+			document.getElementById('loadingModal').style.display = 'flex';
 
 			// Inline AJAX with File Uploading message
 			$.ajax({
@@ -847,13 +858,23 @@
 				data: JSON.stringify(tableData),
 				success: function (response) {
 
-					// Show the success popup with the database response
-					$('#alertmsg121').text('Data saved successfully!');
-					$('#alert121').modal('show');
+					document.getElementById('loadingModal').style.display = 'none';
+					let formattedAmount = Number(response.totalAmount)
+				    .toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+					let message =
+					    "Booking Migration Completed<br>" +
+					    "Migration Date: " + currentvalue + "<br>" +
+					    "Total Disbursed Amount: " + formattedAmount  + "<br>" +
+					    "Total Records Migrated: " + response.totalRecords + "<br>" +
+					    "Failed Records: " + response.failedRecords + "<br>"; 
+
+					// ✅ Write to the same modal-body container
+					$('#Successmsgpopup').html("<h6 class='text-center'>" + message + "</h6>");
+					$('#SuccesPopUp').modal('show');
 				},
 				error: function () {
 					// Hide the uploading popup first
-					$('#alert121').modal('hide');
+					document.getElementById('loadingModal').style.display = 'none';
 
 					// Show error message in the popup
 					$('#alertmsg121').text('Failed to save data.');
@@ -863,6 +884,9 @@
 		}
 
 		function interestsubmit() {
+			const currentvalue = document.getElementById('currentvalue').value;
+			document.getElementById('loadingModal').style.display = 'flex';
+			
 			var tableData = [];
 
 			$('#placelist2 tr').each(function () {
@@ -886,20 +910,29 @@
 				return;
 			}
 
-			$('#alertmsg121').text('File Uploading...');
-			$('#alert121').modal('show');
 
 			$.ajax({
 				url: './saveBranchData2',
 				type: 'POST',
 				contentType: 'application/json',
-				data: JSON.stringify(tableData),
+				data: JSON.stringify(tableData,),
 				success: function (response) {
-					$('#alertmsg121').text('Data saved successfully!');
-					$('#alert121').modal('show');
+					document.getElementById('loadingModal').style.display = 'none';
+					let formattedAmount = Number(response.totalAmount)
+				    .toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+					let message =
+					    "Fees Migration Completed<br>" +
+					    "Migration Date: " + currentvalue + "<br>" +
+					    "Total Disbursed Amount: " + response.totalAmount  + "<br>" +
+					    "Total Records Migrated: " + response.totalRecords + "<br>" +
+					    "Failed Records: " + response.failedRecords + "<br>"; 
+
+					// ✅ Write to the same modal-body container
+					$('#Successmsgpopup').html("<h6 class='text-center'>" + message + "</h6>");
+					$('#SuccesPopUp').modal('show');
 				},
 				error: function () {
-					$('#alert121').modal('hide');
+					document.getElementById('loadingModal').style.display = 'none';
 					$('#alertmsg121').text('Failed to save data.');
 					$('#alert121').modal('show');
 				}
@@ -908,7 +941,7 @@
 
 		function feessubmit() {
 			var tableData = [];
-
+			
 			$('#placelist5 tr').each(function () {
 				var row = $(this).find('td');
 				if (row.length > 0) {
@@ -930,8 +963,8 @@
 				return;
 			}
 
-			$('#alertmsg121').text('File Uploading...');
-			$('#alert121').modal('show');
+			const currentvalue = document.getElementById('currentvalue').value;
+			document.getElementById('loadingModal').style.display = 'flex';
 
 			$.ajax({
 				url: './saveBranchData2',
@@ -939,11 +972,22 @@
 				contentType: 'application/json',
 				data: JSON.stringify(tableData),
 				success: function (response) {
-					$('#alertmsg121').text('Data saved successfully!');
-					$('#alert121').modal('show');
+					document.getElementById('loadingModal').style.display = 'none';
+					let formattedAmount = Number(response.totalAmount)
+				    .toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+					let message =
+					    "Fees Migration Completed<br>" +
+					    "Migration Date: " + currentvalue + "<br>" +
+					    "Total Disbursed Amount: " + response.totalAmount  + "<br>" +
+					    "Total Records Migrated: " + response.totalRecords + "<br>" +
+					    "Failed Records: " + response.failedRecords + "<br>"; 
+
+					// ✅ Write to the same modal-body container
+					$('#Successmsgpopup').html("<h6 class='text-center'>" + message + "</h6>");
+					$('#SuccesPopUp').modal('show');
 				},
 				error: function () {
-					$('#alert121').modal('hide');
+					document.getElementById('loadingModal').style.display = 'none';
 					$('#alertmsg121').text('Failed to save data.');
 					$('#alert121').modal('show');
 				}
@@ -974,8 +1018,8 @@
 						return;
 					}
 
-					$('#alertmsg121').text('File Uploading...');
-					$('#alert121').modal('show');
+					const currentvalue = document.getElementById('currentvalue').value;
+					document.getElementById('loadingModal').style.display = 'flex';
 
 					$.ajax({
 						url: './saveBranchData3',
@@ -983,11 +1027,22 @@
 						contentType: 'application/json',
 						data: JSON.stringify(tableData),
 						success: function (response) {
-							$('#alertmsg121').text('Data saved successfully!');
-							$('#alert121').modal('show');
+							document.getElementById('loadingModal').style.display = 'none';
+							let formattedAmount = Number(response.totalAmount)
+						    .toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+							let message =
+							    "Recovery Migration Completed<br>" +
+							    "Migration Date: " + currentvalue + "<br>" +
+							    "Total Disbursed Amount: " + formattedAmount  + "<br>" +
+							    "Total Records Migrated: " + response.totalRecords + "<br>" +
+							    "Failed Records: " + response.failedRecords + "<br>"; 
+
+							// ✅ Write to the same modal-body container
+							$('#Successmsgpopup').html("<h6 class='text-center'>" + message + "</h6>");
+							$('#SuccesPopUp').modal('show');
 						},
 						error: function () {
-							$('#alert121').modal('hide');
+							document.getElementById('loadingModal').style.display = 'none';
 							$('#alertmsg121').text('Failed to save data.');
 							$('#alert121').modal('show');
 						}
@@ -2941,6 +2996,25 @@
 		});
 
 	</script>
+	
+		<!-- success pop up -->
+	<div class="modal fade" id="SuccesPopUp" style="background: #000000b0;margin-bottom:10px;" role="dialog"
+		aria-labelledby="deleteModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+			<div class="modal-content" style="min-height:274px;">
+				<!-- Modal Body -->
+				<div class="modal-body">
+					<h5 id="Successmsgpopup" style="font-size: 17px; color: black; padding: 15px;"></h5>
+				</div>
+				<!-- Modal Footer -->
+				<div style="padding: 10px; text-align: center;">
+					<button type="button" class="btn btn-outline-dark me-3" style="font-size: 16px;"
+						onclick="$('#SuccesPopUp').modal('hide')">Cancel</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
 </body>
 
 </html>

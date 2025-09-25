@@ -26,6 +26,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -7756,11 +7757,22 @@ public class BGLSRestController {
 	}
 
 	@PostMapping("/saveBranchData")
-	public ResponseEntity<String> saveBranchData(@RequestBody List<Map<String, Object>> branchDataList,
+	public ResponseEntity<Map<String, Object>> saveBranchData(@RequestBody List<Map<String, Object>> branchDataList,
 			HttpServletRequest rq) {
+		
+		int totalRecords = 0, failedRecords = 0 ;
+		 BigDecimal totalAmount = BigDecimal.ZERO;
+		 List<TRAN_MAIN_TRM_WRK_ENTITY> savedatas = new ArrayList<>();
+		 Map<String, Object> response = new LinkedHashMap<>();
 		if (branchDataList != null && !branchDataList.isEmpty()) {
 			// Iterating over all rows (branchDataList)
 			for (Map<String, Object> data : branchDataList) {
+				 try {
+				//START REPORT
+				 String flowAmountStr = data.get("flow_amount").toString()
+	                        .replace(",", "").trim();
+	                BigDecimal flowAmount1 = new BigDecimal(flowAmountStr);
+				
 				/*
 				 * // Logging the incoming data for each row
 				 * System.out.println("Received Data:"); System.out.println("SRL No: " +
@@ -7780,9 +7792,11 @@ public class BGLSRestController {
 				Date flowDate = null;
 				try {
 					flowDate = sdf.parse(flowDateStr); // Parsing the flowDateStr with the given format
+					
 				} catch (Exception e) {
 					e.printStackTrace(); // Log exception
-					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid date format.");
+					ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid date format.");
+
 				}
 
 				BigDecimal flowAmount = new BigDecimal((String) data.get("flow_amount").toString().replace(",", ""));
@@ -7855,7 +7869,7 @@ public class BGLSRestController {
 
 				// Now update the account balances for both debit and credit transactions
 				List<TRAN_MAIN_TRM_WRK_ENTITY> values = tRAN_MAIN_TRM_WRK_REP.findByjournalvalues(tranId);
-				List<TRAN_MAIN_TRM_WRK_ENTITY> savedatas = new ArrayList<>();
+				
 
 				// Iterate over all transactions and apply updates
 				for (TRAN_MAIN_TRM_WRK_ENTITY entity : values) {
@@ -7888,7 +7902,7 @@ public class BGLSRestController {
 						chartAccount.setAcct_bal(newBalance);
 					}
 
-					chart_Acc_Rep.save(chartAccount);
+					//chart_Acc_Rep.save(chartAccount);
 
 					// ✅ Handle Loan disbursement update
 					if (entity.getFlow_code().equalsIgnoreCase("DISBT")) {
@@ -7903,26 +7917,56 @@ public class BGLSRestController {
 						}
 					}
 				}
+				    totalRecords++;
+	                totalAmount = totalAmount.add(flowAmount1);
+				 } catch (Exception e) {
+		                failedRecords++;
+		                e.printStackTrace();
+		            }
 				// Save updated transactions
 				tRAN_MAIN_TRM_WRK_REP.saveAll(savedatas);
+				
+				   
 			}
-			return ResponseEntity.ok("Branch Data Saved Successfully");
+			
+			 
+		        response.put("totalAmount", totalAmount);
+		        response.put("totalRecords", totalRecords);
+		        response.put("failedRecords", failedRecords);
+		        return ResponseEntity.ok(response);
 		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid data or empty list.");
+		response.put("error", "Invalid data or empty list.");
+
+		return ResponseEntity
+		        .status(HttpStatus.BAD_REQUEST)
+		        .body(response);
 	}
 
 	@PostMapping("/saveBranchData1")
-	public ResponseEntity<String> saveBranchData1(@RequestBody List<Map<String, Object>> branchDataList,
+	public ResponseEntity<Map<String, Object>> saveBranchData1(@RequestBody List<Map<String, Object>> branchDataList,
 			HttpServletRequest request) {
+		
+		int totalRecords = 0, failedRecords = 0 ;
+		BigDecimal totalAmount = BigDecimal.ZERO;
+		Map<String, Object> response = new LinkedHashMap<>();
+		
 		if (branchDataList == null || branchDataList.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid data or empty list.");
+			ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid data or empty list.");
 		}
 
 		String user = (String) request.getSession().getAttribute("USERID");
 		System.out.println("Logged-in User ID: " + user);
 
 		for (Map<String, Object> data : branchDataList) {
+			
 			try {
+				
+				//START REPORT
+				String flowAmountStr1 = data.get("flow_amount").toString()
+	                    .replace(",", "").trim();
+	        BigDecimal flowAmount1 = new BigDecimal(flowAmountStr1);
+	        System.out.println(flowAmount1);
+				
 				System.out.println("========================================");
 				System.out.println("Processing New Record: " + data);
 
@@ -7980,7 +8024,7 @@ public class BGLSRestController {
 				LOAN_ACT_MST_ENTITY loanDetails = lOAN_ACT_MST_REPO.getLoanView(accountNumber);
 				if (loanDetails == null) {
 					System.out.println("Loan details not found for account: " + accountNumber);
-					return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Loan account not found: " + accountNumber);
+					ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Loan account not found:."  + accountNumber);
 				}
 				System.out.println("Fetched Loan Details: " + loanDetails);
 
@@ -8097,29 +8141,42 @@ public class BGLSRestController {
 				System.out.println("Saved all transaction postings.");
 
 				System.out.println("========================================");
+				totalRecords++;
+                totalAmount = totalAmount.add(flowAmount1);
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-						.body("Error occurred while saving branch data: " + e.getMessage());
+				ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error occurred while saving branch data:");
+				response.put("error", "Invalid data or empty list.");
+				failedRecords++;
 			}
 		}
-
-		return ResponseEntity.ok("Branch Data Saved Successfully.");
+		    response.put("totalAmount", totalAmount);
+	        response.put("totalRecords", totalRecords);
+	        response.put("failedRecords", failedRecords);
+	        
+		return ResponseEntity
+		        .status(HttpStatus.BAD_REQUEST)
+		        .body(response);
 	}
 
 	@PostMapping("/saveBranchData2")
-	public ResponseEntity<String> saveBranchData2(@RequestBody List<Map<String, Object>> branchDataList,
+	public  ResponseEntity<Map<String, Object>> saveBranchData2(@RequestBody List<Map<String, Object>> branchDataList,
 			HttpServletRequest request) {
+		
+		 int totalRecords = 0, failedRecords = 0 ;
+		 BigDecimal totalAmount = BigDecimal.ZERO;
+		 Map<String, Object> response = new LinkedHashMap<>();
+		 
 		if (branchDataList == null || branchDataList.isEmpty()) {
 			System.out.println("Invalid or empty data list received.");
-			return ResponseEntity.badRequest().body("Invalid data or empty list.");
+			ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid data or empty list.");
 		}
 
 		String user = (String) request.getSession().getAttribute("USERID");
 		if (user == null || user.trim().isEmpty()) {
 			System.out.println("User not logged in.");
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in.");
+			ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not logged in.");
 		}
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -8127,19 +8184,24 @@ public class BGLSRestController {
 
 		for (Map<String, Object> data : branchDataList) {
 			try {
+				
+				String flowAmountStr1 = data.get("flow_amount").toString()
+                        .replace(",", "").trim();
+                BigDecimal flowAmount1 = new BigDecimal(flowAmountStr1);
 				// Check if any required field is null or empty and skip the row if it is
 				String flowDateStr = (String) data.get("flow_date");
 				String flowCode = (String) data.get("flow_code");
 				String accountNumber = (String) data.get("account_number");
 				String flowAmountStr = (String) data.get("flow_amount");
 
-				if (flowDateStr == null || flowCode == null || accountNumber == null || flowAmountStr == null
-						|| flowDateStr.trim().isEmpty() || flowCode.trim().isEmpty() || accountNumber.trim().isEmpty()
-						|| flowAmountStr.trim().isEmpty()) {
-					// Skipping row due to null or empty values
-					System.out.println("Skipping record with missing or empty fields.");
-					continue;
-				}
+				
+				  if (flowDateStr == null || flowCode == null || accountNumber == null ||
+				  flowAmountStr == null || flowDateStr.trim().isEmpty() ||
+				 flowCode.trim().isEmpty() || accountNumber.trim().isEmpty() ||
+				 flowAmountStr.trim().isEmpty()) { // Skipping row due to null or empty values
+				 System.out.println("Skipping record with missing or empty fields.");
+				  continue; }
+				
 
 				flowCode = flowCode.trim().toUpperCase();
 				if (!flowCode.equals("INDEM") && !flowCode.equals("FEEDM")) {
@@ -8158,10 +8220,11 @@ public class BGLSRestController {
 				tranIdList.add(tranId);
 
 				LOAN_ACT_MST_ENTITY loanDetails = lOAN_ACT_MST_REPO.getLoanView(accountNumber.trim());
-				if (loanDetails == null) {
-					System.out.println("Loan account not found for Account Number: " + accountNumber);
-					continue;
-				}
+				
+				  if (loanDetails == null) {
+				  System.out.println("Loan account not found for Account Number: " +
+				 accountNumber); continue; }
+				 
 
 				String flowDateStr1 = (String) data.get("flow_date"); // example: "19-09-2025"
 				DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -8248,12 +8311,23 @@ public class BGLSRestController {
 				credit.setDel_flg("N");
 				tRAN_MAIN_TRM_WRK_REP.save(credit);
 				System.out.println("Credit transaction saved: " + credit.getTran_id());
-
+				    
+	                totalAmount = totalAmount.add(flowAmount1);
+	                totalRecords++;
 			} catch (Exception e) {
 				System.out.println("Exception while processing data: " + e.getMessage());
 				e.printStackTrace();
+				failedRecords++;
 			}
+			
 		}
+		 System.out.println(totalAmount );
+		 System.out.println(totalRecords + failedRecords);
+		 response.put("totalAmount", totalAmount);
+	     response.put("totalRecords", totalRecords);
+	     response.put("failedRecords", failedRecords);
+	     response.put("error", "Invalid data or empty list.");
+	    
 
 		// Balance update
 		for (String tranId : tranIdList) {
@@ -8303,20 +8377,20 @@ public class BGLSRestController {
 
 			tRAN_MAIN_TRM_WRK_REP.saveAll(transactions);
 		}
-
-		return ResponseEntity.ok("Only INDEM and FEEDM transactions saved and balances updated successfully.");
+		 return ResponseEntity.ok(response);
 	}
 
 	@PostMapping("/saveBranchData3")
-	public ResponseEntity<String> saveBranchData3(@RequestBody List<Map<String, Object>> branchDataList,
+	public ResponseEntity<Map<String, Object>> saveBranchData3(@RequestBody List<Map<String, Object>> branchDataList,
 			HttpServletRequest request) {
 		if (branchDataList == null || branchDataList.isEmpty()) {
-			return ResponseEntity.badRequest().body("Invalid data or empty list.");
+
+			ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid data or empty list.");
 		}
 
 		String user = (String) request.getSession().getAttribute("USERID");
 		if (user == null || user.trim().isEmpty()) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in.");
+			ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not logged in.");
 		}
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -8351,18 +8425,28 @@ public class BGLSRestController {
 				(flow, repaid) -> System.out.println(flow.format(formatter) + " → " + repaid.format(formatter)));
 
 		// --- Process each branch data record ---
+
+		int totalRecords = 0, failedRecords = 0 ;
+		 BigDecimal totalAmount = BigDecimal.ZERO;
+		 
+		 Map<String, Object> response = new LinkedHashMap<>();
 		for (Map<String, Object> data : branchDataList) {
 			try {
+				   String flowAmountStr1 = data.get("flow_amount").toString()
+	                        .replace(",", "").trim();
+	                BigDecimal flowAmount1 = new BigDecimal(flowAmountStr1);
+	                
 				String flowDateStr = (String) data.get("flow_date");
 				String flowCode = (String) data.get("flow_code");
 				String accountNumber = (String) data.get("account_number");
 				String flowAmountStr = (String) data.get("flow_amount");
 
-				if (flowDateStr == null || flowCode == null || accountNumber == null || flowAmountStr == null
-						|| flowDateStr.trim().isEmpty() || flowCode.trim().isEmpty() || accountNumber.trim().isEmpty()
-						|| flowAmountStr.trim().isEmpty()) {
-					continue;
-				}
+				
+				  if (flowDateStr == null || flowCode == null || accountNumber == null ||
+				 flowAmountStr == null || flowDateStr.trim().isEmpty() ||
+				  flowCode.trim().isEmpty() || accountNumber.trim().isEmpty() ||
+				 flowAmountStr.trim().isEmpty()) { continue; }
+				 
 
 				flowCode = flowCode.trim().toUpperCase();
 				if (!flowCode.equals("INDEM") && !flowCode.equals("FEEDM") && !flowCode.equals("PRDEM")) {
@@ -8490,9 +8574,12 @@ public class BGLSRestController {
 				credit.setEntry_time(new Date());
 				credit.setDel_flg("N");
 				tRAN_MAIN_TRM_WRK_REP.save(credit);
+				 totalRecords++;
 
 			} catch (Exception e) {
 				e.printStackTrace();
+				response.put("error", "Invalid data or empty list.");
+				failedRecords++;
 			}
 		}
 
@@ -8523,14 +8610,19 @@ public class BGLSRestController {
 		                account.setAcct_bal(oldBalance.add(tranAmt)); // increase balance
 		            }
 
-		            chart_Acc_Rep.save(account);
+		           // chart_Acc_Rep.save(account);
 		        }
 		    }
 		    tRAN_MAIN_TRM_WRK_REP.saveAll(transactions);
 		}
 
 
-		return ResponseEntity.ok("INDEM, FEEDM, and PRDEM transactions saved and balances updated successfully.");
+		
+
+		    response.put("totalAmount", totalAmount);
+	        response.put("totalRecords", totalRecords);
+	        response.put("failedRecords", failedRecords);
+	        return ResponseEntity.ok(response);
 	}
 
 	// FEES LIST SHOW
