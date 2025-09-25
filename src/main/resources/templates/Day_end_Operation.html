@@ -548,49 +548,13 @@ body {
 								});
 						});
 
-				/* $( "#play4").click(function() {
-					// Hide the start button
-					$( "#play4").hide();
-				    
-					// Remove any existing loader
-					$('#td4').remove();
-				    
-					// Append the custom CSS loader while waiting for the AJAX response
-					$('#tr4').append('<td width="205px;" id="td4" style="text-align: center;padding-left:80px;"><div class="loader"></div></td>');
-				    
-					// 10000 milliseconds = 10 seconds
-				    
-					var values = {
-						"trndate" : $("#crdate").val()
-					};
-				    
-					// Send AJAX request
-					$.ajax({
-						url : "journalvalid",
-						data : values,
-						dataType : 'json', 
-						type : 'POST',
-						async : true,
-						success : function(res) {
-							// Remove loader
-							$('#td1').remove();
-						    
-							// Append appropriate image based on response
-							if(res.tranval == "Valid") {
-								$('#tr1').append('<td style="text-align: center;" id="td1"><img class="img-thumbnail" src="/images/check.png" width="35" height="10" alt="Valid"></td>');
-							} else {
-								$('#tr1').append('<td style="text-align: center;" id="td1"><img class="img-thumbnail" src="/images/uncheck.png" width="35" height="10" alt="Invalid"></td>');
-							}
-						}
-					});
-				}); */
-
+			
 				$("#play4")
 					.click(
 						function () {
 							// Hide the start button
 							$("#play4").hide();
-
+							console.log("Hi");
 							// Remove any existing loader
 							$('#td4').remove();
 
@@ -617,6 +581,7 @@ body {
 									async: true,
 									success: function (res) {
 										// Remove loader
+										console.log("Datas Play 4"+res);
 										$('#td1').remove();
 
 										// Append appropriate image based on response
@@ -691,7 +656,7 @@ body {
 
 							// Remove any existing loader
 							$('#td6').remove();
-
+							$('#HolidayCheck').modal('show');
 							// Append the custom CSS loader while waiting for the AJAX response
 							$('#tr6')
 								.append(
@@ -709,29 +674,7 @@ body {
 							};
 
 							// Send AJAX request
-							$
-								.ajax({
-									url: "journalvalid",
-									data: values,
-									dataType: 'json',
-									type: 'POST',
-									async: true,
-									success: function (res) {
-										// Remove loader
-										$('#td1').remove();
-
-										// Append appropriate image based on response
-										if (res.tranval == "Valid") {
-											$('#tr1')
-												.append(
-													'<td style="text-align: center;" id="td1"><img class="img-thumbnail" src="/images/check.png" width="35" height="10" alt="Valid"></td>');
-										} else {
-											$('#tr1')
-												.append(
-													'<td style="text-align: center;" id="td1"><img class="img-thumbnail" src="/images/uncheck.png" width="35" height="10" alt="Invalid"></td>');
-										}
-									}
-								});
+							
 						});
 
 				$("#play7")
@@ -1034,6 +977,13 @@ body {
 				        }
 				    });
 				}
+				
+				
+
+				function refresh() {
+				    window.location.reload();
+				}
+
 </script>
 <title>BGLS</title>
 
@@ -1066,7 +1016,7 @@ body {
 
 								<div class="col-sm-3 ">
 									<input type="text"
-										style="font-size: 20px; width: 150px; margin-top: 5px"
+										style="font-size: 20px; width: 150px;margin-bottom: 20px;"
 										id="current_date"
 										th:value="${#dates.format(session.TRANDATE, 'dd-MM-yyyy')}"
 										class="form-control" readonly />
@@ -1080,7 +1030,7 @@ body {
 								<div class="col-sm-3 ">
 									<input type="text" name="nxtdate" id="nxtdate"
 										class="form-control "
-										style="font-size: 20px; width: 150px; margin-top: 5px" />
+										style="font-size: 20px; width: 150px;margin-bottom: 15px;" />
 								</div>
 							</div>
 
@@ -1091,20 +1041,21 @@ body {
 					<table class="table table-bordered" id="desc">
 
 						<tr id="tr1">
-							<td><b>Batch Job</b></td>
-							<td>Interest Calculation</td>
-							<td width="205px;" id="td1"
-								style=" margin-top: 0px; padding: 0px;">
-								<button type="button" class="btn btn-xs btn-info" value="Start"
-									id="play1" style="background-color: gray; border: none">Start</button>
-							</td>
-
+						    <td><b>Batch Job</b></td>
+						    <td>Interest Calculation</td>
+						    <td width="205px;" id="td1" style="text-align: center; vertical-align: middle;">
+						        <button type="button" class="btn btn-xs btn-info" value="Start"
+						            id="play1" style="background-color: gray; border: none;">
+						            Start
+						        </button>
+						    </td>
 						</tr>
+
 						<tr id="tr2">
 							<td></td>
 							<td>Fees & Service Charges</td>
 							<td width="205px;" id="td2"
-								style="margin: 0px; padding: 0px;"><button
+								style="text-align: center; vertical-align: middle;"><button
 									type="button" class="btn btn-xs btn-info" value="Start"
 									id="play2" style="background-color: gray; border: none">Start</button>
 							</td>
@@ -1113,7 +1064,7 @@ body {
 							<td></td>
 							<td>Batch Jobs</td>
 							<td width="205px;" id="td3"
-								style="margin: 0px; padding: 0px;"><button
+								style="text-align: center; vertical-align: middle;"><button
 									type="button" class="btn btn-xs btn-info" value="Start"
 									id="play3" style="background-color: gray; border: none">Start</button>
 							</td>
@@ -1122,7 +1073,7 @@ body {
 							<td><b>Validation</b></td>
 							<td>Journal</td>
 							<td width="205px;" id="td4"
-								style="margin: 0px; padding: 0px;"><button
+								style="text-align: center; vertical-align: middle;"><button
 									type="button" class="btn btn-xs btn-info" value="Start"
 									id="play4" style="background-color: gray; border: none">Start</button>
 							</td>
@@ -1131,7 +1082,7 @@ body {
 							<td></td>
 							<td>Account Ledger</td>
 							<td width="205px;" id="td5"
-								style="margin: 0px; padding: 0px;"><button
+								style="text-align: center; vertical-align: middle;"><button
 									type="button" class="btn btn-xs btn-info" value="Start"
 									id="play5" style="background-color: gray; border: none">Start</button>
 							</td>
@@ -1140,7 +1091,7 @@ body {
 							<td></td>
 							<td>Holiday Check</td>
 							<td width="205px;" id="td6"
-								style=" margin: 0px; padding: 0px;"><button
+								style="text-align: center; vertical-align: middle;"><button
 									type="button" class="btn btn-xs btn-info" value="Start"
 									id="play6" style="background-color: gray; border: none">Start</button>
 							</td>
@@ -1149,7 +1100,7 @@ body {
 							<td><b>Steps</b></td>
 							<td>Daily Account Balance</td>
 							<td width="205px;" id="td7"
-								style="margin: 0px; padding: 0px;">
+								style="text-align: center; vertical-align: middle;">
 								<button type="button" class="btn btn-xs btn-info"
 									onclick="Doatranscation()" value="Start" id="play7"
 									style="background-color: gray; border: none">Start</button>
@@ -1159,7 +1110,7 @@ body {
 							<td></td>
 							<td>Consistency Check</td>
 							<td width="205px;" id="td8"
-								style="margin: 0px; padding: 0px;"><button
+								style="text-align: center; vertical-align: middle;"><button
 									type="button" class="btn btn-xs btn-info" value="Start"
 									id="play8" style="background-color: gray; border: none">Start</button>
 							</td>
@@ -1168,7 +1119,7 @@ body {
 							<td></td>
 							<td>GL Consolidation</td>
 							<td width="205px;" id="td9"
-								style="margin: 0px; padding: 0px;"><button
+								style="text-align: center; vertical-align: middle;"><button
 									type="button" class="btn btn-xs btn-info" value="Start"
 									id="play9" style="background-color: gray; border: none">Start</button>
 							</td>
@@ -1177,7 +1128,7 @@ body {
 							<td></td>
 							<td>Movement of Transactions</td>
 							<td width="205px;" id="td10"
-								style="margin: 0px; padding: 0px;"><button
+								style="text-align: center; vertical-align: middle;"><button
 									type="button" class="btn btn-xs btn-info" value="Start"
 									id="play10" style="background-color: gray; border: none">Start</button>
 							</td>
@@ -1186,7 +1137,7 @@ body {
 							<td></td>
 							<td>Date Change Process</td>
 							<td width="205px;" id="td11"
-								style="margin: 0px; padding: 0px;"><button
+								style="text-align: center; vertical-align: middle;"><button
 									type="button" class="btn btn-xs btn-info" value="Start"
 									id="play11" style="background-color: gray; border: none">Start</button>
 							</td>
@@ -1230,6 +1181,9 @@ body {
 
 				<button type="button" class="btn-primary big-btn" id="btnhome">Home</button>
 
+				<button type="button" class="btn-primary big-btn" 
+									id="btnrefresh" onclick="refresh()">Refresh</button> 
+									
 				<button type="button" class="btn-primary big-btn" value="back"
 					id="btnback">Back</button>
 
@@ -1291,15 +1245,15 @@ body {
 					</table>
 
 
-					<div th:if="${chartacc1 != null}"
-						th:each="chartacc1 : ${Valuesfornotransaction}">
+					<div th:if="${chartacc5 != null}"
+						th:each="chartacc5 : ${Valuesforunpost}">
 
 						<!-- Loader that will show initially -->
 						<div id="loader2" class="loader2" style="display: block;"></div>
 
 						<!-- Success Message -->
 						<div id="successMessage"
-							th:if="${#numbers.formatDecimal(chartacc1[1], 1, 'COMMA', 2, 'POINT') == '0.00'}"
+							th:if="${chartacc5 == 0 or chartacc5 == 0.00}" 
 							style="display: none;">
 							<h4 style="text-align: center;">
 								Validation Success <span>&#9989;</span>
@@ -1311,7 +1265,7 @@ body {
 
 						<!-- Failure Message -->
 						<div id="failureMessage"
-							th:if="${#numbers.formatDecimal(chartacc1[1], 1, 'COMMA', 2, 'POINT') != '0.00'}"
+							th:if="${chartacc5 != 0 and chartacc5 != 0.00}" 
 							style="display: none;">
 							<h4 style="text-align: center;">
 								Validation Failed <span>&#10060;</span>
@@ -1366,7 +1320,7 @@ body {
 			</div>
 		</div>
 	</div>
-
+	
 	<div id="loader3" class="loader3" style="display: block;"></div>
 	<div id="successMessage3" class="modal fade bordered" tabindex="-1"
 		role="dialog">
@@ -1452,7 +1406,7 @@ body {
 
 						<!-- Success Message -->
 						<div id="successMessage8"
-							th:if="${custcheck1[0][0] != null and custcheck2[0][0] != null and custcheck3[0][0] != null and custcheck1[0][0] == custcheck2[0][0] and custcheck1[0][0] == custcheck3[0][0]}"
+							th:if="${custcheck1[0][0] != null and custcheck2[0][0] != null  and custcheck1[0][0] == custcheck2[0][0] }"
 							style="display: none;">
 							<h4 style="text-align: center;">
 								Validation Success <span>&#9989;</span>
@@ -1665,24 +1619,52 @@ body {
 	<div class="modal fade" id="responseModal" tabindex="-1" role="dialog"
 		aria-labelledby="responseModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="responseModalLabel">Account Ledger</h5>
+			<div class="modal-content" >
+				<div class="modal-header" >
+					<h5 class="modal-title w-100 text-center" id="responseModalLabel"
+					>Account Ledger</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div style="text-align: center; margin-top: 30px;">
+				<div style="text-align: center; margin: 30px;">
 					<b class="modal-body" id="modalBody" style="font-size: 20px;"></b>
 				</div>
-				<div class="modal-footer " style="margin-left: 250px">
+				<div class="modal-footer " >
 					<button type="button" class="btn-primary big-btn"
 						data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	<div id="HolidayCheck" class="modal fade bordered" tabindex="-1" role="dialog">
+	    <div class="modal-dialog d-flex align-items-center justify-content-center" role="document" style="min-height: 100vh;">
+	        <div class="modal-content">
+	            
+	            <!-- Modal Header -->
+	            <div class="modal-header">
+	                <h5 class="modal-title text-center w-100">Holiday Check</h5>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                    <span aria-hidden="true">&times;</span>
+	                </button>
+	            </div>
+
+	            <!-- Modal Body -->
+	            <div class="modal-body text-center">
+	                <h4>Tomorrow is a Holiday <span>&#9989;</span></h4>
+	            </div>
+
+	            <!-- Modal Footer -->
+	            <div class="modal-footer d-flex justify-content-center">
+	                <button type="button" class="btn btn-primary big-btn" data-dismiss="modal">Close</button>
+	            </div>
+
+	        </div>
+	    </div>
+	</div>
+
 </body>
 <script>
 

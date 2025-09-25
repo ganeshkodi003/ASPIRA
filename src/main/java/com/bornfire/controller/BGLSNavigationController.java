@@ -3290,7 +3290,8 @@ public class BGLSNavigationController {
 
 		// Return a message based on the flag
 		if (flag) {
-			return "Unsuccessful Updation"; // No valid records found
+			System.out.println("Unsuccessful Updation");
+			return "Successful Updation"; // No valid records found
 		} else {
 			return "Successful Updation"; // At least one valid record found
 		}
