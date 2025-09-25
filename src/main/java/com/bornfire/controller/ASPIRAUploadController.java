@@ -24,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.bornfire.config.SequenceGenerator;
 import com.bornfire.services.ExelDownloadService;
-import com.bornfire.services.UploadProgressService;
 import com.bornfire.services.UploadService;
 
 @Controller
@@ -41,8 +40,7 @@ public class ASPIRAUploadController {
 	@Autowired
 	SequenceGenerator sequence;
 	
-	 @Autowired
-	 private UploadProgressService uploadProgressService;
+
 		
 	
 	 @PostMapping(value = "/UploadFileData")
@@ -69,21 +67,12 @@ public class ASPIRAUploadController {
 
 	        return ResponseEntity.ok(resultMap);
 	    }
-	 
 		@GetMapping("/DisplayExcel")
-		public void CrDisplayExcel(@RequestParam("type") String type, HttpServletRequest request, HttpServletResponse response) {
+		public void loanMasterListExcelDownload(HttpServletRequest request, HttpServletResponse response,String type) {
 		    String userID = (String) request.getSession().getAttribute("USERID");
 		    String userName = (String) request.getSession().getAttribute("USERNAME");
 		    String auditRefNo = sequence.generateRequestUUId();
-		    excelDownloadService.ExportExcel(type, userID, userName, auditRefNo, response);
-		}
-		
-		@GetMapping("/ExportLoanMasterExcel")
-		public void loanMasterListExcelDownload(HttpServletRequest request, HttpServletResponse response) {
-		    String userID = (String) request.getSession().getAttribute("USERID");
-		    String userName = (String) request.getSession().getAttribute("USERNAME");
-		    String auditRefNo = sequence.generateRequestUUId();
-		    excelDownloadService.LoanMasterExportExcel(userID, userName, auditRefNo, response);
+		    excelDownloadService.ExportExcel( type, userID, userName, auditRefNo, response);
 		}
 }
  

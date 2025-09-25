@@ -58,6 +58,9 @@ public class ExelDownloadService {
 	@Autowired
 	BGLSAuditTable_Rep AuditTable_Rep;
 	
+	@Autowired
+	CLIENT_MASTER_REPO clientMasterRepo;
+	
 
 	public void ExportExcel(String type, String userID, String userName, String auditRefNo,
 			HttpServletResponse response) {
@@ -154,36 +157,60 @@ public class ExelDownloadService {
 				saveAudit(userID, userName, "Repayment File Download!", "ASPIRA_LOAN_REPAYMENT_TABLE", auditRefNo);
 				response.setHeader("Content-Disposition", "inline; filename=source_data.xlsx");
 
-			}  else {
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid type parameter");
-				return;
-			}
+			}   else if ("CUSTOMER".equalsIgnoreCase(type)) {
+				List<CLIENT_MASTER_ENTITY> dataList = clientMasterRepo.findAll();
 
-			response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-			workbook.write(response.getOutputStream());
+				// Header
+				Row header = sheet.createRow(rowIdx++);
+				String[] headers = {
+						// Customer details
+						"ENCODEDKEY", "ID", "CLIENTSTATE", "CREATIONDATE", "LASTMODIFIEDDATE", "ACTIVATIONDATE",
+						"APPROVEDDATE", "FIRSTNAME", "LASTNAME", "MOBILEPHONE", "EMAILADDRESS", "PREFERREDLANGUAGE",
+						"BIRTHDATE", "GENDER", "ASSIGNEDBRANCHKEY", "CLIENTROLEKEY", "LOANCYCLE", "GROUPLOANCYCLE",
+						"ADDRESSLINE1", "ADDRESSLINE2", "ADDRESSLINE3", "CITY", "SUBURB", "ASSIGNEDUSERKEY",
+						"ASONDATE" };
 
-		} catch (Exception e) {
-			try {
-				if (!response.isCommitted()) {
-					response.reset();
-					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-					response.setContentType("text/plain");
-					response.getWriter().write("Error generating Excel: " + e.getMessage());
+				for (int i = 0; i < headers.length; i++) {
+					header.createCell(i).setCellValue(headers[i]);
 				}
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-	}
 
-	public void LoanMasterExportExcel(String userID, String userName, String auditRefNo,
-			HttpServletResponse response) {
+				for (CLIENT_MASTER_ENTITY entity : dataList) {
+					Row excelRow = sheet.createRow(rowIdx++);
 
-		try (Workbook workbook = new XSSFWorkbook()) {
-			Sheet sheet = workbook.createSheet("Data");
-			int rowIdx = 0;
+					excelRow.createCell(0).setCellValue(entity.getEncoded_key());
+					excelRow.createCell(1).setCellValue(entity.getCustomer_id());
+					excelRow.createCell(2).setCellValue(entity.getClient_state());
+					excelRow.createCell(3).setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getCreation_date()));
+					excelRow.createCell(4).setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getLast_modified_date()));
+					excelRow.createCell(5).setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getActivation_date()));
+					excelRow.createCell(6).setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getApproved_date()));
+					excelRow.createCell(7).setCellValue(entity.getFirst_name());
+					excelRow.createCell(8).setCellValue(entity.getLast_name());
+					excelRow.createCell(9).setCellValue(entity.getMobile_phone());
+					excelRow.createCell(10).setCellValue(entity.getEmail_address());
+					excelRow.createCell(11).setCellValue(entity.getPreferred_language());
+					excelRow.createCell(12).setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getBirth_date()));
+					excelRow.createCell(13).setCellValue(entity.getGender());
+					excelRow.createCell(14).setCellValue(entity.getAssigned_branch_key());
+					excelRow.createCell(15).setCellValue(entity.getClient_role_key());
+					excelRow.createCell(16)
+							.setCellValue(entity.getLoan_cycle() == null ? "" : entity.getLoan_cycle().toPlainString());
+					excelRow.createCell(17)
+					.setCellValue(entity.getGroup_loan_cycle() == null ? "" : entity.getGroup_loan_cycle().toPlainString());
+					excelRow.createCell(18).setCellValue(entity.getAddress_line1());
+					excelRow.createCell(19).setCellValue(entity.getAddress_line2());
+					excelRow.createCell(20).setCellValue(entity.getAddress_line3());
+					excelRow.createCell(21).setCellValue(entity.getCity());
+					excelRow.createCell(22).setCellValue(entity.getSuburb());
+					excelRow.createCell(23).setCellValue(entity.getAssigned_user_key());
+					excelRow.createCell(24)
+							.setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getAsondate()));
+				}
 
-//			if ("REPAYMENT".equalsIgnoreCase(type)) {
+				saveAudit(userID, userName, "Customer File Download!", "CLIENT_MASTER_TBL", auditRefNo);
+				response.setHeader("Content-Disposition", "inline; filename=source_data.xlsx");
+
+			} else if ("LOAN".equalsIgnoreCase(type)) {
 				List<LOAN_ACT_MST_ENTITY> dataList = loanMasterRepo.findAll();
 
 				// Header
@@ -272,11 +299,12 @@ public class ExelDownloadService {
 
 				saveAudit(userID, userName, "Repayment File Download!", "ASPIRA_LOAN_REPAYMENT_TABLE", auditRefNo);
 				response.setHeader("Content-Disposition", "inline; filename=source_data.xlsx");
-
-//			}  else {
-//				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid type parameter");
-//				return;
-//			}
+				
+			}
+			else {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid type parameter");
+				return;
+			}
 
 			response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 			workbook.write(response.getOutputStream());
@@ -294,7 +322,7 @@ public class ExelDownloadService {
 			}
 		}
 	}
-	
+
 	private void saveAudit(String userID, String userName, String remarks, String table, String refNo) {
 		BGLSAuditTable audit = new BGLSAuditTable();
 		audit.setAudit_date(new Date());
