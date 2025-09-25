@@ -454,6 +454,52 @@
 	</script>
 
 	<script>
+
+		 function downloadExcel() {
+	    // Show loading modal
+	    document.getElementById('loadingModal').style.display = 'flex';
+
+	    const basePath = /*[[${#httpServletRequest.contextPath}]]*/ '';
+		console.log(basePath)
+		console.log(basePath+'/ExportLoanMasterExcel')
+	    const url = basePath + '/ASPIRA/ExportLoanMasterExcel';
+
+	    $.ajax({
+	        url: url,
+	        type: 'GET',
+	        xhrFields: {
+	            responseType: 'blob' // Important to receive file as blob
+	        },
+	        success: function(blob, status, xhr) {
+	            // Get filename from response header if provided
+	            let filename = "file.xlsx";
+	            const disposition = xhr.getResponseHeader('Content-Disposition');
+	            if (disposition && disposition.indexOf('filename=') !== -1) {
+	                filename = disposition.split('filename=')[1].replace(/"/g, '');
+	            }
+
+	            // Create a link to download the blob
+	            const downloadUrl = window.URL.createObjectURL(blob);
+	            const a = document.createElement('a');
+	            a.href = downloadUrl;
+	            a.download = filename;
+	            document.body.appendChild(a);
+	            a.click();
+	            a.remove();
+	            window.URL.revokeObjectURL(downloadUrl);
+	        },
+	        error: function(err) {
+	            console.error('Download error:', err);
+	            alert('Error downloading file.');
+	        },
+	        complete: function() {
+	            // Hide loading modal after success or error
+	            document.getElementById('loadingModal').style.display = 'none';
+	        }
+	    });
+	}
+
+
 		$(document)
 			.ready(
 				function () {
@@ -832,6 +878,7 @@
 								<div class="float-right">
 									<button type="button"
 										class="btn-primary big-btn btn-filter">Filter</button>
+										<button type="button" class="btn-primary big-btn" onclick="downloadExcel()">Download</button>
 								</div>
 							</div>
 							<div class="card-body" style="overflow-y: auto; border: 1px solid #ddd;">
