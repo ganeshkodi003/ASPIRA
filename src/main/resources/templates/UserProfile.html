@@ -1327,6 +1327,7 @@ console.log($('#day_end_operation_user').is(':checked') +" ------@@@@@@@@@@@;")
 											<th:block th:switch="${userProfile?.auth_flg}" style="text-align: center;">
 												<td th:case="'N'" style="color: green;">Verified</td>
 												<td th:case="'Y'" style="color: red;">UnVerified</td>
+												<td th:case="*" style="color: red;">UnVerified</td>
 											</th:block>
 											<td>
 												<div class="dropdown action-dropdown">

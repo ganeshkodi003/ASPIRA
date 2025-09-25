@@ -140,6 +140,9 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 @Transactional
 
 public class BGLSRestController {
+//	
+//	@Autowired
+//	Organization_Branch_Rep organization_Branch_Rep;
 
 	@Autowired
 	Employee_Profile_Rep employee_Profile_Rep;
@@ -267,17 +270,15 @@ public class BGLSRestController {
 		if (existingdata.contains(employee_Profile.getEmployee_id())) {
 			return "Employee Id Already Exist";
 		} else {
-			System.out.println("sss" + employee_Profile.getEntry_user());
 			employee_Profile.setEntry_user(userid);
-
-			// String empSrlNo = employee_Profile_Rep.getSrlNo();
-			// employee_Profile.setEmployee_id(empSrlNo);
-
 			employee_Profile.setEntry_time(new Date());
-			employee_Profile.setEntity_flg("N");
+			employee_Profile.setModify_time(new Date());
+			employee_Profile.setModify_user(userid);
+			employee_Profile.setEntity_flg("Y");
 			employee_Profile.setModify_flg("N");
+			employee_Profile.setVerify_flg("Y");
 			employee_Profile.setDel_flg("N");
-
+			
 			// FOR AUIDT
 			BGLSBusinessTable_Entity audit = new BGLSBusinessTable_Entity();
 			Long auditID = bGLSBusinessTable_Rep.getAuditRefUUID();
@@ -421,7 +422,8 @@ public class BGLSRestController {
 		Employee_Profile up = employee_Profile_Rep.getEmployeeData(employee_Profile.getEmployee_id());
 		String userid = (String) rq.getSession().getAttribute("USERID");
 		employee_Profile.setEntity_flg("Y");
-		employee_Profile.setModify_flg("N");
+		employee_Profile.setModify_flg("Y");
+		employee_Profile.setVerify_flg("N");
 		employee_Profile.setDel_flg("N");
 		employee_Profile.setEntry_time(up.getEntry_time());
 		employee_Profile.setEntry_user(up.getEntry_user());
@@ -481,8 +483,9 @@ public class BGLSRestController {
 		// Set modification details
 		employeeProfile.setModify_time(new Date());
 		employeeProfile.setModify_user(userId);
-		employeeProfile.setEntity_flg("N");
-		employeeProfile.setModify_flg("Y");
+		employeeProfile.setEntity_flg("Y");
+		employeeProfile.setModify_flg("N");
+		employeeProfile.setVerify_flg("Y");
 		employeeProfile.setDel_flg("N");
 
 		// Handle employee photo: retain existing if not provided in request

@@ -71,10 +71,20 @@ public class Employee_Profile {
 	private String	del_flg;
 	private String	entity_flg;
 	private String	modify_flg;
+	private String	verify_flg;
 	private String	locked_flg;
 	private String	session_id;
 	private String	employee_Remarks;
 	private byte[]  employee_Photo;
+	
+	
+	
+	public String getVerify_flg() {
+		return verify_flg;
+	}
+	public void setVerify_flg(String verify_flg) {
+		this.verify_flg = verify_flg;
+	}
 	public String getBranch_desc() {
 		return branch_desc;
 	}

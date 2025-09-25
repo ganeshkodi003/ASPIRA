@@ -145,6 +145,8 @@ public class BGLSWebSecurity extends WebSecurityConfigurerAdapter {
 
 							throw new DisabledException("Account Disabled");
 
+						} else if(!usr.isVerified()) {
+							throw new DisabledException("Account Need to Verify");
 						}
 						/*
 						 * else if (!usr.isLoginAllowed()) {

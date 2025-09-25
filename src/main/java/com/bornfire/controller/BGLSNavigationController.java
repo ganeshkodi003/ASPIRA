@@ -108,6 +108,7 @@ import com.bornfire.entities.Lease_Loan_Work_Repo;
 import com.bornfire.entities.NoticeDetailsGeneral0Rep;
 import com.bornfire.entities.NoticeDetailsPayment0Rep;
 import com.bornfire.entities.NoticeDetailsSlabDetails0Rep;
+import com.bornfire.entities.Organization_Branch_Entity;
 import com.bornfire.entities.Organization_Branch_Rep;
 import com.bornfire.entities.Organization_Entity;
 import com.bornfire.entities.Organization_Repo;
@@ -1654,6 +1655,7 @@ public class BGLSNavigationController {
 
 			md.addAttribute("user", user);
 			md.addAttribute("currentDate", new Date());
+			md.addAttribute("branch", organization_Branch_Rep.getbranchid());
 		}
 
 		return "Employee_profile";
@@ -1738,20 +1740,27 @@ public class BGLSNavigationController {
 
 		if (formmode == null || formmode.equals("list")) {
 			md.addAttribute("formmode", "list");
+
 			md.addAttribute("getvaluelist", generalLedgerRep.getlistvalue());
 		} else if (formmode.equals("view1")) {
+
 			md.addAttribute("formmode", "view1");
 			// md.addAttribute("GeneralLedger", adminOperServices.getGeneralLedger(glcode));
+
 			md.addAttribute("GeneralLedger", chart_Acc_Rep.getaedit(glcode));
 			System.out.println(chart_Acc_Rep.getaedit(glcode) + "GLCODE" + glcode);
 		} else if (formmode.equals("modify")) {
 			md.addAttribute("formmode", "modify");
 			md.addAttribute("BamGeneralLedger", generalLedgerRep.getlistvalue());
+
 		} else if (formmode.equals("edit")) {
+
 			md.addAttribute("formmode", "edit");
 			md.addAttribute("GeneralLedger", generalLedgerRep.getsinglevalue(glsh_Code));
 		} else if (formmode.equals("add")) {
+
 			md.addAttribute("formmode", formmode);
+
 		} else if (formmode.equals("deleteList")) {
 			md.addAttribute("formmode", "deleteList");
 			md.addAttribute("BamGeneralLedger", generalLedgerRep.getRefCodelist());
@@ -1760,8 +1769,11 @@ public class BGLSNavigationController {
 			System.out.println("the gl code value is " + glcode);
 			md.addAttribute("GeneralLedger", generalLedgerRep.getsinglevalue(glsh_Code));
 		} else if (formmode.equals("upload")) {
+
 			md.addAttribute("formmode", "upload");
+
 		} else if (formmode.equals("uploadlist")) {
+
 			md.addAttribute("formmode", "uploadlist");
 			md.addAttribute("Listofvalues", generalLedgerWork_Rep.getlistvalue());
 		} else if (formmode.equals("view")) {

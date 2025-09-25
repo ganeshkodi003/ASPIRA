@@ -7,6 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="/ASPIRA/js/jquery.min.js"></script>
 <script src="/ASPIRA/js/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="../static/css/bootstrap.min.css">
+<link rel="stylesheet" href="../static/css/fontawesome.min.css">
 <style>
 .btn {
 	line-height: 0.5rem;
@@ -182,6 +184,13 @@ input:hover+.password-info {
 		location.href = './employeeProfile?formmode=view&employee_id='
 				+ employee_id;
 	}
+
+		function enquiryuser(a) {
+			event.preventDefault();
+			var employee_id = a.getAttribute('data-empId');
+			location.href = 'employeeProfile?formmode=view&employee_id=' + employee_id;
+		}
+
 	function verify(a) {
 
 		var employee_id = a.getAttribute('data-resource');
@@ -203,34 +212,32 @@ input:hover+.password-info {
 
 	    const employeeId = document.getElementById("employee_id").value.trim();
 
-	    // Check if the Employee ID is provided
-	    if (employeeId === "") {
-	        $("#alertmsg1").text("Please fill out the Employee Id field.");
-	        $('#alert1').modal("show");
-	        return; // Stop further execution if employeeId is empty
-	    }
+			var flag = true; 
 
-	    // First AJAX call to modify the employee data
+			var photoInput = $("#employeeForm2").find("input[name='employee_Photo']");
+			var photoFile = photoInput[0].files[0]; // Get the selected photo file
+
+	           
+
+	    if (employeeId === "") {
+			$("#normalalertmsg").text("Please fill out the Employee Id field.");
+			$('#normalalert').modal('show');
+	        
+	    }else if (!photoFile) {
+			document.getElementById('loadingModal').style.display = 'none';
+			$("#normalalertmsg").text("Please select a photo file.");
+			$('#normalalert').modal('show');
+			flag = false;
+		}
+
+		if(flag == true){
+	    document.getElementById('loadingModal').style.display = 'flex';
 	    $.ajax({
 	        url: './employeeModify',
 	        data: $("#employeeForm2").serialize(),
 	        type: 'POST',
 	        success: function(data) {
-	            $("#alertmsg").text(data);
-	            $('#alert').modal('show');
 
-	            // Proceed with the second AJAX call to upload the photo if the first one succeeds
-	            var photoInput = $("#employeeForm2").find("input[name='employee_Photo']");
-	            var photoFile = photoInput[0].files[0]; // Get the selected photo file
-
-	            if (!photoFile) {
-	                // Alert if no file is selected
-	                $("#alertmsg").text("Please select a photo file.");
-	                $('#alert').modal("show");
-	                return; // Stop further execution if no file is selected
-	            }
-
-	            // Create FormData for the photo upload
 	            var formData = new FormData();
 	            formData.append("photoFile", photoFile);
 	            formData.append("employeeId", employeeId);
@@ -243,9 +250,9 @@ input:hover+.password-info {
 	                processData: false, // Prevent jQuery from converting the FormData object
 	                contentType: false, // Prevent jQuery from setting content type
 	                success: function(photoResponse) {
-	                    // Display a success message for the photo upload
-	                    $("#alertmsg").text("Photo upload completed: " + photoResponse);
-	                    $('#alert').modal("show");
+						$('#Successmsgpopup').html("<h6 class='text-center'>" + data + "</h6>");
+						$('#SuccesPopUp').modal('show');
+						document.getElementById('loadingModal').style.display = 'none';
 	                },
 	                error: function(xhr, status, error) {
 	                    // Handle errors during photo upload
@@ -263,38 +270,38 @@ input:hover+.password-info {
 	        }
 	    });
 	}
+	}
 
 	function employeeSubmit(event) {
-	 // Prevent the default form submission
-//alert("hihihi")
+
 	    const employeeId = document.getElementById("employee_id1").value.trim();
+		var flag = true; 
+
+		   var photoInput = $("#employeeForm1").find("input[name='employee_Photo']");
+	            var photoFile = photoInput[0].files[0];
+
+	           
 
 	    if (employeeId === "") {
-	        $("#alertmsg1").text("Please fill out the Employee Id field.");
-	        $('#alert1').modal("show");
-	        return; // Stop further execution if employeeId is empty
-	    }
+			$("#normalalertmsg").text("Please fill out the Employee Id field.");
+			$('#normalalert').modal('show');
+	        
+	    }else if (!photoFile) {
+			document.getElementById('loadingModal').style.display = 'none';
+			$("#normalalertmsg").text("Please select a photo file.");
+			$('#normalalert').modal('show');
+			flag = false;
+		}
 
-	    // First AJAX call to submit employee details
+		if(flag == true){
+			document.getElementById('loadingModal').style.display = 'flex';
 	    $.ajax({
 	        url: './employeeAdd',
 	        data: $("#employeeForm1").serialize(),
 	        type: 'POST',
 	        success: function(data) {
-	            $("#alertmsg").text(data);
-	            $('#alert').modal('show');
 
-	            // Proceed with the second AJAX call to upload the photo if the first one succeeds
-	            var photoInput = $("#employeeForm1").find("input[name='employee_Photo']");
-	            var photoFile = photoInput[0].files[0]; // Get the selected photo file
-
-	            if (!photoFile) {
-	                $("#alertmsg").text("Please select a photo file.");
-	                $('#alert').modal("show");
-	                return; // Stop further execution if no file is selected
-	            }
-
-	            // Create FormData for the photo upload
+	         
 	            var formData = new FormData();
 	            formData.append("photoFile", photoFile);
 	            formData.append("employeeId", employeeId);
@@ -307,7 +314,9 @@ input:hover+.password-info {
 	                processData: false, // Prevent jQuery from converting the FormData object
 	                contentType: false, // Prevent jQuery from setting content type
 	                success: function(photoResponse) {
-	                    alert("Photo upload completed: " + photoResponse);
+						$('#Successmsgpopup').html("<h6 class='text-center'>" + data + "</h6>");
+						$('#SuccesPopUp').modal('show');
+						document.getElementById('loadingModal').style.display = 'none';
 	                },
 	                error: function(xhr, status, error) {
 	                    var detailedError = xhr.responseText || error;
@@ -322,6 +331,7 @@ input:hover+.password-info {
 	            $('#alert').modal("show");
 	        }
 	    });
+	}
 	}
 
 
@@ -521,9 +531,10 @@ function updateFileName() {
 										<td th:text="${EmployeeData.category}"></td>
 										<td th:text="${EmployeeData.mobile}"></td>
 										<td th:text="${EmployeeData.email}"></td>
-										<th:block th:switch="${EmployeeData.entity_flg}">
-											<td th:case="Y" style="color: lightgreen;">Verified</td>
-											<td th:case="N" style="color: red;">UnVerified</td>
+										<th:block th:switch="${EmployeeData.verify_flg}">
+											<td th:case="N" style="color: lightgreen;">Verified</td>
+											<td th:case="Y" style="color: red;">UnVerified</td>
+											 <td th:case="*" style="color: red;">UnVerified</td>
 										</th:block>
 										<td>
 											<div class="dropdown action-dropdown">
@@ -534,22 +545,21 @@ function updateFileName() {
 
 												<div class="dropdown-menu" style="padding:0px"
 													aria-labelledby="dropdownMenuButton">
-													<a class="dropdown-item verify-item"
-														th:if="${EmployeeData.entity_flg == 'N'}"
-														th:attr="data-resource=${EmployeeData.employee_id}"
+
+														<a class="dropdown-item view-item"  
+															th:attr="data-empId=${EmployeeData?.employee_id}" title="View"
+															onclick="enquiryuser(this)">View</a>
+
+													<a class="dropdown-item verify-item" th:if='${EmployeeData?.modify_flg == "N" and EmployeeData?.verify_flg == "Y" and EmployeeData?.entry_user != session.USERID}'
+														th:attr="data-resource=${EmployeeData.employee_id}" style="border-top: 1px solid #dee2e6;"
 														title="Verify" onclick="verify(this)">Verify</a>
 
-													<div class="dropdown-divider"
-														th:if="${EmployeeData.entity_flg == 'N'}"></div>
-
-													<a class="dropdown-item modify-item"
-														th:attr="data-resource=${EmployeeData.employee_id}"
+													<a class="dropdown-item modify-item" th:if='${EmployeeData?.verify_flg == "N" and EmployeeData?.modify_flg == "Y" and EmployeeData?.entry_user == session.USERID}'
+														th:attr="data-resource=${EmployeeData.employee_id}" style="border-top: 1px solid #dee2e6;"
 														title="Modify" onclick="modify(this)">Modify</a>
 
-													<div class="dropdown-divider"></div>
-
-													<a class="dropdown-item delete-item"
-														th:attr="data-resource=${EmployeeData.employee_id}"
+													<a class="dropdown-item delete-item" th:if='${EmployeeData?.verify_flg == "N" and EmployeeData?.modify_flg == "Y" and EmployeeData?.entry_user == session.USERID}'
+														th:attr="data-resource=${EmployeeData.employee_id}" style="border-top: 1px solid #dee2e6;"
 														title="Delete" onclick="Delete(this)">Delete</a>
 												</div>
 											</div>
@@ -619,7 +629,7 @@ function updateFileName() {
 
 										<div class="col-sm-2 d-flex align-items-center">
 											<input type="text" name="branch_desc" id="branch_desc1"
-												class="form-control form-control-sm bg-white border border-dark" />
+												class="form-control form-control-sm bg-white border border-dark" readonly />
 
 										</div>
 
@@ -639,7 +649,7 @@ function updateFileName() {
 											<input type="text" name="employee_id" id="employee_id1"
 												th:value="${seq}"
 												class="form-control form-control-sm bg-white border border-dark"
-												required />
+												required readonly />
 
 										</div>
 
@@ -905,8 +915,8 @@ function updateFileName() {
 										<div class="col-sm-2 d-flex align-items-center">
 											<input type="number" name="mobile" id="mobile"
 												class="form-control form-control-sm bg-white border border-dark"
-												minlength="10" onkeypress="return isNumberKey(event)"
-												oninput="limitInputLength(this)" maxlength="10" />
+												minlength="7" onkeypress="return isNumberKey(event)"
+												oninput="limitInputLength(this)" maxlength="8" />
 
 										</div>
 
@@ -917,8 +927,8 @@ function updateFileName() {
 
 											<input type="number" name="alt_mobile" id="alt_mobile"
 												class="form-control form-control-sm bg-white border border-dark"
-												minlength="10" onkeypress="return isNumberKey(event)"
-												oninput="limitInputLength(this)" maxlength="10" />
+												minlength="7" onkeypress="return isNumberKey(event)"
+												oninput="limitInputLength(this)" maxlength="8" />
 
 										</div>
 									</div>
@@ -985,7 +995,7 @@ function updateFileName() {
 										<div class="col-sm-2 d-flex align-items-center">Zipcode</div>
 										<div class="col-sm-2 d-flex align-items-center">
 
-											<input type="text" name="postal_code" id="postal_code"
+											<input type="text" name="postal_code" id="postal_code" maxlength="5" minlength="5"
 												class="form-control form-control-sm bg-white border border-dark" />
 
 										</div>
@@ -1009,10 +1019,10 @@ function updateFileName() {
 											Contact No</div>
 										<div class="col-sm-2 d-flex align-items-center">
 
-											<input type="text" name="emer_contact_num"
+											<input type="text" name="emer_contact_num" onkeypress="return isNumberKey(event)"
 												id="emer_contact_num"
 												class="form-control form-control-sm bg-white border border-dark"
-												minlength="10" maxlength="10" />
+												minlength="7" maxlength="8" />
 
 										</div>
 									</div>
@@ -1052,7 +1062,7 @@ function updateFileName() {
 
 								<button class="btn-primary big-btn" onclick="Home();">Home</button>
 								<button class="btn-primary big-btn" onclick="employeeSubmit();"
-									type="submit">Submit</button>
+									type="button">Submit</button>
 								<button class="btn-primary big-btn" onclick="Back();">Back</button>
 
 							</div>
@@ -1077,7 +1087,7 @@ function updateFileName() {
 										<td class="col-sm-2" style="text-align: right;"><font
 											size="2"><B> Verify User :</B></font></td>
 										<td class="col-sm-2" style="width: 112px;"><input
-											type="text" id="modifyuser" name="verify_user"
+											type="text" id="verify_user" name="verify_user"
 											style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"></td>
 
 									</tr>
@@ -1085,19 +1095,16 @@ function updateFileName() {
 										<td style="text-align: right;"><font size="2"><B>Entry
 													Time :</B></font></td>
 										<td style="width: 112px"><input type="text"
-											id="entry_time" name="entry_time"
 											th:value="${#dates.format(currentDate, 'dd-MM-yyyy')}"
 											style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"></td>
 										<td style="text-align: right;"><font size="2"><B>Modify
 													Time :</B></font></td>
 										<td style="width: 112px"><input type="text"
-											id="verifytime" name="verify_time"
 											th:value="${#dates.format(currentDate, 'dd-MM-yyyy')}"
 											style="width: 115px; border: none; outline: none; background-color: transparent; font-size: 12px;"></td>
 										<td style="text-align: right;"><font size="2"><B>
 													Verify Time :</B></font></td>
 										<td style="width: 112px"><input type="text"
-											id="modifytime" name="modify_time"
 											style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"></td>
 
 									</tr>
@@ -1309,7 +1316,7 @@ function updateFileName() {
 									<div class="col-sm-2 d-flex align-items-center">
 										<input type="text" id="qualification" name="qual"
 											th:value="${employee?.qual}"
-											class="form-control form-control-sm bg-white border border-dark">
+											class="form-control form-control-sm bg-white border border-dark" readonly >
 
 									</div>
 
@@ -1370,7 +1377,7 @@ function updateFileName() {
 									<div class="col-sm-2 d-flex align-items-center">
 										<input type="text" id="bloodGroup" onchange=""
 											name="blood_group" th:value="${employee?.blood_group}"
-											class="form-control form-control-sm bg-white border border-dark">
+											class="form-control form-control-sm bg-white border border-dark" readonly >
 
 									</div>
 								</div>
@@ -1492,7 +1499,7 @@ function updateFileName() {
 									<div class="col-sm-2 d-flex align-items-center">
 										<input type="text" id="country" onchange="" name="country"
 											th:value="${employee?.country}"
-											class="form-control form-control-sm bg-white border border-dark">
+											class="form-control form-control-sm bg-white border border-dark" readonly >
 
 									</div>
 
@@ -1556,7 +1563,7 @@ function updateFileName() {
 										size="2"><B>Entry User :</B></font></td>
 									<td class="col-sm-2" style="width: 112px; margin-right: 20px;">
 										<input type="text" id="entryuser" name="entry_user"
-										th:value="${user}"
+										th:value="${employee?.entry_user}"
 										style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 										disabled>
 									</td>
@@ -1564,12 +1571,13 @@ function updateFileName() {
 										size="2"><B>Modify User :</B></font></td>
 									<td class="col-sm-2" style="width: 112px;"><input
 										type="text" id="verifyuser" name="modify_user"
-										th:value="${user}"
+										th:value="${employee?.modify_user}"
 										style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 										disabled></td>
 									<td class="col-sm-2" style="text-align: right;"><font
 										size="2"><B> Verify User :</B></font></td>
 									<td class="col-sm-2" style="width: 112px;"><input
+										th:value="${employee?.verify_user}"
 										type="text" id="modifyuser" name="verify_user"
 										style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 										disabled></td>
@@ -1580,19 +1588,20 @@ function updateFileName() {
 												Time :</B></font></td>
 									<td style="width: 112px"><input type="text" id="entrytime"
 										name="entry_time"
-										th:value="${#dates.format(currentDate, 'dd-MM-yyyy')}"
+										th:value="${#dates.format(employee?.entry_time, 'dd-MM-yyyy')}"
 										style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 										disabled></td>
 									<td style="text-align: right;"><font size="2"><B>Modify
 												Time :</B></font></td>
 									<td style="width: 112px"><input type="text"
 										id="verifytime" name="verify_time"
-										th:value="${#dates.format(currentDate, 'dd-MM-yyyy')}"
+										th:value="${#dates.format(employee?.modify_time, 'dd-MM-yyyy')}"
 										style="width: 115px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 										disabled></td>
 									<td style="text-align: right;"><font size="2"><B>
 												Verify Time :</B></font></td>
 									<td style="width: 112px"><input type="text"
+										th:value="${#dates.format(employee?.verify_time, 'dd-MM-yyyy')}"
 										id="modifytime" name="modify_time"
 										style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 										disabled></td>
@@ -1633,7 +1642,7 @@ function updateFileName() {
 											th:value="${employee?.branch_id}"
 											class="form-control form-control-sm bg-white border border-dark">
 											<option value="">Select</option>
-											<th:block th:each="code : ${refCode2}">
+											<th:block th:each="code : ${branch}">
 												<option th:value="${code}" th:text="${code}"
 													th:selected="${code == employee?.branch_id}"></option>
 											</th:block>
@@ -2213,7 +2222,7 @@ function updateFileName() {
 										size="2"><B>Modify User :</B></font></td>
 									<td class="col-sm-2" style="width: 112px;"><input
 										type="text" id="verifyuser" name="modify_user"
-										th:value="${user}"
+										th:value="${employee?.modify_user}"
 										style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 										disabled></td>
 									<td class="col-sm-2" style="text-align: right;"><font
@@ -2237,7 +2246,7 @@ function updateFileName() {
 												Time :</B></font></td>
 									<td style="width: 112px"><input type="text"
 										id="verifytime" name="modify_time"
-										th:value="${#dates.format(currentDate, 'dd-MM-yyyy')}"
+										th:value="${#dates.format(employee?.modify_time, 'dd-MM-yyyy')}"
 										style="width: 115px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 										disabled></td>
 									<td style="text-align: right;"><font size="2"><B>
@@ -2452,7 +2461,7 @@ function updateFileName() {
 									<div class="col-sm-2 d-flex align-items-center">
 										<input type="text" id="qualification" name="qual"
 											th:value="${employee?.qual}"
-											class="form-control form-control-sm bg-white border border-dark">
+											class="form-control form-control-sm bg-white border border-dark" readonly>
 
 									</div>
 
@@ -2513,7 +2522,7 @@ function updateFileName() {
 									<div class="col-sm-2 d-flex align-items-center">
 										<input type="text" id="bloodGroup" onchange=""
 											name="blood_group" th:value="${employee?.blood_group}"
-											class="form-control form-control-sm bg-white border border-dark">
+											class="form-control form-control-sm bg-white border border-dark" readonly>
 
 									</div>
 								</div>
@@ -2635,7 +2644,7 @@ function updateFileName() {
 									<div class="col-sm-2 d-flex align-items-center">
 										<input type="text" id="country" onchange="" name="country"
 											th:value="${employee?.country}"
-											class="form-control form-control-sm bg-white border border-dark">
+											class="form-control form-control-sm bg-white border border-dark" readonly>
 
 									</div>
 
@@ -2708,14 +2717,15 @@ function updateFileName() {
 									<td class="col-sm-2" style="text-align: right;"><font
 										size="2"><B>Modify User :</B></font></td>
 									<td class="col-sm-2" style="width: 112px;"><input
-										type="text" id="verifyuser" name="modify_user"
+										th:value="${employee?.modify_user}"
+										type="text" id="modify_user" name="modify_user"
 										style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 										disabled></td>
 									<td class="col-sm-2" style="text-align: right;"><font
 										size="2"><B> Verify User :</B></font></td>
 									<td class="col-sm-2" style="width: 112px;"><input
-										type="text" id="modifyuser" name="verify_user"
-										th:value="${user}"
+										type="text" id="verify_user" name="verify_user"
+										th:value="${employee?.verify_user}"
 										style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 										disabled></td>
 
@@ -2731,14 +2741,15 @@ function updateFileName() {
 									<td style="text-align: right;"><font size="2"><B>Modify
 												Time :</B></font></td>
 									<td style="width: 112px"><input type="text"
-										id="verifytime" name="modify_time"
+										id="modify_time" name="modify_time"
+										th:value="${#dates.format(employee?.modify_time, 'dd-MM-yyyy')}"
 										style="width: 115px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 										disabled></td>
 									<td style="text-align: right;"><font size="2"><B>
 												Verify Time :</B></font></td>
 									<td style="width: 112px"><input type="text"
-										id="modifytime" name="verify_time"
-										th:value="${#dates.format(currentDate, 'dd-MM-yyyy')}"
+										id="verify_time" name="verify_time"
+										th:value="${#dates.format(employee?.verify_time, 'dd-MM-yyyy')}"
 										style="width: 112px; border: none; outline: none; background-color: transparent; font-size: 12px;"
 										disabled></td>
 
@@ -2801,6 +2812,43 @@ function updateFileName() {
 		</div>
 	</div>
 
+	<div class="modal fade" id="SuccesPopUp" style="background: #000000b0;margin-bottom:10px;margin: auto;"
+		role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+			role="document">
+			<div class="modal-content" style="height:200px;margin-left:0px;" >
+				<!-- Modal Body -->
+				<div class="modal-body">
+					<h5  id="Successmsgpopup" style="font-size: 17px; color: black; padding: 15px;"></h5>
+				</div>
+				<!-- Modal Footer -->
+				<div style="padding: 10px; text-align: center;">
+					<button type="button" class="btn btn-outline-dark me-3"
+						style="font-size: 16px;"  onclick="list()" >Close</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade bd-example-modal-sm" tabindex="-1" id="normalalert" style="display: none;margin: auto;" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" style="margin: auto;width: 600px;" >
+      <div class="modal-header">
+        <h5 class="modal-title">Alert</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <h6 id="normalalertmsg"></h6>
+		<button type="button" class="btn-primary big-btn" data-dismiss="modal"
+						onclick="$('#normalalert').modal('hide')">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 
