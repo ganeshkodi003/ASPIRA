@@ -74,6 +74,14 @@ public class ASPIRAUploadController {
 		    String auditRefNo = sequence.generateRequestUUId();
 		    excelDownloadService.ExportExcel( type, userID, userName, auditRefNo, response);
 		}
+		
+		@GetMapping("/ExportLoanMasterExcel")
+		public void loanMasterListExcelDownload(HttpServletRequest request, HttpServletResponse response) {
+		    String userID = (String) request.getSession().getAttribute("USERID");
+		    String userName = (String) request.getSession().getAttribute("USERNAME");
+		    String auditRefNo = sequence.generateRequestUUId();
+		    excelDownloadService.LoanMasterExportExcel(userID, userName, auditRefNo, response);
+		}
 }
  
 	
