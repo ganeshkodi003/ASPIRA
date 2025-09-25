@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -63,4 +64,12 @@ public interface GeneralLedgerRep extends CrudRepository<GeneralLedgerEntity,Str
 	               "ON BGLS_GENERAL_LED.GLSH_CODE = updateacct.GLSH_CODE", 
 	       nativeQuery = true)
 	void updateNoAcctClosed();
+	
+	@Query(value = "select * from BGLS_GENERAL_LED WHERE DEL_FLG ='N' and glsh_code =?1", nativeQuery = true)
+	GeneralLedgerEntity  getid(String id);
+	
+	@Modifying(clearAutomatically = true, flushAutomatically = true)
+ 	@Transactional
+ 	@Query(value = "delete from BGLS_GENERAL_LED where glsh_code IN (:glsh_code)", nativeQuery = true)
+ 	int delteid(@Param("glsh_code") List<String> glsh_code);
 }
