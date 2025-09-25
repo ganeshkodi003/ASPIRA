@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +16,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bornfire.config.SequenceGenerator;
+import com.bornfire.services.UploadProgressService;
 import com.bornfire.services.UploadService;
 
 @Controller
@@ -29,6 +33,13 @@ public class ASPIRAUploadController {
 	
 	@Autowired
 	UploadService UploadService;
+	
+	@Autowired
+	SequenceGenerator sequence;
+	
+	 @Autowired
+	 private UploadProgressService uploadProgressService;
+		
 	
 	 @PostMapping(value = "/UploadFileData")
 	 public ResponseEntity<Map<String, Object>> uploadExcel(@RequestParam("file") MultipartFile file,
@@ -41,20 +52,29 @@ public class ASPIRAUploadController {
 
 	        String userID = (String) request.getSession().getAttribute("USERID");
 	        String userName = (String) request.getSession().getAttribute("USERNAME");
-
+	        String auditRefNo = sequence.generateRequestUUId();
 	        if ("CUSTOMER".equalsIgnoreCase(fileInput)) {
 	            resultMap = UploadService.saveCustomerFile(file, userID, userName,overwrite);
 	        } else if ("LOAN".equalsIgnoreCase(fileInput)) {
 	            resultMap = UploadService.saveLoanFile(file, userID, userName, overwrite);
 	        } else if ("REPAYMENT".equalsIgnoreCase(fileInput)) {
-	            resultMap = UploadService.saveRepaymentFile(file, userID, userName, overwrite);
+	            resultMap = UploadService.saveRepaymentFile(file, userID, userName, overwrite,  auditRefNo);
 	        } else {
 	            resultMap.put("message", "Invalid file type specified");
 	        }
 
 	        return ResponseEntity.ok(resultMap);
 	    }
+	 
+		@GetMapping("/DisplayExcel")
+		public void CrDisplayExcel(@RequestParam("type") String type, HttpServletRequest request, HttpServletResponse response) {
+		    String userID = (String) request.getSession().getAttribute("USERID");
+		    String userName = (String) request.getSession().getAttribute("USERNAME");
+		    String auditRefNo = sequence.generateRequestUUId();
+		    UploadService.ExportExcel(type, userID, userName, auditRefNo, response);
+		}
 }
+ 
 	
 
 
