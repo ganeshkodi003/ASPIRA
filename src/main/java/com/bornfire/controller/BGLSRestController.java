@@ -8774,6 +8774,24 @@ public String refUpdate(@ModelAttribute Reference_Code_Entity formEntity) {
 }
 
 
+@RequestMapping(value = "customer/refDelete", method = RequestMethod.POST)
+@ResponseBody
+public String refDelete(@ModelAttribute Reference_Code_Entity formEntity) {
+
+    // Fetch existing record using your custom repository method
+    System.out.println("Deleting ref_id: " + formEntity.getRef_id());
+    Reference_Code_Entity existing = reference_code_Rep.getRefById(formEntity.getRef_id());
+    if (existing == null) {
+        return "Record not found";
+    }
+
+    // Delete the record
+    reference_code_Rep.delete(existing);
+
+    return "Successfully Deleted";
+}
+
+
 
 
 

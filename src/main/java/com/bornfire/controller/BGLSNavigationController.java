@@ -3799,4 +3799,15 @@ public class BGLSNavigationController {
 		return "ReferenceCodeIDEdit.html";
 	}
 
+	@RequestMapping(value = "customer/refdelete", method = { RequestMethod.GET, RequestMethod.POST })
+	public String customerDelete(@RequestParam(required = false) String id,Model md) {
+
+		md.addAttribute("refdetails",reference_code_Rep.getRefById(id) );
+		md.addAttribute("refType", reference_code_Rep.getReferenceType());
+		
+		return "ReferenceCodeIDDelete.html";
+	}
+
+
+
 }

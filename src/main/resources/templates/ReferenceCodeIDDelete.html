@@ -187,24 +187,31 @@ input:hover+.password-info {
 
 	}
 
-function Submit() {
+
+function Delete() {
+    const refId = document.getElementById('ref_id').value;
+
+    if (!refId) {
+        alert("Reference ID not found!");
+        return;
+    }
+
+    // Use form-encoded data for @ModelAttribute
     $.ajax({
-        url: './refUpdate',
-        data: $("#refForm").serialize(),
+        url: './refDelete',        // matches controller mapping
         type: 'POST',
-        success: function (data) {
-            $("#alertmsg").text(data);
+        data: { ref_id: refId },   // sent as form parameter
+        success: function(response) {
+            $("#alertmsg").text(response || "Record deleted successfully");
             $('#alert').modal('show');
 
-            // Redirect when user clicks OK
             $("#alertOkBtn").off("click").on("click", function() {
-    $('#alert').modal('hide');                // hide modal
-    window.location.href = '../refCodeMain?formmode=list';  // redirect to your page
-});
-
+                $('#alert').modal('hide'); 
+                window.location.href = '../refCodeMain?formmode=list';
+            });
         },
-        error: function (xhr, status, error) {
-            $("#alertmsg").text("Error while updating: " + error);
+        error: function(xhr, status, error) {
+            $("#alertmsg").text("Error while deleting: " + error);
             $('#alert').modal('show');
         }
     });
@@ -212,88 +219,11 @@ function Submit() {
 
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    // List of types
-    const refTypes = [
-        "A01","A02","A03","A04","A05","A06","A07","A08","A09","A10",
-        "A11","A12","A13","A14","A15","A16","A17","A18","A19","A20",
-        "A21","A22","A23","A24","A25","A26","A27","A28","A29","A30",
-        "A31","A32","EMP_PRO_01","EMP_PRO_02","EMP_PRO_03","EMP_PRO_04","EMP_PRO_05","EMP_PRO_06","EMP_PRO_07","EMP_PRO_08","EMP_PRO_09",
-		"EMP_PRO_10"
-    ];
-
-    // Mapping type → description
-    // Mapping type → description
-const refTypeDescriptions = {
-    "A01": "A01 description",
-    "A02": "A02 description",
-    "A03": "A03 description",
-    "A04": "A04 description",
-    "A05": "A05 description",
-    "A06": "A06 description",
-    "A07": "A07 description",
-    "A08": "A08 description",
-    "A09": "A09 description",
-    "A10": "A10 description",
-    "A11": "A11 description",
-    "A12": "A12 description",
-    "A13": "A13 description",
-    "A14": "A14 description",
-    "A15": "A15 description",
-    "A16": "A16 description",
-    "A17": "A17 description",
-    "A18": "A18 description",
-    "A19": "A19 description",
-    "A20": "A20 description",
-    "A21": "A21 description",
-    "A22": "A22 description",
-    "A23": "A23 description",
-    "A24": "A24 description",
-    "A25": "A25 description",
-    "A26": "A26 description",
-    "A27": "A27 description",
-    "A28": "A28 description",
-    "A29": "A29 description",
-    "A30": "A30 description",
-    "A31": "A31 description",
-    "A32": "A32 description",
-
-    "EMP_PRO_01": "Employee Process 01",
-    "EMP_PRO_02": "Employee Process 02",
-    "EMP_PRO_03": "Employee Process 03",
-    "EMP_PRO_04": "Employee Process 04",
-    "EMP_PRO_05": "Employee Process 05",
-    "EMP_PRO_06": "Employee Process 06",
-    "EMP_PRO_07": "Employee Process 07",
-    "EMP_PRO_08": "Employee Process 08",
-    "EMP_PRO_09": "Employee Process 09",
-    "EMP_PRO_10": "Employee Process 10"
-};
-
-
-    const select = document.getElementById("ref_type");
-    const descInput = document.getElementById("ref_type_desc");
-
-    // Populate select with options
-    refTypes.forEach(type => {
-        const opt = document.createElement("option");
-        opt.value = type;
-        opt.text = type;
-        select.appendChild(opt);
-    });
-
-    // On change, update description
-    select.addEventListener("change", function () {
-        const chosen = this.value;
-        descInput.value = refTypeDescriptions[chosen] || "";
-    });
-});
 
 
 
 
-
-
+    
 
 </script>
 
@@ -301,7 +231,17 @@ const refTypeDescriptions = {
 
 
 
+<script>
+	/* function for the table scroll */
+	function adjustHeight() {
+		const cardBody = document.getElementById("cardBody");
+		const viewportHeight = window.innerHeight;
+		cardBody.style.maxHeight = `${viewportHeight * 0.95}px`; // Adjust 80% of the viewport height
+	}
 
+	window.addEventListener("resize", adjustHeight);
+	document.addEventListener("DOMContentLoaded", adjustHeight);
+</script>
 
 </head>
 
@@ -320,7 +260,7 @@ const refTypeDescriptions = {
 
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">REFERENCE CODE
-									MAINTENANCE - MODIFY</h6>
+									MAINTENANCE - DELETE</h6>
 							</div>
 						</div>
 
@@ -336,10 +276,9 @@ const refTypeDescriptions = {
 
 
 									<div class="col-sm-2 d-flex align-items-center">
-
-										<!-- <select name="ref_type" id="ref_type" 
-                                                onchange="updateTypeDescription()"
-                                                class="form-control form-control-sm bg-white border border-dark">
+                                        <!-- <select name="ref_type" id="ref_type"
+                                                class="form-control form-control-sm bg-white border border-dark"
+                                                disabled>
                                             <option value="">Select</option>
                                             <th:block th:each="code : ${refType}">
                                                 <option th:value="${code}" 
@@ -349,26 +288,44 @@ const refTypeDescriptions = {
                                             </th:block>
                                         </select> -->
 
-
 										<select name="ref_type" id="ref_type"
-												class="form-control form-control-sm bg-white border border-dark"
-												>
-											<option value="">Select</option>
-										</select>
+        class="form-control form-control-sm bg-white border border-dark"
+        disabled>
+    <option value="">Select</option>
+</select>
 
-										<script th:inline="javascript">
-											const ref_type = /*[[${refdetails.ref_type}]]*/ '';
+<script th:inline="javascript">
+    // Pass the Thymeleaf value into JS variable
+    const ref_type = /*[[${refdetails.ref_type}]]*/ '';
 
-											document.addEventListener("DOMContentLoaded", function () {
-												const select = document.getElementById('ref_type');
+    const refTypes = [
+        "A01","A02","A03","A04","A05","A06","A07","A08","A09","A10",
+        "A11","A12","A13","A14","A15","A16","A17","A18","A19","A20",
+        "A21","A22","A23","A24","A25","A26","A27","A28","A29","A30",
+        "A31","A32","EMP_PRO_01","EMP_PRO_02","EMP_PRO_03","EMP_PRO_04","EMP_PRO_05","EMP_PRO_06","EMP_PRO_07","EMP_PRO_08","EMP_PRO_09",
+		"EMP_PRO_10"
+    ];
 
-												if (ref_type) {
-													select.value = ref_type;
-												}
-											});
-										</script>
+    const select = document.getElementById('ref_type');
+
+    refTypes.forEach(value => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.text = value;
+
+        // Select the matching option
+        if (value === ref_type) {
+            option.selected = true;
+        }
+
+        select.appendChild(option);
+    });
+</script>
+
 
 									</div>
+
+										
 
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2 d-flex align-items-center">Type
@@ -377,7 +334,7 @@ const refTypeDescriptions = {
 
 										<input type="text" name="ref_type_desc" id="ref_type_desc"
 											class="form-control form-control-sm bg-white border border-dark"
-                                            th:value="${refdetails.ref_type_desc}" />
+                                            th:value="${refdetails.ref_type_desc}" readonly />
 
 									</div>
 								</div>
@@ -394,7 +351,7 @@ const refTypeDescriptions = {
 										<input type="text" name="ref_id" id="ref_id"
 											class="form-control form-control-sm bg-white border border-dark"
                                             th:value="${refdetails.ref_id}"
-											required readonly/>
+											 readonly/>
 
 									</div>
 
@@ -405,7 +362,7 @@ const refTypeDescriptions = {
 
 										<input type="text" name="ref_id_desc" id="ref_id_desc"
 											class="form-control form-control-sm bg-white border border-dark" 
-                                            th:value="${refdetails.ref_id_desc}"/>
+                                            th:value="${refdetails.ref_id_desc}" readonly/>
 
 									</div>
 								</div>
@@ -421,7 +378,7 @@ const refTypeDescriptions = {
 										<input type="text" name="module_id" id="module_id"
 											class="form-control form-control-sm bg-white border border-dark"
                                             th:value="${refdetails.module_id}"
-											required />
+											 readonly />
 
 									</div>
 
@@ -431,7 +388,7 @@ const refTypeDescriptions = {
 
 										<input type="text" name="remarks" id="remarks"
 											class="form-control form-control-sm bg-white border border-dark" 
-                                            th:value="${refdetails.remarks}"/>
+                                            th:value="${refdetails.remarks}"  readonly/>
 
 									</div>
 								</div>
@@ -442,10 +399,30 @@ const refTypeDescriptions = {
 
 
 							<button class="btn-primary big-btn" onclick="Home();">Home</button>
-							<button class="btn-primary big-btn" onclick="Submit();">Submit</button>
+                            <input type="hidden" name="ref_id" id="ref_id" value="${EmployeeData.ref_id}">
+							<button class="btn-primary big-btn" onclick="Delete();">Delete</button>
 							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 
 						</div>
+
+
+                        <!-- <div class="position-absolute" style="top: 10px; right: 15px;">
+                            <label style="font-size: 1.1rem; font-weight: 500; color: #555;">
+                                <input type="radio" name="editMode" id="enableEdit" style="transform: scale(1.3); margin-right: 5px;">
+                                Modify
+                            </label>
+                        </div> -->
+
+<!-- 
+                        <div class="position-absolute" style="top: 10px; right: 15px;">
+                            <a th:href="@{/customer/edit(id=${refdetails.ref_id})}" 
+                            class="btn btn-primary" 
+                            style="padding: 3px 6px; border-radius: 8px;">
+                                Modify
+                            </a>
+                        </div> -->
+
+
 
 					</div>
 
@@ -502,8 +479,6 @@ const refTypeDescriptions = {
 			</div>
 		</div>
 	</div>
-
-	
 
 
 </body>

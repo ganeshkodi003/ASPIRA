@@ -661,16 +661,119 @@ input:hover+.password-info {
 	}
 
 
-    function redirectToEdit(radio) {
-        const refId = radio.value;
-        if (refId) {
-            window.location.href = './customer/refedit?id=' + refId;
-        }
+    // function redirectToEdit(radio) {
+    //     const refId = radio.value;
+    //     if (refId) {
+    //         window.location.href = './customer/refedit?id=' + refId;
+    //     }
+    // }
+
+	function redirectToEdit(element) {
+    let refId;
+
+    // If the element is a radio input, use its value
+    if (element && element.value) {
+        refId = element.value;
+    } 
+    // If element has a data-refid attribute (e.g., from dropdown)
+    else if (element && element.getAttribute('data-refid')) {
+        refId = element.getAttribute('data-refid');
+    }
+    // Fallback: try to get from hidden input in form
+    else {
+        const refInput = document.getElementById('ref_id');
+        if (refInput) refId = refInput.value;
     }
 
-	window.addEventListener('load', function() {
-    const radios = document.querySelectorAll('input[name="editMode"]');
-    radios.forEach(r => r.checked = false);
+    if (refId) {
+        // Redirect to edit page with ref_id as query param
+        window.location.href = './customer/refedit?id=' + encodeURIComponent(refId);
+    } else {
+        alert("Reference ID not found!");
+    }
+}
+
+
+	function redirectToDelete(element) {
+		const refId = element.getAttribute('data-refid');
+		if (refId) {
+            window.location.href = './customer/refdelete?id=' + refId;
+        }
+	}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    // List of types
+    const refTypes = [
+        "A01","A02","A03","A04","A05","A06","A07","A08","A09","A10",
+        "A11","A12","A13","A14","A15","A16","A17","A18","A19","A20",
+        "A21","A22","A23","A24","A25","A26","A27","A28","A29","A30",
+        "A31","A32","EMP_PRO_01","EMP_PRO_02","EMP_PRO_03","EMP_PRO_04",
+        "EMP_PRO_05","EMP_PRO_06","EMP_PRO_07","EMP_PRO_08","EMP_PRO_09","EMP_PRO_10"
+    ];
+
+    // Mapping type → description
+    const refTypeDescriptions = {
+        "A01": "A01 description",
+        "A02": "A02 description",
+        "A03": "A03 description",
+        "A04": "A04 description",
+        "A05": "A05 description",
+        "A06": "A06 description",
+        "A07": "A07 description",
+        "A08": "A08 description",
+        "A09": "A09 description",
+        "A10": "A10 description",
+        "A11": "A11 description",
+        "A12": "A12 description",
+        "A13": "A13 description",
+        "A14": "A14 description",
+        "A15": "A15 description",
+        "A16": "A16 description",
+        "A17": "A17 description",
+        "A18": "A18 description",
+        "A19": "A19 description",
+        "A20": "A20 description",
+        "A21": "A21 description",
+        "A22": "A22 description",
+        "A23": "A23 description",
+        "A24": "A24 description",
+        "A25": "A25 description",
+        "A26": "A26 description",
+        "A27": "A27 description",
+        "A28": "A28 description",
+        "A29": "A29 description",
+        "A30": "A30 description",
+        "A31": "A31 description",
+        "A32": "A32 description",
+        "EMP_PRO_01": "Employee Process 01",
+        "EMP_PRO_02": "Employee Process 02",
+        "EMP_PRO_03": "Employee Process 03",
+        "EMP_PRO_04": "Employee Process 04",
+        "EMP_PRO_05": "Employee Process 05",
+        "EMP_PRO_06": "Employee Process 06",
+        "EMP_PRO_07": "Employee Process 07",
+        "EMP_PRO_08": "Employee Process 08",
+        "EMP_PRO_09": "Employee Process 09",
+        "EMP_PRO_10": "Employee Process 10"
+    };
+
+    const select = document.getElementById("ref_type");
+    const descInput = document.getElementById("ref_type_desc");
+
+    // Populate select with options
+    refTypes.forEach(type => {
+        const opt = document.createElement("option");
+        opt.value = type;
+        opt.text = type;
+        select.appendChild(opt);
+    });
+
+    // Only update description when dropdown changes
+    select.addEventListener("change", function () {
+        const chosen = this.value;
+        descInput.value = refTypeDescriptions[chosen] || "";
+    });
 });
 
 	
@@ -783,7 +886,8 @@ input:hover+.password-info {
 										></td>
 										<td th:text="${EmployeeData.ref_id_desc}"></td>
 										<td th:text="${EmployeeData.module_id}"></td>
-										<td class="text-center" style="width: 100px;">
+										
+										<!-- <td class="text-center" style="width: 100px;">
 											<label style="display: inline-block; font-weight: 500; cursor: pointer;">
 												<input type="radio" name="editMode"
 													th:value="${EmployeeData.ref_id}"
@@ -791,7 +895,36 @@ input:hover+.password-info {
 													onchange="redirectToEdit(this)"
 													th:checked="${false}">
 											</label>
+										</td> -->
+
+
+										<td class="text-center" style="width: 100px;">
+											<div class="dropdown action-dropdown">
+												<button class="btn btn-action dropdown-toggle" style="padding:0px"
+														type="button" id="dropdownMenuButton" title="Action"
+														data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													Action
+												</button>
+
+												<div class="dropdown-menu" style="padding:0px" aria-labelledby="dropdownMenuButton">
+													<!-- Edit / Redirect -->
+													<a class="dropdown-item edit-item"
+													th:attr="data-refid=${EmployeeData.ref_id}"
+													title="Edit"
+													onclick="redirectToEdit(this)">Edit</a>
+
+													<div class="dropdown-divider"></div>
+
+													<!-- Delete -->
+													<a class="dropdown-item delete-item"
+													th:attr="data-refid=${EmployeeData.ref_id}"
+													title="Delete"
+													onclick="redirectToDelete(this)">Delete</a>
+												</div>
+											</div>
 										</td>
+
+										
 
 
 
@@ -836,8 +969,6 @@ input:hover+.password-info {
 									<div class="col-sm-1"></div>
 									<div class="col-sm-2 d-flex align-items-center">Reference
 										Type</div>
-
-
 									<div class="col-sm-2 d-flex align-items-center">
 
 										<!-- <select name="ref_type" id="ref_type"
@@ -849,33 +980,12 @@ input:hover+.password-info {
 											</th:block>
 										</select> -->
 
-										<select name="ref_type" id="ref_type"
-												onchange="updateTypeDescription()"
+										<!-- onchange="updateTypeDescription()" -->
+										 
+										<select name="ref_type" id="ref_type"			
 												class="form-control form-control-sm bg-white border border-dark">
 											<option value="">Select</option>
 										</select>
-
-<script>
-    // Array of values
-     const refTypes = [
-        "A01","A02","A03","A04","A05","A06","A07","A08","A09","A10",
-        "A11","A12","A13","A14","A15","A16","A17","A18","A19","A20",
-        "A21","A22","A23","A24","A25","A26","A27","A28","A29","A30",
-        "A31","A32","EMP_PRO_01","EMP_PRO_02","EMP_PRO_03","EMP_PRO_04","EMP_PRO_05","EMP_PRO_06","EMP_PRO_07","EMP_PRO_08","EMP_PRO_09",
-		"EMP_PRO_10"
-    ];
-
-    const select = document.getElementById('ref_type');
-
-    refTypes.forEach(value => {
-        const option = document.createElement('option');
-        option.value = value;
-        option.text = value;
-        select.appendChild(option);
-    });
-</script>
-
-
 									</div>
 
 									<div class="col-sm-1"></div>
