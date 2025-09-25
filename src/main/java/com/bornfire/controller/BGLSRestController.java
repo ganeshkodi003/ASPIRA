@@ -47,6 +47,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.hibernate.annotations.common.util.impl.Log_.logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -8747,4 +8748,36 @@ public class BGLSRestController {
 
 		return response;
 	}
+
+
+// SURESH
+@RequestMapping(value = "customer/refUpdate", method = RequestMethod.POST)
+@ResponseBody
+public String refUpdate(@ModelAttribute Reference_Code_Entity formEntity) {
+    // Fetch existing record using your custom repository method
+	System.out.println(formEntity.getRef_id());
+    Reference_Code_Entity existing = reference_code_Rep.getRefById(formEntity.getRef_id());
+    if (existing == null) {
+        return "Record not found";
+    }
+
+    // Update editable fields
+    existing.setRef_type(formEntity.getRef_type());
+    existing.setRef_type_desc(formEntity.getRef_type_desc());
+    existing.setRef_id_desc(formEntity.getRef_id_desc());
+    existing.setModule_id(formEntity.getModule_id());
+    existing.setRemarks(formEntity.getRemarks());
+
+    // Save the updated record
+    reference_code_Rep.save(existing);
+
+    return "Successfully Updated";
+}
+
+
+
+
+
+
+
 }

@@ -3790,13 +3790,13 @@ public class BGLSNavigationController {
 		return "ReferenceCodeID";
 	}
 
-	@RequestMapping(value = "customer/edit", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "customer/refedit", method = { RequestMethod.GET, RequestMethod.POST })
 	public String customerEdit(@RequestParam(required = false) String id,Model md) {
 
 		md.addAttribute("refdetails",reference_code_Rep.getRefById(id) );
 		md.addAttribute("refType", reference_code_Rep.getReferenceType());
 		
-		return "ReferenceCodeIDEdit";
+		return "ReferenceCodeIDEdit.html";
 	}
 
 }

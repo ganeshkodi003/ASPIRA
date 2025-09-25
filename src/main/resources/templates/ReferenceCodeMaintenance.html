@@ -655,11 +655,25 @@ input:hover+.password-info {
 					});
 		});
 
-function rowClick(refId) {
-    // Example: navigate to URL with refId
-    window.location.href = './customer?id=' + refId;
-}
+	function rowClick(refId) {
+		// Example: navigate to URL with refId
+		window.location.href = './customer?id=' + refId;
+	}
 
+
+    function redirectToEdit(radio) {
+        const refId = radio.value;
+        if (refId) {
+            window.location.href = './customer/refedit?id=' + refId;
+        }
+    }
+
+	window.addEventListener('load', function() {
+    const radios = document.querySelectorAll('input[name="editMode"]');
+    radios.forEach(r => r.checked = false);
+});
+
+	
 
 	</script>
 
@@ -760,19 +774,25 @@ function rowClick(refId) {
 								<tbody id="placelist">
 
 									<tr th:each="EmployeeData,iterator : ${refList}"
-    th:attr="onclick=|rowClick('${EmployeeData.ref_id}')|">
+   										>
 										<td th:text="${EmployeeData.ref_type}"></td>
 										<td th:text="${#strings.replace(EmployeeData.ref_type_desc, '_', ' ')}"></td>
-										<td th:text="${EmployeeData.ref_id}"></td>
+										<td th:text="${EmployeeData.ref_id}"
+										style="color: #007bff; cursor: pointer;"
+										 th:attr="onclick=|rowClick('${EmployeeData.ref_id}')|"
+										></td>
 										<td th:text="${EmployeeData.ref_id_desc}"></td>
 										<td th:text="${EmployeeData.module_id}"></td>
 										<td class="text-center" style="width: 100px;">
 											<label style="display: inline-block; font-weight: 500; cursor: pointer;">
-												<input type="radio" name="editMode" 
-													th:value="${EmployeeData.ref_id}" 
-													style="transform: scale(1.3); margin-right: 5px;">
+												<input type="radio" name="editMode"
+													th:value="${EmployeeData.ref_id}"
+													style="transform: scale(1.3); margin-right: 5px; cursor: pointer;"
+													onchange="redirectToEdit(this)"
+													th:checked="${false}">
 											</label>
 										</td>
+
 
 
 										
@@ -820,14 +840,41 @@ function rowClick(refId) {
 
 									<div class="col-sm-2 d-flex align-items-center">
 
-										<select name="ref_type" id="ref_type"
+										<!-- <select name="ref_type" id="ref_type"
 											onchange="updateTypeDescription()"
 											class="form-control form-control-sm bg-white border border-dark">
 											<option value="">Select</option>
 											<th:block th:each="code : ${refType}">
 												<option th:value="${code}" th:text="${code}"></option>
 											</th:block>
+										</select> -->
+
+										<select name="ref_type" id="ref_type"
+												onchange="updateTypeDescription()"
+												class="form-control form-control-sm bg-white border border-dark">
+											<option value="">Select</option>
 										</select>
+
+<script>
+    // Array of values
+     const refTypes = [
+        "A01","A02","A03","A04","A05","A06","A07","A08","A09","A10",
+        "A11","A12","A13","A14","A15","A16","A17","A18","A19","A20",
+        "A21","A22","A23","A24","A25","A26","A27","A28","A29","A30",
+        "A31","A32","EMP_PRO_01","EMP_PRO_02","EMP_PRO_03","EMP_PRO_04","EMP_PRO_05","EMP_PRO_06","EMP_PRO_07","EMP_PRO_08","EMP_PRO_09",
+		"EMP_PRO_10"
+    ];
+
+    const select = document.getElementById('ref_type');
+
+    refTypes.forEach(value => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.text = value;
+        select.appendChild(option);
+    });
+</script>
+
 
 									</div>
 

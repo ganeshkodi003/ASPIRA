@@ -187,6 +187,32 @@ input:hover+.password-info {
 
 	}
 
+function Submit() {
+    $.ajax({
+        url: './refUpdate',
+        data: $("#refForm").serialize(),
+        type: 'POST',
+        success: function (data) {
+            $("#alertmsg").text(data);
+            $('#alert').modal('show');
+
+            // Redirect when user clicks OK
+            $("#alertOkBtn").off("click").on("click", function() {
+    $('#alert').modal('hide');                // hide modal
+    window.location.href = '../refCodeMain?formmode=list';  // redirect to your page
+});
+
+        },
+        error: function (xhr, status, error) {
+            $("#alertmsg").text("Error while updating: " + error);
+            $('#alert').modal('show');
+        }
+    });
+}
+
+
+
+
 
 
 
@@ -215,7 +241,7 @@ input:hover+.password-info {
 
 							<div class="float-left">
 								<h6 style="font-size: 1.2rem; color: black;">REFERENCE CODE
-									MAINTENANCE - VIEW</h6>
+									MAINTENANCE - MODIFY</h6>
 							</div>
 						</div>
 
@@ -232,7 +258,7 @@ input:hover+.password-info {
 
 									<div class="col-sm-2 d-flex align-items-center">
 
-										<select name="ref_type" id="ref_type" 
+										<!-- <select name="ref_type" id="ref_type" 
                                                 onchange="updateTypeDescription()"
                                                 class="form-control form-control-sm bg-white border border-dark">
                                             <option value="">Select</option>
@@ -242,7 +268,42 @@ input:hover+.password-info {
                                                         th:selected="${code == refdetails.ref_type}">
                                                 </option>
                                             </th:block>
-                                        </select>
+                                        </select> -->
+
+
+										<select name="ref_type" id="ref_type"
+        class="form-control form-control-sm bg-white border border-dark"
+        >
+    <option value="">Select</option>
+</select>
+
+<script th:inline="javascript">
+    // Pass the Thymeleaf value into JS variable
+    const ref_type = /*[[${refdetails.ref_type}]]*/ '';
+
+    const refTypes = [
+        "A01","A02","A03","A04","A05","A06","A07","A08","A09","A10",
+        "A11","A12","A13","A14","A15","A16","A17","A18","A19","A20",
+        "A21","A22","A23","A24","A25","A26","A27","A28","A29","A30",
+        "A31","A32","EMP_PRO_01","EMP_PRO_02","EMP_PRO_03","EMP_PRO_04","EMP_PRO_05","EMP_PRO_06","EMP_PRO_07","EMP_PRO_08","EMP_PRO_09",
+		"EMP_PRO_10"
+    ];
+
+    const select = document.getElementById('ref_type');
+
+    refTypes.forEach(value => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.text = value;
+
+        // Select the matching option
+        if (value === ref_type) {
+            option.selected = true;
+        }
+
+        select.appendChild(option);
+    });
+</script>
 
 									</div>
 
@@ -270,7 +331,7 @@ input:hover+.password-info {
 										<input type="text" name="ref_id" id="ref_id"
 											class="form-control form-control-sm bg-white border border-dark"
                                             th:value="${refdetails.ref_id}"
-											required />
+											required readonly/>
 
 									</div>
 
@@ -318,7 +379,7 @@ input:hover+.password-info {
 
 
 							<button class="btn-primary big-btn" onclick="Home();">Home</button>
-							<button class="btn-primary big-btn" onclick="Submit();">Submit</button>
+							<button class="btn-primary big-btn" onclick="Submit();">update</button>
 							<button class="btn-primary big-btn" onclick="Back();">Back</button>
 
 						</div>
@@ -357,7 +418,7 @@ input:hover+.password-info {
 
 				<div class="modal-body" style="text-align: center;">
 					<h6 id="alertmsg"></h6>
-					<button type="button" class="btn-primary big-btn"
+					<button type="button" class="btn-primary big-btn" id="alertOkBtn"
 						onclick="$('#alert').modal('hide')">Close</button>
 				</div>
 			</div>
@@ -378,6 +439,8 @@ input:hover+.password-info {
 			</div>
 		</div>
 	</div>
+
+	
 
 
 </body>
