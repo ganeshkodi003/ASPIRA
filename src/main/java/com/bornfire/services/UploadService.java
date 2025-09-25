@@ -48,35 +48,36 @@ public class UploadService {
 
 	@Autowired
 	CLIENT_MASTER_REPO clientMasterRepo;
-	
+
 	@Autowired
 	LOAN_ACT_MST_REPO lOAN_ACT_MST_REPO;
-	
+
 	@Autowired
 	ASPIRA_LOAN_REPAYMENT_REPO lOAN_REPAYMENT_REPO;
-	
+
 	@Autowired
 	DateParser DateParser;
-	
+
 	@Autowired
 	BGLSAuditTable_Rep AuditTable_Rep;
-	
+
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public int delteCustId(List<String> duplicateTr) {
 		return clientMasterRepo.delteid(duplicateTr);
 	}
-	
+
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public int delteLoanId(List<String> duplicateTr) {
 		return lOAN_ACT_MST_REPO.delteid(duplicateTr);
 	}
-	
+
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public int delteRepaymentId(List<String> duplicateTr) {
 		return lOAN_REPAYMENT_REPO.delteid(duplicateTr);
 	}
 
-	public Map<String, Object> saveCustomerFile(MultipartFile file, String userID, String userName,boolean overwrite) throws SQLException {
+	public Map<String, Object> saveCustomerFile(MultipartFile file, String userID, String userName, boolean overwrite)
+			throws SQLException {
 		int successCount = 0, failureCount = 0;
 		Map<String, Object> resultMap = new LinkedHashMap<>();
 		logger.info("Start 1");
@@ -84,21 +85,21 @@ public class UploadService {
 			logger.info("Start 2");
 			List<HashMap<Integer, String>> mapList = new ArrayList<>();
 			for (Sheet s : workbook) {
-			    for (Row r : s) {
-			        if (!isRowEmpty(r)) {
-			            if (r.getRowNum() < 1)
-			                continue;
+				for (Row r : s) {
+					if (!isRowEmpty(r)) {
+						if (r.getRowNum() < 1)
+							continue;
 
-			            HashMap<Integer, String> map = new HashMap<>();
-			            for (int j = 0; j < 200; j++) {
-			                Cell cell = r.getCell(j);
-			                DataFormatter formatter1 = new DataFormatter();
-			                String text = formatter1.formatCellValue(cell);
-			                map.put(j, text);
-			            }
-			            mapList.add(map);
-			        }
-			    }
+						HashMap<Integer, String> map = new HashMap<>();
+						for (int j = 0; j < 200; j++) {
+							Cell cell = r.getCell(j);
+							DataFormatter formatter1 = new DataFormatter();
+							String text = formatter1.formatCellValue(cell);
+							map.put(j, text);
+						}
+						mapList.add(map);
+					}
+				}
 			}
 			logger.info("Start 3");
 			// ✅ Pre-check duplicates check
@@ -119,14 +120,13 @@ public class UploadService {
 				return resultMap;
 			}
 
-			
 			if (!duplicateid.isEmpty() && overwrite) {
 				// delete existing before inserting
 				delteCustId(duplicateid);
 			}
-			 
-			//end duplicate check
-			//upload start
+
+			// end duplicate check
+			// upload start
 			for (HashMap<Integer, String> item : mapList) {
 				logger.info("Start 4");
 				try {
@@ -160,11 +160,12 @@ public class UploadService {
 					transaction.setDel_flg("N");
 					transaction.setEntry_user(userID);
 					transaction.setEntry_time(new Date());
-							
+
 					logger.info("Start 7");
-					clientMasterRepo.save(transaction); 
+					clientMasterRepo.save(transaction);
 					successCount++;
-					//System.out.println("FINAL COUNTS -> Succeeded: " + successCount + ", Failed: " + failureCount);
+					// System.out.println("FINAL COUNTS -> Succeeded: " + successCount + ", Failed:
+					// " + failureCount);
 				} catch (Exception ex) {
 					failureCount++;
 					ex.printStackTrace();
@@ -176,7 +177,7 @@ public class UploadService {
 			resultMap.put("status", "error");
 			resultMap.put("message", "File upload failed: " + e.getMessage());
 		}
-		logger.info("Start 9");	
+		logger.info("Start 9");
 		resultMap.put("status", "success");
 		resultMap.put("TotalSucceeded", successCount);
 		resultMap.put("TotalFailed", failureCount);
@@ -184,9 +185,10 @@ public class UploadService {
 
 		return resultMap;
 	}
-	
-	//LOAN UPLOAD
-	public Map<String, Object> saveLoanFile(MultipartFile file, String userID, String userName,boolean overwrite) throws SQLException {
+
+	// LOAN UPLOAD
+	public Map<String, Object> saveLoanFile(MultipartFile file, String userID, String userName, boolean overwrite)
+			throws SQLException {
 		int successCount = 0, failureCount = 0;
 		Map<String, Object> resultMap = new LinkedHashMap<>();
 		logger.info("Start 1");
@@ -194,21 +196,21 @@ public class UploadService {
 			logger.info("Start 2");
 			List<HashMap<Integer, String>> mapList = new ArrayList<>();
 			for (Sheet s : workbook) {
-			    for (Row r : s) {
-			        if (!isRowEmpty(r)) {
-			            if (r.getRowNum() < 1)
-			                continue;
+				for (Row r : s) {
+					if (!isRowEmpty(r)) {
+						if (r.getRowNum() < 1)
+							continue;
 
-			            HashMap<Integer, String> map = new HashMap<>();
-			            for (int j = 0; j < 200; j++) {
-			                Cell cell = r.getCell(j);
-			                DataFormatter formatter1 = new DataFormatter();
-			                String text = formatter1.formatCellValue(cell);
-			                map.put(j, text);
-			            }
-			            mapList.add(map);
-			        }
-			    }
+						HashMap<Integer, String> map = new HashMap<>();
+						for (int j = 0; j < 200; j++) {
+							Cell cell = r.getCell(j);
+							DataFormatter formatter1 = new DataFormatter();
+							String text = formatter1.formatCellValue(cell);
+							map.put(j, text);
+						}
+						mapList.add(map);
+					}
+				}
 			}
 			logger.info("Start 3");
 			// ✅ Pre-check duplicates check
@@ -229,20 +231,19 @@ public class UploadService {
 				return resultMap;
 			}
 
-			
 			if (!duplicateid.isEmpty() && overwrite) {
 				// delete existing before inserting
 				delteLoanId(duplicateid);
 			}
-			 
-			//end duplicate check
-			//upload start
+
+			// end duplicate check
+			// upload start
 			for (HashMap<Integer, String> item : mapList) {
 				logger.info("Start 4");
 				try {
 					logger.info("Start 5");
 					LOAN_ACT_MST_ENTITY transaction = new LOAN_ACT_MST_ENTITY();
-					
+
 					transaction.setEncoded_key(item.get(0));
 					transaction.setId(item.get(1));
 					transaction.setAccount_holdertype(item.get(2));
@@ -324,9 +325,10 @@ public class UploadService {
 					transaction.setEntry_user(userID);
 					transaction.setEntry_time(new Date());
 					logger.info("Start 7");
-					lOAN_ACT_MST_REPO.save(transaction); 
+					lOAN_ACT_MST_REPO.save(transaction);
 					successCount++;
-					//System.out.println("FINAL COUNTS -> Succeeded: " + successCount + ", Failed: " + failureCount);
+					// System.out.println("FINAL COUNTS -> Succeeded: " + successCount + ", Failed:
+					// " + failureCount);
 				} catch (Exception ex) {
 					failureCount++;
 					ex.printStackTrace();
@@ -338,7 +340,7 @@ public class UploadService {
 			resultMap.put("status", "error");
 			resultMap.put("message", "File upload failed: " + e.getMessage());
 		}
-		logger.info("Start 9");	
+		logger.info("Start 9");
 		resultMap.put("status", "success");
 		resultMap.put("TotalSucceeded", successCount);
 		resultMap.put("TotalFailed", failureCount);
@@ -346,133 +348,137 @@ public class UploadService {
 
 		return resultMap;
 	}
-	   //REPAYMENT UPLOAD
-	public Map<String, Object> saveRepaymentFile(MultipartFile file, String userID, String userName, boolean overwrite, String auditRefNo) throws SQLException {
-	    Map<String, Object> resultMap = new LinkedHashMap<>();
-	    int successCount = 0, failureCount = 0;
-	    logger.info("Start 1");
-	    try (InputStream inputStream = file.getInputStream(); Workbook workbook = new XSSFWorkbook(inputStream)) {
 
-	        List<ASPIRA_LOAN_REPAYMENT_ENTITY> batchList = new ArrayList<>();
-	        List<String> duplicateIds = new ArrayList<>();
+	// REPAYMENT UPLOAD
+	public Map<String, Object> saveRepaymentFile(MultipartFile file, String userID, String userName, boolean overwrite,
+			String auditRefNo) throws SQLException {
+		Map<String, Object> resultMap = new LinkedHashMap<>();
+		int successCount = 0, failureCount = 0;
+		logger.info("Start 1");
+		try (InputStream inputStream = file.getInputStream(); Workbook workbook = new XSSFWorkbook(inputStream)) {
 
-	        // Step 1: Read all rows into memory for pre-check
-	        List<HashMap<Integer, String>> rowDataList = new ArrayList<>();
-	        DataFormatter formatter = new DataFormatter();
-	        logger.info("Start 2");
-	        for (Sheet sheet : workbook) {
-	            for (Row row : sheet) {
-	                if (row.getRowNum() < 1 || isRowEmpty(row)) continue; // skip header & empty
-	                HashMap<Integer, String> rowMap = new HashMap<>();
-	                for (int j = 0; j <= 29; j++) {
-	                    rowMap.put(j, formatter.formatCellValue(row.getCell(j)));
-	                }
-	                rowDataList.add(rowMap);
-	            }
-	        }
-	        logger.info("Start 3");
-	        // Step 2: Pre-check duplicates
-	        for (HashMap<Integer, String> rowMap : rowDataList) {
-	            String custId = rowMap.get(0); // ARN column for duplicate check
-	            ASPIRA_LOAN_REPAYMENT_ENTITY existing = lOAN_REPAYMENT_REPO.getid(custId);
-	            if (existing != null) duplicateIds.add(custId);
-	        }
-	        logger.info("Start 4");
-	        if (!duplicateIds.isEmpty() && !overwrite) {
-	            resultMap.put("status", "duplicate");
-	            resultMap.put("id", duplicateIds);
-	            return resultMap;
-	        }
-	        logger.info("Start 5");
-	        if (!duplicateIds.isEmpty() && overwrite) {
-	            delteRepaymentId(duplicateIds);
-	        }
-	        logger.info("Start 6");
-	        // Step 3: Build entities and batch save
-	        for (HashMap<Integer, String> rowMap : rowDataList) {
-	            try {
-	                ASPIRA_LOAN_REPAYMENT_ENTITY entity = new ASPIRA_LOAN_REPAYMENT_ENTITY();
-	                logger.info("Start 7");
-	                entity.setEncodedkey(rowMap.get(0));
-	                entity.setAssignedbranchkey(rowMap.get(1));
-	                entity.setAssigneduserkey(rowMap.get(2));
-	                entity.setDuedate(DateParser.parseDateSafe(rowMap.get(3)));
-	                entity.setInterestdue(DateParser.parseBigDecimal(rowMap.get(4)));
-	                entity.setInterestpaid(DateParser.parseBigDecimal(rowMap.get(5)));
-	                entity.setLastpaiddate(DateParser.parseDateSafe(rowMap.get(6)));
-	                entity.setLastpenaltyapplieddate(DateParser.parseDateSafe(rowMap.get(7)));
-	                entity.setNotes(rowMap.get(8));
-	                entity.setParentaccountkey(rowMap.get(9));
-	                entity.setPrincipaldue(DateParser.parseBigDecimal(rowMap.get(10)));
-	                entity.setPrincipalpaid(DateParser.parseBigDecimal(rowMap.get(11)));
-	                entity.setRepaiddate(DateParser.parseDateSafe(rowMap.get(12)));
-	                entity.setState(rowMap.get(13));
-	                entity.setAssignedcentrekey(rowMap.get(14));
-	                entity.setFeesdue(DateParser.parseBigDecimal(rowMap.get(15)));
-	                entity.setFeespaid(DateParser.parseBigDecimal(rowMap.get(16)));
-	                entity.setPenaltydue(DateParser.parseBigDecimal(rowMap.get(17)));
-	                entity.setPenaltypaid(DateParser.parseBigDecimal(rowMap.get(18)));
-	                entity.setTaxinterestdue(DateParser.parseBigDecimal(rowMap.get(19)));
-	                entity.setTaxinterestpaid(DateParser.parseBigDecimal(rowMap.get(20)));
-	                entity.setTaxfeesdue(DateParser.parseBigDecimal(rowMap.get(21)));
-	                entity.setTaxfeespaid(DateParser.parseBigDecimal(rowMap.get(22)));
-	                entity.setTaxpenaltydue(DateParser.parseBigDecimal(rowMap.get(23)));
-	                entity.setTaxpenaltypaid(DateParser.parseBigDecimal(rowMap.get(24)));
-	                entity.setOrganizationcommissiondue(DateParser.parseBigDecimal(rowMap.get(25)));
-	                entity.setFundersinterestdue(DateParser.parseBigDecimal(rowMap.get(26)));
-	                entity.setCreationdate(DateParser.parseDateSafe(rowMap.get(27)));
-	                entity.setLastmodifieddate(DateParser.parseDateSafe(rowMap.get(28)));
-	                entity.setAdditions(rowMap.get(29));
-	                entity.setDel_flg("N");
-	                entity.setEntity_flg("N");
-	                entity.setEntry_user(userID);
-	                entity.setEntry_time(new Date());
+			List<ASPIRA_LOAN_REPAYMENT_ENTITY> batchList = new ArrayList<>();
+			List<String> duplicateIds = new ArrayList<>();
 
-	                batchList.add(entity);
-	                logger.info("Start 8");
-	                // Batch save every 1000
-	                if (batchList.size() >= 1000) {
-	                    successCount += batchSave(batchList);
-	                    batchList.clear();
-	                }
-	                logger.info("Start 9");
-	            } catch (Exception ex) {
-	                ex.printStackTrace();
-	                failureCount++;
-	                logger.info("Start 10");
-	            }
-	        }
-	        logger.info("Start 11");
-	        // Save remaining batch
-	        if (!batchList.isEmpty()) {
-	            successCount += batchSave(batchList);
-	        }
-	        logger.info("Start 12");
-	        resultMap.put("status", "success");
-	        resultMap.put("TotalSucceeded", successCount);
-	        resultMap.put("TotalFailed", failureCount);
-	        resultMap.put("TotalProcessed", successCount + failureCount);
+			// Step 1: Read all rows into memory for pre-check
+			List<HashMap<Integer, String>> rowDataList = new ArrayList<>();
+			DataFormatter formatter = new DataFormatter();
+			logger.info("Start 2");
+			for (Sheet sheet : workbook) {
+				for (Row row : sheet) {
+					if (row.getRowNum() < 1 || isRowEmpty(row))
+						continue; // skip header & empty
+					HashMap<Integer, String> rowMap = new HashMap<>();
+					for (int j = 0; j <= 29; j++) {
+						rowMap.put(j, formatter.formatCellValue(row.getCell(j)));
+					}
+					rowDataList.add(rowMap);
+				}
+			}
+			logger.info("Start 3");
+			// Step 2: Pre-check duplicates
+			for (HashMap<Integer, String> rowMap : rowDataList) {
+				String custId = rowMap.get(0); // ARN column for duplicate check
+				ASPIRA_LOAN_REPAYMENT_ENTITY existing = lOAN_REPAYMENT_REPO.getid(custId);
+				if (existing != null)
+					duplicateIds.add(custId);
+			}
+			logger.info("Start 4");
+			if (!duplicateIds.isEmpty() && !overwrite) {
+				resultMap.put("status", "duplicate");
+				resultMap.put("id", duplicateIds);
+				return resultMap;
+			}
+			logger.info("Start 5");
+			if (!duplicateIds.isEmpty() && overwrite) {
+				delteRepaymentId(duplicateIds);
+			}
+			logger.info("Start 6");
+			// Step 3: Build entities and batch save
+			for (HashMap<Integer, String> rowMap : rowDataList) {
+				try {
+					ASPIRA_LOAN_REPAYMENT_ENTITY entity = new ASPIRA_LOAN_REPAYMENT_ENTITY();
+					logger.info("Start 7");
+					entity.setEncodedkey(rowMap.get(0));
+					entity.setAssignedbranchkey(rowMap.get(1));
+					entity.setAssigneduserkey(rowMap.get(2));
+					entity.setDuedate(DateParser.parseDateSafe(rowMap.get(3)));
+					entity.setInterestdue(DateParser.parseBigDecimal(rowMap.get(4)));
+					entity.setInterestpaid(DateParser.parseBigDecimal(rowMap.get(5)));
+					entity.setLastpaiddate(DateParser.parseDateSafe(rowMap.get(6)));
+					entity.setLastpenaltyapplieddate(DateParser.parseDateSafe(rowMap.get(7)));
+					entity.setNotes(rowMap.get(8));
+					entity.setParentaccountkey(rowMap.get(9));
+					entity.setPrincipaldue(DateParser.parseBigDecimal(rowMap.get(10)));
+					entity.setPrincipalpaid(DateParser.parseBigDecimal(rowMap.get(11)));
+					entity.setRepaiddate(DateParser.parseDateSafe(rowMap.get(12)));
+					entity.setState(rowMap.get(13));
+					entity.setAssignedcentrekey(rowMap.get(14));
+					entity.setFeesdue(DateParser.parseBigDecimal(rowMap.get(15)));
+					entity.setFeespaid(DateParser.parseBigDecimal(rowMap.get(16)));
+					entity.setPenaltydue(DateParser.parseBigDecimal(rowMap.get(17)));
+					entity.setPenaltypaid(DateParser.parseBigDecimal(rowMap.get(18)));
+					entity.setTaxinterestdue(DateParser.parseBigDecimal(rowMap.get(19)));
+					entity.setTaxinterestpaid(DateParser.parseBigDecimal(rowMap.get(20)));
+					entity.setTaxfeesdue(DateParser.parseBigDecimal(rowMap.get(21)));
+					entity.setTaxfeespaid(DateParser.parseBigDecimal(rowMap.get(22)));
+					entity.setTaxpenaltydue(DateParser.parseBigDecimal(rowMap.get(23)));
+					entity.setTaxpenaltypaid(DateParser.parseBigDecimal(rowMap.get(24)));
+					entity.setOrganizationcommissiondue(DateParser.parseBigDecimal(rowMap.get(25)));
+					entity.setFundersinterestdue(DateParser.parseBigDecimal(rowMap.get(26)));
+					entity.setCreationdate(DateParser.parseDateSafe(rowMap.get(27)));
+					entity.setLastmodifieddate(DateParser.parseDateSafe(rowMap.get(28)));
+					entity.setAdditions(rowMap.get(29));
+					entity.setDel_flg("N");
+					entity.setEntity_flg("N");
+					entity.setEntry_user(userID);
+					entity.setEntry_time(new Date());
 
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        resultMap.put("status", "error");
-	        resultMap.put("message", "File upload failed: " + e.getMessage());
-	    }
+					batchList.add(entity);
+					logger.info("Start 8");
+					// Batch save every 1000
+					if (batchList.size() >= 1000) {
+						successCount += batchSave(batchList);
+						batchList.clear();
+					}
+					logger.info("Start 9");
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					failureCount++;
+					logger.info("Start 10");
+				}
+			}
+			logger.info("Start 11");
+			// Save remaining batch
+			if (!batchList.isEmpty()) {
+				successCount += batchSave(batchList);
+			}
+			logger.info("Start 12");
+			resultMap.put("status", "success");
+			resultMap.put("TotalSucceeded", successCount);
+			resultMap.put("TotalFailed", failureCount);
+			resultMap.put("TotalProcessed", successCount + failureCount);
 
-	    saveAudit(userID, userName, "Repayment File Upload!", "ASPIRA_LOAN_REPAYMENT_TABLE", auditRefNo);
-	    return resultMap;
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultMap.put("status", "error");
+			resultMap.put("message", "File upload failed: " + e.getMessage());
+		}
+
+		saveAudit(userID, userName, "Repayment File Upload!", "ASPIRA_LOAN_REPAYMENT_TABLE", auditRefNo);
+		return resultMap;
 	}
 
 	// Batch save helper
 	private int batchSave(List<ASPIRA_LOAN_REPAYMENT_ENTITY> batch) {
-	    try {
-	        lOAN_REPAYMENT_REPO.saveAll(batch);
-	        lOAN_REPAYMENT_REPO.flush();
-	        return batch.size();
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return 0;
-	    }
+		try {
+			lOAN_REPAYMENT_REPO.saveAll(batch);
+			lOAN_REPAYMENT_REPO.flush();
+			return batch.size();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	private boolean isRowEmpty(Row row) {
@@ -489,6 +495,7 @@ public class UploadService {
 		}
 		return isEmpty;
 	}
+
 	public void ExportExcel(String type, String userID, String userName, String auditRefNo,
 			HttpServletResponse response) {
 
@@ -501,13 +508,12 @@ public class UploadService {
 
 				// Header
 				Row header = sheet.createRow(rowIdx++);
-				String[] headers = {
-					    "ENCODEDKEY","ASSIGNEDBRANCHKEY","ASSIGNEDUSERKEY","DUEDATE","INTERESTDUE","INTERESTPAID","LASTPAIDDATE",
-					    "LASTPENALTYAPPLIEDDATE", "NOTES","PARENTACCOUNTKEY","PRINCIPALDUE", "PRINCIPALPAID", "REPAIDDATE", "STATE",
-					    "ASSIGNEDCENTREKEY","FEESDUE","FEESPAID","PENALTYDUE","PENALTYPAID","TAXINTERESTDUE","TAXINTERESTPAID",
-					    "TAXFEESDUE", "TAXFEESPAID","TAXPENALTYDUE","TAXPENALTYPAID","ORGANIZATIONCOMMISSIONDUE",
-					    "FUNDERSINTERESTDUE","CREATIONDATE","LASTMODIFIEDDATE","ADDITIONS"
-					};
+				String[] headers = { "ENCODEDKEY", "ASSIGNEDBRANCHKEY", "ASSIGNEDUSERKEY", "DUEDATE", "INTERESTDUE",
+						"INTERESTPAID", "LASTPAIDDATE", "LASTPENALTYAPPLIEDDATE", "NOTES", "PARENTACCOUNTKEY",
+						"PRINCIPALDUE", "PRINCIPALPAID", "REPAIDDATE", "STATE", "ASSIGNEDCENTREKEY", "FEESDUE",
+						"FEESPAID", "PENALTYDUE", "PENALTYPAID", "TAXINTERESTDUE", "TAXINTERESTPAID", "TAXFEESDUE",
+						"TAXFEESPAID", "TAXPENALTYDUE", "TAXPENALTYPAID", "ORGANIZATIONCOMMISSIONDUE",
+						"FUNDERSINTERESTDUE", "CREATIONDATE", "LASTMODIFIEDDATE", "ADDITIONS" };
 
 				for (int i = 0; i < headers.length; i++) {
 					header.createCell(i).setCellValue(headers[i]);
@@ -525,55 +531,76 @@ public class UploadService {
 					excelRow.createCell(3).setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getDuedate()));
 
 					// BigDecimal values (convert to String or double)
-					excelRow.createCell(4).setCellValue(entity.getInterestdue() == null ? "" : entity.getInterestdue().toPlainString());
-					excelRow.createCell(5).setCellValue(entity.getInterestpaid() == null ? "" : entity.getInterestpaid().toPlainString());
+					excelRow.createCell(4).setCellValue(
+							entity.getInterestdue() == null ? "" : entity.getInterestdue().toPlainString());
+					excelRow.createCell(5).setCellValue(
+							entity.getInterestpaid() == null ? "" : entity.getInterestpaid().toPlainString());
 
 					// More dates
-					excelRow.createCell(6).setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getLastpaiddate()));
-					excelRow.createCell(7).setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getLastpenaltyapplieddate()));
+					excelRow.createCell(6)
+							.setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getLastpaiddate()));
+					excelRow.createCell(7)
+							.setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getLastpenaltyapplieddate()));
 
 					// Notes
 					excelRow.createCell(8).setCellValue(entity.getNotes());
 					excelRow.createCell(9).setCellValue(entity.getParentaccountkey());
 
 					// Principal
-					excelRow.createCell(10).setCellValue(entity.getPrincipaldue() == null ? "" : entity.getPrincipaldue().toPlainString());
-					excelRow.createCell(11).setCellValue(entity.getPrincipalpaid() == null ? "" : entity.getPrincipalpaid().toPlainString());
+					excelRow.createCell(10).setCellValue(
+							entity.getPrincipaldue() == null ? "" : entity.getPrincipaldue().toPlainString());
+					excelRow.createCell(11).setCellValue(
+							entity.getPrincipalpaid() == null ? "" : entity.getPrincipalpaid().toPlainString());
 
 					// Repaid date & state
-					excelRow.createCell(12).setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getRepaiddate()));
+					excelRow.createCell(12)
+							.setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getRepaiddate()));
 					excelRow.createCell(13).setCellValue(entity.getState());
 
 					// Centre key
 					excelRow.createCell(14).setCellValue(entity.getAssignedcentrekey());
 
 					// Fees
-					excelRow.createCell(15).setCellValue(entity.getFeesdue() == null ? "" : entity.getFeesdue().toPlainString());
-					excelRow.createCell(16).setCellValue(entity.getFeespaid() == null ? "" : entity.getFeespaid().toPlainString());
+					excelRow.createCell(15)
+							.setCellValue(entity.getFeesdue() == null ? "" : entity.getFeesdue().toPlainString());
+					excelRow.createCell(16)
+							.setCellValue(entity.getFeespaid() == null ? "" : entity.getFeespaid().toPlainString());
 
 					// Penalty
-					excelRow.createCell(17).setCellValue(entity.getPenaltydue() == null ? "" : entity.getPenaltydue().toPlainString());
-					excelRow.createCell(18).setCellValue(entity.getPenaltypaid() == null ? "" : entity.getPenaltypaid().toPlainString());
+					excelRow.createCell(17)
+							.setCellValue(entity.getPenaltydue() == null ? "" : entity.getPenaltydue().toPlainString());
+					excelRow.createCell(18).setCellValue(
+							entity.getPenaltypaid() == null ? "" : entity.getPenaltypaid().toPlainString());
 
 					// Tax Interest
-					excelRow.createCell(19).setCellValue(entity.getTaxinterestdue() == null ? "" : entity.getTaxinterestdue().toPlainString());
-					excelRow.createCell(20).setCellValue(entity.getTaxinterestpaid() == null ? "" : entity.getTaxinterestpaid().toPlainString());
+					excelRow.createCell(19).setCellValue(
+							entity.getTaxinterestdue() == null ? "" : entity.getTaxinterestdue().toPlainString());
+					excelRow.createCell(20).setCellValue(
+							entity.getTaxinterestpaid() == null ? "" : entity.getTaxinterestpaid().toPlainString());
 
 					// Tax Fees
-					excelRow.createCell(21).setCellValue(entity.getTaxfeesdue() == null ? "" : entity.getTaxfeesdue().toPlainString());
-					excelRow.createCell(22).setCellValue(entity.getTaxfeespaid() == null ? "" : entity.getTaxfeespaid().toPlainString());
+					excelRow.createCell(21)
+							.setCellValue(entity.getTaxfeesdue() == null ? "" : entity.getTaxfeesdue().toPlainString());
+					excelRow.createCell(22).setCellValue(
+							entity.getTaxfeespaid() == null ? "" : entity.getTaxfeespaid().toPlainString());
 
 					// Tax Penalty
-					excelRow.createCell(23).setCellValue(entity.getTaxpenaltydue() == null ? "" : entity.getTaxpenaltydue().toPlainString());
-					excelRow.createCell(24).setCellValue(entity.getTaxpenaltypaid() == null ? "" : entity.getTaxpenaltypaid().toPlainString());
+					excelRow.createCell(23).setCellValue(
+							entity.getTaxpenaltydue() == null ? "" : entity.getTaxpenaltydue().toPlainString());
+					excelRow.createCell(24).setCellValue(
+							entity.getTaxpenaltypaid() == null ? "" : entity.getTaxpenaltypaid().toPlainString());
 
 					// Org & Funders
-					excelRow.createCell(25).setCellValue(entity.getOrganizationcommissiondue() == null ? "" : entity.getOrganizationcommissiondue().toPlainString());
-					excelRow.createCell(26).setCellValue(entity.getFundersinterestdue() == null ? "" : entity.getFundersinterestdue().toPlainString());
+					excelRow.createCell(25).setCellValue(entity.getOrganizationcommissiondue() == null ? ""
+							: entity.getOrganizationcommissiondue().toPlainString());
+					excelRow.createCell(26).setCellValue(entity.getFundersinterestdue() == null ? ""
+							: entity.getFundersinterestdue().toPlainString());
 
 					// Creation & Last modified
-					excelRow.createCell(27).setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getCreationdate()));
-					excelRow.createCell(28).setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getLastmodifieddate()));
+					excelRow.createCell(27)
+							.setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getCreationdate()));
+					excelRow.createCell(28)
+							.setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getLastmodifieddate()));
 
 					// Additions
 					excelRow.createCell(29).setCellValue(entity.getAdditions());
@@ -583,7 +610,62 @@ public class UploadService {
 				saveAudit(userID, userName, "Repayment File Download!", "ASPIRA_LOAN_REPAYMENT_TABLE", auditRefNo);
 				response.setHeader("Content-Disposition", "inline; filename=source_data.xlsx");
 
-			}  else {
+			} else if ("CUSTOMER".equalsIgnoreCase(type)) {
+				List<CLIENT_MASTER_ENTITY> dataList = clientMasterRepo.findAll();
+
+				// Header
+				Row header = sheet.createRow(rowIdx++);
+				String[] headers = {
+						// Customer details
+						"ENCODEDKEY", "ID", "CLIENTSTATE", "CREATIONDATE", "LASTMODIFIEDDATE", "ACTIVATIONDATE",
+						"APPROVEDDATE", "FIRSTNAME", "LASTNAME", "MOBILEPHONE", "EMAILADDRESS", "PREFERREDLANGUAGE",
+						"BIRTHDATE", "GENDER", "ASSIGNEDBRANCHKEY", "CLIENTROLEKEY", "LOANCYCLE", "GROUPLOANCYCLE",
+						"ADDRESSLINE1", "ADDRESSLINE2", "ADDRESSLINE3", "CITY", "SUBURB", "ASSIGNEDUSERKEY",
+						"ASONDATE" };
+
+				for (int i = 0; i < headers.length; i++) {
+					header.createCell(i).setCellValue(headers[i]);
+				}
+
+				for (CLIENT_MASTER_ENTITY entity : dataList) {
+					Row excelRow = sheet.createRow(rowIdx++);
+
+					excelRow.createCell(0).setCellValue(entity.getEncoded_key());
+					excelRow.createCell(1).setCellValue(entity.getCustomer_id());
+					excelRow.createCell(2).setCellValue(entity.getClient_state());
+					excelRow.createCell(3).setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getCreation_date()));
+					excelRow.createCell(4).setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getLast_modified_date()));
+					excelRow.createCell(5).setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getActivation_date()));
+					excelRow.createCell(6).setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getApproved_date()));
+					excelRow.createCell(7).setCellValue(entity.getFirst_name());
+					excelRow.createCell(8).setCellValue(entity.getLast_name());
+					excelRow.createCell(9).setCellValue(entity.getMobile_phone());
+					excelRow.createCell(10).setCellValue(entity.getEmail_address());
+					excelRow.createCell(11).setCellValue(entity.getPreferred_language());
+					excelRow.createCell(12).setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getBirth_date()));
+					excelRow.createCell(13).setCellValue(entity.getGender());
+					excelRow.createCell(14).setCellValue(entity.getAssigned_branch_key());
+					excelRow.createCell(15).setCellValue(entity.getClient_role_key());
+					excelRow.createCell(16)
+							.setCellValue(entity.getLoan_cycle() == null ? "" : entity.getLoan_cycle().toPlainString());
+					excelRow.createCell(17)
+					.setCellValue(entity.getGroup_loan_cycle() == null ? "" : entity.getGroup_loan_cycle().toPlainString());
+					excelRow.createCell(18).setCellValue(entity.getAddress_line1());
+					excelRow.createCell(19).setCellValue(entity.getAddress_line2());
+					excelRow.createCell(20).setCellValue(entity.getAddress_line3());
+					excelRow.createCell(21).setCellValue(entity.getCity());
+					excelRow.createCell(22).setCellValue(entity.getSuburb());
+					excelRow.createCell(23).setCellValue(entity.getAssigned_user_key());
+					excelRow.createCell(24)
+							.setCellValue(DateParser.getCurrentDateWithoutTimePass(entity.getAsondate()));
+				}
+
+				saveAudit(userID, userName, "Customer File Download!", "CLIENT_MASTER_TBL", auditRefNo);
+				response.setHeader("Content-Disposition", "inline; filename=source_data.xlsx");
+
+			}
+
+			else {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid type parameter");
 				return;
 			}

@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bornfire.config.SequenceGenerator;
-import com.bornfire.services.UploadProgressService;
 import com.bornfire.services.UploadService;
 
 @Controller
@@ -36,9 +35,6 @@ public class ASPIRAUploadController {
 	
 	@Autowired
 	SequenceGenerator sequence;
-	
-	 @Autowired
-	 private UploadProgressService uploadProgressService;
 		
 	
 	 @PostMapping(value = "/UploadFileData")
