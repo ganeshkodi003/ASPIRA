@@ -1048,6 +1048,86 @@
 						}
 					});
 				}
+
+				function downloadExcel(type) {
+			// Show loading modal
+			document.getElementById('loadingModal').style.display = 'flex';
+
+			const basePath = /*[[${#httpServletRequest.contextPath}]]*/ '';
+			const url = basePath + '/ASPIRA/DisplayExcel1?type=' + type;
+			var selectedDate = $("#currentvalue").val();
+			var dateParts = selectedDate.split('-');
+			var formattedDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
+
+			$.ajax({
+				url: url,
+				type: 'GET',
+				data: {currentDate: formattedDate},
+				xhrFields: {
+					responseType: 'blob' // Important to receive file as blob
+				},
+				success: function (blob, status, xhr) {
+					// Get filename from response header if provided
+					let filename = "file.xlsx";
+					const disposition = xhr.getResponseHeader('Content-Disposition');
+					if (disposition && disposition.indexOf('filename=') !== -1) {
+						filename = disposition.split('filename=')[1].replace(/"/g, '');
+					}
+
+					// Create a link to download the blob
+					const downloadUrl = window.URL.createObjectURL(blob);
+					const a = document.createElement('a');
+					a.href = downloadUrl;
+					a.download = filename;
+					document.body.appendChild(a);
+					a.click();
+					a.remove();
+					window.URL.revokeObjectURL(downloadUrl);
+				},
+				error: function (err) {
+					console.error('Download error:', err);
+					alert('Error downloading file.');
+				},
+				complete: function () {
+					// Hide loading modal after success or error
+					document.getElementById('loadingModal').style.display = 'none';
+				}
+			});
+		}
+
+		function openTab(evt, tabName) {
+			let i, tabcontent, tablinks, downloadBtns;
+			
+			// Hide all main tab content
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+
+			// Remove active class from main tabs
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace(" active", "");
+			}
+
+			// Hide all download buttons
+			downloadBtns = document.getElementsByClassName("download-btn");
+			for (i = 0; i < downloadBtns.length; i++) {
+				downloadBtns[i].style.display = "none";
+			}
+
+			// Show selected main tab and set as active
+			document.getElementById(tabName).style.display = "block";
+			evt.currentTarget.className += " active";
+
+			// Show related download button only if currentvalue has value
+			const currentInput = document.getElementById("currentvalue");
+			const relatedBtn = document.getElementById("download-" + tabName);
+			if (relatedBtn && currentInput.value.trim() !== "") {
+				relatedBtn.style.display = "inline-block";
+			}
+		}
+
 	</script>
 </head>
 
@@ -1091,6 +1171,16 @@
 										class="form-control form-control-sm bg-white border border-dark"
 										placeholder="dd-mm-yyyy" autocomplete="off" />
 								</div>
+
+								<div style="padding-left: 40px;">
+									<!-- Place all download buttons -->
+									<button id="download-tab1" class="download-btn btn-primary big-btn" style="display:none;" onclick="downloadExcel('disbursement')">Download Disbursement</button>
+									<button id="download-tab2" class="download-btn btn-primary big-btn" style="display:none;" onclick="downloadExcel('interest')">Download Interest</button>
+									<button id="download-tab5" class="download-btn btn-primary big-btn" style="display:none;" onclick="downloadExcel('fees')">Download Fees</button>
+									<button id="download-tab3" class="download-btn btn-primary big-btn" style="display:none;" onclick="downloadExcel('recovery')">Download Recovery</button>
+									<button id="download-tab4" class="download-btn btn-primary big-btn" style="display:none;" onclick="downloadExcel('booking')">Download Booking</button>
+								</div>
+
 							</div>
 						</div>
 

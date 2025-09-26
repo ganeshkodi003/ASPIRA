@@ -8644,7 +8644,7 @@ public class BGLSRestController {
 			List<String> encodedKeyList = new ArrayList<>();
 			for (LOAN_ACT_MST_ENTITY entity : loanActList) {
 				if (entity.getEncoded_key() != null) {
-					System.out.println("Encoded Key: " + entity.getEncoded_key());
+//					System.out.println("Encoded Key: " + entity.getEncoded_key());
 					encodedKeyList.add(entity.getEncoded_key());
 				}
 			}
