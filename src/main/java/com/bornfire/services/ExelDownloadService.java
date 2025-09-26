@@ -380,7 +380,7 @@ public class ExelDownloadService {
 			int rowIdx = 0;
 
 			if ("disbursement".equalsIgnoreCase(type)) {
-				List<LOAN_ACT_MST_ENTITY> dataList = loanMasterRepo.getLoanActDetval();
+				List<LOAN_ACT_MST_ENTITY> dataList = loanMasterRepo.getDistval();
 
 				// Header
 				Row header = sheet.createRow(rowIdx++);

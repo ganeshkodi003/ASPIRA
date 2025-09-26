@@ -97,6 +97,9 @@ public interface LOAN_ACT_MST_REPO extends JpaRepository<LOAN_ACT_MST_ENTITY, St
 
 	@Query(value = "select * from LOAN_ACCOUNT_MASTER_TBL where disbursement_flg = 'N' ORDER BY CREATION_DATE", nativeQuery = true)
 	List<LOAN_ACT_MST_ENTITY> getLoanActDetval();
+	
+	@Query(value = "select * from LOAN_ACCOUNT_MASTER_TBL where disbursement_flg = 'Y' ORDER BY CREATION_DATE", nativeQuery = true)
+	List<LOAN_ACT_MST_ENTITY> getDistval();
 
 	@Query(value = "select * from LOAN_ACCOUNT_MASTER_TBL where DISBURSEMENT_DATE <= ?1 AND interest_flg = 'N' ORDER BY CREATION_DATE", nativeQuery = true)
 	List<LOAN_ACT_MST_ENTITY> getLoanActDetval1(Date creation_date);
