@@ -72,6 +72,7 @@ import com.bornfire.entities.Bacp_Signature_master;
 import com.bornfire.entities.Bacp_Signature_masterRepo;
 import com.bornfire.entities.Bacp_WorkFLow_Entity;
 import com.bornfire.entities.Bacp_WorkFLow_Repo;
+import com.bornfire.entities.BglsLmsSchemesRepo;
 import com.bornfire.entities.CLIENT_MASTER_REPO;
 import com.bornfire.entities.Chart_Acc_Entity;
 import com.bornfire.entities.Chart_Acc_Rep;
@@ -115,6 +116,9 @@ public class CustOnboardinController {
 	@Autowired
 	ParameterRep parameterrep;
 
+	@Autowired
+	BglsLmsSchemesRepo bgls_scheme_lms_repo;
+	
 	@Autowired
 	MinimalDataRepository minimalDataRepository;
 
@@ -713,6 +717,7 @@ public class CustOnboardinController {
 		if (formmode == null || formmode.equals("list")) {
 			System.out.println("Value=======================>>> " + refnumber);
 			md.addAttribute("OtherServices", parameterrep.listofvalue());
+			md.addAttribute("lms_schemes", bgls_scheme_lms_repo.listofvalue());
 			md.addAttribute("menu", "AMLCustomerKYC");
 			md.addAttribute("menuname", "CustomerKYC");
 			md.addAttribute("formmode", "list"); // to set which form - valid values are "edit" , "add" & "list"

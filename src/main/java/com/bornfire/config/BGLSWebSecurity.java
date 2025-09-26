@@ -119,8 +119,7 @@ public class BGLSWebSecurity extends WebSecurityConfigurerAdapter {
 				Optional<UserProfile> up = userProfileRep.findById(userid);
 
 				try {
-
-					if (up.isPresent()) {
+					if (up.isPresent() && up.get().getDel_flg().equals("N")) {
 						UserProfile usr = up.get();
 
 						// System.out.println("Inside---->"+usr.isAccountNonExpired());
@@ -133,7 +132,7 @@ public class BGLSWebSecurity extends WebSecurityConfigurerAdapter {
 
 							throw new AccountExpiredException("Account Expired");
 
-						} else if (!usr.isCredentialsNonExpired()) {
+						}else if (!usr.isCredentialsNonExpired()) {
 
 							throw new CredentialsExpiredException("Credentials Expired");
 

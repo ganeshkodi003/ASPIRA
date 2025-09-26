@@ -77,6 +77,8 @@ import com.bornfire.entities.BGLSBusinessTable_Entity;
 import com.bornfire.entities.BGLSBusinessTable_Rep;
 import com.bornfire.entities.BGLS_CONTROL_TABLE_REP;
 import com.bornfire.entities.BGLS_Control_Table;
+import com.bornfire.entities.BglsLmsSchemesEntity;
+import com.bornfire.entities.BglsLmsSchemesRepo;
 import com.bornfire.entities.CLIENT_MASTER_ENTITY;
 import com.bornfire.entities.CLIENT_MASTER_REPO;
 import com.bornfire.entities.Chart_Acc_Entity;
@@ -144,6 +146,9 @@ public class BGLSRestController {
 //	
 //	@Autowired
 //	Organization_Branch_Rep organization_Branch_Rep;
+	
+	@Autowired
+	BglsLmsSchemesRepo bgls_lms_scheme_repo;
 
 	@Autowired
 	Employee_Profile_Rep employee_Profile_Rep;
@@ -8892,7 +8897,22 @@ public String refDelete(@ModelAttribute Reference_Code_Entity formEntity) {
     return "Successfully Deleted";
 }
 
+@RequestMapping(value = "lms_scheme_Add", method = RequestMethod.POST)
+public String lmsSchemesAdd(@RequestBody BglsLmsSchemesEntity request,HttpServletRequest session) throws ParseException {
+	
+	String SessionUserId = (String) session.getSession().getAttribute("USERID"); 
+	request.setEntryUser(SessionUserId);
+	request.setEntryTime(new Date());
+	request.setDelFlg("N");    
+	request.setEntityFlg("Y");
+	request.setModifyFlg("N");
+	request.setVerifyFlg("Y");
+	
+	
+	bgls_lms_scheme_repo.save(request);
 
+    return "Successfully Added";
+}
 
 
 
