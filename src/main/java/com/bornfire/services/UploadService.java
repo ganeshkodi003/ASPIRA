@@ -1,6 +1,7 @@
 package com.bornfire.services;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ import com.bornfire.entities.BGLSAuditTable;
 import com.bornfire.entities.BGLSAuditTable_Rep;
 import com.bornfire.entities.CLIENT_MASTER_ENTITY;
 import com.bornfire.entities.CLIENT_MASTER_REPO;
+import com.bornfire.entities.Chart_Acc_Entity;
+import com.bornfire.entities.Chart_Acc_Rep;
 import com.bornfire.entities.GeneralLedgerEntity;
 import com.bornfire.entities.GeneralLedgerRep;
 import com.bornfire.entities.LOAN_ACT_MST_ENTITY;
@@ -63,6 +66,9 @@ public class UploadService {
 	
 	@Autowired
 	GeneralLedgerRep GeneralLedgerRep;
+	
+	@Autowired
+	Chart_Acc_Rep chart_Acc_Rep;
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public int delteCustId(List<String> duplicateTr) {
@@ -336,6 +342,34 @@ public class UploadService {
 					successCount++;
 					// System.out.println("FINAL COUNTS -> Succeeded: " + successCount + ", Failed:
 					// " + failureCount);
+					
+					Chart_Acc_Entity coa = new Chart_Acc_Entity();
+
+					coa.setAcct_num(item.get(1));
+					coa.setAcct_name(item.get(12));
+					coa.setAcct_crncy("MUR");
+					coa.setAcct_bal(BigDecimal.ZERO);
+					coa.setCr_amt(BigDecimal.ZERO);
+					coa.setDr_amt(BigDecimal.ZERO);
+					coa.setGl_code("1000");
+					coa.setGl_desc("Asset");
+					coa.setGlsh_code("Asset");
+					coa.setGlsh_desc("LOANS AND ADVANCES");
+					coa.setSchm_code("LA");
+					coa.setSchm_type("LOAN");
+					coa.setAcct_status("Active");
+					//coa.setMobile_no(new BigDecimal(up.getCa_mobile_number()));
+					/* coa.setNational_id(up.getCa_idenditification_number()); */
+					coa.setClassification("Asset");
+					coa.setAdd_det_flg("N");
+					coa.setEntity_flg("Y");
+					coa.setDel_flg("N");
+					coa.setAcct_status("Y");
+					coa.setAcct_cls_flg("N");
+					coa.setAcct_type("L");
+
+					chart_Acc_Rep.save(coa);
+					logger.info("Start 7.1");
 				} catch (Exception ex) {
 					failureCount++;
 					ex.printStackTrace();

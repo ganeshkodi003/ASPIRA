@@ -7902,7 +7902,7 @@ public class BGLSRestController {
 						chartAccount.setAcct_bal(newBalance);
 					}
 
-					//chart_Acc_Rep.save(chartAccount);
+					chart_Acc_Rep.save(chartAccount);
 
 					// ✅ Handle Loan disbursement update
 					if (entity.getFlow_code().equalsIgnoreCase("DISBT")) {
@@ -8308,7 +8308,7 @@ public class BGLSRestController {
 				credit.setTran_status("POSTED");
 				credit.setEntry_user(user);
 				credit.setEntry_time(new Date());
-				credit.setDel_flg("N");
+			   credit.setDel_flg("N");
 				tRAN_MAIN_TRM_WRK_REP.save(credit);
 				System.out.println("Credit transaction saved: " + credit.getTran_id());
 				    
@@ -8575,6 +8575,7 @@ public class BGLSRestController {
 				credit.setDel_flg("N");
 				tRAN_MAIN_TRM_WRK_REP.save(credit);
 				 totalRecords++;
+				 totalAmount = totalAmount.add(flowAmount1);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -8610,7 +8611,7 @@ public class BGLSRestController {
 		                account.setAcct_bal(oldBalance.add(tranAmt)); // increase balance
 		            }
 
-		           // chart_Acc_Rep.save(account);
+		            chart_Acc_Rep.save(account);
 		        }
 		    }
 		    tRAN_MAIN_TRM_WRK_REP.saveAll(transactions);

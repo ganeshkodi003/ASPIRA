@@ -709,8 +709,8 @@
 			                    <td>${formattedCreationDate}</td>
 			                    <td title='INDEM'>INDEM</td>
 			                    <td style='text-align:right;'>${interest}</td>
-			                    <td>${data[21] || ''}</td>
-			                    <td>${data[22] || ''}</td>
+			                    <td>${data[30] || ''}</td>
+			                    <td>${data[31] || ''}</td>
 			                 </tr>`;
 				}
 				return rows;
@@ -726,9 +726,9 @@
 					var interest = data[10] && !isNaN(data[10]) ? parseFloat(data[10]).toLocaleString('en-IN', {minimumFractionDigits: 2}) : '';
 					var fee = data[13] && !isNaN(data[13]) ? parseFloat(data[13]).toLocaleString('en-IN', {minimumFractionDigits: 2}) : '';
 
-					rows += `<tr><td>${serialNo++}</td><td>1</td><td>${formattedCreationDate}</td><td title='INDEM'>INDEM</td><td style='text-align:right;'>${interest}</td><td>${data[21] || ''}</td><td>${data[22] || ''}</td></tr>`;
-					rows += `<tr><td>${serialNo++}</td><td>2</td><td>${formattedCreationDate}</td><td title='FEEDM'>FEEDM</td><td style='text-align:right;'>${fee}</td><td>${data[21] || ''}</td><td>${data[22] || ''}</td></tr>`;
-					rows += `<tr><td>${serialNo++}</td><td>3</td><td>${formattedCreationDate}</td><td title='PRDEM'>PRDEM</td><td style='text-align:right;'>${principal}</td><td>${data[21] || ''}</td><td>${data[22] || ''}</td></tr>`;
+					rows += `<tr><td>${serialNo++}</td><td>1</td><td>${formattedCreationDate}</td><td title='INDEM'>INDEM</td><td style='text-align:right;'>${interest}</td><td>${data[30] || ''}</td><td>${data[31] || ''}</td></tr>`;
+					rows += `<tr><td>${serialNo++}</td><td>2</td><td>${formattedCreationDate}</td><td title='FEEDM'>FEEDM</td><td style='text-align:right;'>${fee}</td><td>${data[30] || ''}</td><td>${data[31] || ''}</td></tr>`;
+					rows += `<tr><td>${serialNo++}</td><td>3</td><td>${formattedCreationDate}</td><td title='PRDEM'>PRDEM</td><td style='text-align:right;'>${principal}</td><td>${data[30] || ''}</td><td>${data[31] || ''}</td></tr>`;
 				}
 				return rows;
 			});
@@ -740,7 +740,7 @@
 					var data = response[i];
 					var formattedCreationDate = data[2] ? new Date(data[2]).toLocaleDateString('en-GB').replace(/\//g, '-') : '';
 					var loanAmountFormatted = data[10] && !isNaN(data[10]) ? parseFloat(data[10]).toLocaleString('en-IN', {minimumFractionDigits: 2}) : '';
-					rows += `<tr><td>${i + 1}</td><td>1</td><td>${formattedCreationDate}</td><td title='INDEM'>INDEM</td><td style='text-align:right;'>${loanAmountFormatted}</td><td>${data[21] || ''}</td><td>${data[22] || ''}</td></tr>`;
+					rows += `<tr><td>${i + 1}</td><td>1</td><td>${formattedCreationDate}</td><td title='INDEM'>INDEM</td><td style='text-align:right;'>${loanAmountFormatted}</td><td>${data[30] || ''}</td><td>${data[31] || ''}</td></tr>`;
 				}
 				return rows;
 			});
@@ -760,8 +760,8 @@
 			                    <td>${formattedCreationDate}</td>
 			                    <td title='FEEDM'>FEEDM</td>
 			                    <td style='text-align:right;'>${fee}</td>
-			                    <td>${data[21] || ''}</td>
-			                    <td>${data[22] || ''}</td>
+			                    <td>${data[30] || ''}</td>
+			                    <td>${data[31] || ''}</td>
 			                 </tr>`;
 				}
 				return rows;
@@ -921,9 +921,9 @@
 					let formattedAmount = Number(response.totalAmount)
 				    .toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 					let message =
-					    "Fees Migration Completed<br>" +
+					    "Interest Migration Completed<br>" +
 					    "Migration Date: " + currentvalue + "<br>" +
-					    "Total Disbursed Amount: " + response.totalAmount  + "<br>" +
+					    "Total Disbursed Amount: " + formattedAmount  + "<br>" +
 					    "Total Records Migrated: " + response.totalRecords + "<br>" +
 					    "Failed Records: " + response.failedRecords + "<br>"; 
 
@@ -978,7 +978,7 @@
 					let message =
 					    "Fees Migration Completed<br>" +
 					    "Migration Date: " + currentvalue + "<br>" +
-					    "Total Disbursed Amount: " + response.totalAmount  + "<br>" +
+					    "Total Disbursed Amount: " + formattedAmount  + "<br>" +
 					    "Total Records Migrated: " + response.totalRecords + "<br>" +
 					    "Failed Records: " + response.failedRecords + "<br>"; 
 
