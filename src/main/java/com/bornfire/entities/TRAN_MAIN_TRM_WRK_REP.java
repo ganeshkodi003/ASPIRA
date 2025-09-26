@@ -359,4 +359,11 @@ public interface TRAN_MAIN_TRM_WRK_REP extends JpaRepository<TRAN_MAIN_TRM_WRK_E
 	@Modifying
 	@Query(value = "EXEC InsertBranchTransactions :transactions", nativeQuery = true)
 	void insertBranchTransactions(@Param("transactions") List<Map<String, Object>> transactions);
+
+	@Query(value = "SELECT * " + "FROM BGLS_TRM_WRK_TRANSACTIONS " + "WHERE CAST(VALUE_DATE AS DATE) = :valueDate "
+			+ "AND TRAN_PARTICULAR LIKE :likePattern " + "AND TRAN_STATUS = 'POSTED' " + "AND PART_TRAN_TYPE = 'Debit' "
+			+ "AND FLOW_CODE != 'PRDEM'", nativeQuery = true)
+	List<TRAN_MAIN_TRM_WRK_ENTITY> getInterestRecivable121(@Param("valueDate") String flowDate,
+			@Param("likePattern") String likePattern);
+
 }

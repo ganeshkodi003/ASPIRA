@@ -56,7 +56,7 @@ public class UploadService {
 	LOAN_ACT_MST_REPO lOAN_ACT_MST_REPO;
 
 	@Autowired
-	 LOAN_REPAYMENT_REPO lOAN_REPAYMENT_REPO;
+    LOAN_REPAYMENT_REPO lOAN_REPAYMENT_REPO;
 
 	@Autowired
 	DateParser DateParser;
@@ -391,111 +391,119 @@ public class UploadService {
 	}
 
 	// REPAYMENT UPLOAD
-	public Map<String, Object> saveRepaymentFile(MultipartFile file, String userID, String userName,boolean overwrite ,String auditRefNo) throws SQLException {
-		int successCount = 0, failureCount = 0;
-		Map<String, Object> resultMap = new LinkedHashMap<>();
-		logger.info("Start 1");
-		try (InputStream inputStream = file.getInputStream(); Workbook workbook = new XSSFWorkbook(inputStream)) {
-			logger.info("Start 2");
-			List<HashMap<Integer, String>> mapList = new ArrayList<>();
-			for (Sheet s : workbook) {
-			    for (Row r : s) {
-			        if (!isRowEmpty(r)) {
-			            if (r.getRowNum() < 1)
-			                continue;
+		public Map<String, Object> saveRepaymentFile(MultipartFile file, String userID, String userName, boolean overwrite)
+				throws SQLException {
+			int successCount = 0, failureCount = 0;
+			Map<String, Object> resultMap = new LinkedHashMap<>();
+			long startTime = System.currentTimeMillis(); // Track total execution time
 
-			            HashMap<Integer, String> map = new HashMap<>();
-			            for (int j = 0; j < 200; j++) {
-			                Cell cell = r.getCell(j);
-			                DataFormatter formatter1 = new DataFormatter();
-			                String text = formatter1.formatCellValue(cell);
-			                map.put(j, text);
-			            }
-			            mapList.add(map);
-			        }
-			    }
-			}
-			logger.info("Start 3");
-			// ✅ Pre-check duplicates check
-			List<String> duplicateid = new ArrayList<>();
-			for (HashMap<Integer, String> item : mapList) {
-				String cust_id = item.get(1); // <-- taking ARN from column index 23
-				// System.out.println(arn);
-				LOAN_REPAYMENT_ENTITY checkId = lOAN_REPAYMENT_REPO.getid(cust_id);
-				logger.info("Start 3.1");
-				if (checkId != null) {
-					duplicateid.add(cust_id);
+			logger.info("Start processing file: " + file.getOriginalFilename());
+
+			try (InputStream inputStream = file.getInputStream(); Workbook workbook = new XSSFWorkbook(inputStream)) {
+				logger.info("Workbook loaded");
+
+				List<HashMap<Integer, String>> mapList = new ArrayList<>();
+				int totalRows = 0;
+
+				for (Sheet s : workbook) {
+					for (Row r : s) {
+						if (!isRowEmpty(r)) {
+							if (r.getRowNum() < 1)
+								continue; // skip header
+							totalRows++;
+
+							HashMap<Integer, String> map = new HashMap<>();
+							for (int j = 0; j < 200; j++) {
+								Cell cell = r.getCell(j);
+								DataFormatter formatter1 = new DataFormatter();
+								String text = formatter1.formatCellValue(cell);
+								map.put(j, text);
+							}
+							mapList.add(map);
+						}
+					}
 				}
-			}
 
-			if (!duplicateid.isEmpty() && !overwrite) {
-				resultMap.put("status", "duplicate");
-				resultMap.put("id", duplicateid);
+				logger.info("Total rows found in file: " + totalRows);
+				System.out.println("Total rows found in file: " + totalRows);
+
+				// Batch Insert
+				List<LOAN_REPAYMENT_ENTITY> batchList = new ArrayList<>();
+				int batchSize = 1000;
+
+				int currentRow = 0;
+				for (HashMap<Integer, String> item : mapList) {
+					currentRow++;
+					try {
+						LOAN_REPAYMENT_ENTITY transaction = new LOAN_REPAYMENT_ENTITY();
+						transaction.setEncoded_key(item.get(0));
+						transaction.setDue_date(com.bornfire.services.DateParser.parseDateSafe1(item.get(3)));
+						transaction.setInterest_exp(DateParser.parseBigDecimal(item.get(4)));
+						transaction.setInterest_due(DateParser.parseBigDecimal(item.get(4)));
+						transaction.setInterest_paid(DateParser.parseBigDecimal(item.get(5)));
+						transaction.setLast_paid_date(com.bornfire.services.DateParser.parseDateSafe1(item.get(6)));
+						transaction.setParent_account_key(item.get(9));
+						transaction.setPrincipal_exp(DateParser.parseBigDecimal(item.get(10)));
+						transaction.setPrincipal_due(DateParser.parseBigDecimal(item.get(10)));
+						transaction.setPrincipal_paid(DateParser.parseBigDecimal(item.get(11)));
+						transaction.setRepaid_date(com.bornfire.services.DateParser.parseDateSafe1(item.get(12)));
+						transaction.setPayment_state(item.get(13));
+						transaction.setFee_exp(DateParser.parseBigDecimal(item.get(15)));
+						transaction.setFee_due(DateParser.parseBigDecimal(item.get(15)));
+						transaction.setFee_paid(DateParser.parseBigDecimal(item.get(16)));
+						transaction.setPenalty_exp(DateParser.parseBigDecimal(item.get(17)));
+						transaction.setPenalty_due(DateParser.parseBigDecimal(item.get(17)));
+						transaction.setPenalty_paid(DateParser.parseBigDecimal(item.get(18)));
+						transaction.setDel_flg("N");
+						transaction.setEntry_user(userID);
+						transaction.setEntry_time(new Date());
+
+						batchList.add(transaction);
+
+						if (batchList.size() == batchSize) {
+							lOAN_REPAYMENT_REPO.saveAll(batchList);
+							successCount += batchList.size();
+							System.out.println("Uploaded rows: " + successCount + " | Current row: " + currentRow);
+							batchList.clear();
+						}
+					} catch (Exception ex) {
+						failureCount++;
+						System.err.println("Failed row: " + currentRow + " | Error: " + ex.getMessage());
+					}
+				}
+
+				// Save remaining rows
+				if (!batchList.isEmpty()) {
+					lOAN_REPAYMENT_REPO.saveAll(batchList);
+					successCount += batchList.size();
+					System.out.println("Uploaded remaining rows: " + batchList.size());
+					batchList.clear();
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				resultMap.put("status", "error");
+				resultMap.put("message", "File upload failed: " + e.getMessage());
 				return resultMap;
 			}
 
-			
-			if (!duplicateid.isEmpty() && overwrite) {
-				// delete existing before inserting
-				delteRepaymentId(duplicateid);
-			}
-			 
-			//end duplicate check
-			//upload start
-			for (HashMap<Integer, String> item : mapList) {
-				logger.info("Start 4");
-				try {
-					logger.info("Start 5");
-					LOAN_REPAYMENT_ENTITY transaction = new LOAN_REPAYMENT_ENTITY();
-					
-					transaction.setEncoded_key(item.get(0));
-					transaction.setParent_account_key(item.get(1));
-					transaction.setDue_date(DateParser.parseDateSafe(item.get(2)));
-					transaction.setLast_paid_date(DateParser.parseDateSafe(item.get(3)));
-					transaction.setRepaid_date(DateParser.parseDateSafe(item.get(4)));
-					transaction.setPayment_state(item.get(5));
-					transaction.setIs_payment_holiday(item.get(6));
-					transaction.setPrincipal_exp(DateParser.parseBigDecimal(item.get(7)));
-					transaction.setPrincipal_paid(DateParser.parseBigDecimal(item.get(8)));
-					transaction.setPrincipal_due(DateParser.parseBigDecimal(item.get(9)));
-					transaction.setInterest_exp(DateParser.parseBigDecimal(item.get(10)));
-					transaction.setInterest_paid(DateParser.parseBigDecimal(item.get(11)));
-					transaction.setInterest_due(DateParser.parseBigDecimal(item.get(12)));
-					transaction.setFee_exp(DateParser.parseBigDecimal(item.get(13)));
-					transaction.setFee_paid(DateParser.parseBigDecimal(item.get(14)));
-					transaction.setFee_due(DateParser.parseBigDecimal(item.get(15)));
-					transaction.setPenalty_exp(DateParser.parseBigDecimal(item.get(16)));
-					transaction.setPenalty_paid(DateParser.parseBigDecimal(item.get(17)));
-					transaction.setPenalty_due(DateParser.parseBigDecimal(item.get(18)));
-					transaction.setAsondate(DateParser.parseDateSafe(item.get(19)));
-					transaction.setDel_flg("N");
-					transaction.setEntry_user(userID);
-					transaction.setEntry_time(new Date());
-					logger.info("Start 7");
-					lOAN_REPAYMENT_REPO.save(transaction);
-					successCount++;
-					//System.out.println("FINAL COUNTS -> Succeeded: " + successCount + ", Failed: " + failureCount);
-				} catch (Exception ex) {
-					failureCount++;
-					ex.printStackTrace();
-				}
-			}
-			logger.info("Start 8");
-		} catch (Exception e) {
-			e.printStackTrace();
-			resultMap.put("status", "error");
-			resultMap.put("message", "File upload failed: " + e.getMessage());
-		}
-		logger.info("Start 9");	
-		saveAudit(userID, userName, "Repayment File Upload!", " LOAN_REPAYMENT_TABLE", auditRefNo);
-		logger.info("Start 10");
-		resultMap.put("status", "success");
-		resultMap.put("TotalSucceeded", successCount);
-		resultMap.put("TotalFailed", failureCount);
-		resultMap.put("TotalProcessed", (successCount + failureCount));
+			long endTime = System.currentTimeMillis();
+			long durationSec = (endTime - startTime) / 1000;
 
-		return resultMap;
-	}
+			System.out.println("File processing completed.");
+			System.out.println("Total succeeded: " + successCount);
+			System.out.println("Total failed: " + failureCount);
+			System.out.println("Total processed: " + (successCount + failureCount));
+			System.out.println("Time taken (seconds): " + durationSec);
+
+			resultMap.put("status", "success");
+			resultMap.put("TotalSucceeded", successCount);
+			resultMap.put("TotalFailed", failureCount);
+			resultMap.put("TotalProcessed", (successCount + failureCount));
+			resultMap.put("TimeTakenSeconds", durationSec);
+
+			return resultMap;
+		}
 	
 	 //GL UPLOAD
 	

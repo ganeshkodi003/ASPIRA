@@ -6542,6 +6542,7 @@ public class BGLSRestController {
 		List<TRAN_MAIN_TRM_WRK_ENTITY> transactionList = new ArrayList<>();
 		Map<String, BigDecimal> totalIndem = new HashMap<>();
 		Map<String, BigDecimal> totalFeedem = new HashMap<>();
+		Map<String, BigDecimal> totalPendem = new HashMap<>();
 
 		Date tranDateObj = bGLS_CONTROL_TABLE_REP.getLatestTranDate();
 		LocalDate tranDate = (tranDateObj instanceof java.sql.Date) ? ((java.sql.Date) tranDateObj).toLocalDate()
@@ -6585,17 +6586,24 @@ public class BGLSRestController {
 			creditTrm.setDel_flg("N");
 
 			switch (flowCode) {
-			case "INDEM":
-				totalIndem.merge(flowDateKey, flowAmt, BigDecimal::add);
-				creditTrm.setTran_particular(loanDetails.getId() + " Interest Demand");
-				creditTrm.setTran_remarks("Interest amount recovered on " + flowDateKey);
-				break;
-			case "FEEDEM":
-				totalFeedem.merge(flowDateKey, flowAmt, BigDecimal::add);
-				creditTrm.setTran_particular(loanDetails.getId() + " Fees Demand");
-				creditTrm.setTran_remarks("Fees amount recovered on " + flowDateKey);
-				break;
-			}
+		    case "INDEM":
+		        totalIndem.merge(flowDateKey, flowAmt, BigDecimal::add);
+		        creditTrm.setTran_particular(loanDetails.getId() + " Interest Demand");
+		        creditTrm.setTran_remarks("Interest amount recovered on " + flowDateKey);
+		        break;
+
+		    case "FEEDEM":
+		        totalFeedem.merge(flowDateKey, flowAmt, BigDecimal::add);
+		        creditTrm.setTran_particular(loanDetails.getId() + " Fees Demand");
+		        creditTrm.setTran_remarks("Fees amount recovered on " + flowDateKey);
+		        break;
+
+		    case "PENDEM":
+		        totalPendem.merge(flowDateKey, flowAmt, BigDecimal::add);
+		        creditTrm.setTran_particular(loanDetails.getId() + " Penalty Demand");
+		        creditTrm.setTran_remarks("Penalty amount recovered on " + flowDateKey);
+		        break;
+		}
 
 			transactionList.add(creditTrm);
 			partTranId = partTranId.add(BigDecimal.ONE);

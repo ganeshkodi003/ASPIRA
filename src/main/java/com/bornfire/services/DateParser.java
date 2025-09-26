@@ -3,6 +3,7 @@ package com.bornfire.services;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -126,5 +127,50 @@ public class DateParser {
             return null;
         }
     }
+    
+    private static final String[] patterns1 = {
+            "M/d/yy H:mm",   // 2-digit year + time
+            "M/d/yy",        // 2-digit year
+            "MM/dd/yy H:mm",
+            "MM/dd/yy",
+            "M/d/yyyy H:mm", // 4-digit year + time
+            "M/d/yyyy",      // 4-digit year
+            "MM/dd/yyyy H:mm",
+            "MM/dd/yyyy",
+            "yyyy-MM-dd",
+            "yyyy/MM/dd"
+        };
+
+        public static Date parseDateSafe1(String dateStr) {
+            if (dateStr == null || dateStr.trim().isEmpty()) {
+                System.out.println("Date is null");
+                return null;
+            }
+
+            for (String pattern : patterns1) {
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.ENGLISH);
+                    sdf.setLenient(false);
+
+                    Date parsed = sdf.parse(dateStr);
+
+                    // ✅ Fix 2-digit years (make 24 → 2024, 25 → 2025, 23 → 2023)
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(parsed);
+                    int year = cal.get(Calendar.YEAR);
+                    if (year < 100) { // means parsed as 0024, 0025, etc.
+                        cal.set(Calendar.YEAR, 2000 + year);
+                        parsed = cal.getTime();
+                    }
+
+                    return parsed;
+                } catch (ParseException e) {
+                    // Try next pattern
+                }
+            }
+
+            System.out.println("Unparseable date: " + dateStr);
+            return null;
+        }
 
 }
