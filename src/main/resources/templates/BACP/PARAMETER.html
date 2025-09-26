@@ -952,7 +952,16 @@ function modifyTab(evt, tabName) {
 
 	window.addEventListener("resize", adjustHeight);
 	document.addEventListener("DOMContentLoaded", adjustHeight);
+
+
+
+
+	function addscheme() {
+		location.href = "Parameteradd";
+	}
 </script>
+
+
 
 
 </head>
@@ -981,7 +990,9 @@ function modifyTab(evt, tabName) {
 								</h6>
 							</div>
 							<div class="float-right">
-								<button class="btn-primary big-btn" onclick="addparam()">Add</button>
+								<!-- <button class="btn-primary big-btn" onclick="addparam()">Add</button> -->
+								<button class="btn-primary big-btn" onclick="addscheme()">Add</button>
+								<button class="btn-primary big-btn btn-filter">Filter</button>
 							</div>
 
 
@@ -1020,7 +1031,6 @@ function modifyTab(evt, tabName) {
 									class="mb-3 ml-4 d-flex justify-content-between align-items-center panel panel-primary filterable">
 									<h4 class="mb-0" style="font-size: 1.2rem; color: black;">LIST
 										OF PARAMETER</h4>
-									<button class="btn-primary big-btn btn-filter">Filter</button>
 								</div>
 
 								<div class="" id="cardBody">
@@ -1028,26 +1038,24 @@ function modifyTab(evt, tabName) {
 										style="table-layout: fixed; width: 100%;" id="usertable">
 										<thead class="thead-light ">
 											<tr class=" filters " style="font-size: 15px">
-												<th>SCHME TYPE</th>
-												<th>SCHEME TYPE DESC</th>
-												<th>SCHEME CODE</th>
-												<th>SCHEME CODE DESCRIPTON</th>
-												<th>CURRENCY CODE</th>
-												<th>ACCOUNT TYPE</th>
+												<th>ID</th>
 												<th>STATUS</th>
-												<th>SELECT</th>
-
+												<th>INTEREST TYPE</th>
+												<th>PRODUCT DESCRIPTON</th>
+												<th>PRODUCT NAME</th>
+												<th>LOAN PRODUCT TYPE</th>
+												<th>CURRENCY CODE</th>
 											</tr>
 										</thead>
 
 										<tbody>
 
-											<tr th:each="tabledata, iterator : ${OtherServices}"
+											<tr th:each="tabledata, iterator : ${lms_schemes}"
 												class="userlist">
 
 
 												<td style="width: 80px; font-size: 15px;"
-													th:text="${tabledata.schemetype}"></td>
+													th:text="${tabledata.id}"></td>
 												<td style="width: 200px; font-size: 15px;"
 													th:text="${tabledata.schmdesc}"></td>
 												<td style="width: 200px; font-size: 15px;"
@@ -1066,7 +1074,7 @@ function modifyTab(evt, tabName) {
 													<td th:case="*"
 														style="color: red; font-size: 12px; font-weight: bold;">UNVERIFIED</td>
 												</th:block>
-												<td>
+												<!-- <td>
 													<div class="dropdown action-dropdown">
 														<button class="btn btn-action dropdown-toggle" style="padding:0px"
 															type="button" id="dropdownMenuButton" title="Action"
@@ -1075,14 +1083,14 @@ function modifyTab(evt, tabName) {
 
 														<div class="dropdown-menu" style="padding:0px"
 															aria-labelledby="dropdownMenuButton">
-															<!-- Modify -->
+														
 															<a class="dropdown-item modify-item"
 																th:attr="data-refnumber=${tabledata.refnumber}"
 																title="Modify" onclick="Modifyuser(this)">Modify</a>
 
 															<div class="dropdown-divider"></div>
 
-															<!-- Verify (only if verify_flg = 'N') -->
+														
 															<a class="dropdown-item verify-item"
 																th:attr="data-refnumber=${tabledata.refnumber}"
 																th:if="${tabledata.verify_flg}=='N'" title="Verify"
@@ -1090,18 +1098,21 @@ function modifyTab(evt, tabName) {
 
 															<div class="dropdown-divider"></div>
 
-															<!-- View -->
+															
 															<a class="dropdown-item view-item"
 																th:attr="data-refnumber=${tabledata.refnumber}"
 																th:id="${tabledata.refnumber}" title="View"
 																onclick="listradioclick(this)">View</a>
 														</div>
 													</div>
-												</td>
+												</td> -->
+
 											</tr>
 										</tbody>
 									</table>
 								</div>
+
+								
 							</div>
 						</div>
 						<div class="card-footer text-center "

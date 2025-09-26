@@ -3808,6 +3808,15 @@ public class BGLSNavigationController {
 		
 		return "ReferenceCodeIDDelete.html";
 	}
+	
+	@RequestMapping(value = "Parameteradd", method = { RequestMethod.GET, RequestMethod.POST })
+	public String redirectschemeadd() {
+
+//		md.addAttribute("refdetails",reference_code_Rep.getRefById(id) );
+//		md.addAttribute("refType", reference_code_Rep.getReferenceType());
+		
+		return "BACP/PARAMETERADD";  
+	}
 
 
 
