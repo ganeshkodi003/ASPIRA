@@ -3760,8 +3760,25 @@ public class BGLSNavigationController {
 		return "TransactionMigrat";
 	}
 	
-
 	
+	@RequestMapping(value = "balancesheet", method = { RequestMethod.GET, RequestMethod.POST })
+	public String balancesheet(@RequestParam(required = false) String formmode,
+			@RequestParam(required = false) String branch_name, Model model, HttpServletRequest req,
+			@RequestParam(required = false) BigDecimal record_srl) {
+
+		//String userid = (String) req.getSession().getAttribute("USERID");
+	
+	if (formmode == null || formmode.equals("list")) {
+
+		model.addAttribute("formmode", "list");
+		model.addAttribute("refList", reference_code_Rep.getRefList());
+	} else if (formmode.equals("nav")) {
+
+		model.addAttribute("formmode", "nav");
+		model.addAttribute("refType", reference_code_Rep.getReferenceType());
+	}
+	return "ReferenceCodeMaintenance";
+}
 	@RequestMapping(value = "accountledgerdownload", method = RequestMethod.GET)
 	@ResponseBody
 	public FileSystemResource accountLedgerDownload(HttpServletResponse response,

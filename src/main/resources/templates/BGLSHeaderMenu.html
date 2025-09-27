@@ -482,6 +482,9 @@ a {
 			            href="#" onclick="contentLoad(this)">Loan Schedule</a></li>
 			        <li class="nav-item" th:if="${session.SCREEN_ACCESS_TRANSACTION_MIGRATION} == 'Y' " ><a class="nav-link p-1" id="TransactionMigration" 
 			            href="#" onclick="contentLoad(this)">Transaction</a></li>
+						<li class="nav-item" th:if="${session.SCREEN_ACCESS_BALANCE_SHEETS} == 'Y' "  ><a class="nav-link nav-link-collapse pl-3 " 
+														id="balancesheet" href="#"
+														onclick="contentLoad(this)"> Balance Sheet </a></li>
 			    </ul>
 			</li>
 			<li class="nav-item" th:if="${session.SCREEN_ACCESS_DAY_END_OPERATION_USER} == 'Y' " ><a class="nav-link nav-link-collapse pl-3 " 
@@ -491,7 +494,7 @@ a {
 				id="customerMaster?formmode=list&module=module2" href="#"
 				onclick="contentLoad(this)"> Customer Maintenance </a></li>
 
-
+				
 			<!--	<li class="nav-item"><a class="nav-link nav-link-collapse pl-3"
 				href="#" id="hasSubItems" data-toggle="collapse"
 				data-target="#collapseSubItems2" aria-controls="collapseSubItems2"

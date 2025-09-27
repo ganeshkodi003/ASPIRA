@@ -302,7 +302,9 @@ public class BGLSWebSecurity extends WebSecurityConfigurerAdapter {
 				request.getSession().setAttribute("SCREEN_ACCESS_GENERAL_LEDGER", (access_role != null && access_role.getGeneral_ledger() != null ) ? access_role.getGeneral_ledger() : 'N' );
 				request.getSession().setAttribute("SCREEN_ACCESS_PROFIT_AND_LOSS_ACCOUNT_I", (access_role != null && access_role.getProfit_and_loss_account_i() != null ) ? access_role.getProfit_and_loss_account_i() : 'N' );
 				request.getSession().setAttribute("SCREEN_ACCESS_BALANCE_SHEET", (access_role != null && access_role.getBalance_sheet() != null ) ? access_role.getBalance_sheet() : 'N' );
-
+				request.getSession().setAttribute("SCREEN_ACCESS_BALANCE_SHEETS", (access_role != null && access_role.getBalance_sheets() != null ) ? access_role.getBalance_sheets() : 'N' );
+				
+				
 				BGLSAuditTable audit = new BGLSAuditTable();
 				LocalDateTime currentDateTime = LocalDateTime.now();
 				Date dateValue = Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant());

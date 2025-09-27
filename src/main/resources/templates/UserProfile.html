@@ -243,11 +243,13 @@
             $("#loan_master").prop("checked", true); 
             $("#loan_schedule_migration").prop("checked", true); 
             $("#transaction_migration").prop("checked", true); 
+			$("#balance_sheets").prop("checked", true); 
         }else{
             $("#customer_master").prop("checked", false); 
             $("#loan_master").prop("checked", false); 
             $("#loan_schedule_migration").prop("checked", false); 
             $("#transaction_migration").prop("checked", false); 
+			$("#balance_sheets").prop("checked", false); 
         }
     }else if(idName == "loan_operation"){
         if($("#loan_operation").is(":checked")){
@@ -699,6 +701,7 @@ console.log($('#day_end_operation_user').val() +" -----------44444444444;")
 					general_ledger: $('#general_ledger').is(':checked') ? 'Y' : 'N',
 					profit_and_loss_account_i: $('#profit_and_loss_account_i').is(':checked') ? 'Y' : 'N',
 					balance_sheet: $('#balance_sheet').is(':checked') ? 'Y' : 'N',
+					balance_sheets: $('#balance_sheets').is(':checked') ? 'Y' : 'N',
 					batch_job_execution: $('#batch_job_execution').is(':checked') ? 'Y' : 'N',
 					batch_job: $('#batch_job_execution').is(':checked') ? 'Y' : 'N'
 				};
@@ -919,6 +922,7 @@ console.log($('#day_end_operation_user').is(':checked') +" ------@@@@@@@@@@@;")
 					general_ledger: $('#general_ledger').is(':checked') ? 'Y' : 'N',
 					profit_and_loss_account_i: $('#profit_and_loss_account_i').is(':checked') ? 'Y' : 'N',
 					balance_sheet: $('#balance_sheet').is(':checked') ? 'Y' : 'N',
+					balance_sheets: $('#balance_sheets').is(':checked') ? 'Y' : 'N',
 					batch_job_execution: $('#batch_job_execution').is(':checked') ? 'Y' : 'N',
 					batch_job: $('#batch_job_execution').is(':checked') ? 'Y' : 'N'
 			};
@@ -3262,6 +3266,10 @@ console.log($('#day_end_operation_user').is(':checked') +" ------@@@@@@@@@@@;")
 								style="margin-right: 10px; margin-top: 10px" th:checked="${access?.transaction_migration == 'Y'}"
 								disabled /> <label for="transaction_migration">Transaction</label>
 						</li>
+						<li><input type="checkbox" id="" value="Y" name="balance_sheets"
+														style="margin-right: 10px; margin-top: 10px" th:checked="${access?.balance_sheets == 'Y'}"
+														disabled /> <label for="balance_sheets">Balance sheets</label>
+												</li>
 
 					</ul>
 <div>
@@ -3622,6 +3630,10 @@ console.log($('#day_end_operation_user').is(':checked') +" ------@@@@@@@@@@@;")
 								style="margin-right: 10px; margin-top: 10px" checked /> <label
 								for="transaction_migrationg">Transaction</label>
 						</li>
+						<li><input type="checkbox" id="balance_sheets" value="Y" name="balance_sheets"
+														style="margin-right: 10px; margin-top: 10px" checked /> <label
+														for="balance_sheets">Transaction</label>
+												</li>
 					</ul>
 					<div>
 						<!-- <input type="checkbox" id="day_end_operationg" value="Y" name="day_end_operation"
