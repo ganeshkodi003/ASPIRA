@@ -17,6 +17,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -69,6 +70,7 @@ import com.bornfire.entities.BGLS_BAMInventryMastRep;
 import com.bornfire.entities.BGLS_Bamcatcodemaintainrep;
 import com.bornfire.entities.BGLS_Bamcategorycodemain_entity;
 import com.bornfire.entities.BGLS_CONTROL_TABLE_REP;
+import com.bornfire.entities.BGLS_Control_Table;
 import com.bornfire.entities.BGLS_Journal_History;
 import com.bornfire.entities.BGLS_Journal_History_Rep;
 import com.bornfire.entities.Baj_Work_Repo;
@@ -130,6 +132,7 @@ import com.bornfire.entities.paystructureentity;
 import com.bornfire.entities.paystructurerep;
 import com.bornfire.services.AdminOperServices;
 import com.bornfire.services.BGLS_Inventeryservice;
+import com.bornfire.services.DateChangeService;
 import com.bornfire.services.LoginServices;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.monitorjbl.xlsx.exceptions.ParseException;
@@ -310,6 +313,13 @@ public class BGLSNavigationController {
 
 	@Autowired
 	LOAN_ACT_MST_REPO LOAN_ACT_MST_REPO;
+	
+	@Autowired
+	com.bornfire.entities.BglsHolidayMasterRep bglsHolidayMasterRep;
+	
+	
+	@Autowired
+	DateChangeService DateChangeService;
 
 	public String getPagesize() {
 		return pagesize;
@@ -2520,6 +2530,10 @@ public class BGLSNavigationController {
 		System.out.println(TRANDATE + "TRANDATE");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String formattedDate = dateFormat.format(TRANDATE);
+		
+		String Userid =(String) request.getSession().getAttribute("USERID");
+		
+		model.addAttribute("Userid",Userid);
 
 		model.addAttribute("Valuesfordebit", tRAN_MAIN_TRM_WRK_REP.getwofordebitvalues());
 		model.addAttribute("ValuesforCredit", tRAN_MAIN_TRM_WRK_REP.getwoforcreditvalues());
@@ -2797,6 +2811,7 @@ public class BGLSNavigationController {
 			 * " already exists for Account " + accountNum + ". Cannot be updated.");
 			 * continue; // Skip to the next account number }
 			 */
+			
 			List<BigDecimal> existingBalances = tRAN_MAIN_TRM_WRK_REP
 					.findLatestTRAN_DATE_BALByAccountNumber(accountNum);
 
@@ -2828,6 +2843,8 @@ public class BGLSNavigationController {
 																										// correct
 																										// format
 						netAmount, totalDebit, totalCredit);
+				
+				
 
 			} else {
 				// Insert new row with netAmount as TRAN_DATE_BAL
@@ -2840,6 +2857,21 @@ public class BGLSNavigationController {
 
 			}
 		}
+		 BGLS_Control_Table existingRecord = bGLS_CONTROL_TABLE_REP.findAll().get(0);
+	    if (existingRecord != null) {
+
+	        // 2️⃣ Log past value
+	           existingRecord.setMov_dac("Completed");
+
+	        // 4️⃣ Save updated record
+	        bGLS_CONTROL_TABLE_REP.save(existingRecord);
+
+	      
+	        
+	    } else {
+	        System.out.println("No record found in BGLS_Control_Table");
+	       
+	    }
 		return "Account balances successfully inserted";
 	}
 
@@ -3287,14 +3319,36 @@ public class BGLSNavigationController {
 				System.out.println("flag value is true"); // Still true if this record has no values
 			}
 		}
-
+		
 		// Return a message based on the flag
 		if (flag) {
 			System.out.println("Unsuccessful Updation");
+			 BGLS_Control_Table existingRecord = bGLS_CONTROL_TABLE_REP.findAll().get(0);
+
+			    if (existingRecord != null) {
+
+			        // 2️⃣ Log past value
+			        System.out.println("Past Journal Cons: " + existingRecord.getJournal_cons());
+
+			        // 3️⃣ Update current value
+			        existingRecord.setLedger_cons("Completed");
+
+			        // 4️⃣ Save updated record
+			        bGLS_CONTROL_TABLE_REP.save(existingRecord);
+
+			        System.out.println("Updated Journal Cons: " + existingRecord.getJournal_cons());
+			        
+			    } else {
+			        System.out.println("No record found in BGLS_Control_Table");
+			        
+			    }
+			 
 			return "Successful Updation"; // No valid records found
 		} else {
 			return "Successful Updation"; // At least one valid record found
 		}
+		
+		 
 	}
 
 	@RequestMapping(value = "movementoftransaction", method = RequestMethod.POST)
@@ -3347,8 +3401,26 @@ public class BGLSNavigationController {
 				bGLS_Journal_History.setFlow_date(records.getFlow_date());
 
 				bGLS_Journal_History_Rep.save(bGLS_Journal_History);
+				
+				
+			    
+				
 			}
 		}
+		BGLS_Control_Table existingRecord = bGLS_CONTROL_TABLE_REP.findAll().get(0);
+
+	    if (existingRecord != null) {
+
+	        // 2️⃣ Log past value
+	           existingRecord.setMov_journal("Completed");
+
+	        // 4️⃣ Save updated record
+	        bGLS_CONTROL_TABLE_REP.save(existingRecord);
+
+	      } else {
+	        System.out.println("No record found in BGLS_Control_Table");
+	        
+	    }
 
 		return "Successfully Updated";
 	}
@@ -3826,6 +3898,7 @@ public class BGLSNavigationController {
 		return "ReferenceCodeIDDelete.html";
 	}
 	
+
 	@RequestMapping(value = "Parameteradd", method = { RequestMethod.GET, RequestMethod.POST })
 	public String redirectschemeadd() {
 
@@ -3834,6 +3907,191 @@ public class BGLSNavigationController {
 		
 		return "BACP/PARAMETERADD";  
 	}
+
+	@GetMapping("/checkControlStatus")
+	@ResponseBody
+	public Map<String, Boolean> checkControlStatus() {
+	    Map<String, Boolean> response = new HashMap<>();
+
+	    // Fetch the only row (assuming only one row exists)
+	    List<BGLS_Control_Table> list = bGLS_CONTROL_TABLE_REP.findAll();
+	    if(list.isEmpty()) {
+	        response.put("allCompleted", false);
+	        return response;
+	    }
+
+	    BGLS_Control_Table control = list.get(0);
+
+	    boolean allCompleted =
+	        "COMPLETED".equalsIgnoreCase(control.getJournal_cons()) &&
+	        "COMPLETED".equalsIgnoreCase(control.getLedger_cons()) &&
+	        "COMPLETED".equalsIgnoreCase(control.getAcct_cons()) &&
+	        "COMPLETED".equalsIgnoreCase(control.getHol_check()) &&
+	        "COMPLETED".equalsIgnoreCase(control.getMov_dac()) &&
+	        "COMPLETED".equalsIgnoreCase(control.getMov_journal());
+
+	    response.put("allCompleted", allCompleted);
+	    return response;
+	}
+
+	@PostMapping("/dcpupdate")
+	@ResponseBody
+	public Map<String, String> dcpupdate(@RequestBody Map<String, String> payload) {
+
+	    String user = payload.get("user");
+	    String trndate = payload.get("trndate");
+	    String nxtdate = payload.get("nxtdate");
+
+	    Map<String, String> response = new HashMap<>();
+	    System.out.println("User: " + user + ", Current Date: " + trndate + ", Next Date: " + nxtdate);
+
+	    List<BGLS_Control_Table> list = bGLS_CONTROL_TABLE_REP.findAll();
+	    if(list.isEmpty()) {
+	        response.put("status", "failure");
+	        return response;
+	    }
+
+	    BGLS_Control_Table controlTable = list.get(0);
+
+	    // Update fields
+	    controlTable.setJournal_cons("PENDING");
+	    controlTable.setLedger_cons("PENDING");
+	    controlTable.setAcct_cons("PENDING");
+	    controlTable.setHol_check("PENDING");
+	    controlTable.setMov_dac("PENDING");
+	    controlTable.setMov_journal("PENDING");
+
+	    bGLS_CONTROL_TABLE_REP.save(controlTable);
+
+	    response.put("status", "success");
+	    return response;
+	}
+
+	
+	@RequestMapping(value = "journalvalid", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResponseBody
+	public String journalvalid() {
+
+	    System.out.println("Journal Valid is Updated");
+
+	    BGLS_Control_Table existingRecord = bGLS_CONTROL_TABLE_REP.findAll().get(0);
+
+	    if (existingRecord != null) {
+
+	        // 2️⃣ Log past value
+	        System.out.println("Past Journal Cons: " + existingRecord.getJournal_cons());
+
+	        // 3️⃣ Update current value
+	        existingRecord.setJournal_cons("Completed");
+
+	        // 4️⃣ Save updated record
+	        bGLS_CONTROL_TABLE_REP.save(existingRecord);
+
+	        System.out.println("Updated Journal Cons: " + existingRecord.getJournal_cons());
+	        return "success";
+	    } else {
+	        System.out.println("No record found in BGLS_Control_Table");
+	        return "failure";
+	    }
+	}
+	@RequestMapping(value = "holidayCheck", method = RequestMethod.POST)
+	@ResponseBody
+	public String holidayCheck(Model md, HttpServletRequest rq) {
+	    Date TRANDATE = (Date) rq.getSession().getAttribute("TRANDATE");
+	    
+	    System.out.println("incomeing Holiday Check");
+	    System.out.println(TRANDATE + " TRANDATE");
+
+	    BGLS_Control_Table existingRecord1 = bGLS_CONTROL_TABLE_REP.findAll().get(0);
+
+	    if (existingRecord1 != null) {
+
+	        // 3️⃣ Update current value
+	        existingRecord1.setHol_check("Completed");
+
+	        // 4️⃣ Save updated record
+	        bGLS_CONTROL_TABLE_REP.save(existingRecord1);
+
+	        System.out.println("Updated Journal Cons: " + existingRecord1.getJournal_cons());
+	        
+	    } else {
+	        System.out.println("No record found in BGLS_Control_Table");
+	    }
+	    
+	    // Step 1: Check if holiday exists in HMT
+	    int holidayCount = bglsHolidayMasterRep.countByRecordDateAndDelFlg(TRANDATE, "N"); // JPA query method
+	    System.out.println("holidayCount"+holidayCount);
+	    int cnt = holidayCount;
+	    if (cnt == 0) {
+	        // Step 2: If not found, check if weekend
+	        Calendar cal = Calendar.getInstance();
+	        cal.setTime(TRANDATE);
+	        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+
+	        if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
+	            cnt = 1; // weekend = holiday
+	        }
+	    }
+
+	    // Step 3: Business logic based on cnt
+	    if (cnt > 0) {
+	        // Means it is a holiday or weekend
+	        System.out.println("Holiday/Weekend detected");
+
+	        // Update control table (your existing logic)
+	        BGLS_Control_Table existingRecord = bGLS_CONTROL_TABLE_REP.findAll().get(0);
+	        if (existingRecord != null) {
+	            System.out.println("Past Journal Cons: " + existingRecord.getJournal_cons());
+	            existingRecord.setLedger_cons("Completed");
+	            bGLS_CONTROL_TABLE_REP.save(existingRecord);
+	            System.out.println("Updated Journal Cons: " + existingRecord.getJournal_cons());
+	        }
+	        return "Holiday/Weekend - Updation Done";
+	    } else {
+	        // Not a holiday
+	        return "Working Day";
+	        
+	    }
+	    
+	    
+	}
+	@RequestMapping(value = "consistencyCheck", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResponseBody
+	public String consistencyCheck() {
+
+	    System.out.println(" Consistency check is Updated");
+
+	    BGLS_Control_Table existingRecord = bGLS_CONTROL_TABLE_REP.findAll().get(0);
+
+	    if (existingRecord != null) {
+
+	        // 2️⃣ Log past value
+	           existingRecord.setAcct_cons("Completed");
+
+	        // 4️⃣ Save updated record
+	        bGLS_CONTROL_TABLE_REP.save(existingRecord);
+
+	      
+	        return "success";
+	    } else {
+	        System.out.println("No record found in BGLS_Control_Table");
+	        return "failure";
+	    }
+	}
+
+	
+	@RequestMapping(value = "dateChageProcess", method = RequestMethod.POST)
+	@ResponseBody
+	public String dateChageProcess(Model md, HttpServletRequest rq) {
+	    Date TRANDATE = (Date) rq.getSession().getAttribute("TRANDATE");
+
+	    System.out.println("Incoming Date Change Process");
+	    System.out.println(TRANDATE + " TRANDATE");
+
+	    return DateChangeService.dateChange(TRANDATE);
+	}
+
+
 
 
 
