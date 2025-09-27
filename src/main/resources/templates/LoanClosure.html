@@ -116,14 +116,25 @@
 			height: 100px;
 		}
 		
-		   .modal-content1{
-          	background-color: #fefefe;
-			margin: 10% auto;
-			padding: 20px;
-			border: 1px solid #888;
-			width: 70%;
-			height: 45%;
-		 
+		.modal-content1 {
+		    background-color: #fefefe;
+		    margin: 5% auto;          /* Top margin smaller */
+		    padding: 20px;
+		    border: 1px solid #888;
+		    width: 70%;
+		    height: 70%;              /* Increase height */
+		    display: flex;
+		    flex-direction: column;
+		}
+			.modal-body {
+			    flex: 1;
+			    overflow-y: auto;         /* Table scrolls inside modal body */
+			    margin-bottom: 10px;
+			}
+
+			.modal-footer {
+			    text-align: center;
+			    padding-top: 10px;
 			}
 	</style>
 	<style>
@@ -2470,6 +2481,25 @@ function setAccountDetails(a) {
     document.getElementById("myModal").style.display = "none";
 }
 </script>
+<script>
+  // Function to close the modal
+  function closeModal(button) {
+    // Find the closest parent modal
+    const modal = button.closest('.modal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+
+  // Optional: Click outside the modal to close it
+  window.addEventListener('click', function(event) {
+    const modal = document.getElementById('myModal');
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+</script>
+
 	
 </head>
 
@@ -2766,46 +2796,55 @@ function setAccountDetails(a) {
 	<!-- ------------------------------------Account Number Mdal---------------------------------- -->
 
 	<div id="myModal" class="modal" style="font-size:120%;">
-		<div class="modal-content1">
-			<div class="close text-right" onclick="closeModal(this);">&times;</div>
-			<form id="uploadForm1" method="post" autocomplete="off">
-				<div class="panel panel-primary filterable">
-					<button class="btn text-white btn-filter btn-primary float-right">filter</button>
+	    <div class="modal-content1 filterable">
+	        <!-- Header -->
+	        <div class="d-flex justify-content-between align-items-center filterable mb-2">
+	            <h5 class="modal-title">Account Details</h5>
+	            <div>
+	                <button class="btn btn-primary btn-filter">Filter</button>
+	            </div>
+	        </div>
 
-					<div style="max-height: 350px; overflow-y: auto;">
-						<table class="table table-bordered table-sm">
-							<thead>
-								<tr class="filters">	 
-									<th><input type="text" id="filteraccountname" 
-											class="form-control font-weight-bold" placeholder="Account Number" disabled>
-									</th>
-									<th><input type="text" id="filteraccountname" 
-											class="form-control font-weight-bold" placeholder="Account Name" disabled>
-									</th>
-									<th><input type="text"  id="filtercurrency"
-											class="form-control font-weight-bold" placeholder="Currency" disabled></th>					
-									<th><input type="text" class="form-control font-weight-bold" placeholder="Action"
-											disabled></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="salpay : ${booking}"th:data-acct_num="${salpay[0]}"
-									th:data-acct_name="${salpay[1]}"
-									th:data-acct_crncy="${salpay[3]}" onclick="setAccountDetails(this)" >
-								<td th:text="${salpay != null ? salpay[0] : ''}"></td>
-                                <td th:text="${salpay != null ? salpay[1] : ''}"></td>
-								<td th:text="${salpay != null ? salpay[3] : ''}"></td>
-								<td style="text-align: center"><input type="radio"
-									/></td>
-							</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="text-center">
-						<button class="btn-primary big-btn" onclick="closeModal(this);">Close</button>
-					</div>
-				</div>
-			</form>
-		</div>
+	        <!-- Body -->
+	        <div class="modal-body">
+	            <form id="uploadForm1" method="post" autocomplete="off">
+	                <table class="table table-bordered table-sm">
+	                    <thead>
+	                        <tr class="filters">
+								<th style="width: 25%;">
+								    <input type="text" class="form-control font-weight-bold" placeholder="Account Number" disabled>
+								</th>
+								<th style="width: 35%;">
+								    <input type="text" class="form-control font-weight-bold" placeholder="Account Name" disabled>
+								</th>
+								<th style="width: 20%;">
+								    <input type="text" class="form-control font-weight-bold" placeholder="Currency" disabled>
+								</th>
+								<th style="width: 20%;">
+								    <input type="text" class="form-control font-weight-bold" placeholder="Action" disabled>
+								</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                        <tr th:each="salpay : ${booking}" 
+	                            th:data-acct_num="${salpay[0]}" 
+	                            th:data-acct_name="${salpay[1]}" 
+	                            th:data-acct_crncy="${salpay[3]}" 
+	                            onclick="setAccountDetails(this)">
+	                            <td th:text="${salpay != null ? salpay[0] : ''}"></td>
+	                            <td th:text="${salpay != null ? salpay[1] : ''}"></td>
+	                            <td th:text="${salpay != null ? salpay[3] : ''}"></td>
+	                            <td class="text-center"><input type="radio" /></td>
+	                        </tr>
+	                    </tbody>
+	                </table>
+	            </form>
+	        </div>
+
+	        <!-- Footer -->
+	        <div class="modal-footer justify-content-center">
+	            <button type="button" class="btn btn-primary big-btn" onclick="closeModal(this);">Close</button>
+	        </div>
+	    </div>
 	</div>
 </html>
