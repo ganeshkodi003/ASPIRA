@@ -779,6 +779,49 @@ input:hover+.password-info {
 		}
 
 	</script>
+	<script>	// Function to format number with commas and two decimal points
+	function formatNumber(input) {
+	    let value = input.value.replace(/,/g, '').replace(/[^\d.]/g, ''); // Remove commas and invalid characters
+	    if (value === "") return;
+
+	    let parts = value.split(".");
+	    // Format integer part with commas
+	    parts[0] = parseInt(parts[0], 10).toLocaleString("en-US");
+
+	    // Handle decimal part
+	    if (!parts[1]) {
+	        parts[1] = "00";
+	    } else if (parts[1].length === 1) {
+	        parts[1] = parts[1] + "0";
+	    } else if (parts[1].length > 2) {
+	        parts[1] = parts[1].slice(0, 2);
+	    }
+
+	    input.value = parts.join(".");
+	}
+
+	document.addEventListener("DOMContentLoaded", function () {
+	    // Select all inputs with id "total_balance" (even if multiple)
+	    const fields = document.querySelectorAll('[id="total_balance"]');
+
+	    fields.forEach(field => {
+	        // Only attach listener if input is not readonly
+	        if (!field.hasAttribute("readonly")) {
+	            // Format while typing
+	            field.addEventListener("input", function () {
+	                let cursorPos = field.selectionStart;
+	                formatNumber(field);
+	                field.setSelectionRange(cursorPos, cursorPos);
+	            });
+
+	            // Format on blur to ensure .00
+	            field.addEventListener("blur", function () {
+	                formatNumber(field);
+	            });
+	        }
+	    });
+	});
+</script>
 </head>
 
 <body>
