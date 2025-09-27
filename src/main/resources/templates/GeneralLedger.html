@@ -1403,116 +1403,97 @@ input:hover+.password-info {
 							</div>
 						</div>
 						<div class="card-body">
-							<form action="#" id="" th:object="${values}">
-								<div class="row formline"
-									style="padding: 0px 0px 2px 0px; margin-left: -130px">
-									<div class="col-sm-1"></div>
-									<div class="col-sm-1"></div>
-									<div class="col-sm-2">Branch Id</div>
-									<div class="col-sm-2">
-										<input type="text" name="branch_id" id="branch_id"
-											class="form-control form-control-sm bg-white border border-dark"
-											th:value="${singlerecord?.branch_id}" readonly />
-									</div>
-									<div class="col-sm-1" title="Branch Description">Branch Des.</div>
-									<div class="col-sm-1"></div>
-									<div class="col-sm-2">
-										<input type="text" name="branch_desc" id="branch_desc"
-											class="form-control form-control-sm bg-white border border-dark"
-											th:value="${singlerecord?.branch_desc}" readonly />
-									</div>
-								</div>
-								<div class="row formline"
-									style="padding: 0px 0px 2px 0px; margin-left: -130px">
-									<div class="col-sm-1"></div>
-									<div class="col-sm-1"></div>
-									<div class="col-sm-2">GL CODE</div>
-									<div class="col-sm-2">
-										<input type="text" name="glCode" id="glCode"
-											class="form-control form-control-sm bg-white border border-dark"
-											th:value="${singlerecord?.glCode}" readonly />
-									</div>
-									<div class="col-sm-1">GL Description</div>
-									<div class="col-sm-1"></div>
-									<div class="col-sm-2">
-										<input type="text" name="gl_type_description"
-											id="gl_type_description"
-											class="form-control form-control-sm bg-white border border-dark"
-											th:value="${singlerecord?.gl_type_description}" readonly />
-									</div>
-								</div>
-								<div class="row formline"
-									style="padding: 0px 0px 2px 0px; margin-left: -130px">
-									<div class="col-sm-1"></div>
-									<div class="col-sm-1"></div>
-									<div class="col-sm-2">GL Sub Head Code</div>
-									<div class="col-sm-2">
-										<input type="text" name="glsh_code" id="glsh_code"
-											class="form-control form-control-sm bg-white border border-dark"
-											th:value="${singlerecord?.glsh_code}" readonly />
-									</div>
-									<div class="col-sm-1">GLSH Description</div>
-									<div class="col-sm-1"></div>
-									<div class="col-sm-2">
-										<input type="text" name="glsh_desc" id="glsh_desc"
-											class="form-control form-control-sm bg-white border border-dark"
-											th:value="${singlerecord?.glsh_desc}" readonly />
-									</div>
-								</div>
-								<div class="row formline"
-									style="padding: 0px 0px 2px 0px; margin-left: -130px">
-									<div class="col-sm-1"></div>
-									<div class="col-sm-1"></div>
-									<div class="col-sm-2">Currency Code</div>
-									<div class="col-sm-2">
-										<input type="text" name="crncy_code" id="crncy_code"
-											class="form-control form-control-sm bg-white border border-dark"
-											th:value="${singlerecord?.crncy_code}" readonly />
-									</div>
-									<div class="col-sm-2">Balance Sheet Group</div>
-									<div class="col-sm-2">
-										<input type="text" name="bal_sheet_group" id="bal_sheet_group"
-											class="form-control form-control-sm bg-white border border-dark"
-											th:value="${singlerecord?.bal_sheet_group}" readonly />
-									</div>
-								</div>
-								<div class="row formline"
-									style="padding: 0px 0px 2px 0px; margin-left: -130px">
-									<div class="col-sm-1"></div>
-									<div class="col-sm-1"></div>
-									<div class="col-sm-2">Sequence Order</div>
-									<div class="col-sm-2">
-										<input type="text" name="seq_order" id="seq_order"
-											class="form-control form-control-sm bg-white border border-dark"
-											th:value="${singlerecord?.seq_order}"readonly />
-									</div>
-									<div class="col-sm-1">Total Balance</div>
-									<div class="col-sm-1"></div>
-									<div class="col-sm-2">
-										<input type="text" name="total_balance" id="total_balance"
-											class="form-control form-control-sm bg-white border border-dark"
-											th:value="${#numbers.formatDecimal(singlerecord?.total_balance, 0, 2)}" readonly />
-									</div>
-								</div>
-								<div class="row formline"
-									style="padding: 0px 0px 2px 0px; margin-left: -130px">
-									<div class="col-sm-1"></div>
-									<div class="col-sm-1"></div>
-									<div class="col-sm-2">No of Account Opened</div>
-									<div class="col-sm-2">
-										<input type="text" name="no_acct_opened" id="no_acct_opened"
-											class="form-control form-control-sm bg-white border border-dark"
-											th:value="${singlerecord?.no_acct_opened}" readonly />
-									</div>
-									<div class="col-sm-2">No of Account Closed</div>
-									<div class="col-sm-2">
-										<input type="text" name="no_acct_closed" id="no_acct_closed"
-											class="form-control form-control-sm bg-white border border-dark" readonly
-											th:value="${singlerecord?.no_acct_closed != null ? #numbers.formatDecimal(singlerecord.no_acct_closed, 0, 2) : '0'}" />
-									</div>
+						    <form action="#" id="" th:object="${values}">
+						        <div class="row formline justify-content-center mb-1">
+						            <div class="col-sm-2 text-end">Branch Id</div>
+						            <div class="col-sm-2 px-2">
+						                <input type="text" name="branch_id" id="branch_id"
+						                       class="form-control form-control-sm bg-white border border-dark"
+						                       th:value="${singlerecord?.branch_id}" readonly />
+						            </div>
+						            <div class="col-sm-2 text-end" title="Branch Description">Branch Des.</div>
+						            <div class="col-sm-2 px-2">
+						                <input type="text" name="branch_desc" id="branch_desc"
+						                       class="form-control form-control-sm bg-white border border-dark"
+						                       th:value="${singlerecord?.branch_desc}" readonly />
+						            </div>
+						        </div>
 
-								</div>
-							</form>
+						        <div class="row formline justify-content-center mb-1">
+						            <div class="col-sm-2 text-end">GL CODE</div>
+						            <div class="col-sm-2 px-2">
+						                <input type="text" name="glCode" id="glCode"
+						                       class="form-control form-control-sm bg-white border border-dark"
+						                       th:value="${singlerecord?.glCode}" readonly />
+						            </div>
+						            <div class="col-sm-2 text-end">GL Description</div>
+						            <div class="col-sm-2 px-2">
+						                <input type="text" name="gl_type_description" id="gl_type_description"
+						                       class="form-control form-control-sm bg-white border border-dark"
+						                       th:value="${singlerecord?.gl_type_description}" readonly />
+						            </div>
+						        </div>
+
+						        <div class="row formline justify-content-center mb-1">
+						            <div class="col-sm-2 text-end">GL Sub Head Code</div>
+						            <div class="col-sm-2 px-2">
+						                <input type="text" name="glsh_code" id="glsh_code"
+						                       class="form-control form-control-sm bg-white border border-dark"
+						                       th:value="${singlerecord?.glsh_code}" readonly />
+						            </div>
+						            <div class="col-sm-2 text-end">GLSH Description</div>
+						            <div class="col-sm-2 px-2">
+						                <input type="text" name="glsh_desc" id="glsh_desc"
+						                       class="form-control form-control-sm bg-white border border-dark"
+						                       th:value="${singlerecord?.glsh_desc}" readonly />
+						            </div>
+						        </div>
+
+						        <div class="row formline justify-content-center mb-1">
+						            <div class="col-sm-2 text-end">Currency Code</div>
+						            <div class="col-sm-2 px-2">
+						                <input type="text" name="crncy_code" id="crncy_code"
+						                       class="form-control form-control-sm bg-white border border-dark"
+						                       th:value="${singlerecord?.crncy_code}" readonly />
+						            </div>
+						            <div class="col-sm-2 text-end">Balance Sheet Group</div>
+						            <div class="col-sm-2 px-2">
+						                <input type="text" name="bal_sheet_group" id="bal_sheet_group"
+						                       class="form-control form-control-sm bg-white border border-dark"
+						                       th:value="${singlerecord?.bal_sheet_group}" readonly />
+						            </div>
+						        </div>
+
+						        <div class="row formline justify-content-center mb-1">
+						            <div class="col-sm-2 text-end">Sequence Order</div>
+						            <div class="col-sm-2 px-2">
+						                <input type="text" name="seq_order" id="seq_order"
+						                       class="form-control form-control-sm bg-white border border-dark"
+						                       th:value="${singlerecord?.seq_order}" readonly />
+						            </div>
+						            <div class="col-sm-2 text-end">Total Balance</div>
+						            <div class="col-sm-2 px-2">
+						                <input type="text" name="total_balance" id="total_balance"
+						                       class="form-control form-control-sm bg-white border border-dark"
+						                       th:value="${#numbers.formatDecimal(singlerecord?.total_balance, 0, 2)}" readonly />
+						            </div>
+						        </div>
+
+						        <div class="row formline justify-content-center ">
+						            <div class="col-sm-2 text-end">No of Account Opened</div>
+						            <div class="col-sm-2 px-2">
+						                <input type="text" name="no_acct_opened" id="no_acct_opened"
+						                       class="form-control form-control-sm bg-white border border-dark"
+						                       th:value="${singlerecord?.no_acct_opened}" readonly />
+						            </div>
+						            <div class="col-sm-2 text-end">No of Account Closed</div>
+						            <div class="col-sm-2 px-2">
+						                <input type="text" name="no_acct_closed" id="no_acct_closed"
+						                       class="form-control form-control-sm bg-white border border-dark" readonly
+						                       th:value="${singlerecord?.no_acct_closed != null ? #numbers.formatDecimal(singlerecord.no_acct_closed, 0, 2) : '0'}" />
+						            </div>
+						        </div>
+						    </form>
 						</div>
 						<div class="card-footer text-center"
 							style="background-color: #e9ecef">

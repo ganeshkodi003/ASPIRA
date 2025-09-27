@@ -408,6 +408,18 @@ function verifysubmit(a) {
 				        });
 				    }
 				};
+				
+				document.addEventListener("DOMContentLoaded", function() {
+				        // Make all input fields readonly
+				        document.querySelectorAll('#caid input').forEach(input => {
+				            input.readOnly = true;
+				        });
+
+				        // Make all select fields disabled
+				        document.querySelectorAll('#caid select').forEach(select => {
+				            select.disabled = true;
+				        });
+				    });
 </script>
 <script>
 	/* function for the table scroll */
@@ -537,6 +549,8 @@ function verifysubmit(a) {
 												<th:block th:switch="${chartacc.entity_flg}">
 													<td th:case="'Y'" style="color: green;">Active</td>
 													<td th:case="'N'" style="color: red;">InActive</td>
+													<td th:case="Y"  style="color: green;">Active</td>
+																										<td th:case="N"   style="color: green;">Closed</td>
 												</th:block>
 												<td>
 													<div class="dropdown action-dropdown">
